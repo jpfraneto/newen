@@ -1,7 +1,8 @@
+// /api/sadhana.js
 import prisma from 'lib/prisma';
 import { getSession } from 'next-auth/react';
 
-export default async function handler(req, res) {
+const handler = async (req, res) => {
   const session = await getSession({ req });
 
   if (!session) return res.status(401).json({ message: 'Not logged in' });
@@ -14,17 +15,31 @@ export default async function handler(req, res) {
 
   if (!user) return res.status(401).json({ message: 'User not found' });
 
-  if (req.method === 'POST') {
-    await prisma.sadhana.create({
-      data: {
-        content: req.body.content,
-        title: req.body.title,
-        author: {
-          connect: { id: user.id },
-        },
-      },
-    });
-    res.end();
-    return;
+  switch (req.method) {
+    case 'POST':
+      await createSadhana(req, res, user);
+      break;
+    default:
+      res.setHeader('Allow', ['POST']);
+      res.status(405).end(`Method ${req.method} Not Allowed`);
   }
-}
+};
+
+const createSadhana = async (req, res, user) => {
+  const { content, title, userLimit } = req.body;
+
+  await prisma.sadhana.create({
+    data: {
+      content,
+      title,
+      userLimit,
+      author: {
+        connect: { id: user.id },
+      },
+    },
+  });
+
+  res.status(201).json({ message: 'Sadhana created' });
+};
+
+export default handler;
