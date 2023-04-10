@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap');
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -24,4 +25,35 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+h2 {
+  font-family: 'Kanit', sans-serif;
+}
+
+.mainContainer {
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/images/mainbg.png');
+  text-align: center;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.mainContainer h2 {
+  padding-top: 20%;
+  font-family: 'Kanit', sans-serif;
+  font-size: 4rem;
+  margin-bottom: 0;
+}
+
+.mainContainer h4 {
+  font-size: 3rem;
+  margin: 0;
 }
