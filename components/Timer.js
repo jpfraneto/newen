@@ -24,7 +24,7 @@ const Timer = ({ timeRemaining, setTimeRemaining }) => {
     }
 
     return () => clearInterval(interval);
-  }, [isRunning, timeRemaining]);
+  }, [isRunning, timeRemaining, setTimeRemaining, started]);
 
   const handlePlay = () => {
     audioRef.current.play();

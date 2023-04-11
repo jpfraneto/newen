@@ -19,6 +19,7 @@ model User {
   image          String?
   createdAt      DateTime          @default(now())
   updatedAt      DateTime          @updatedAt
+  providerAccountId String? @unique
   accounts       Account[]
   sessions       Session[]
   sadhanas       Sadhana[]         // Created sadhanas by the user

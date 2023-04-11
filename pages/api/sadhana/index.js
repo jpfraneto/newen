@@ -17,6 +17,7 @@ const handler = async (req, res) => {
 
   switch (req.method) {
     case 'POST':
+      console.log('IN HERE!');
       await createSadhana(req, res, user);
       break;
     default:

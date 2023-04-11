@@ -53,6 +53,11 @@ h4 {
   justify-content: center;
   align-items: center;
 }
+
+.bacckground {
+  background-image: url('/images/bggg.png');
+}
+
 .hero h2 {
   padding-top: 20%;
   font-size: 4rem;
