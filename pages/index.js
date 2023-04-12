@@ -86,7 +86,7 @@ export default function Home() {
             lfg
           </Link>
 
-          {/* {session ? (
+          {session ? (
             <button
               className='inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
               onClick={signOut}
@@ -100,7 +100,7 @@ export default function Home() {
             >
               Log In
             </button>
-          )} */}
+          )}
           <div className='mt-30'>
             <BiChevronDown size={100} />
           </div>
