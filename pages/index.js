@@ -86,7 +86,7 @@ export default function Home() {
             lfg
           </Link>
 
-          {session ? (
+          {/* {session ? (
             <button
               className='inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
               onClick={signOut}
@@ -100,7 +100,7 @@ export default function Home() {
             >
               Log In
             </button>
-          )}
+          )} */}
           <div className='mt-30'>
             <BiChevronDown size={100} />
           </div>
@@ -108,19 +108,28 @@ export default function Home() {
         <section className='bg-gradient-to-r from-cyan-500 to-blue-500 flex justify-center py-20'>
           <div className='text-black	 card mx-4 p-4 bg-gray-100 border border-gray-300 rounded-lg text-center w-1/4'>
             <h3 className='text-4xl font-bold'>Connection</h3>
-            <p className='text-xl'>Unite with like-minded souls</p>
+            <p className='text-xl'>
+              Unite with a like-minded tribe of people that follow the same
+              creator.
+            </p>
           </div>
           <div className='text-black	card mx-4 p-4 bg-gray-100 border border-gray-300 rounded-lg text-center w-1/4'>
             <h3 className='text-4xl font-bold'>Consistency</h3>
-            <p className='text-xl'>Cultivate daily practices</p>
+            <p className='text-xl'>
+              Practice doing the craft that makes you admire this creator,
+              alongside her and all the community.
+            </p>
           </div>
           <div className='text-black	card mx-4 p-4 bg-gray-100 border border-gray-300 rounded-lg text-center w-1/4'>
             <h3 className='text-4xl font-bold'>Evolution</h3>
-            <p className='text-xl'>Unlock your full potential</p>
+            <p className='text-xl'>
+              Unlock your full potential by tapping into your ultimate mission
+              as a human being: To create cool stuff.
+            </p>
           </div>
         </section>
 
-        <section className='flex items-center py-20'>
+        <section className='flex items-center p-20'>
           <div className='w-1/2'>
             <Image
               src='/images/generated_image_2.png'
@@ -137,7 +146,7 @@ export default function Home() {
             </p>
           </div>
         </section>
-        <section className='flex items-center py-20'>
+        <section className='flex items-center p-20'>
           <div className='w-1/2 text-left px-8'>
             <h2 className='text-6xl font-bold'>Community</h2>
             <p className='text-2xl'>

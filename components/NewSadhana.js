@@ -1,21 +1,26 @@
 // components/NewSadhana.js
 import { useState } from 'react';
+import Link from 'next/link';
 
 const NewSadhana = () => {
-  const [title, setTitle] = useState('Hero100');
-  const [content, setContent] = useState('This is the challenge of your life.');
+  const [title, setTitle] = useState('Nights and Weekends Season 3');
+  const [content, setContent] = useState(
+    'Building the most fun app of the future. The one that will make creativity a game. The most joyful of them all. There are no rights or wrongs, polarity is part of the past. There is just showing up, as yourself, and being sincere with what you bring. The rest is history.'
+  );
   const [userLimit, setUserLimit] = useState('88');
   const [targetSessions, setTargetSessions] = useState('100');
-  const [targetSessionDuration, setTargetSessionDuration] = useState('90');
+  const [targetSessionDuration, setTargetSessionDuration] = useState('100');
   const [periodicity, setPeriodicity] = useState('daily');
-  const [startingDate, setStartingDate] = useState('2023-04-12');
+  const [startingDate, setStartingDate] = useState('2023-04-07');
   const [isPrivate, setIsPrivate] = useState(false);
 
   const handleSubmit = async e => {
     e.preventDefault();
-
+    alert(
+      'Im working on being able to associate this sadhana to the user that is logged in, so this doesnt work yet. But you get the point. Plase give me your feedback at @kithkui on Twitter. I need it to evolve.'
+    );
+    return;
     const startingTimestamp = new Date(startingDate).getTime();
-    console.log('sending the sadhana to the db');
     const response = await fetch('/api/sadhana', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -130,6 +135,22 @@ const NewSadhana = () => {
           </span>
         </div>
         <div className='flex flex-col'>
+          <label htmlFor='periodicity' className='font-semibold'>
+            Bet:
+          </label>
+          <input
+            type='text'
+            id='periodicity'
+            value='200 $APE'
+            readOnly
+            className='border-2 border-gray-300 p-2 bg-gray-100 cursor-not-allowed rounded-md'
+          />
+          <span className='text-sm text-gray-600'>
+            This will be used for betting against your capacity of Doing The
+            Work. If you fail, you pay. If you show up, you grow.
+          </span>
+        </div>
+        <div className='flex flex-col'>
           <label htmlFor='startingDate' className='font-semibold'>
             Starting Date:
           </label>
@@ -153,7 +174,8 @@ const NewSadhana = () => {
             className='form-checkbox text-blue-600'
           />
           <label htmlFor='isPrivate' className='font-semibold'>
-            Private Sadhana
+            This sadhana is private (this means that only people with an
+            exclusive link will be able to participate)
           </label>
         </div>
         <button
@@ -162,6 +184,11 @@ const NewSadhana = () => {
         >
           Create New Sadhana
         </button>
+        <Link href='/'>
+          <button className='mx-4 bg-green-600 text-white font-semibold py-2 px-4 rounded hover:bg-green-700'>
+            Go Back
+          </button>
+        </Link>
       </form>
     </div>
   );
