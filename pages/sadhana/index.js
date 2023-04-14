@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export default function SadhanaList({ sadhanas }) {
   return (
-    <div className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen text-black py-8 px-60'>
+    <div className=' bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen text-black py-8 px-60'>
       <div className='flex items-center mb-4'>
         <h1 className='text-3xl font-bold'>Sadhanas List</h1>
         <Link
@@ -14,9 +14,9 @@ export default function SadhanaList({ sadhanas }) {
           Add Sadhana
         </Link>
       </div>
-      <table className='table-auto overflow-x-scroll w-full text-center'>
+      <table className='rounded-2xl table-auto overflow-x-scroll w-full text-center'>
         <thead>
-          <tr className='bg-gray-100 text-center'>
+          <tr className='bg-gray-100 rounded-2xl text-center'>
             <th className='px-4 py-2'>Title</th>
             <th className='px-4 py-2'>Author</th>
             <th className='px-4 py-2'>Target Sessions</th>
