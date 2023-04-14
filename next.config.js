@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ['pbs.twimg.com'],
+    unoptimized: true,
   },
 };
 

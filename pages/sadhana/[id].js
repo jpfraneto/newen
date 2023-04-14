@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import { useState, useEffect } from 'react';
 import { PrismaClient } from '@prisma/client';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -9,78 +10,162 @@ const prisma = new PrismaClient();
 export default function SadhanaDetail({ sadhana }) {
   const router = useRouter();
   const { id } = router.query;
-  const { session } = useSession();
+  const { data: session, status } = useSession();
+
+  const [buttonText, setButtonText] = useState('Participate in Sadhana');
+  const [participants, setParticipants] = useState(sadhana.participants);
+
+  useEffect(() => {
+    const loggedInUserId = session?.user.id;
+    const isUserParticipating = participants.some(
+      participant => participant.id === loggedInUserId
+    );
+
+    if (isUserParticipating) {
+      setButtonText('Joined!');
+    }
+  }, [session, participants]);
 
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
 
-  const participateInSadhana = async () => {
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+
+  const loggedInUserId = session?.user.id;
+  const isUserParticipating = sadhana.participants?.some(
+    participant => participant.id === loggedInUserId
+  );
+
+  async function handleParticipate() {
     try {
+      setButtonText(`Joining ${participants.length} others...`);
+
       const response = await fetch('/api/sadhana/participate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sadhanaId: id }),
+        body: JSON.stringify({
+          sadhanaId: sadhana.id,
+        }),
       });
 
       if (response.ok) {
-        alert('You have successfully joined the sadhana!');
-        router.reload();
+        const responseInfo = await response.json();
+        setParticipants([...responseInfo.participants]);
+        setButtonText('Joined!');
       } else {
-        alert('Error joining the sadhana');
+        setButtonText('Error!');
       }
     } catch (error) {
       console.error('Error joining the sadhana:', error);
-      alert('Error joining the sadhana');
+      setButtonText('There was an error');
     }
-  };
+  }
+
+  if (!sadhana)
+    return (
+      <div className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen text-black py-8 px-60'>
+        <p>
+          Unable to find this sadhana, please refresh the page or create a new
+          one <Link href='/sadhana/new'>here</Link>
+        </p>
+      </div>
+    );
 
   return (
-    <div className='p-8 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen  text-black'>
+    <div className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen text-black py-8 px-60'>
       <div className='container text-center'>
         {' '}
-        <h1 className='text-3xl font-semibold mb-4'>Sadhana</h1>
         <div className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
           <h2 className='text-xl font-semibold mb-4'>{sadhana.title}</h2>
-          <p>{sadhana.content}</p>
+          <p className='italic mb-2'>{sadhana.content}</p>
           <p>
             Author:{' '}
             <Link
               className='text-blue-500 hover:underline'
-              href={`/u/${sadhana.author.username}`}
+              href={`/u/${sadhana.author.id}`}
             >
-              {sadhana.author.name}
+              @{sadhana.author.username}
             </Link>
           </p>
           <p>Target Sessions: {sadhana.targetSessions}</p>
-          <p>Target Session Duration: {sadhana.targetSessionDuration}</p>
+          <p>
+            Target Session Duration: {sadhana.targetSessionDuration} minutes
+          </p>
           <p>Periodicity: {sadhana.periodicity}</p>
           <p>
-            Starting Timestamp: {new Date(sadhana.startingTimestamp).getTime()}
+            Starting Timestamp:{' '}
+            {new Date(sadhana.startingTimestamp).toLocaleDateString('en-US', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
           </p>
           <p>
-            Users: {sadhana.participants?.length}/{sadhana.userLimit}
+            Users: {participants?.length}/{sadhana.userLimit}
           </p>
-          <p>Is Private: {sadhana.isPrivate ? 'Yes' : 'No'}</p>
           <div className='flex items-center mb-4'>
-            {sadhana.participants?.map(participant => (
-              <Image
-                key={participant.id}
-                src={participant.image}
-                alt={participant.name}
-                className='w-8 h-8 rounded-full mr-2'
-                title={participant.name}
-              />
+            {participants?.map(participant => (
+              <div className='text-center hover:cursor-pointer'>
+                <Image
+                  key={participant.id}
+                  src={participant.image}
+                  onClick={() => router.push(`/u/${participant.id}`)}
+                  alt={participant.name}
+                  width={300}
+                  height={300}
+                  className='w-24 h-24 rounded-full mr-2'
+                  title={participant.name}
+                />
+              </div>
             ))}
           </div>
           {session && (
-            <button
-              onClick={participateInSadhana}
-              className='mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-            >
-              Participate in Sadhana
-            </button>
+            <>
+              {isUserParticipating ? (
+                <Link
+                  href='#'
+                  disabled
+                  className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                >
+                  You are already part of this one
+                </Link>
+              ) : (
+                <>
+                  {buttonText === 'Joined!' ? (
+                    <button
+                      className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                      disabled
+                    >
+                      {buttonText}
+                    </button>
+                  ) : (
+                    <button
+                      className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                      onClick={handleParticipate}
+                    >
+                      {buttonText}
+                    </button>
+                  )}
+                </>
+              )}
+            </>
           )}
+          <Link
+            href='/sadhana'
+            className='m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+          >
+            Go to sadhanas
+          </Link>
+          <Link
+            href='/dashboard'
+            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+          >
+            Go to your dashboard
+          </Link>
         </div>
       </div>
     </div>
@@ -102,6 +187,7 @@ export async function getStaticProps({ params }) {
     where: { id: parseInt(params.id) },
     include: {
       author: true,
+      participants: true,
     },
   });
 

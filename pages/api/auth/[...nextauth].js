@@ -12,10 +12,10 @@ export const authOptions = {
       clientId: process.env.TWITTER_CONSUMER_KEY,
       clientSecret: process.env.TWITTER_CONSUMER_SECRET,
     }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
+      // GoogleProvider({
+      //   clientId: process.env.GOOGLE_CLIENT_ID,
+      //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      // }),
   ],
   // pages: {
   //   signIn: '/auth/signin',

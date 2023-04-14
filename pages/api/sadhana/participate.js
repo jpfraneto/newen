@@ -1,11 +1,12 @@
 // /pages/api/sadhana/participate.js
-import { getSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth/next';
 import { PrismaClient } from '@prisma/client';
+import { authOptions } from '../auth/[...nextauth]';
 
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
-  const session = await getSession({ req });
+  const session = await getServerSession(req, res, authOptions);
 
   if (!session) {
     return res.status(401).json({ message: 'Unauthorized' });
@@ -13,7 +14,6 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     const { sadhanaId } = req.body;
-
     try {
       const updatedSadhana = await prisma.sadhana.update({
         where: { id: parseInt(sadhanaId) },

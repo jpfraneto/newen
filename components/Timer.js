@@ -1,13 +1,20 @@
-import { useState, useEffect, useRef } from 'react';
+// Timer.js
 
-const Timer = ({ sessionTargetDuration }) => {
+import { useState, useEffect, useRef } from 'react';
+import {
+  BsPlayCircle,
+  BsPauseCircle,
+  BsPatchCheckFill,
+  BsFillSkipBackwardCircleFill,
+} from 'react-icons/bs';
+
+const Timer = ({ sessionTargetDuration, onCompletion }) => {
   const audioRef = useRef();
-  const [duration, setDuration] = useState(sessionTargetDuration * 60);
-  const [timeRemaining, setTimeRemaining] = useState(
-    sessionTargetDuration * 60
-  );
+  const [duration, setDuration] = useState(sessionTargetDuration);
+  const [timeRemaining, setTimeRemaining] = useState(sessionTargetDuration);
   const [isRunning, setIsRunning] = useState(false);
   const [started, setStarted] = useState(false);
+  const [finished, setFinished] = useState(false);
 
   useEffect(() => {
     let interval;
@@ -19,6 +26,9 @@ const Timer = ({ sessionTargetDuration }) => {
       clearInterval(interval);
     } else if (timeRemaining === 0 && started) {
       setIsRunning(false);
+      setFinished(true);
+      handlePlay();
+      onCompletion();
     }
 
     return () => clearInterval(interval);
@@ -35,57 +45,66 @@ const Timer = ({ sessionTargetDuration }) => {
 
   const pauseTimer = () => {
     setIsRunning(false);
-    setPauseCount(count => count + 1);
-    setTotalPausedTime(time => time + duration - timeRemaining);
   };
 
   const resetTimer = () => {
-    setIsRunning(false);
-    setStarted(false);
-    setTimeRemaining(sessionTargetDuration * 60);
+    if (confirm('Do you want to reset this timer?')) {
+      setIsRunning(false);
+      setStarted(false);
+      setFinished(false);
+      setTimeRemaining(sessionTargetDuration * 60);
+    }
   };
 
   const formatTime = time => {
+    const hours = Math.floor(time / 3600);
     const minutes = Math.floor((time % 3600) / 60);
     const seconds = time % 60;
 
-    return `${minutes.toString().padStart(2, '0')}:${seconds
+    return `${hours.toString().padStart(2, '0')}:${minutes
       .toString()
-      .padStart(2, '0')}`;
+      .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
   return (
     <div className='text-center'>
-      <div className='flex items-center space-x-2'>
-        <span>{formatTime(timeRemaining)}</span>
+      <div className='flex items-center space-x-2 text-black justify-center'>
+        {timeRemaining > 0 && <span>{formatTime(timeRemaining)}</span>}
         {isRunning ? (
           <button
             onClick={pauseTimer}
-            className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mb-6 mr-4'
+            className='bg-red-200 hover:bg-red-300 text-black font-semibold  rounded-full my-auto mr-4'
           >
-            Pause
+            <BsPauseCircle size={30} />
           </button>
         ) : (
           <>
-            <button
-              onClick={startTimer}
-              className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mb-6 mr-4'
-            >
-              {timeRemaining === sessionTargetDuration * 60
-                ? 'Start'
-                : 'Resume'}
-            </button>
-            {!started && (
+            {!finished ? (
+              <button
+                onClick={startTimer}
+                className='bg-blue-500 hover:bg-blue-600 text-black font-semibold  border-black rounded-full my-auto mr-4'
+              >
+                {!started || timeRemaining === sessionTargetDuration * 60 ? (
+                  <BsPlayCircle size={30} />
+                ) : (
+                  <BsPlayCircle size={30} />
+                )}
+              </button>
+            ) : (
+              <BsPatchCheckFill size={30} />
+            )}
+            {started && !finished && (
               <button
                 onClick={resetTimer}
-                className='bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded mb-6'
+                className='bg-red-500 hover:bg-red-600 text-black font-semibold border-black rounded-full my-auto'
               >
-                Reset
+                <BsFillSkipBackwardCircleFill size={30} />
               </button>
             )}
           </>
         )}
       </div>
+      <audio hidden ref={audioRef} src='/sounds/bell.mp3' />
     </div>
   );
 };
