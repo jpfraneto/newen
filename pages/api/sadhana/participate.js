@@ -1,9 +1,7 @@
 // /pages/api/sadhana/participate.js
 import { getServerSession } from 'next-auth/next';
-import { PrismaClient } from '@prisma/client';
+import prisma from '@component/lib/prismaClient';
 import { authOptions } from '../auth/[...nextauth]';
-
-const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   const session = await getServerSession(req, res, authOptions);

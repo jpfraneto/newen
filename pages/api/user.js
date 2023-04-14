@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import prisma from '@component/lib/prismaClient';
 
 async function getUserById(id) {
   const user = await prisma.user.findUnique({

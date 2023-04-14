@@ -1,8 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import prisma from '../../lib/prismaClient';
 import Link from 'next/link';
 import Image from 'next/image';
-
-const prisma = new PrismaClient();
 
 export default function SadhanaList({ sadhanas }) {
   return (

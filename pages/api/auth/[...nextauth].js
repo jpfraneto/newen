@@ -3,7 +3,7 @@ import EmailProvider from 'next-auth/providers/email';
 import TwitterProvider from 'next-auth/providers/twitter';
 import GoogleProvider from 'next-auth/providers/google';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import prisma from 'lib/prisma';
+import prisma from '@component/lib/prismaClient';
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
@@ -12,10 +12,10 @@ export const authOptions = {
       clientId: process.env.TWITTER_CONSUMER_KEY,
       clientSecret: process.env.TWITTER_CONSUMER_SECRET,
     }),
-      // GoogleProvider({
-      //   clientId: process.env.GOOGLE_CLIENT_ID,
-      //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      // }),
+    // GoogleProvider({
+    //   clientId: process.env.GOOGLE_CLIENT_ID,
+    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    // }),
   ],
   // pages: {
   //   signIn: '/auth/signin',

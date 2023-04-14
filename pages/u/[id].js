@@ -52,7 +52,7 @@ const UserPage = () => {
     <div className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen'>
       <div className=' w-8/12 m-auto py-8 text-black'>
         <h1 className='text-2xl font-semibold mb-4'>
-          @{user?.username}'s profile
+          @{user?.username}&apos;s profile
         </h1>
         <h2 className='text-xl font-semibold mb-2'>Sadhanas:</h2>
         <ul>

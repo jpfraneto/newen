@@ -63,7 +63,6 @@ const session = {
 };
 
 const GuestDemo = () => {
-  console.log('the session is: ', session);
   return (
     <div className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen'>
       <div className=' w-8/12 m-auto py-8'>

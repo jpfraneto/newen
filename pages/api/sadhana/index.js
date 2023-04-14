@@ -1,5 +1,5 @@
 // /api/sadhana.js
-import prisma from 'lib/prisma';
+import prisma from '@component/lib/prismaClient';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]';
 

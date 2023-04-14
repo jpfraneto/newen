@@ -1,11 +1,9 @@
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../../lib/prismaClient';
 import Link from 'next/link';
 import Image from 'next/image';
-
-const prisma = new PrismaClient();
 
 export default function SadhanaDetail({ sadhana }) {
   const router = useRouter();
@@ -13,7 +11,7 @@ export default function SadhanaDetail({ sadhana }) {
   const { data: session, status } = useSession();
 
   const [buttonText, setButtonText] = useState('Participate in Sadhana');
-  const [participants, setParticipants] = useState(sadhana.participants);
+  const [participants, setParticipants] = useState(sadhana?.participants || []);
 
   useEffect(() => {
     const loggedInUserId = session?.user.id;
@@ -109,9 +107,11 @@ export default function SadhanaDetail({ sadhana }) {
           </p>
           <div className='flex items-center mb-4'>
             {participants?.map(participant => (
-              <div className='text-center hover:cursor-pointer'>
+              <div
+                key={participant.id}
+                className='text-center hover:cursor-pointer'
+              >
                 <Image
-                  key={participant.id}
                   src={participant.image}
                   onClick={() => router.push(`/u/${participant.id}`)}
                   alt={participant.name}

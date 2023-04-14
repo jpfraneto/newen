@@ -168,7 +168,7 @@ const DashboardComponent = ({ session }) => {
         </>
       ) : (
         <>
-          <p>You don't have any sadhanas associated yet.</p>
+          <p>You don&apos;t have any sadhanas associated yet.</p>
         </>
       )}
     </div>

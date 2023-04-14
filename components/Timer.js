@@ -32,7 +32,7 @@ const Timer = ({ sessionTargetDuration, onCompletion }) => {
     }
 
     return () => clearInterval(interval);
-  }, [isRunning, timeRemaining, started]);
+  }, [isRunning, timeRemaining, started, onCompletion]);
 
   const handlePlay = () => {
     audioRef.current.play();
