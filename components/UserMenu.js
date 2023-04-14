@@ -22,9 +22,13 @@ const UserMenu = () => {
             height={100}
             className='m-auto w-24 h-24 rounded-full border-white border-2'
           />
-          <p className='text-white font-bold text-xl mt-2'>
+          <Link
+            href={`/u/${session.user.id}`}
+            className='text-white font-bold text-xl mt-2'
+          >
             @{session.user.username}
-          </p>
+          </Link>
+
           <p>0/4 ready today</p>
           <div className='mt-2'>
             <Link

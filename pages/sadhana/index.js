@@ -33,22 +33,25 @@ export default function SadhanaList({ sadhanas }) {
             >
               <td className='px-4 py-2'>
                 <Link
-                  className='hover:text-red inline-block bg-gradient-to-r from-black via-black to-black text-white font-bold text-xl px-4 py-2 rounded-lg shadow-md transition-all duration-100 ease-in-out'
+                  className='hover:text-blue-400 inline-block bg-gradient-to-r from-black via-black to-black text-white font-bold text-xl px-4 py-2 rounded-lg shadow-md transition-all duration-100 ease-in-out'
                   href={`/sadhana/${sadhana.id}`}
+                  passHref
                 >
                   {sadhana.title}
                 </Link>
               </td>
-              <td className='flex align-middle text-center justify-center items-center space-x-2 '>
-                <Image
-                  src={sadhana.author.image || '/default-avatar.png'}
-                  alt={sadhana.author.name}
-                  width={32}
-                  height={32}
-                  className='rounded-full'
-                />
-                <Link href={`/u/${sadhana.author.id}`}>
-                  @{sadhana.author.username}
+              <td className='px-4 py-2'>
+                <Link href={`/u/${sadhana.author.id}`} passHref>
+                  <div className='hover:text-blue-400 flex align-middle text-center justify-left items-center space-x-2'>
+                    <Image
+                      src={sadhana.author.image || '/default-avatar.png'}
+                      alt={sadhana.author.name}
+                      width={32}
+                      height={32}
+                      className='rounded-full'
+                    />
+                    <span>@{sadhana.author.username}</span>
+                  </div>
                 </Link>
               </td>
               <td className='px-4 py-2'>{sadhana.targetSessions}</td>
