@@ -40,7 +40,6 @@ const NewSadhana = () => {
       const response = await axios.post('/api/sadhana', formData);
       setLoading(false);
       setSuccess(true);
-      console.log('the response data is: ', response.data);
       setSadhanaId(response.data.id);
     } catch (error) {
       setLoading(false);

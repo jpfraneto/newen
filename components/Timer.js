@@ -129,7 +129,7 @@ const Timer = ({ sessionTargetDuration, onCompletion, sadhana }) => {
             className='bg-white border-2 border-white rounded-xl p-6 flex flex-col items-center justify-between'
             style={{
               backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0,
-                0.6)), url(${sadhana.sadhanaCover})`,
+                0.6)), url("https://cdn.midjourney.com/ec0fe507-2218-495a-9f60-d90ed2213441/0_0.png")`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               height: '70vh',

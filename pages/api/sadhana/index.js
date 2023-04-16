@@ -65,7 +65,7 @@ const createSadhana = async (req, res, user) => {
       content: content,
       userLimit: parseInt(userLimit),
       targetSessions: parseInt(targetSessions),
-      targetSessionDuration: parseInt(targetSessionDuration) * 60,
+      targetSessionDuration: parseInt(targetSessionDuration),
       periodicity: periodicity,
       startingTimestamp: parsedStartingTimestamp.toISOString(),
       isPrivate: isPrivate,
