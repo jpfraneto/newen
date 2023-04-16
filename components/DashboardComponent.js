@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Timer from './Timer';
 import useSWR from 'swr';
 import Link from 'next/link';
+import { BsPatchCheckFill } from 'react-icons/bs';
 import { formatDistanceToNow } from 'date-fns';
 import { formatTime } from '@component/lib/functions';
 
