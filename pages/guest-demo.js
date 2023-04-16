@@ -79,7 +79,7 @@ const session = {
         'Collaborate, innovate, and learn together as we work on a Buildspace project. Leverage the power of community to build something amazing, gain new skills, and expand your capacity for transforming your ideas into a reality',
       userLimit: 500,
       targetSessions: 30,
-      targetSessionDuration: 100,
+      targetSessionDuration: 100 * 60,
       periodicity: 'daily',
       startingTimestamp: '2023-04-01',
       isPrivate: false,
