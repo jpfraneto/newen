@@ -1,5 +1,3 @@
-// Timer.js
-
 import { useState, useEffect, useRef } from 'react';
 import {
   BsPlayCircle,
@@ -8,13 +6,17 @@ import {
   BsFillSkipBackwardCircleFill,
 } from 'react-icons/bs';
 
-const Timer = ({ sessionTargetDuration, onCompletion }) => {
+const Timer = ({ sessionTargetDuration, onCompletion, sadhana }) => {
   const audioRef = useRef();
-  const [duration, setDuration] = useState(sessionTargetDuration);
-  const [timeRemaining, setTimeRemaining] = useState(sessionTargetDuration);
+  const [duration, setDuration] = useState(sessionTargetDuration * 60);
+  const [timeRemaining, setTimeRemaining] = useState(
+    sessionTargetDuration * 60
+  );
   const [isRunning, setIsRunning] = useState(false);
   const [started, setStarted] = useState(false);
   const [finished, setFinished] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     let interval;
@@ -27,8 +29,8 @@ const Timer = ({ sessionTargetDuration, onCompletion }) => {
     } else if (timeRemaining === 0 && started) {
       setIsRunning(false);
       setFinished(true);
-      handlePlay();
-      onCompletion();
+      // handlePlay();
+      // onCompletion();
     }
 
     return () => clearInterval(interval);
@@ -38,13 +40,20 @@ const Timer = ({ sessionTargetDuration, onCompletion }) => {
     audioRef.current.play();
   };
 
+  const handleSubmitSession = () => {
+    alert('Your session will be added to the DB');
+  };
+
   const startTimer = () => {
     setStarted(true);
+    setPaused(false);
     setIsRunning(true);
+    setShowModal(true);
   };
 
   const pauseTimer = () => {
     setIsRunning(false);
+    setPaused(true);
   };
 
   const resetTimer = () => {
@@ -54,6 +63,13 @@ const Timer = ({ sessionTargetDuration, onCompletion }) => {
       setFinished(false);
       setTimeRemaining(sessionTargetDuration * 60);
     }
+  };
+
+  const startFromScratch = () => {
+    setIsRunning(false);
+    setStarted(false);
+    setFinished(false);
+    setTimeRemaining(sessionTargetDuration * 60);
   };
 
   const formatTime = time => {
@@ -66,45 +82,126 @@ const Timer = ({ sessionTargetDuration, onCompletion }) => {
       .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
+  const handleCloseModal = () => {
+    if (
+      confirm(
+        'Are you sure you want to drop this session? You will need to start from scratch.'
+      )
+    ) {
+      setShowModal(false);
+      startFromScratch();
+    }
+  };
+
+  const handleForceSessionEnd = () => {
+    if (confirm('Did you REALLY do the work?')) {
+      setIsRunning(false);
+      setFinished(true);
+      handlePlay();
+      onCompletion();
+      setShowModal(false);
+    }
+  };
+
+  const submitSessionHandler = () => {
+    alert('Congratulations. Your session will be added to the DB.');
+    setShowModal(false);
+    onCompletion();
+  };
+
   return (
     <div className='text-center'>
-      <div className='flex items-center space-x-2 text-black justify-center'>
-        {timeRemaining > 0 && <span>{formatTime(timeRemaining)}</span>}
-        {isRunning ? (
-          <button
-            onClick={pauseTimer}
-            className='bg-red-200 hover:bg-red-300 text-black font-semibold  rounded-full my-auto mr-4'
+      {!finished && (
+        <button
+          onClick={startTimer}
+          className='hover:text-blue-900 text-black font-semibold  border-black rounded-full my-auto '
+        >
+          GO!
+        </button>
+      )}
+      {showModal && (
+        <div
+          className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-70 bg-black ${
+            showModal ? 'block' : 'hidden'
+          }`}
+        >
+          <div
+            className='bg-white border-2 border-white rounded-xl p-6 flex flex-col items-center justify-between'
+            style={{
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0,
+                0.6)), url(${sadhana.sadhanaCover})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              height: '70vh',
+              width: '80vw',
+            }}
           >
-            <BsPauseCircle size={30} />
-          </button>
-        ) : (
-          <>
-            {!finished ? (
-              <button
-                onClick={startTimer}
-                className='bg-blue-500 hover:bg-blue-600 text-black font-semibold  border-black rounded-full my-auto mr-4'
-              >
-                {!started || timeRemaining === sessionTargetDuration * 60 ? (
-                  <BsPlayCircle size={30} />
-                ) : (
-                  <BsPlayCircle size={30} />
-                )}
-              </button>
-            ) : (
-              <BsPatchCheckFill size={30} />
-            )}
-            {started && !finished && (
-              <button
-                onClick={resetTimer}
-                className='bg-red-500 hover:bg-red-600 text-black font-semibold border-black rounded-full my-auto'
-              >
-                <BsFillSkipBackwardCircleFill size={30} />
-              </button>
-            )}
-          </>
-        )}
-      </div>
-      <audio hidden ref={audioRef} src='/sounds/bell.mp3' />
+            <h2 className='text-white text-2xl mb-4'>{sadhana.title}</h2>
+            <h1 className='text-white text-6xl'>{formatTime(timeRemaining)}</h1>
+            <div className='flex justify-center mt-4'>
+              {isRunning && !paused && !finished && (
+                <button
+                  onClick={pauseTimer}
+                  className='bg-red-500 hover:bg-red-600 text-black font-semibold border-black rounded-full my-auto mx-2'
+                >
+                  <BsPauseCircle size={50} />
+                </button>
+              )}
+              {!isRunning & paused && (
+                <>
+                  <button
+                    onClick={startTimer}
+                    className='bg-blue-500 hover:bg-blue-600 text-black font-semibold border-black rounded-full my-auto mx-2'
+                  >
+                    <BsPlayCircle size={50} />
+                  </button>
+                  {started && (
+                    <button
+                      onClick={resetTimer}
+                      className='bg-yellow-500 hover:bg-yellow-600 text-black font-semibold border-black rounded-full my-auto mx-2'
+                    >
+                      <BsFillSkipBackwardCircleFill size={50} />
+                    </button>
+                  )}
+                </>
+              )}
+            </div>
+            <textarea
+              className='w-96 h-60 mt-4 p-2 rounded-md'
+              placeholder='Take notes about this session...'
+            />
+            <div className='flex justify-center items-center mt-4 w-full'>
+              {finished ? (
+                <button
+                  onClick={submitSessionHandler}
+                  className='bg-red-500  hover:bg-red-600 mx-2 text-black font-semibold py-2 px-4 rounded'
+                >
+                  Submit Session
+                </button>
+              ) : (
+                <div>
+                  {' '}
+                  <button
+                    onClick={handleCloseModal}
+                    className='bg-red-500  hover:bg-red-600 mx-2 text-black font-semibold py-2 px-4 rounded'
+                  >
+                    Cancel Session
+                  </button>
+                  <button
+                    onClick={handleForceSessionEnd}
+                    className='bg-green-500 hover:bg-green-600 mx-2 text-black font-semibold py-2 px-4 rounded'
+                  >
+                    Force Session End
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+      <audio ref={audioRef}>
+        <source src='/sounds/timer-finish.mp3' />
+      </audio>
     </div>
   );
 };

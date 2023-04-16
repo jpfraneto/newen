@@ -6,13 +6,21 @@ import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
 import { BsPatchCheckFill } from 'react-icons/bs';
 import { GrNotes } from 'react-icons/gr';
+import { formatTime } from '@component/lib/functions';
 
 const DemoDashboardComponent = ({ session }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedSadhanaIndex, setSelectedSadhanaIndex] = useState(null);
   const [completed, setCompleted] = useState([]);
-
-  const sadhanas = session.participatedSadhanas;
+  const [sadhanas, setSadhanas] = useState(session.participatedSadhanas);
+  const [showAddSadhanaModal, setShowAddSadhanaModal] = useState(false);
+  const [newSadhana, setNewSadhana] = useState({
+    title: '',
+    userLimit: '',
+    startingTimestamp: new Date(),
+    targetSessions: '',
+    targetSessionDuration: '',
+  });
 
   useEffect(() => {
     if (sadhanas) {
@@ -26,6 +34,32 @@ const DemoDashboardComponent = ({ session }) => {
     const updatedCompleted = [...completed];
     updatedCompleted[index] = completedStatus;
     setCompleted(updatedCompleted);
+  };
+
+  const handleAddSadhana = () => {
+    setShowAddSadhanaModal(true);
+  };
+
+  const handleNewSadhanaChange = event => {
+    const { name, value } = event.target;
+    setNewSadhana({ ...newSadhana, [name]: value });
+  };
+
+  const handleNewSadhanaSubmit = event => {
+    event.preventDefault();
+    setSadhanas([...sadhanas, newSadhana]);
+    setNewSadhana({
+      title: '',
+      userLimit: '',
+      startingTimestamp: '',
+      targetSessions: '',
+      targetSessionDuration: '',
+    });
+    setShowAddSadhanaModal(false);
+  };
+
+  const closeAddSadhanaModal = () => {
+    setShowAddSadhanaModal(false);
   };
 
   const toggleCompletion = index => {
@@ -67,21 +101,25 @@ const DemoDashboardComponent = ({ session }) => {
   const completedCount = completed.filter(item => item).length;
 
   return (
-    <div className='container mx-auto px-4'>
+    <div className=' md:container mx-auto overflow-x-scroll px-4'>
       {showModal && (
         <div className='fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md'></div>
       )}
       {sadhanas ? (
         <>
-          <table className='table-auto w-full my-2 bg-green-500 shadow-md rounded-md'>
+          <table className='table-auto w-full my-2 bg-green-500  shadow-md rounded-md'>
             <thead>
               <tr className='bg-green-700'>
-                <th className='px-4 py-2 text-white'>Completed?</th>
                 <th className='px-4 py-2 text-white'>Sadhana Name</th>
                 <th className='px-4 py-2 text-white'>Participants Ready</th>
                 <th className='px-4 py-2 text-white'>Sessions</th>
+                <th className='px-4 py-2 text-white'>
+                  Target Session Duration
+                </th>
                 <th className='px-4 py-2 text-white w-8'>Timer</th>
-                <th className='px-4 py-2 text-white w-8'>Other</th>
+                <th className='px-4 py-2 text-white'>Completed today?</th>
+
+                {/* <th className='px-4 py-2 text-white w-8'>Other</th> */}
               </tr>
             </thead>
             <tbody>
@@ -91,16 +129,6 @@ const DemoDashboardComponent = ({ session }) => {
                     key={index}
                     className={index % 2 === 0 ? 'bg-blue-400' : 'bg-blue-300'}
                   >
-                    <td
-                      className={`border px-4 py-2 text-center  ${
-                        completed[index]
-                          ? 'cursor-not-allowed'
-                          : 'cursor-pointer'
-                      }`}
-                      onClick={() => toggleCompletion(index)}
-                    >
-                      {completed[index] ? 'Yes' : 'No'}
-                    </td>
                     <td className='border px-4 py-2 text-black text-center'>
                       {sadhana.title}
                     </td>
@@ -121,6 +149,9 @@ const DemoDashboardComponent = ({ session }) => {
                         )}`}</p>
                       )}
                     </td>
+                    <td className='border px-4 py-2 text-black text-center'>
+                      {formatTime(sadhana.targetSessionDuration)}
+                    </td>
                     <td className='border px-4 py-2 text-black text-center w-48'>
                       {completed[index] ? (
                         <span className='flex justify-center w-full'>
@@ -133,6 +164,7 @@ const DemoDashboardComponent = ({ session }) => {
                               sessionTargetDuration={
                                 sadhana.targetSessionDuration
                               }
+                              sadhana={sadhana}
                               onCompletion={() => {
                                 if (!completed[index])
                                   updateCompletion(index, true);
@@ -144,7 +176,17 @@ const DemoDashboardComponent = ({ session }) => {
                         </>
                       )}
                     </td>
-                    <td className='border px-4 py-2 text-black text-center'>
+                    <td
+                      className={`hover:text-black border px-4 py-2 text-center  ${
+                        completed[index]
+                          ? 'cursor-not-allowed'
+                          : 'cursor-pointer'
+                      }`}
+                      onClick={() => toggleCompletion(index)}
+                    >
+                      {completed[index] ? 'Yes' : 'No'}
+                    </td>
+                    {/* <td className='border px-4 py-2 text-black text-center'>
                       {evaluateSadhanaTime(sadhana.startingTimestamp) && (
                         <span
                           onClick={() => openModal(index)}
@@ -153,7 +195,7 @@ const DemoDashboardComponent = ({ session }) => {
                           <GrNotes size={24} />
                         </span>
                       )}
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
             </tbody>
@@ -230,6 +272,83 @@ const DemoDashboardComponent = ({ session }) => {
           </div>
         </div>
       )}
+
+      {showAddSadhanaModal && (
+        <div className='fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md flex items-center justify-center z-50'>
+          <div className='bg-white text-black w-1/2 h-fit p-4 rounded-lg'>
+            <h1 className='text-black text-2xl mb-4'>Add New Sadhana</h1>
+            <form onSubmit={handleNewSadhanaSubmit}>
+              <input
+                type='text'
+                name='title'
+                placeholder='Sadhana Name'
+                value={newSadhana.title}
+                onChange={handleNewSadhanaChange}
+                className='border w-full p-2 mb-4'
+              />
+              <input
+                type='number'
+                name='userLimit'
+                placeholder='Number of Participants'
+                value={newSadhana.userLimit}
+                onChange={handleNewSadhanaChange}
+                className='border w-full p-2 mb-4'
+              />
+              <input
+                type='datetime-local'
+                name='startingTimestamp'
+                min={new Date()}
+                placeholder='Starting Date and Time'
+                value={newSadhana.startingTimestamp}
+                onChange={handleNewSadhanaChange}
+                className='border w-full p-2 mb-4'
+              />
+              <input
+                type='number'
+                name='targetSessions'
+                placeholder='Target Sessions'
+                value={newSadhana.targetSessions}
+                onChange={handleNewSadhanaChange}
+                className='border w-full p-2 mb-4'
+              />
+              <input
+                type='number'
+                name='targetSessionDuration'
+                placeholder='Target Session Duration (in minutes)'
+                value={newSadhana.targetSessionDuration}
+                onChange={handleNewSadhanaChange}
+                className='border w-full p-2 mb-4'
+              />
+              <button
+                type='submit'
+                className='bg-blue-500 text-white px-4 py-2 rounded mr-4'
+              >
+                Save
+              </button>
+              <button
+                type='button'
+                className='bg-gray-500 text-white px-4 py-2 rounded'
+                onClick={closeAddSadhanaModal}
+              >
+                Close Modal
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      <button
+        className='mx-3 inline-block bg-green-600 text-white font-bold text-2xl px-6 py-3 mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
+        onClick={handleAddSadhana}
+      >
+        Add sadhana
+      </button>
+      <Link
+        className='mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
+        href='/'
+      >
+        Back to Landing
+      </Link>
     </div>
   );
 };

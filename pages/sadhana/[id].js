@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import prisma from '../../lib/prismaClient';
 import Link from 'next/link';
@@ -124,7 +124,7 @@ export default function SadhanaDetail({ sadhana }) {
               </div>
             ))}
           </div>
-          {session && (
+          {session ? (
             <>
               {isUserParticipating ? (
                 <Link
@@ -154,6 +154,13 @@ export default function SadhanaDetail({ sadhana }) {
                 </>
               )}
             </>
+          ) : (
+            <button
+              className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+              onClick={signIn}
+            >
+              If you log in, you can participate in this sadhana.
+            </button>
           )}
           <Link
             href='/sadhana'
@@ -161,11 +168,12 @@ export default function SadhanaDetail({ sadhana }) {
           >
             Go to sadhanas
           </Link>
+
           <Link
-            href='/dashboard'
+            href='/'
             className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
           >
-            Go to your dashboard
+            Back to landing
           </Link>
         </div>
       </div>
