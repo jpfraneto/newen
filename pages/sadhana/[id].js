@@ -90,7 +90,8 @@ export default function SadhanaDetail({ sadhana }) {
           </p>
           <p>Target Sessions: {sadhana.targetSessions}</p>
           <p>
-            Target Session Duration: {sadhana.targetSessionDuration} minutes
+            Target Session Duration:{' '}
+            {Math.floor(sadhana.targetSessionDuration / 60)} minutes
           </p>
           <p>Periodicity: {sadhana.periodicity}</p>
           <p>

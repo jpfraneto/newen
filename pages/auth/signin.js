@@ -17,7 +17,14 @@ export default function SignIn({ providers }) {
           We currently only support Twitter login as we believe in the future of
           humanity being closely tied to what happens on Twitter.
         </p>
-        {Object.values(providers).map(provider => (
+        <button
+          onClick={() => signIn('twitter')}
+          className='bg-blue-500 text-white font-semibold py-2 px-4 rounded-full inline-flex items-center hover:bg-blue-600 transition-colors duration-300 ease-in-out'
+        >
+          <BsTwitter className='mr-2' />
+          Twitter Login
+        </button>
+        {/* {Object.values(providers).map(provider => (
           <div key={provider.name} className='mb-6'>
             <button
               onClick={() => signIn(provider.id)}
@@ -27,7 +34,7 @@ export default function SignIn({ providers }) {
               Twitter Login
             </button>
           </div>
-        ))}
+        ))} */}
         <p className='text-sm '>
           It&apos;s an honor to have you here. This app is being developed with
           commitment, with love, and with passion with the help of{' '}

@@ -36,6 +36,16 @@ export const authOptions = {
           if (user.id) {
             try {
               if (user.username && user.oauthProvider) return true;
+              const users = await prisma.user.findMany();
+              console.log('the users in the database are:', users);
+              console.log('the user os', user, 'the profile is:', profile);
+              if (user.id === profile.id_str) {
+                console.log(
+                  'THIS MEANS THAT THIS IS THE FIRST LOGIN FROM THIS USER. I NEED TO ADD SOME FEATURE HERE TO RECORD THE username, providerAccountId and oauthProvider in the user in the database. But how can I do that if I dont have access to a callback?'
+                );
+                return true;
+              }
+              console.log('MORE THAN FIRST LOGIN FROM THIS USER.');
 
               await prisma.user.update({
                 where: {
@@ -58,29 +68,30 @@ export const authOptions = {
             return true;
           }
           break;
-        case 'google':
-          try {
-            if (user.providerAccountId && user.oauthProvider) return true;
-            await prisma.user.update({
-              where: {
-                email: user.email,
-              },
-              data: {
-                providerAccountId: account.providerAccountId,
-                oauthProvider: profile.provider,
-              },
-            });
-            return true;
-          } catch (error) {
-            console.log(
-              'THERE WAS AN ERROR IN THE SIGN IN GOOGLE FUNCTION:',
-              error
-            );
-          }
+        // case 'google':
+        //   try {
+        //     if (user.providerAccountId && user.oauthProvider) return true;
+        //     await prisma.user.update({
+        //       where: {
+        //         email: user.email,
+        //       },
+        //       data: {
+        //         providerAccountId: account.providerAccountId,
+        //         oauthProvider: profile.provider,
+        //       },
+        //     });
+        //     return true;
+        //   } catch (error) {
+        //     console.log(
+        //       'THERE WAS AN ERROR IN THE SIGN IN GOOGLE FUNCTION:',
+        //       error
+        //     );
+        //   }
       }
       return true;
     },
     session({ session, token, user }) {
+      console.log('INSIDE THE SESSION THING', session, 'user', user);
       session.user.id = user.id;
       session.user.oauthProvider = user.oauthProvider;
       if (user.username) {
