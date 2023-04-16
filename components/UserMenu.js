@@ -15,35 +15,46 @@ const UserMenu = () => {
         </button>
       ) : (
         <>
-          <Image
-            src={session.user.image}
-            alt={session.user.name}
-            width={100}
-            height={100}
-            className='m-auto w-24 h-24 rounded-full border-white border-2'
-          />
-          <Link
-            href={`/u/${session.user.id}`}
-            className='text-white font-bold text-xl mt-2'
-          >
-            @{session.user.username}
-          </Link>
+          {!session.user.username ? (
+            <p
+              onClick={() => signOut()}
+              className='hover:text-blue-400 hover:cursor-pointer'
+            >
+              Activate your account
+            </p>
+          ) : (
+            <>
+              <Image
+                src={session.user.image}
+                alt={session.user.name}
+                width={100}
+                height={100}
+                className='m-auto w-24 h-24 rounded-full border-white border-2'
+              />
+              <Link
+                href={`/u/${session.user.id}`}
+                className='text-white font-bold text-xl mt-2'
+              >
+                @{session.user.username}
+              </Link>
 
-          <p>0/4 ready today</p>
-          <div className='mt-2'>
-            <Link
-              className='hover:text-blue-400 text-white font-bold text-lg mr-4'
-              href='/dashboard'
-            >
-              Dashboard
-            </Link>
-            <button
-              className='hover:text-red-500 text-white font-bold text-lg'
-              onClick={signOut}
-            >
-              Logout
-            </button>
-          </div>
+              <p>0/4 ready today</p>
+              <div className='mt-2'>
+                <Link
+                  className='hover:text-blue-400 text-white font-bold text-lg mr-4'
+                  href='/dashboard'
+                >
+                  Dashboard
+                </Link>
+                <button
+                  className='hover:text-red-500 text-white font-bold text-lg'
+                  onClick={signOut}
+                >
+                  Logout
+                </button>
+              </div>
+            </>
+          )}
         </>
       )}
     </div>

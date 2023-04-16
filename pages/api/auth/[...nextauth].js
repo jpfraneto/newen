@@ -68,25 +68,6 @@ export const authOptions = {
             return true;
           }
           break;
-        // case 'google':
-        //   try {
-        //     if (user.providerAccountId && user.oauthProvider) return true;
-        //     await prisma.user.update({
-        //       where: {
-        //         email: user.email,
-        //       },
-        //       data: {
-        //         providerAccountId: account.providerAccountId,
-        //         oauthProvider: profile.provider,
-        //       },
-        //     });
-        //     return true;
-        //   } catch (error) {
-        //     console.log(
-        //       'THERE WAS AN ERROR IN THE SIGN IN GOOGLE FUNCTION:',
-        //       error
-        //     );
-        //   }
       }
       return true;
     },
