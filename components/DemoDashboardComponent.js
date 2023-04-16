@@ -101,22 +101,23 @@ const DemoDashboardComponent = ({ session }) => {
   const completedCount = completed.filter(item => item).length;
 
   return (
-    <div className=' md:container mx-auto overflow-x-scroll px-4'>
+    <div className='md:container mx-auto  px-4'>
       {showModal && (
         <div className='fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md'></div>
       )}
       {sadhanas ? (
-        <>
+        <div className='overflow-x-scroll'>
           <table className='table-auto w-full my-2 bg-green-500  shadow-md rounded-md'>
             <thead>
               <tr className='bg-green-700'>
                 <th className='px-4 py-2 text-white'>Sadhana Name</th>
-                <th className='px-4 py-2 text-white'>Participants Ready</th>
-                <th className='px-4 py-2 text-white'>Sessions</th>
                 <th className='px-4 py-2 text-white'>
                   Target Session Duration
                 </th>
                 <th className='px-4 py-2 text-white w-8'>Timer</th>
+                <th className='px-4 py-2 text-white'>Participants Ready</th>
+                <th className='px-4 py-2 text-white'>Sessions</th>
+
                 <th className='px-4 py-2 text-white'>Completed today?</th>
 
                 {/* <th className='px-4 py-2 text-white w-8'>Other</th> */}
@@ -131,23 +132,6 @@ const DemoDashboardComponent = ({ session }) => {
                   >
                     <td className='border px-4 py-2 text-black text-center'>
                       {sadhana.title}
-                    </td>
-                    <td className='border px-4 py-2 text-black text-center'>{`${
-                      completed[index] ? 1 : 0
-                    }/${sadhana.userLimit}`}</td>
-                    <td className='border px-4 py-2 text-black text-center'>
-                      {evaluateSadhanaTime(sadhana.startingTimestamp) ? (
-                        `${getCurrentDay(sadhana.startingTimestamp)}/${
-                          sadhana.targetSessions
-                        }`
-                      ) : (
-                        <p>{`Starts ${formatDistanceToNow(
-                          new Date(sadhana.startingTimestamp).getTime(),
-                          {
-                            addSuffix: true,
-                          }
-                        )}`}</p>
-                      )}
                     </td>
                     <td className='border px-4 py-2 text-black text-center'>
                       {formatTime(sadhana.targetSessionDuration)}
@@ -176,6 +160,24 @@ const DemoDashboardComponent = ({ session }) => {
                         </>
                       )}
                     </td>
+                    <td className='border px-4 py-2 text-black text-center'>{`${
+                      completed[index] ? 1 : 0
+                    }/${sadhana.userLimit}`}</td>
+                    <td className='border px-4 py-2 text-black text-center'>
+                      {evaluateSadhanaTime(sadhana.startingTimestamp) ? (
+                        `${getCurrentDay(sadhana.startingTimestamp)}/${
+                          sadhana.targetSessions
+                        }`
+                      ) : (
+                        <p>{`Starts ${formatDistanceToNow(
+                          new Date(sadhana.startingTimestamp).getTime(),
+                          {
+                            addSuffix: true,
+                          }
+                        )}`}</p>
+                      )}
+                    </td>
+
                     <td
                       className={`hover:text-black border px-4 py-2 text-center  ${
                         completed[index]
@@ -227,7 +229,7 @@ const DemoDashboardComponent = ({ session }) => {
               </strong>
             </>
           )}
-        </>
+        </div>
       ) : (
         <>
           <p>You don&apos;t have any sadhanas associated yet.</p>
@@ -274,8 +276,8 @@ const DemoDashboardComponent = ({ session }) => {
       )}
 
       {showAddSadhanaModal && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md flex items-center justify-center z-50'>
-          <div className='bg-white text-black w-1/2 h-fit p-4 rounded-lg'>
+        <div className='px-2 max-w-full fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md flex items-center justify-center z-50'>
+          <div className='bg-white text-black md:w-1/2 h-fit p-4 rounded-lg'>
             <h1 className='text-black text-2xl mb-4'>Add New Sadhana</h1>
             <form onSubmit={handleNewSadhanaSubmit}>
               <input

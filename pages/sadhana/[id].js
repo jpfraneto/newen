@@ -73,7 +73,7 @@ export default function SadhanaDetail({ sadhana }) {
     );
 
   return (
-    <div className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen text-black py-8 px-60'>
+    <div className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen text-black py-8 px-4 md:px-16 lg:px-60'>
       <div className='container text-center'>
         {' '}
         <div className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
@@ -162,19 +162,21 @@ export default function SadhanaDetail({ sadhana }) {
               If you log in, you can participate in this sadhana.
             </button>
           )}
-          <Link
-            href='/sadhana'
-            className='m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-          >
-            Go to sadhanas
-          </Link>
-
-          <Link
-            href='/'
-            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-          >
-            Back to landing
-          </Link>
+          <div className='flex flex-col md:flex-none '>
+            {' '}
+            <Link
+              href='/sadhana'
+              className='m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-fit mx-auto'
+            >
+              Go to sadhanas
+            </Link>
+            <Link
+              href='/'
+              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-fit mx-auto'
+            >
+              Back to landing
+            </Link>
+          </div>
         </div>
       </div>
     </div>

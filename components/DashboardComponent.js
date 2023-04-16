@@ -75,19 +75,20 @@ const DashboardComponent = ({ session }) => {
   if (isLoading) return <p className='text-black'>Loading your dashboard...</p>;
 
   return (
-    <div className=' md:container mx-auto overflow-x-scroll px-4'>
+    <div className='max-w- md:container mx-auto px-4'>
       {sadhanas?.length > 0 ? (
-        <>
+        <div className=' overflow-x-scroll'>
           <table className='table-auto w-full my-2 bg-green-500  shadow-md rounded-md'>
             <thead>
               <tr className='bg-green-700'>
                 <th className='px-4 py-2 text-white'>Sadhana Name</th>
-                <th className='px-4 py-2 text-white'>Participants Ready</th>
-                <th className='px-4 py-2 text-white'>Sessions</th>
                 <th className='px-4 py-2 text-white'>
                   Target Session Duration
                 </th>
                 <th className='px-4 py-2 text-white w-8'>Timer</th>
+                <th className='px-4 py-2 text-white'>Participants Ready</th>
+                <th className='px-4 py-2 text-white'>Sessions</th>
+
                 <th className='px-4 py-2 text-white'>Completed today?</th>
 
                 {/* <th className='px-4 py-2 text-white w-8'>Other</th> */}
@@ -102,23 +103,6 @@ const DashboardComponent = ({ session }) => {
                   >
                     <td className='border px-4 py-2 text-black text-center'>
                       {sadhana.title}
-                    </td>
-                    <td className='border px-4 py-2 text-black text-center'>{`${
-                      completed[index] ? 1 : 0
-                    }/${sadhana.userLimit}`}</td>
-                    <td className='border px-4 py-2 text-black text-center'>
-                      {evaluateSadhanaTime(sadhana.startingTimestamp) ? (
-                        `${getCurrentDay(sadhana.startingTimestamp)}/${
-                          sadhana.targetSessions
-                        }`
-                      ) : (
-                        <p>{`Starts ${formatDistanceToNow(
-                          new Date(sadhana.startingTimestamp).getTime(),
-                          {
-                            addSuffix: true,
-                          }
-                        )}`}</p>
-                      )}
                     </td>
                     <td className='border px-4 py-2 text-black text-center'>
                       {formatTime(sadhana.targetSessionDuration)}
@@ -147,6 +131,24 @@ const DashboardComponent = ({ session }) => {
                         </>
                       )}
                     </td>
+                    <td className='border px-4 py-2 text-black text-center'>{`${
+                      completed[index] ? 1 : 0
+                    }/${sadhana.userLimit}`}</td>
+                    <td className='border px-4 py-2 text-black text-center'>
+                      {evaluateSadhanaTime(sadhana.startingTimestamp) ? (
+                        `${getCurrentDay(sadhana.startingTimestamp)}/${
+                          sadhana.targetSessions
+                        }`
+                      ) : (
+                        <p>{`Starts ${formatDistanceToNow(
+                          new Date(sadhana.startingTimestamp).getTime(),
+                          {
+                            addSuffix: true,
+                          }
+                        )}`}</p>
+                      )}
+                    </td>
+
                     <td
                       className={`hover:text-black border px-4 py-2 text-center  ${
                         completed[index]
@@ -198,25 +200,27 @@ const DashboardComponent = ({ session }) => {
               </strong>
             </>
           )}
-        </>
+        </div>
       ) : (
         <>
           <p>You don&apos;t have any sadhanas associated yet.</p>
         </>
       )}
-
-      <Link
-        className='inline-block bg-gradient-to-r from-green-500 via-brown-500 to-green-500 text-black font-bold text-2xl px-6 py-3  mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-        href='/sadhana/new'
-      >
-        Add new sadhana
-      </Link>
-      <Link
-        className='mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-        href='/'
-      >
-        Back to Landing
-      </Link>
+      <div className='flex flex-col items-center'>
+        {' '}
+        <Link
+          className='border-black border-2 inline-block bg-gradient-to-r from-green-500 via-brown-500 to-green-500 text-black font-bold text-2xl px-6 py-3  mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
+          href='/sadhana/new'
+        >
+          Add new sadhana
+        </Link>
+        <Link
+          className='border-black border-2 mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
+          href='/'
+        >
+          Back to Landing
+        </Link>
+      </div>
     </div>
   );
 

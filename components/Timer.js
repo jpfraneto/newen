@@ -1,10 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
+import { Righteous, Russo_One } from 'next/font/google';
+
 import {
   BsPlayCircle,
   BsPauseCircle,
   BsPatchCheckFill,
   BsFillSkipBackwardCircleFill,
 } from 'react-icons/bs';
+
+const righteous = Righteous({ weight: '400', subsets: ['latin'] });
+const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
 const Timer = ({ sessionTargetDuration, onCompletion, sadhana }) => {
   const audioRef = useRef();
@@ -136,8 +141,12 @@ const Timer = ({ sessionTargetDuration, onCompletion, sadhana }) => {
               width: '80vw',
             }}
           >
-            <h2 className='text-white text-2xl mb-4'>{sadhana.title}</h2>
-            <h1 className='text-white text-6xl'>{formatTime(timeRemaining)}</h1>
+            <h2 className={`${russo.className} text-3xl font-bold text-white`}>
+              .{sadhana.title}.
+            </h2>
+            <h4 className={`${righteous.className} text-5xl font-bold`}>
+              {formatTime(timeRemaining)}
+            </h4>
             <div className='flex justify-center mt-4'>
               {isRunning && !paused && !finished && (
                 <button
@@ -167,14 +176,14 @@ const Timer = ({ sessionTargetDuration, onCompletion, sadhana }) => {
               )}
             </div>
             <textarea
-              className='w-96 h-60 mt-4 p-2 rounded-md'
+              className=' md:w-96 h-60 mt-4 p-2 rounded-md'
               placeholder='Take notes about this session...'
             />
             <div className='flex justify-center items-center mt-4 w-full'>
               {finished ? (
                 <button
                   onClick={submitSessionHandler}
-                  className='bg-red-500  hover:bg-red-600 mx-2 text-black font-semibold py-2 px-4 rounded'
+                  className='bg-red-500 m-2 hover:bg-red-600 mx-2 text-black font-semibold py-2 px-4 rounded'
                 >
                   Submit Session
                 </button>
@@ -183,13 +192,13 @@ const Timer = ({ sessionTargetDuration, onCompletion, sadhana }) => {
                   {' '}
                   <button
                     onClick={handleCloseModal}
-                    className='bg-red-500  hover:bg-red-600 mx-2 text-black font-semibold py-2 px-4 rounded'
+                    className='bg-red-500 m-2 hover:bg-red-600 mx-2 text-black font-semibold py-2 px-4 rounded'
                   >
                     Cancel Session
                   </button>
                   <button
                     onClick={handleForceSessionEnd}
-                    className='bg-green-500 hover:bg-green-600 mx-2 text-black font-semibold py-2 px-4 rounded'
+                    className='bg-green-500 m-2 hover:bg-green-600 mx-2 text-black font-semibold py-2 px-4 rounded'
                   >
                     Force Session End
                   </button>

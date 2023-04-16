@@ -308,17 +308,17 @@ const NewSadhana = () => {
                   : 'Anyone can join.'}
               </label>
             </div>
-            <div className='flex items-center justify-between'>
+            <div className='flex flex-col items-center justify-between'>
               <button
-                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                className='border-black border-2 inline-block bg-gradient-to-r from-green-500 via-brown-500 to-green-500 text-black font-bold text-2xl px-6 py-3  mt-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
                 type='submit'
               >
                 {' '}
                 Create New Sadhana
               </button>
               <button
-                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                type=' button'
+                className='border-black border-2 mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
+                type='button'
                 onClick={() => router.back()}
               >
                 {' '}

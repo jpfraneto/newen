@@ -82,7 +82,7 @@ const session = {
 const GuestDemo = () => {
   return (
     <div className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen'>
-      <div className=' w-8/12 m-auto py-8 overflow-x-hidden text-center'>
+      <div className='px-2 max-w-full  md:w-8/12 m-auto py-8 overflow-x-hidden text-center'>
         <div className='text-black flex flex-col justify-items-center items-center py-4'>
           <h2 className='text-2xl font-bold'>
             Dashboard | @{session.user.username}

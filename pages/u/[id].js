@@ -87,6 +87,12 @@ const UserPage = () => {
         >
           Add Sadhana
         </Link>
+        <Link
+          className='mt-4 inline-block bg-gradient-to-r from-black via-black to-black text-white font-bold text-2xl px-6 py-3 mx-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
+          href={`/sadhana`}
+        >
+          Go Back
+        </Link>
       </div>
     </div>
   );
