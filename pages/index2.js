@@ -5,7 +5,6 @@ import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 import Link from 'next/link';
 import { useSession, signOut, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import OldTimer from '@component/components/OldTimer';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const rajdhani = Rajdhani({ weight: '400', subsets: ['devanagari'] });
@@ -14,23 +13,19 @@ const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 export default function Home() {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [timeRemaining, setTimeRemaining] = useState(100 * 60);
 
   return (
     <>
       <Head>
         <title>sadhana</title>
       </Head>
-      <main className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen overflow-scroll'>
-        <section className='hero pb-10 px-5 text-center text-white overflow-scroll'>
+      <main className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen'>
+        {/* <UserMenu /> */}
+        <section className='hero pt-40 pb-20 px-5 text-center text-white'>
           <h2 className={`${russo.className} text-8xl font-bold`}>.sadhana.</h2>
           <h4 className={`${righteous.className} text-5xl font-bold`}>
             the power of consistency
           </h4>
-          <OldTimer
-            timeRemaining={timeRemaining}
-            setTimeRemaining={setTimeRemaining}
-          />
           <div>
             {' '}
             {session ? (

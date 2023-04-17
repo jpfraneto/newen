@@ -142,12 +142,12 @@ const Timer = ({ sessionTargetDuration, onCompletion, sadhana }) => {
             }}
           >
             <h2 className={`${russo.className} text-3xl font-bold text-white`}>
-              .{sadhana.title}.
+              {sadhana.title}
             </h2>
             <h4 className={`${righteous.className} text-5xl font-bold`}>
               {formatTime(timeRemaining)}
             </h4>
-            <div className='flex justify-center mt-4'>
+            <div className='text-transparent flex justify-center mt-4'>
               {isRunning && !paused && !finished && (
                 <button
                   onClick={pauseTimer}
