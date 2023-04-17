@@ -8,7 +8,7 @@ const UserMenu = () => {
   const { data: session, status } = useSession();
 
   return (
-    <div className=' text-center bottom-0 md:top-4 w-full md:w-fit md:right-4 mx-0 md:mx-3 md:inline-block bg-gradient-to-r from-black via-black to-black text-white font-bold  py-2 px-4 md:rounded md:rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out border-white md:h-fit'>
+    <div className='absolute text-center bottom-0 md:top-4 w-full md:w-fit md:right-4 mx-0 md:mx-3 md:inline-block bg-gradient-to-r from-black via-black to-black text-white font-bold  py-2 px-4 md:rounded md:rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out border-white md:h-fit'>
       {!session ? (
         <button className='hover:text-green-500 text-white' onClick={signIn}>
           Login

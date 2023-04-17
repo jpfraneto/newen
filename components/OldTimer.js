@@ -6,11 +6,17 @@ import {
   BsPatchCheckFill,
   BsFillSkipBackwardCircleFill,
 } from 'react-icons/bs';
+import {
+  clearInterval,
+  clearTimeout,
+  setInterval,
+  setTimeout,
+} from 'worker-timers';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
-const Timer = ({ timeRemaining, setTimeRemaining }) => {
+const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
   const audioRef = useRef();
   const [initialDuration, setInitialDuration] = useState(timeRemaining);
   const [pauseCount, setPauseCount] = useState(0);
@@ -18,9 +24,27 @@ const Timer = ({ timeRemaining, setTimeRemaining }) => {
   const [showSummary, setShowSummary] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [started, setStarted] = useState(false);
-  const [sadhanaName, setSadhanaName] = useState('');
   const [finished, setFinished] = useState(false);
   const [paused, setPaused] = useState(true);
+  const [submitSessionBtn, setSubmitSessionBtn] = useState(false);
+
+  const [chosenSadhanaTitle, setChosenSadhanaTitle] = useState('');
+
+  const [userSadhanas, setUserSadhanas] = useState([]);
+  const [chosenSadhana, setChosenSadhana] = useState({
+    title: '',
+    initialDuration: 60,
+  });
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (session) {
+        const sadhanas = await fetchUserSadhanas(session.user.id);
+        setUserSadhanas(sadhanas);
+      }
+    };
+    fetchUser();
+  }, [session]);
 
   useEffect(() => {
     let interval;
@@ -30,7 +54,7 @@ const Timer = ({ timeRemaining, setTimeRemaining }) => {
         setTimeRemaining(time => time - 1);
       }, 1000);
     } else if (!isRunning && timeRemaining !== 0) {
-      clearInterval(interval);
+      if (interval) clearInterval(interval);
     } else if (timeRemaining === 0 && started) {
       handleFinishedTimer();
       setFinished(true);
@@ -38,12 +62,36 @@ const Timer = ({ timeRemaining, setTimeRemaining }) => {
       setShowSummary(true);
     }
 
-    return () => clearInterval(interval);
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, [isRunning, timeRemaining, setTimeRemaining, started]);
+
+  async function fetchUserSadhanas(userId) {
+    try {
+      const response = await fetch(`/api/userSadhana`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const sadhanas = await response.json();
+
+      sadhanas.sort((a, b) => {
+        if (isSadhanaCompletedToday(a) && !isSadhanaCompletedToday(b)) {
+          return 1;
+        } else if (!isSadhanaCompletedToday(a) && isSadhanaCompletedToday(b)) {
+          return -1;
+        }
+        return 0;
+      });
+      return sadhanas;
+    } catch (error) {
+      console.error('There was a problem fetching the user sadhanas:', error);
+      return [];
+    }
+  }
 
   const handleFinishedTimer = () => {
     audioRef.current.play();
-    alert('SESSION READY!');
   };
 
   const startTimer = () => {
@@ -105,6 +153,68 @@ const Timer = ({ timeRemaining, setTimeRemaining }) => {
     resetTimer();
   };
 
+  function isSadhanaCompletedToday(sadhana) {
+    // const today = new Date();
+    // const todayString = today.toISOString().split('T')[0];
+    // return sadhana.sessionDates.some(dateString => dateString === todayString);
+  }
+
+  const changeChosenSadhana = sadhanaTitle => {
+    const thisOne = userSadhanas.filter(x => x.title == sadhanaTitle);
+    if (thisOne) {
+      setChosenSadhana(thisOne[0]);
+      setTimeRemaining(thisOne[0].targetSessionDuration * 60);
+    }
+  };
+
+  const handleSubmitSessionHandler = async () => {
+    if (!session) {
+      return alert('Please log in to submit your session.');
+    }
+
+    if (!chosenSadhana) {
+      return alert('Please choose a sadhana before submitting the session.');
+    }
+
+    try {
+      const response = await fetch('/api/sadhanaSessions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: session.user.id,
+          sadhanaId: chosenSadhana.id,
+          completedAt: new Date(),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const sadhanaSession = await response.json();
+      console.log('Sadhana session submitted:', sadhanaSession);
+
+      // Update the userSadhanas state to reflect the new session
+      setUserSadhanas(
+        userSadhanas.map(sadhana =>
+          sadhana.id === chosenSadhana.id
+            ? { ...sadhana, sessions: [...sadhana.sessions, sadhanaSession] }
+            : sadhana
+        )
+      );
+
+      alert('Sadhana session submitted successfully!');
+    } catch (error) {
+      console.error(
+        'There was a problem submitting the sadhana session:',
+        error
+      );
+      alert('There was a problem submitting your session. Please try again.');
+    }
+  };
+
   return (
     <div
       className='max-w-xl mt-2 text-center rounded-xl border-black border-2 text-white bg-black p-8'
@@ -121,17 +231,77 @@ const Timer = ({ timeRemaining, setTimeRemaining }) => {
             htmlFor='title'
             className={`${russo.className} blocktext-gray-700 text-sm font-bold mb-4 text-white`}
           >
-            What are you going to work on?
+            What are you going to work on now?
           </label>
-          <input
-            type='text'
-            name='title'
-            id='title'
-            value={sadhanaName}
-            onChange={e => setSadhanaName(e.target.value)}
-            required
-            className={`${russo.className} shadow appearance-none border rounded-xl w-full mt-1 mb-2 py-2 px-3 text-grey-100 bg-black leading-tight focus:outline-none focus:shadow-outline`}
-          />
+          {session ? (
+            <>
+              {userSadhanas.length > 0 ? (
+                <select
+                  name='title'
+                  id='title'
+                  value={chosenSadhanaTitle}
+                  onChange={e => {
+                    changeChosenSadhana(e.target.value);
+                    setInitialDuration(() => {
+                      return (
+                        userSadhanas.filter(x => x.title == e.target.value)[0]
+                          .targetSessionDuration * 60
+                      );
+                    });
+                    return setChosenSadhanaTitle(e.target.value);
+                  }}
+                  required
+                  className={`${russo.className} shadow appearance-none border rounded-xl w-full mt-1 mb-2 py-2 px-3 text-grey-100 bg-black leading-tight focus:outline-none focus:shadow-outline`}
+                >
+                  {userSadhanas.map(sadhana => (
+                    <option
+                      key={sadhana.id}
+                      value={sadhana.title}
+                      style={{
+                        backgroundColor: isSadhanaCompletedToday(sadhana)
+                          ? 'green'
+                          : 'initial',
+                      }}
+                    >
+                      {sadhana.title}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type='text'
+                  name='title'
+                  id='title'
+                  placeholder='painting acrylic'
+                  value={chosenSadhana.title}
+                  onChange={e =>
+                    setChosenSadhana(prev => ({
+                      ...prev,
+                      [title]: e.target.value,
+                    }))
+                  }
+                  required
+                  className={`${russo.className} shadow appearance-none border rounded-xl w-full mt-1 mb-2 py-2 px-3 text-grey-100 bg-black leading-tight focus:outline-none focus:shadow-outline text-grey-200`}
+                />
+              )}
+            </>
+          ) : (
+            <input
+              type='text'
+              name='title'
+              id='title'
+              placeholder='painting acrylic'
+              value={chosenSadhana.title}
+              onChange={e =>
+                setChosenSadhana(prev => ({
+                  ...prev,
+                  ['title']: e.target.value,
+                }))
+              }
+              required
+              className={`${russo.className} shadow appearance-none border rounded-xl w-full mt-1 mb-2 py-2 px-3 text-grey-100 bg-black leading-tight focus:outline-none focus:shadow-outline text-grey-200`}
+            />
+          )}
         </div>
       )}
       {!showSummary && (
@@ -171,7 +341,9 @@ const Timer = ({ timeRemaining, setTimeRemaining }) => {
 
           {!isRunning && !started ? (
             <>
-              <p className='mb-2'>Slide to change the session duration</p>
+              <p className={`mb-2 ${russo.className}`}>
+                Slide to change the session duration
+              </p>
               <input
                 type='range'
                 min='0'
@@ -193,15 +365,16 @@ const Timer = ({ timeRemaining, setTimeRemaining }) => {
         <div>
           <h3 className='text-4xl font-bold mb-4'>
             Congratulations, you just finished a {initialDuration / 60} minute
-            session
+            session working in {chosenSadhana.title}
           </h3>
 
           <button
-            onClick={submitSession}
+            onClick={handleSubmitSessionHandler}
             className='bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded mt-4 mx-2'
           >
-            Submit Session
+            {submitSessionBtn || 'Submit Session'}
           </button>
+
           <button
             onClick={newSession}
             className='bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded mt-4'

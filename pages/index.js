@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useSession, signOut, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import OldTimer from '@component/components/OldTimer';
+import { formatTime } from '@component/lib/functions';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const rajdhani = Rajdhani({ weight: '400', subsets: ['devanagari'] });
@@ -19,7 +20,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>sadhana</title>
+        <title>sadhana · {formatTime(timeRemaining)}</title>
       </Head>
       <main className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen overflow-scroll'>
         <section className='hero pb-10 px-5 text-center text-white overflow-scroll'>
@@ -30,6 +31,7 @@ export default function Home() {
           <OldTimer
             timeRemaining={timeRemaining}
             setTimeRemaining={setTimeRemaining}
+            session={session}
           />
           <div>
             {' '}

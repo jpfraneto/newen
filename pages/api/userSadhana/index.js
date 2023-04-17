@@ -28,6 +28,7 @@ export default async function handler(req, res) {
       participants: true,
     },
   });
+  console.log('in here, the response is: ', sadhanas);
 
   res.status(200).json(sadhanas || []);
 }
