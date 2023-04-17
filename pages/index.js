@@ -20,7 +20,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>sadhana · {formatTime(timeRemaining)}</title>
+        <title>{`sadhana · ${formatTime(timeRemaining)}`}</title>
       </Head>
       <main className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen overflow-scroll'>
         <section className='hero pb-10 px-5 text-center text-white overflow-scroll'>

@@ -172,10 +172,6 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
       return alert('Please log in to submit your session.');
     }
 
-    if (!chosenSadhana) {
-      return alert('Please choose a sadhana before submitting the session.');
-    }
-
     try {
       const response = await fetch('/api/sadhanaSessions', {
         method: 'POST',
@@ -213,6 +209,12 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
       );
       alert('There was a problem submitting your session. Please try again.');
     }
+  };
+
+  const handleNewSessionBtn = () => {
+    setFinished(false);
+    setStarted(false);
+    setShowSummary(false);
   };
 
   return (
@@ -376,7 +378,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
           </button>
 
           <button
-            onClick={newSession}
+            onClick={handleNewSessionBtn}
             className='bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded mt-4'
           >
             New Session

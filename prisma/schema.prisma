@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
@@ -88,9 +89,10 @@ model Sadhana {
 
 model SadhanaSession {
   id               String   @id @default(cuid())
-  sessionIndex     Int
-  startingTimestamp DateTime
-  finishedTimestamp DateTime
+  sessionIndex     Int?
+  startingTimestamp DateTime?
+  finishedTimestamp DateTime?
+  completedAt       DateTime
   author           User     @relation(fields: [authorId], references: [id])
   authorId         String
   sadhana          Sadhana  @relation(fields: [sadhanaId], references: [id])

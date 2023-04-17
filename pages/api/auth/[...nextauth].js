@@ -72,7 +72,6 @@ export const authOptions = {
       return true;
     },
     session({ session, token, user }) {
-      console.log('INSIDE THE SESSION THING', session, 'user', user);
       session.user.id = user.id;
       session.user.oauthProvider = user.oauthProvider;
       if (user.username) {
