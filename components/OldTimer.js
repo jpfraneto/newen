@@ -29,6 +29,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
   const [submitSessionBtn, setSubmitSessionBtn] = useState(false);
 
   const [chosenSadhanaTitle, setChosenSadhanaTitle] = useState('');
+  const [loadingSadhanas, setLoadingSadhanas] = useState(true);
 
   const [userSadhanas, setUserSadhanas] = useState([]);
   const [chosenSadhana, setChosenSadhana] = useState({
@@ -41,6 +42,15 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
       if (session) {
         const sadhanas = await fetchUserSadhanas(session.user.id);
         setUserSadhanas(sadhanas);
+        setChosenSadhana(
+          sadhanas[0] || {
+            title: '',
+            initialDuration: 60,
+          }
+        );
+        setLoadingSadhanas(false);
+      } else {
+        setLoadingSadhanas(false);
       }
     };
     fetchUser();
@@ -168,6 +178,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
   };
 
   const handleSubmitSessionHandler = async () => {
+    setSubmitSessionBtn('Saving session...');
     if (!session) {
       return alert('Please log in to submit your session.');
     }
@@ -190,16 +201,15 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
       }
 
       const sadhanaSession = await response.json();
-      console.log('Sadhana session submitted:', sadhanaSession);
 
       // Update the userSadhanas state to reflect the new session
-      setUserSadhanas(
-        userSadhanas.map(sadhana =>
-          sadhana.id === chosenSadhana.id
-            ? { ...sadhana, sessions: [...sadhana.sessions, sadhanaSession] }
-            : sadhana
-        )
-      );
+      // setUserSadhanas(
+      //   userSadhanas.map(sadhana =>
+      //     sadhana.id === chosenSadhana.id
+      //       ? { ...sadhana, sessions: [...sadhana.sessions, sadhanaSession] }
+      //       : sadhana
+      //   )
+      // );
 
       alert('Sadhana session submitted successfully!');
     } catch (error) {
@@ -235,40 +245,71 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
           >
             What are you going to work on now?
           </label>
-          {session ? (
+          {loadingSadhanas ? (
+            <input
+              type='text'
+              name='title'
+              id='title'
+              placeholder='loading user sadhanas...'
+              disabled
+              className={`${russo.className} shadow appearance-none border rounded-xl w-full mt-1 mb-2 py-2 px-3 text-grey-100 bg-black leading-tight focus:outline-none focus:shadow-outline text-grey-200`}
+            />
+          ) : (
             <>
-              {userSadhanas.length > 0 ? (
-                <select
-                  name='title'
-                  id='title'
-                  value={chosenSadhanaTitle}
-                  onChange={e => {
-                    changeChosenSadhana(e.target.value);
-                    setInitialDuration(() => {
-                      return (
-                        userSadhanas.filter(x => x.title == e.target.value)[0]
-                          .targetSessionDuration * 60
-                      );
-                    });
-                    return setChosenSadhanaTitle(e.target.value);
-                  }}
-                  required
-                  className={`${russo.className} shadow appearance-none border rounded-xl w-full mt-1 mb-2 py-2 px-3 text-grey-100 bg-black leading-tight focus:outline-none focus:shadow-outline`}
-                >
-                  {userSadhanas.map(sadhana => (
-                    <option
-                      key={sadhana.id}
-                      value={sadhana.title}
-                      style={{
-                        backgroundColor: isSadhanaCompletedToday(sadhana)
-                          ? 'green'
-                          : 'initial',
+              {session ? (
+                <>
+                  {userSadhanas.length > 0 ? (
+                    <select
+                      name='title'
+                      id='title'
+                      disabled={started}
+                      value={chosenSadhanaTitle}
+                      onChange={e => {
+                        changeChosenSadhana(e.target.value);
+                        setInitialDuration(() => {
+                          return (
+                            userSadhanas.filter(
+                              x => x.title == e.target.value
+                            )[0].targetSessionDuration * 60
+                          );
+                        });
+                        return setChosenSadhanaTitle(e.target.value);
                       }}
+                      required
+                      className={`${russo.className} shadow appearance-none border rounded-xl w-full mt-1 mb-2 py-2 px-3 text-grey-100 bg-black leading-tight focus:outline-none focus:shadow-outline`}
                     >
-                      {sadhana.title}
-                    </option>
-                  ))}
-                </select>
+                      {userSadhanas.map(sadhana => (
+                        <option
+                          key={sadhana.id}
+                          value={sadhana.title}
+                          style={{
+                            backgroundColor: isSadhanaCompletedToday(sadhana)
+                              ? 'green'
+                              : 'initial',
+                          }}
+                        >
+                          {sadhana.title}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      type='text'
+                      name='title'
+                      id='title'
+                      placeholder='painting acrylic'
+                      value={chosenSadhana.title}
+                      onChange={e =>
+                        setChosenSadhana(prev => ({
+                          ...prev,
+                          ['title']: e.target.value,
+                        }))
+                      }
+                      required
+                      className={`${russo.className} shadow appearance-none border rounded-xl w-full mt-1 mb-2 py-2 px-3 text-grey-100 bg-black leading-tight focus:outline-none focus:shadow-outline text-grey-200`}
+                    />
+                  )}
+                </>
               ) : (
                 <input
                   type='text'
@@ -279,7 +320,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
                   onChange={e =>
                     setChosenSadhana(prev => ({
                       ...prev,
-                      [title]: e.target.value,
+                      ['title']: e.target.value,
                     }))
                   }
                   required
@@ -287,22 +328,6 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
                 />
               )}
             </>
-          ) : (
-            <input
-              type='text'
-              name='title'
-              id='title'
-              placeholder='painting acrylic'
-              value={chosenSadhana.title}
-              onChange={e =>
-                setChosenSadhana(prev => ({
-                  ...prev,
-                  ['title']: e.target.value,
-                }))
-              }
-              required
-              className={`${russo.className} shadow appearance-none border rounded-xl w-full mt-1 mb-2 py-2 px-3 text-grey-100 bg-black leading-tight focus:outline-none focus:shadow-outline text-grey-200`}
-            />
           )}
         </div>
       )}

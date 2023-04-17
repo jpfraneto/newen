@@ -39,7 +39,7 @@ const UserMenu = () => {
                 >
                   @{session.user.username}
                 </Link>
-                <p>0/4 ready today</p>
+                <p>0/X ready today</p>
                 <div className='mt-2'>
                   <Link
                     className='hover:text-blue-400 text-white font-bold text-lg mr-4'

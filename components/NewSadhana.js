@@ -10,12 +10,11 @@ const NewSadhana = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [formData, setFormData] = useState({
-    title: 'Nights and Weekends Season 3',
-    content:
-      'Building the most fun app of the future. The one that will make creativity a game. The most joyful of them all. There are no rights or wrongs, polarity is part of the past. There is just showing up, as yourself, and being sincere with what you bring. The rest is history.',
-    userLimit: '88',
-    targetSessions: '100',
-    targetSessionDuration: '60',
+    title: '',
+    content: '',
+    userLimit: '',
+    targetSessions: '',
+    targetSessionDuration: '',
     periodicity: 'daily',
     startingTimestamp: new Date().getTime(),
     isPrivate: false,
@@ -34,7 +33,6 @@ const NewSadhana = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     setLoading(true);
-    console.log('the form data is: ', formData);
 
     try {
       const response = await axios.post('/api/sadhana', formData);
@@ -128,6 +126,7 @@ const NewSadhana = () => {
                 type='text'
                 name='title'
                 id='title'
+                placeholder='Nights and Weekends Season 3'
                 value={formData.title}
                 onChange={handleChange}
                 required
@@ -144,6 +143,7 @@ const NewSadhana = () => {
               <textarea
                 name='content'
                 id='content'
+                placeholder='Building the most fun app of the future. The one that will make creativity a game. The most joyful of them all. There are no rights or wrongs, polarity is part of the past. There is just showing up, as yourself, and being sincere with what you bring. The rest is history.'
                 value={formData.content}
                 onChange={handleChange}
                 required
@@ -161,6 +161,7 @@ const NewSadhana = () => {
                 type='number'
                 name='userLimit'
                 id='userLimit'
+                placeholder='88'
                 min={1}
                 value={formData.userLimit}
                 onChange={handleChange}
@@ -178,6 +179,7 @@ const NewSadhana = () => {
               <input
                 type='number'
                 name='targetSessions'
+                placeholder='100'
                 min={0}
                 id='targetSessions'
                 value={formData.targetSessions}

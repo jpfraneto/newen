@@ -12,6 +12,10 @@ export default function SadhanaDetail({ sadhana }) {
 
   const [buttonText, setButtonText] = useState('Participate in Sadhana');
   const [participants, setParticipants] = useState(sadhana?.participants || []);
+  const [selectedSession, setSelectedSession] = useState(null);
+  const [dayForDisplay, setDayForDisplay] = useState(null);
+  const [dayLoading, setDayLoading] = useState(false);
+  const [displayDayInfo, setDisplayDayInfo] = useState(false);
 
   useEffect(() => {
     const loggedInUserId = session?.user.id;
@@ -36,6 +40,16 @@ export default function SadhanaDetail({ sadhana }) {
   const isUserParticipating = sadhana.participants?.some(
     participant => participant.id === loggedInUserId
   );
+
+  async function fetchSadhanaDayInfo(sadhanaId, dayNumber) {
+    setDayLoading(true);
+    setDisplayDayInfo(true);
+    const response = await fetch(`/api/sadhana/${sadhanaId}/day/${dayNumber}`);
+
+    const data = await response.json();
+    setDayForDisplay(data.sadhanaDay);
+    setDayLoading(false);
+  }
 
   async function handleParticipate() {
     try {
@@ -124,16 +138,39 @@ export default function SadhanaDetail({ sadhana }) {
               </div>
             ))}
           </div>
+          <div className='flex overflow-x-scroll space-x-1 mb-3'>
+            {Array.from({ length: sadhana.targetSessions }, (_, i) => (
+              <div
+                key={i}
+                className='flex flex-nowrap items-center justify-center px-2 py-1 bg-blue-500 rounded-full text-white font-bold text-xl cursor-pointer'
+                onClick={() => fetchSadhanaDayInfo(sadhana.id, i + 1)}
+              >
+                {i + 1}
+              </div>
+            ))}
+          </div>
+          {displayDayInfo && (
+            <>
+              {dayLoading ? (
+                <div className='mb-10'>
+                  Loading the information of this day...
+                </div>
+              ) : (
+                <div className='mb-10'>
+                  {' '}
+                  {dayForDisplay ? (
+                    <SadhanaDayInfo sadhanaDay={dayForDisplay} />
+                  ) : (
+                    <p>This day doesnt have any info yet.</p>
+                  )}
+                </div>
+              )}
+            </>
+          )}
           {session ? (
             <>
               {isUserParticipating ? (
-                <Link
-                  href='#'
-                  disabled
-                  className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                >
-                  You are already part of this one
-                </Link>
+                <></>
               ) : (
                 <>
                   {buttonText === 'Joined!' ? (
@@ -162,17 +199,17 @@ export default function SadhanaDetail({ sadhana }) {
               If you log in, you can participate in this sadhana.
             </button>
           )}
-          <div className='flex flex-col md:flex-none '>
+          <div className='flex flex-row'>
             {' '}
             <Link
               href='/sadhana'
-              className='m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-fit mx-auto'
+              className='m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-auto'
             >
               Go to sadhanas
             </Link>
             <Link
               href='/'
-              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-fit mx-auto'
+              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-auto'
             >
               Back to landing
             </Link>
@@ -208,4 +245,30 @@ export async function getStaticProps({ params }) {
     },
     revalidate: 60,
   };
+}
+
+function SadhanaDayInfo({ sadhanaDay }) {
+  return (
+    <div className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
+      <h2 className='text-xl font-semibold mb-4'>Day {sadhanaDay.dayIndex}</h2>
+      <p className='italic mb-2'>Participants Ready:</p>
+      <div className='flex items-center mb-4'>
+        {sadhanaDay.sessions.map(session => (
+          <div
+            key={session.authorId}
+            className='text-center hover:cursor-pointer'
+          >
+            <Image
+              src={session.author.image}
+              onClick={() => router.push(`/u/${session.authorId}`)}
+              alt={session.author.username}
+              width={300}
+              height={300}
+              className='w-24 h-24 rounded-full mr-2'
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
