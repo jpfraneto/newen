@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Head from 'next/head';
 import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
@@ -15,7 +15,14 @@ const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 export default function Home() {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [timeRemaining, setTimeRemaining] = useState(100 * 60);
+  const [loading, setLoading] = useState(true);
+  const [timeRemaining, setTimeRemaining] = useState();
+
+  useEffect(() => {
+    setTimeRemaining(router.query.time || 100 * 60);
+  });
+
+  console.log();
 
   return (
     <>
@@ -33,6 +40,7 @@ export default function Home() {
             setTimeRemaining={setTimeRemaining}
             session={session}
           />
+
           <div>
             {' '}
             {session ? (

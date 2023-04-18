@@ -297,7 +297,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
                       type='text'
                       name='title'
                       id='title'
-                      placeholder='painting acrylic'
+                      placeholder='kieran drew challenge'
                       value={chosenSadhana.title}
                       onChange={e =>
                         setChosenSadhana(prev => ({
@@ -315,7 +315,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
                   type='text'
                   name='title'
                   id='title'
-                  placeholder='painting acrylic'
+                  placeholder='kieran drew challenge'
                   value={chosenSadhana.title}
                   onChange={e =>
                     setChosenSadhana(prev => ({
