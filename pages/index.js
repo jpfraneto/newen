@@ -16,18 +16,20 @@ export default function Home() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(true);
-  const [timeRemaining, setTimeRemaining] = useState();
+  const [timeRemaining, setTimeRemaining] = useState(100 * 60);
 
   useEffect(() => {
     setTimeRemaining(router.query.time || 100 * 60);
   }, [router]);
 
-  console.log();
-
   return (
     <>
       <Head>
-        <title>{`sadhana · ${formatTime(timeRemaining)}`}</title>
+        <title>sadhana · ${formatTime(timeRemaining)}</title>
+        <meta
+          name='description'
+          content='Deep Work timer and consistency trainer working alongside creators in challenges. '
+        />
       </Head>
       <main className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen overflow-scroll'>
         <section className='hero pb-10 px-5 text-center text-white overflow-scroll'>

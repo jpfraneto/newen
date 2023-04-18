@@ -1,9 +1,11 @@
 import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
+import Comments from '@component/components/Comments';
 import prisma from '../../lib/prismaClient';
 import Link from 'next/link';
 import Image from 'next/image';
+import { calculateDayIndex } from '@component/lib/functions';
 
 export default function SadhanaDetail({ sadhana }) {
   const router = useRouter();
@@ -16,6 +18,8 @@ export default function SadhanaDetail({ sadhana }) {
   const [dayForDisplay, setDayForDisplay] = useState(null);
   const [dayLoading, setDayLoading] = useState(false);
   const [displayDayInfo, setDisplayDayInfo] = useState(false);
+
+  const dayIndex = calculateDayIndex(sadhana?.startingTimestamp) + 1;
 
   useEffect(() => {
     const loggedInUserId = session?.user.id;
@@ -75,6 +79,16 @@ export default function SadhanaDetail({ sadhana }) {
       setButtonText('There was an error');
     }
   }
+
+  const getDayFormatting = (index, todayIndex) => {
+    if (todayIndex < index) {
+      return 'bg-red-300  hover:cursor-not-allowed';
+    } else if (todayIndex === index) {
+      return 'bg-green-600 border-black border-2 shadow-md';
+    } else {
+      return 'bg-green-300 hover:bg-green-500';
+    }
+  };
 
   if (!sadhana)
     return (
@@ -138,35 +152,53 @@ export default function SadhanaDetail({ sadhana }) {
               </div>
             ))}
           </div>
-          <div className='flex overflow-x-scroll space-x-1 mb-3'>
-            {Array.from({ length: sadhana.targetSessions }, (_, i) => (
-              <div
-                key={i}
-                className='flex flex-nowrap items-center justify-center px-2 py-1 bg-blue-500 rounded-full text-white font-bold text-xl cursor-pointer'
-                onClick={() => fetchSadhanaDayInfo(sadhana.id, i + 1)}
-              >
-                {i + 1}
-              </div>
-            ))}
-          </div>
-          {displayDayInfo && (
+          {dayIndex < 0 ? (
+            <p>This sadhana starts in {dayIndex * -1} days.</p>
+          ) : (
             <>
-              {dayLoading ? (
-                <div className='mb-10'>
-                  Loading the information of this day...
-                </div>
-              ) : (
-                <div className='mb-10'>
-                  {' '}
-                  {dayForDisplay ? (
-                    <SadhanaDayInfo sadhanaDay={dayForDisplay} />
+              <h2 className='mb-3'>
+                Today is day {dayIndex} of this challenge
+              </h2>
+              <div className='flex flex-wrap justify-left overflow-x-scroll mb-3'>
+                {Array.from({ length: sadhana.targetSessions }, (_, i) => (
+                  <div
+                    key={i}
+                    className={`w-10 h-10 m-1 flex items-center justify-center text-black ${getDayFormatting(
+                      i + 1,
+                      dayIndex
+                    )}  rounded-full  font-bold text-xl cursor-pointer`}
+                    onClick={() => {
+                      if (i <= dayIndex) fetchSadhanaDayInfo(sadhana.id, i);
+                    }}
+                  >
+                    {i + 1}
+                  </div>
+                ))}
+              </div>
+              {displayDayInfo && (
+                <>
+                  {dayLoading ? (
+                    <div className='mb-10'>
+                      Loading the information of this day...
+                    </div>
                   ) : (
-                    <p>This day doesnt have any info yet.</p>
+                    <div className='mb-10'>
+                      {' '}
+                      {dayForDisplay ? (
+                        <SadhanaDayInfo
+                          sadhanaDay={dayForDisplay}
+                          currentUser={session.user}
+                        />
+                      ) : (
+                        <p>This day doesnt have any info yet.</p>
+                      )}
+                    </div>
                   )}
-                </div>
+                </>
               )}
             </>
           )}
+
           {session ? (
             <>
               {isUserParticipating ? (
@@ -199,17 +231,17 @@ export default function SadhanaDetail({ sadhana }) {
               If you log in, you can participate in this sadhana.
             </button>
           )}
-          <div className='flex flex-row'>
+          <div className='flex flex-row items-center justify-center'>
             {' '}
             <Link
               href='/sadhana'
-              className='m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-auto'
+              className='m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
             >
               Go to sadhanas
             </Link>
             <Link
               href='/'
-              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-auto'
+              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline '
             >
               Back to landing
             </Link>
@@ -247,9 +279,12 @@ export async function getStaticProps({ params }) {
   };
 }
 
-function SadhanaDayInfo({ sadhanaDay }) {
+function SadhanaDayInfo({ sadhanaDay, currentUser }) {
+  const [sadhanaDayComments, setSadhanaDayComments] = useState(
+    sadhanaDay.comments
+  );
   return (
-    <div className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
+    <div className='bg-gray-200 shadow-xl border-2 border-black rounded px-8 pt-6 pb-8 mb-4'>
       <h2 className='text-xl font-semibold mb-4'>Day {sadhanaDay.dayIndex}</h2>
       <p className='italic mb-2'>Participants Ready:</p>
       <div className='flex items-center mb-4'>
@@ -269,6 +304,14 @@ function SadhanaDayInfo({ sadhanaDay }) {
           </div>
         ))}
       </div>
+      <Comments
+        sadhanaDayId={sadhanaDay.id}
+        sadhanaId={sadhanaDay.sadhanaId}
+        dayNumber={sadhanaDay.dayIndex}
+        sadhanaDayComments={sadhanaDayComments}
+        setSadhanaDayComments={setSadhanaDayComments}
+        currentUser={currentUser}
+      />
     </div>
   );
 }

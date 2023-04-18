@@ -54,7 +54,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
       }
     };
     fetchUser();
-  }, [session]);
+  }, [session, fetchUserSadhanas]);
 
   useEffect(() => {
     let interval;
@@ -75,7 +75,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isRunning, timeRemaining, setTimeRemaining, started]);
+  }, [isRunning, timeRemaining, setTimeRemaining, finished, started]);
 
   async function fetchUserSadhanas(userId) {
     try {
@@ -210,8 +210,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
       //       : sadhana
       //   )
       // );
-
-      alert('Sadhana session submitted successfully!');
+      setSubmitSessionBtn('Session saved!');
     } catch (error) {
       console.error(
         'There was a problem submitting the sadhana session:',

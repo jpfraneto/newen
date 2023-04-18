@@ -6,7 +6,7 @@ const FirstLogin = () => {
   useEffect(() => {
     signOut();
     router.push('/login');
-  }, []);
+  }, [router]);
   return <div>FirstLogin</div>;
 };
 

@@ -1,7 +1,7 @@
 // /api/sadhana.js
 import prisma from '@component/lib/prismaClient';
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../auth/[...nextauth]';
+import { authOptions } from '@component/pages/api/auth/[...nextauth].js';
 
 const handler = async (req, res) => {
   let user;

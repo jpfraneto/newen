@@ -1,4 +1,4 @@
-import prisma from '../../../../../lib/prismaClient';
+import prisma from '../../../../../../lib/prismaClient';
 
 export default async function handler(req, res) {
   const sadhanaId = parseInt(req.query.sadhanaId);
@@ -13,6 +13,11 @@ export default async function handler(req, res) {
         },
         include: {
           sessions: {
+            include: {
+              author: true,
+            },
+          },
+          comments: {
             include: {
               author: true,
             },

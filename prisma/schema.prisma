@@ -24,6 +24,7 @@ model User {
   providerAccountId String? @unique
   accounts       Account[]
   sessions       Session[]
+  comments       Comment[]
   sadhanas       Sadhana[]         // Created sadhanas by the user
   participatedSadhanas Sadhana[]   @relation("SadhanaParticipants") // Sadhanas the user is participating in
   socials        Social[]
@@ -95,8 +96,20 @@ model SadhanaDay {
   sadhana     Sadhana          @relation(fields: [sadhanaId], references: [id])
   sadhanaId   Int
   sessions    SadhanaSession[]
+  comments    Comment[]
 
   @@unique([sadhanaId, dayIndex])
+}
+
+model Comment {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  content     String
+  authorId      String
+  author        User     @relation(fields: [authorId], references: [id])
+  sadhanaDayId String
+  sadhanaDay  SadhanaDay @relation(fields: [sadhanaDayId], references: [id])
 }
 
 model SadhanaSession {
