@@ -20,7 +20,7 @@ export default function Home() {
 
   useEffect(() => {
     setTimeRemaining(router.query.time || 100 * 60);
-  });
+  }, [router]);
 
   console.log();
 
