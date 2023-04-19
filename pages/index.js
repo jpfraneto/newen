@@ -33,11 +33,13 @@ export default function Home() {
       </Head>
       <main className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen overflow-scroll'>
         <section className='hero pb-10 px-5 text-center text-white overflow-scroll'>
-          <h2 className={`${russo.className} text-8xl font-bold`}>
+          <h2 className={`${russo.className} text-xl md:text-8xl font-bold`}>
             <span className='text-gray-400'>www</span>.sadhana.
             <span className='text-gray-400'>lat</span>
           </h2>
-          <h4 className={`${righteous.className} text-5xl font-bold`}>
+          <h4
+            className={`${righteous.className} text-2xl md:text-5xl w-full font-bold`}
+          >
             the power of consistency
           </h4>
           <OldTimer

@@ -67,3 +67,13 @@ h4 {
   font-size: 3rem;
   margin: 0;
 }
+
+@media only screen and (max-width: 600px) {
+  .hero h2 {
+    font-size: 2rem;
+    margin-bottom: 0;
+  }
+  .mainContainer h4 {
+    font-size: 2rem;
+  }
+}
