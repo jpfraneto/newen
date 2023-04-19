@@ -206,7 +206,7 @@ const NewSadhana = () => {
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
               />
             </div>
-            <div className='mb-4'>
+            {/* <div className='mb-4'>
               <label
                 htmlFor='periodicity'
                 className='block text-gray-700 text-sm font-bold mb-2'
@@ -225,7 +225,7 @@ const NewSadhana = () => {
               <span className='text-sm text-gray-600'>
                 In the future, you will be able to customize this as well.
               </span>
-            </div>
+            </div> */}
 
             <div className='mb-4'>
               <label

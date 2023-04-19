@@ -6,6 +6,12 @@ import SadhanaUpdate from '@component/components/SadhanaUpdate';
 import prisma from '../../../lib/prismaClient';
 import Link from 'next/link';
 import Image from 'next/image';
+import {
+  FaUsers,
+  FaCalendarDay,
+  FaClock,
+  FaUserAstronaut,
+} from 'react-icons/fa';
 import { calculateDayIndex } from '@component/lib/functions';
 import SadhanaDayTimer from '@component/components/SadhanaDayTimer';
 
@@ -120,35 +126,37 @@ export default function SadhanaDetail({ sadhana }) {
       <div className='container text-center'>
         {' '}
         <div className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
-          <h2 className='text-xl font-semibold mb-4'>{sadhana.title}</h2>
+          <h2 className='text-xl font-semibold '>{sadhana.title}</h2>
+          <div className='flex gap-x-3 justify-center'>
+            {' '}
+            <p className='flex gap-x-1 items-center'>
+              <FaUserAstronaut />
+              <Link
+                className='text-blue-500 hover:underline'
+                href={`/u/${sadhana.author.id}`}
+              >
+                @{sadhana.author.username}
+              </Link>
+            </p>
+            <p className='flex gap-x-1 items-center'>
+              <FaClock />
+              {Math.floor(sadhana.targetSessionDuration)} minutes
+            </p>
+            <p className='flex gap-x-1 items-center'>
+              <FaCalendarDay />
+              {new Date(sadhana.startingTimestamp).toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </p>
+            <p className='flex gap-x-1 items-center'>
+              <FaUsers /> {participants?.length}/{sadhana.userLimit}
+            </p>
+          </div>
           <p className='italic mb-2'>{sadhana.content}</p>
-          <p>
-            Author:{' '}
-            <Link
-              className='text-blue-500 hover:underline'
-              href={`/u/${sadhana.author.id}`}
-            >
-              @{sadhana.author.username}
-            </Link>
-          </p>
-          <p>Target Sessions: {sadhana.targetSessions}</p>
-          <p>
-            Target Session Duration:{' '}
-            {Math.floor(sadhana.targetSessionDuration / 60)} minutes
-          </p>
-          <p>Periodicity: {sadhana.periodicity}</p>
-          <p>
-            Starting Timestamp:{' '}
-            {new Date(sadhana.startingTimestamp).toLocaleDateString('en-US', {
-              weekday: 'long',
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}
-          </p>
-          <p>
-            Users: {participants?.length}/{sadhana.userLimit}
-          </p>
+
           <h2 className='text-xl font-semibold mb-2 text-left'>Users:</h2>
           <div className='flex items-center mb-4'>
             {participants?.map(participant => (
