@@ -87,7 +87,21 @@ model Sadhana {
   started             Boolean  @default(false)
   sadhanaSessions     SadhanaSession[]
   sadhanaDays         SadhanaDay[]
-  isPrivate             Boolean
+  isPrivate           Boolean
+  activeDay           Int?
+  updates SadhanaUpdate[]
+}
+
+model SadhanaUpdate {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  content     String
+  sadhana   Sadhana   @relation(fields: [sadhanaId], references: [id])
+  sadhanaId Int
+  dayIndex    Int
+
+  @@unique([sadhanaId, dayIndex])
 }
 
 model SadhanaDay {

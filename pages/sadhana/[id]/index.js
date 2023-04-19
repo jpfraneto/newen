@@ -2,10 +2,12 @@ import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import Comments from '@component/components/Comments';
-import prisma from '../../lib/prismaClient';
+import SadhanaUpdate from '@component/components/SadhanaUpdate';
+import prisma from '../../../lib/prismaClient';
 import Link from 'next/link';
 import Image from 'next/image';
 import { calculateDayIndex } from '@component/lib/functions';
+import SadhanaDayTimer from '@component/components/SadhanaDayTimer';
 
 export default function SadhanaDetail({ sadhana }) {
   const router = useRouter();
@@ -18,6 +20,7 @@ export default function SadhanaDetail({ sadhana }) {
   const [dayForDisplay, setDayForDisplay] = useState(null);
   const [dayLoading, setDayLoading] = useState(false);
   const [displayDayInfo, setDisplayDayInfo] = useState(false);
+  const [updates, setUpdates] = useState([]);
 
   const dayIndex = calculateDayIndex(sadhana?.startingTimestamp) + 1;
 
@@ -31,6 +34,18 @@ export default function SadhanaDetail({ sadhana }) {
       setButtonText('Joined!');
     }
   }, [session, participants]);
+
+  useEffect(() => {
+    const fetchUpdates = async () => {
+      const response = await fetch(`/api/sadhana/${id}/updates`);
+      const data = await response.json();
+      setUpdates(data);
+    };
+
+    if (id) {
+      fetchUpdates();
+    }
+  }, [id]);
 
   if (router.isFallback) {
     return <div>Loading...</div>;
@@ -134,6 +149,7 @@ export default function SadhanaDetail({ sadhana }) {
           <p>
             Users: {participants?.length}/{sadhana.userLimit}
           </p>
+          <h2 className='text-xl font-semibold mb-2 text-left'>Users:</h2>
           <div className='flex items-center mb-4'>
             {participants?.map(participant => (
               <div
@@ -144,9 +160,9 @@ export default function SadhanaDetail({ sadhana }) {
                   src={participant.image}
                   onClick={() => router.push(`/u/${participant.id}`)}
                   alt={participant.name}
-                  width={300}
-                  height={300}
-                  className='w-24 h-24 rounded-full mr-2'
+                  width={200}
+                  height={200}
+                  className='w-16 h-16 rounded-full mr-2'
                   title={participant.name}
                 />
               </div>
@@ -155,7 +171,7 @@ export default function SadhanaDetail({ sadhana }) {
           {dayIndex < 0 ? (
             <p>This sadhana starts in {dayIndex * -1} days.</p>
           ) : (
-            <>
+            <div className='bg-gray-200 mb-2 p-4 rounded-xl text-white '>
               <h2 className='mb-3'>
                 Today is day {dayIndex} of this challenge
               </h2>
@@ -163,10 +179,10 @@ export default function SadhanaDetail({ sadhana }) {
                 {Array.from({ length: sadhana.targetSessions }, (_, i) => (
                   <div
                     key={i}
-                    className={`w-10 h-10 m-1 flex items-center justify-center text-black ${getDayFormatting(
+                    className={`w-8 h-8 m-1 flex items-center justify-center text-black ${getDayFormatting(
                       i + 1,
                       dayIndex
-                    )}  rounded-full  font-bold text-xl cursor-pointer`}
+                    )}  rounded-full font-bold text cursor-pointer`}
                     onClick={() => {
                       if (i <= dayIndex) fetchSadhanaDayInfo(sadhana.id, i);
                     }}
@@ -183,7 +199,11 @@ export default function SadhanaDetail({ sadhana }) {
                     </div>
                   ) : (
                     <div className='mb-10'>
-                      {' '}
+                      {/* <SadhanaUpdate
+                        update={updates.find(
+                          update => update.dayIndex === sadhana.activeDay
+                        )}
+                      /> */}
                       {dayForDisplay ? (
                         <SadhanaDayInfo
                           sadhanaDay={dayForDisplay}
@@ -196,13 +216,13 @@ export default function SadhanaDetail({ sadhana }) {
                   )}
                 </>
               )}
-            </>
+            </div>
           )}
 
           {session ? (
             <>
               {isUserParticipating ? (
-                <></>
+                <SadhanaDayTimer sadhana={sadhana} />
               ) : (
                 <>
                   {buttonText === 'Joined!' ? (
@@ -268,6 +288,7 @@ export async function getStaticProps({ params }) {
     include: {
       author: true,
       participants: true,
+      updates: true,
     },
   });
 

@@ -16,7 +16,7 @@ import {
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
-const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
+const SadhanaDashboardTimer = ({ sadhana, session, isSessionSubmitted }) => {
   const audioRef = useRef();
   const [initialDuration, setInitialDuration] = useState(timeRemaining);
   const [pauseCount, setPauseCount] = useState(0);
@@ -29,57 +29,13 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
   const [submitSessionBtn, setSubmitSessionBtn] = useState(false);
 
   const [chosenSadhanaTitle, setChosenSadhanaTitle] = useState('');
-  const [loadingSadhanas, setLoadingSadhanas] = useState(true);
-
-  const [userSadhanas, setUserSadhanas] = useState([]);
-  const [chosenSadhana, setChosenSadhana] = useState({
-    title: '',
-    initialDuration: 60,
-  });
 
   useEffect(() => {
-    async function fetchUserSadhanas(userId) {
-      try {
-        const response = await fetch(`/api/userSadhana`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const sadhanas = await response.json();
-
-        sadhanas.sort((a, b) => {
-          if (isSadhanaCompletedToday(a) && !isSadhanaCompletedToday(b)) {
-            return 1;
-          } else if (
-            !isSadhanaCompletedToday(a) &&
-            isSadhanaCompletedToday(b)
-          ) {
-            return -1;
-          }
-          return 0;
-        });
-        return sadhanas;
-      } catch (error) {
-        console.error('There was a problem fetching the user sadhanas:', error);
-        return [];
-      }
+    if (sadhana) {
+      setChosenSadhanaTitle(sadhana.title);
+      setInitialDuration(sadhana.targetSessionDuration * 60);
     }
-    const fetchUser = async () => {
-      if (session) {
-        const sadhanas = await fetchUserSadhanas(session.user.id);
-        setUserSadhanas(sadhanas);
-        setChosenSadhana(
-          sadhanas[0] || {
-            title: '',
-            initialDuration: 60,
-          }
-        );
-        setLoadingSadhanas(false);
-      } else {
-        setLoadingSadhanas(false);
-      }
-    };
-    fetchUser();
-  }, [session]);
+  }, [sadhana]);
 
   useEffect(() => {
     let interval;
@@ -420,4 +376,4 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
   );
 };
 
-export default Timer;
+export default SadhanaDashboardTimer;

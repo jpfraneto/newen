@@ -1,9 +1,8 @@
-import prisma from '../../../../../../lib/prismaClient';
+import prisma from '@component/lib/prismaClient';
 
 export default async function handler(req, res) {
   const sadhanaId = parseInt(req.query.sadhanaId);
   const dayNumber = parseInt(req.query.dayNumber);
-
   if (req.method === 'GET') {
     try {
       const sadhanaDay = await prisma.sadhanaDay.findFirst({
