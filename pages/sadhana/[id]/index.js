@@ -273,12 +273,11 @@ export default function SadhanaDetail({ sadhana }) {
                         <div>
                           {isUserParticipating ? (
                             <p>
-                              Sadhana Timer{' '}
-                              {/* <SadhanaDayTimer
-                              session={session}
-                              timeRemaining={timeRemaining}
-                              setTimeRemaining={setTimeRemaining}
-                            /> */}
+                              <SadhanaDayTimer
+                                session={session}
+                                timeRemaining={timeRemaining}
+                                setTimeRemaining={setTimeRemaining}
+                              />
                             </p>
                           ) : (
                             <></>
