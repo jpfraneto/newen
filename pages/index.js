@@ -48,30 +48,30 @@ export default function Home() {
             session={session}
           />
 
-          <div>
-            {' '}
-            {session ? (
+          {/* <div>
+              {' '}
+              {session ? (
+                <Link
+                  className='mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
+                  href='/dashboard'
+                >
+                  Dashboard
+                </Link>
+              ) : (
+                <Link
+                  className='mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
+                  href='/guest-demo'
+                >
+                  Guest
+                </Link>
+              )}
               <Link
-                className='mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-                href='/dashboard'
+                className='inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
+                href='/sadhana'
               >
-                Dashboard
+                Explore Sadhanas
               </Link>
-            ) : (
-              <Link
-                className='mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-                href='/guest-demo'
-              >
-                Guest
-              </Link>
-            )}
-            <Link
-              className='inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-              href='/sadhana'
-            >
-              Explore Sadhanas
-            </Link>
-          </div>
+            </div> */}
         </section>
       </main>
     </>

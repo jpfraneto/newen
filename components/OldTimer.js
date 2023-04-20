@@ -27,6 +27,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
   const [finished, setFinished] = useState(false);
   const [paused, setPaused] = useState(true);
   const [submitSessionBtn, setSubmitSessionBtn] = useState(false);
+  const [music, setMusic] = useState('');
 
   const [chosenSadhanaTitle, setChosenSadhanaTitle] = useState('');
   const [loadingSadhanas, setLoadingSadhanas] = useState(true);
@@ -332,6 +333,42 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
           )}
         </div>
       )}
+      <div className=''>
+        {music && isRunning ? (
+          <p
+            className={`${russo.className} blocktext-gray-700 text-sm font-bold mb-4 text-white`}
+          >
+            <a
+              className='text-blue-300 hover:text-yellow-400'
+              href='https://open.spotify.com/playlist/7J8WrKKXY86wKqHaFhPYGg'
+              target='_blank'
+            >
+              Open playlist in spotify.
+            </a>{' '}
+            Powered by{' '}
+            <a
+              className='text-blue-300 hover:text-yellow-400'
+              href='https://www.feelsapp.io'
+              target='_blank'
+            >
+              feelsapp.io
+            </a>{' '}
+          </p>
+        ) : (
+          <label
+            className={`${russo.className} blocktext-gray-700 text-sm font-bold mb-4 text-white`}
+          >
+            <input
+              type='checkbox'
+              name='music'
+              className='accent-pink-500 mx-2 p-2'
+              onChange={() => setMusic(() => !music)}
+            />
+            Do you want to get a customized playlist for this session, generated
+            with your mission for today?
+          </label>
+        )}
+      </div>
       {!showSummary && (
         <>
           <h4 className={`${righteous.className} text-6xl font-bold mb-2`}>
@@ -389,6 +426,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
           )}
         </>
       )}
+
       {started && showSummary && (
         <div>
           <h3 className='text-4xl font-bold mb-4'>
