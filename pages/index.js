@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>sadhana · {timeRemaining && formatTime(timeRemaining)}</title>
+        <title>sadhana</title>
         <meta
           name='description'
           content='Deep Work timer and consistency trainer working alongside creators in challenges. '

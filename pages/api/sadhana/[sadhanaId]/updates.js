@@ -4,7 +4,7 @@ import prisma from '@component/lib/prismaClient';
 import { authOptions } from '@component/pages/api/auth/[...nextauth]';
 
 export default async function handler(req, res) {
-  const { id } = req.query;
+  const id = req.query.sadhanaId;
   if (req.method === 'GET') {
     try {
       // Get the user session
@@ -14,7 +14,6 @@ export default async function handler(req, res) {
         res.status(401).json({ message: 'Not authenticated' });
         return;
       }
-
       // Fetch all the sadhana updates for the specified sadhana ID
       const sadhanaUpdates = await prisma.sadhanaUpdate.findMany({
         where: {

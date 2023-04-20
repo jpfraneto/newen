@@ -91,9 +91,9 @@ function Comments({
     <div className='w-full bg-gray-300 p-4 rounded-xl'>
       <h4
         onClick={() => console.log(sadhanaDayComments)}
-        className={`${righteous.className} text-left mb-2 text-4xl text-black font-bold`}
+        className={`${righteous.className} text-left mb-2 text-4xl  font-bold`}
       >
-        comments
+        Comments
       </h4>
       {sadhanaDayComments ? (
         <div className='space-y-4'>
@@ -138,7 +138,7 @@ function Comments({
           placeholder='Add a comment to this day'
           value={newComment}
           onChange={e => setNewComment(e.target.value)}
-          className='w-full h-24 p-2 resize-none mb-2 rounded shadow'
+          className='w-full h-24 p-2 resize-none mb-2 rounded shadow text-black'
         />
         <button
           onClick={handleSubmit}

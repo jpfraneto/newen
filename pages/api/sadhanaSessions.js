@@ -71,7 +71,6 @@ async function createSadhanaSession(
   feeling
 ) {
   // Fetch the sadhana
-  console.log('the sadhana id is: ', sadhanaId);
   const sadhana = await prisma.sadhana.findUnique({ where: { id: sadhanaId } });
 
   if (!sadhana) {
@@ -79,8 +78,7 @@ async function createSadhanaSession(
   }
 
   // Calculate the current day index of the Sadhana
-  const dayIndex = calculateDayIndex(sadhana.startingTimestamp);
-
+  const dayIndex = calculateDayIndex(sadhana.startingTimestamp) + 1;
   // Find or create the SadhanaDay with the calculated day index
   const sadhanaDay = await prisma.sadhanaDay.findFirst({
     where: {

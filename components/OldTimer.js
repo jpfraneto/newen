@@ -12,6 +12,7 @@ import {
   setInterval,
   setTimeout,
 } from 'worker-timers';
+import { signIn } from 'next-auth/react';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
@@ -26,8 +27,10 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
   const [started, setStarted] = useState(false);
   const [finished, setFinished] = useState(false);
   const [paused, setPaused] = useState(true);
-  const [submitSessionBtn, setSubmitSessionBtn] = useState(false);
+  const [submitSessionBtn, setSubmitSessionBtn] = useState('');
   const [music, setMusic] = useState('');
+  const [noSessionMessage, setNoSessionMessage] = useState('');
+  const [sessionSubmitted, setSessionSubmitted] = useState(false);
 
   const [chosenSadhanaTitle, setChosenSadhanaTitle] = useState('');
   const [loadingSadhanas, setLoadingSadhanas] = useState(true);
@@ -105,10 +108,15 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
 
   const handleFinishedTimer = () => {
     audioRef.current.play();
+    setSubmitSessionBtn('Submit Session');
   };
 
   const startTimer = () => {
     if (timeRemaining === 0) return alert('Please work more than 0 minutes.');
+    if (chosenSadhana.title === '') {
+      return alert('What are you going to work on?');
+    }
+
     setStarted(true);
     setPaused(false);
     setIsRunning(true);
@@ -181,10 +189,13 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
   };
 
   const handleSubmitSessionHandler = async () => {
-    setSubmitSessionBtn('Saving session...');
     if (!session) {
-      return alert('Please log in to submit your session.');
+      return setNoSessionMessage(
+        'If you create an account, you will be able to save this session and stay accountable to your goals.'
+      );
     }
+
+    setSubmitSessionBtn('Saving session...');
 
     try {
       const response = await fetch('/api/sadhanaSessions', {
@@ -205,14 +216,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
 
       const sadhanaSession = await response.json();
 
-      // Update the userSadhanas state to reflect the new session
-      // setUserSadhanas(
-      //   userSadhanas.map(sadhana =>
-      //     sadhana.id === chosenSadhana.id
-      //       ? { ...sadhana, sessions: [...sadhana.sessions, sadhanaSession] }
-      //       : sadhana
-      //   )
-      // );
+      setSessionSubmitted(true);
       setSubmitSessionBtn('Session saved!');
     } catch (error) {
       console.error(
@@ -224,6 +228,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
   };
 
   const handleNewSessionBtn = () => {
+    setTimeRemaining(initialDuration);
     setFinished(false);
     setStarted(false);
     setShowSummary(false);
@@ -300,6 +305,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
                       name='title'
                       id='title'
                       placeholder='N&W Season 3 Deep Work Session'
+                      disabled={started}
                       value={chosenSadhana.title}
                       onChange={e =>
                         setChosenSadhana(prev => ({
@@ -318,6 +324,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
                   name='title'
                   id='title'
                   placeholder='N&W Season 3 Deep Work Session'
+                  disabled={started}
                   value={chosenSadhana.title}
                   onChange={e =>
                     setChosenSadhana(prev => ({
@@ -334,7 +341,21 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
         </div>
       )}
       <div className=''>
-        {music && isRunning ? (
+        {!started && (
+          <label
+            className={`${russo.className} blocktext-gray-700 text-sm font-bold mb-4 text-white`}
+          >
+            <input
+              type='checkbox'
+              name='music'
+              className='accent-pink-500 mx-2 p-2'
+              onChange={() => setMusic(() => !music)}
+            />
+            Do you want to get a customized playlist for this session, generated
+            with your mission for today?
+          </label>
+        )}
+        {music && started && !finished && (
           <p
             className={`${russo.className} blocktext-gray-700 text-sm font-bold mb-4 text-white`}
           >
@@ -354,19 +375,6 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
               feelsapp.io
             </a>{' '}
           </p>
-        ) : (
-          <label
-            className={`${russo.className} blocktext-gray-700 text-sm font-bold mb-4 text-white`}
-          >
-            <input
-              type='checkbox'
-              name='music'
-              className='accent-pink-500 mx-2 p-2'
-              onChange={() => setMusic(() => !music)}
-            />
-            Do you want to get a customized playlist for this session, generated
-            with your mission for today?
-          </label>
         )}
       </div>
       {!showSummary && (
@@ -375,7 +383,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
             {formatTime(timeRemaining)}
           </h4>
 
-          <div className='text-transparent flex justify-center items-center mb-2'>
+          <div className='text-transparent flex justify-center items-center'>
             {isRunning && !paused && !finished && (
               <button
                 onClick={pauseTimer}
@@ -419,10 +427,16 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
               />
             </>
           ) : (
-            <p>
-              After you finish the session, you will be able to submit it to
-              your profile so that you can keep track of your progress.{' '}
-            </p>
+            <>
+              {!session && (
+                <p
+                  className={`${russo.className} blocktext-gray-700 text-sm font-bold  text-white`}
+                >
+                  After you finish the session, you will be able to submit it to
+                  your profile so that you can keep track of your progress.{' '}
+                </p>
+              )}{' '}
+            </>
           )}
         </>
       )}
@@ -431,22 +445,56 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
         <div>
           <h3 className='text-4xl font-bold mb-4'>
             Congratulations, you just finished a {initialDuration / 60} minute
-            session working in {chosenSadhana.title}
+            session.
           </h3>
 
-          <button
-            onClick={handleSubmitSessionHandler}
-            className='bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded mt-4 mx-2'
-          >
-            {submitSessionBtn || 'Submit Session'}
-          </button>
+          {noSessionMessage ? (
+            <>
+              {' '}
+              <button
+                onClick={signIn}
+                className='bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded mt-4 mx-2'
+              >
+                {noSessionMessage ? 'Create Account - Log In' : 'Submit'}
+              </button>
+              <button
+                onClick={handleNewSessionBtn}
+                className='bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded mt-4'
+              >
+                New Session
+              </button>
+              <p
+                className={`${russo.className} mt-2 blocktext-gray-700 text-sm font-bold  text-white`}
+              >
+                {noSessionMessage}
+              </p>
+            </>
+          ) : (
+            <>
+              {sessionSubmitted ? (
+                <button
+                  disabled={true}
+                  className='bg-green-500 hover:cursor-not-allowed text-white font-semibold py-2 px-4 rounded mt-4 mx-2'
+                >
+                  {submitSessionBtn}
+                </button>
+              ) : (
+                <button
+                  onClick={handleSubmitSessionHandler}
+                  className='bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded mt-4 mx-2'
+                >
+                  {submitSessionBtn}
+                </button>
+              )}
 
-          <button
-            onClick={handleNewSessionBtn}
-            className='bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded mt-4'
-          >
-            New Session
-          </button>
+              <button
+                onClick={handleNewSessionBtn}
+                className='bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded mt-4'
+              >
+                New Session
+              </button>
+            </>
+          )}
         </div>
       )}
       <br />
