@@ -299,7 +299,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
                       type='text'
                       name='title'
                       id='title'
-                      placeholder='kieran drew challenge'
+                      placeholder='N&W Season 3 Deep Work Session'
                       value={chosenSadhana.title}
                       onChange={e =>
                         setChosenSadhana(prev => ({
@@ -317,7 +317,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
                   type='text'
                   name='title'
                   id='title'
-                  placeholder='kieran drew challenge'
+                  placeholder='N&W Season 3 Deep Work Session'
                   value={chosenSadhana.title}
                   onChange={e =>
                     setChosenSadhana(prev => ({
