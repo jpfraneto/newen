@@ -29,7 +29,7 @@ export default function SadhanaDetail({ sadhana }) {
   const [dayForDisplay, setDayForDisplay] = useState(null);
   const [dayLoading, setDayLoading] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(
-    sadhana.targetSessionDuration
+    sadhana?.targetSessionDuration || 0
   );
   const [displayDayInfo, setDisplayDayInfo] = useState(false);
   const [chosenDayIndex, setChosenDayIndex] = useState(
