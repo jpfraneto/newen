@@ -21,7 +21,7 @@ const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
 export default function SadhanaDetail({ sadhana }) {
   const router = useRouter();
-  const id = sadhana.id || null;
+  const id = sadhana?.id || null;
   const { data: session, status } = useSession();
   const [buttonText, setButtonText] = useState('Participate');
   const [participants, setParticipants] = useState(sadhana?.participants || []);
