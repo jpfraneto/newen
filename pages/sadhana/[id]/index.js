@@ -2,9 +2,9 @@ import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { Righteous, Russo_One } from 'next/font/google';
-import Comments from '@component/components/Comments';
 import SadhanaUpdate from '@component/components/SadhanaUpdate';
 import SadhanaDayTimer from '@component/components/SadhanaDayTimer';
+import SadhanaDayInfo from '@component/components/SadhanaDayInfo';
 import prisma from '../../../lib/prismaClient';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -23,7 +23,6 @@ export default function SadhanaDetail({ sadhana }) {
   const router = useRouter();
   const id = sadhana.id || null;
   const { data: session, status } = useSession();
-
   const [buttonText, setButtonText] = useState('Participate');
   const [participants, setParticipants] = useState(sadhana?.participants || []);
   const [selectedSession, setSelectedSession] = useState(null);
@@ -37,11 +36,10 @@ export default function SadhanaDetail({ sadhana }) {
     calculateDayIndex(sadhana?.startingTimestamp) + 1
   );
   const [updates, setUpdates] = useState([]);
-
   const dayIndex = calculateDayIndex(sadhana?.startingTimestamp) + 1;
 
   useEffect(() => {
-    const loggedInUserId = session?.user.id;
+    const loggedInUserId = session?.user?.id;
     const isUserParticipating = participants.some(
       participant => participant.id === loggedInUserId
     );
@@ -53,7 +51,6 @@ export default function SadhanaDetail({ sadhana }) {
 
   useEffect(() => {
     const fetchUpdates = async () => {
-      console.log('the id is', id);
       const response = await fetch(`/api/sadhana/${id}/updates`);
       const data = await response.json();
       setUpdates(data);
@@ -64,22 +61,25 @@ export default function SadhanaDetail({ sadhana }) {
     }
   }, [id, router]);
 
-  const loggedInUserId = session?.user.id;
+  const loggedInUserId = session?.user?.id || null;
   const isUserParticipating = sadhana?.participants?.some(
     participant => participant.id === loggedInUserId
   );
 
   const checkIfUserDidTheWork = () => {
-    if (!session) return;
-    const thisDay = sadhana.sadhanaDays.filter(x => x.dayIndex === dayIndex)[0];
-    const aloja = thisDay.sessions.filter(
-      x => x.authorId === session?.user.id
-    )[0];
+    if (!session?.user) return false;
+    const thisDay = sadhana?.sadhanaDays?.filter(
+      x => x.dayIndex === dayIndex
+    )?.[0];
+    if (!thisDay) return false;
+    const aloja = thisDay.sessions?.filter(
+      x => x.authorId === session.user.id
+    )?.[0];
     if (aloja) {
       console.log('This means that the user did the work today');
       return true;
     } else {
-      console.log('THis means that the user ahs not done the work.');
+      console.log('This means that the user has not done the work.');
       return false;
     }
   };
@@ -155,65 +155,13 @@ export default function SadhanaDetail({ sadhana }) {
         <div
           className={`${russo.className} bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 blocktext-gray-700 text-sm font-bold mb-4 text-black`}
         >
-          <h4
-            className={`${righteous.className} text-4xl font-bold mb-2 text-black`}
-          >
-            {sadhana.title} - Today is day {dayIndex} of this challenge
-          </h4>
-          <div className='flex gap-x-3 justify-center'>
-            {' '}
-            <p className='flex gap-x-1 items-center'>
-              <FaUserAstronaut size={20} />
-              <Link
-                className='text-blue-500 hover:underline'
-                href={`/u/${sadhana.author.id}`}
-              >
-                @{sadhana.author.username}
-              </Link>
-            </p>
-            <p className='flex gap-x-1 items-center'>
-              <FaClock size={20} />
-              {Math.floor(sadhana.targetSessionDuration)} minutes
-            </p>
-            <p className='flex gap-x-1 items-center'>
-              <FaCalendarDay size={20} />
-              {new Date(sadhana.startingTimestamp).toLocaleDateString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </p>
-            <p className='flex gap-x-1 items-center'>
-              <FaUsers size={20} /> {participants?.length}/{sadhana.userLimit}
-            </p>
-          </div>
-          <p className='italic my-2'>{sadhana.content}</p>
+          <HeaderComponent
+            sadhana={sadhana}
+            participants={participants}
+            dayIndex={dayIndex}
+          />
+          <Participants participants={participants} />
 
-          <h4
-            className={`${righteous.className} text-left text-4xl font-bold mb-2 text-black`}
-          >
-            Users
-          </h4>
-
-          <div className='flex items-center mb-4'>
-            {participants?.map(participant => (
-              <div
-                key={participant.id}
-                className='text-center hover:cursor-pointer'
-              >
-                <Image
-                  src={participant.image}
-                  onClick={() => router.push(`/u/${participant.id}`)}
-                  alt={participant.name}
-                  width={200}
-                  height={200}
-                  className='w-16 h-16 rounded-full mr-2'
-                  title={participant.name}
-                />
-              </div>
-            ))}
-          </div>
           {dayIndex < 0 ? (
             <p
               className={`${russo.className} blocktext-gray-700 text-sm font-bold  text-black`}
@@ -221,120 +169,129 @@ export default function SadhanaDetail({ sadhana }) {
               This sadhana starts in {dayIndex * -1} days.
             </p>
           ) : (
-            <div className='bg-gray-200 mb-2 p-4 rounded-xl '>
-              <div className='flex flex-wrap justify-left overflow-x-scroll mb-3'>
-                {Array.from({ length: sadhana.targetSessions }, (_, i) => (
-                  <div
-                    key={i}
-                    className={` w-8 h-8 m-1 flex items-center justify-center text-black ${getDayFormatting(
-                      i + 1,
-                      dayIndex
-                    )}  rounded-full font-bold text cursor-pointer `}
-                    onClick={() => {
-                      if (i <= dayIndex) fetchSadhanaDayInfo(sadhana.id, i);
-                    }}
+            <div className='border-2 border-gray-300 bg-gray-200 mb-2 p-4 rounded-xl '>
+              {!isUserParticipating ? (
+                <>
+                  {' '}
+                  <p
+                    className={`${russo.className} blocktext-gray-700 text-sm font-bold  text-black`}
                   >
-                    {i + 1}
+                    You are not part of this sadhana.
+                  </p>
+                  {session ? (
+                    <>
+                      {buttonText === 'Joined!' ? (
+                        <button
+                          className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                          disabled
+                        >
+                          {buttonText}
+                        </button>
+                      ) : (
+                        <button
+                          className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                          onClick={handleParticipate}
+                        >
+                          {buttonText}
+                        </button>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {' '}
+                      <button
+                        className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                        onClick={signIn}
+                      >
+                        If you log in, you can join.
+                      </button>
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                  <div className=' flex flex-wrap justify-left overflow-x-scroll mb-3'>
+                    {Array.from({ length: sadhana.targetSessions }, (_, i) => (
+                      <div
+                        key={i}
+                        className={` w-8 h-8 m-1 flex items-center justify-center text-black ${getDayFormatting(
+                          i + 1,
+                          dayIndex
+                        )}  rounded-full font-bold text cursor-pointer `}
+                        onClick={() => {
+                          if (i <= dayIndex) fetchSadhanaDayInfo(sadhana.id, i);
+                        }}
+                      >
+                        {i + 1}
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-              {dayIndex === chosenDayIndex && (
-                <div>
-                  {checkIfUserDidTheWork() ? (
+                  {dayIndex === chosenDayIndex && (
                     <div>
-                      {displayDayInfo ? (
-                        <>
-                          {dayLoading ? (
-                            <div className='mb-10'>
-                              <p
-                                className={`${russo.className} blocktext-gray-700 text-sm font-bold  text-black`}
-                              >
-                                Loading the information of this day...
-                              </p>
-                            </div>
-                          ) : (
-                            <div className='mb-10'>
-                              {/* <SadhanaUpdate
+                      {true ? (
+                        <div>
+                          {displayDayInfo ? (
+                            <>
+                              {dayLoading ? (
+                                <div className='mb-10'>
+                                  <p
+                                    className={`${russo.className} blocktext-gray-700 text-sm font-bold  text-black`}
+                                  >
+                                    Loading the information of this day...
+                                  </p>
+                                </div>
+                              ) : (
+                                <div className='mb-10'>
+                                  {/* <SadhanaUpdate
                         update={updates.find(
                           update => update.dayIndex === sadhana.activeDay
                         )}
                       /> */}
-                              {dayForDisplay ? (
-                                <SadhanaDayInfo
-                                  sadhanaDay={dayForDisplay}
-                                  currentUser={session.user}
-                                />
-                              ) : (
-                                <>
-                                  <h4
-                                    className={`${righteous.className}  text-4xl font-bold mb-2 `}
-                                  >
-                                    Day {chosenDayIndex}
-                                  </h4>
-                                  <p>No one did the work this day.</p>
-                                </>
+                                  {dayForDisplay ? (
+                                    <SadhanaDayInfo
+                                      sadhanaDay={dayForDisplay}
+                                      currentUser={session.user}
+                                    />
+                                  ) : (
+                                    <>
+                                      <h4
+                                        className={`${righteous.className}  text-4xl font-bold mb-2 `}
+                                      >
+                                        Day {chosenDayIndex}
+                                      </h4>
+                                      <p>No one did the work this day.</p>
+                                    </>
+                                  )}
+                                </div>
                               )}
-                            </div>
+                            </>
+                          ) : (
+                            <></>
                           )}
-                        </>
+                        </div>
                       ) : (
-                        <></>
-                      )}
-                    </div>
-                  ) : (
-                    <div>
-                      {isUserParticipating ? (
-                        <SadhanaDayTimer
-                          session={session}
-                          timeRemaining={timeRemaining}
-                          setTimeRemaining={setTimeRemaining}
-                        />
-                      ) : (
-                        <p
-                          className={`${russo.className} blocktext-gray-700 text-sm font-bold  text-black`}
-                        >
-                          You are not part of this sadhana.
-                        </p>
+                        <div>
+                          {isUserParticipating ? (
+                            <p>
+                              Sadhana Timer{' '}
+                              {/* <SadhanaDayTimer
+                              session={session}
+                              timeRemaining={timeRemaining}
+                              setTimeRemaining={setTimeRemaining}
+                            /> */}
+                            </p>
+                          ) : (
+                            <></>
+                          )}
+                        </div>
                       )}
                     </div>
                   )}
-                </div>
+                </>
               )}
             </div>
           )}
 
-          {session ? (
-            <>
-              {isUserParticipating ? (
-                <></>
-              ) : (
-                <>
-                  {buttonText === 'Joined!' ? (
-                    <button
-                      className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                      disabled
-                    >
-                      {buttonText}
-                    </button>
-                  ) : (
-                    <button
-                      className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                      onClick={handleParticipate}
-                    >
-                      {buttonText}
-                    </button>
-                  )}
-                </>
-              )}
-            </>
-          ) : (
-            <button
-              className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-              onClick={signIn}
-            >
-              If you log in, you can participate in this sadhana.
-            </button>
-          )}
           <div className='flex flex-row items-center justify-center'>
             {' '}
             <Link
@@ -390,45 +347,69 @@ export async function getStaticProps({ params }) {
   };
 }
 
-function SadhanaDayInfo({ sadhanaDay, currentUser }) {
-  const router = useRouter();
-  console.log('the sadhana day is: ', sadhanaDay);
-  const [sadhanaDayComments, setSadhanaDayComments] = useState(
-    sadhanaDay.comments
-  );
+function Participants({ participants }) {
   return (
-    <div className='bg-gray-200 shadow-xl border-2 border-black rounded px-8 pt-6 pb-8 mb-4'>
-      <h4 className={`${righteous.className} text-4xl font-bold mb-2`}>
-        Day {sadhanaDay.dayIndex}
-      </h4>
-      <p
-        className={`${russo.className} blocktext-gray-700 text-sm font-bold mb-4 text-black`}
-      >
-        Participants Ready:
-      </p>
-
-      <div className='flex items-center mb-4'>
-        {sadhanaDay.sessions.map(session => (
-          <div key={session.authorId} className='hover:cursor-pointer'>
-            <Image
-              src={session.author.image}
-              onClick={() => router.push(`/u/${session.authorId}`)}
-              alt={session.author.username}
-              width={200}
-              height={200}
-              className='w-12 h-12 rounded-full mx-1'
-            />
-          </div>
-        ))}
-      </div>
-      <Comments
-        sadhanaDayId={sadhanaDay.id}
-        sadhanaId={sadhanaDay.sadhanaId}
-        dayNumber={sadhanaDay.dayIndex}
-        sadhanaDayComments={sadhanaDayComments}
-        setSadhanaDayComments={setSadhanaDayComments}
-        currentUser={currentUser}
-      />
+    <div className='flex items-center mb-4'>
+      {participants?.map(participant => (
+        <div key={participant.id} className='text-center hover:cursor-pointer'>
+          <Image
+            src={participant.image}
+            onClick={() => router.push(`/u/${participant.id}`)}
+            alt={participant.name}
+            width={200}
+            height={200}
+            className='w-16 h-16 rounded-full mr-2'
+            title={participant.name}
+          />
+        </div>
+      ))}
     </div>
+  );
+}
+
+function HeaderComponent({ sadhana, participants, dayIndex }) {
+  return (
+    <>
+      {' '}
+      <h4
+        className={`${righteous.className} text-4xl font-bold mb-2 text-black`}
+      >
+        {sadhana.title} - Today is day {dayIndex} of this challenge
+      </h4>
+      <div className='flex gap-x-3 justify-center'>
+        {' '}
+        <p className='flex gap-x-1 items-center'>
+          <FaUserAstronaut size={20} />
+          <Link
+            className='text-blue-500 hover:underline'
+            href={`/u/${sadhana.author.id}`}
+          >
+            @{sadhana.author.username}
+          </Link>
+        </p>
+        <p className='flex gap-x-1 items-center'>
+          <FaClock size={20} />
+          {Math.floor(sadhana.targetSessionDuration)} minutes
+        </p>
+        <p className='flex gap-x-1 items-center'>
+          <FaCalendarDay size={20} />
+          {new Date(sadhana.startingTimestamp).toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </p>
+        <p className='flex gap-x-1 items-center'>
+          <FaUsers size={20} /> {participants?.length}/{sadhana.userLimit}
+        </p>
+      </div>
+      <p className='italic my-2'>{sadhana.content}</p>
+      <h4
+        className={`${righteous.className} text-left text-4xl font-bold mb-2 text-black`}
+      >
+        Users
+      </h4>
+    </>
   );
 }
