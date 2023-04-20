@@ -76,7 +76,6 @@ export default function SadhanaDetail({ sadhana }) {
     const aloja = thisDay.sessions.filter(
       x => x.authorId === session?.user.id
     )[0];
-    console.log('aloja is:', aloja);
     if (aloja) {
       console.log('This means that the user did the work today');
       return true;
@@ -375,7 +374,12 @@ export async function getStaticProps({ params }) {
       author: true,
       participants: true,
       updates: true,
-      sadhanaDays: { include: { sessions: { include: { author: true } } } },
+      sadhanaDays: {
+        include: {
+          sessions: { include: { author: true } },
+          comments: { include: { author: true } },
+        },
+      },
     },
   });
 
@@ -389,6 +393,7 @@ export async function getStaticProps({ params }) {
 
 function SadhanaDayInfo({ sadhanaDay, currentUser }) {
   const router = useRouter();
+  console.log('the sadhana day is: ', sadhanaDay);
   const [sadhanaDayComments, setSadhanaDayComments] = useState(
     sadhanaDay.comments
   );

@@ -12,12 +12,20 @@ import {
   setInterval,
   setTimeout,
 } from 'worker-timers';
+import { calculateDayIndex } from '@component/lib/functions';
 import { signIn } from 'next-auth/react';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
-const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
+const Timer = ({
+  timeRemaining,
+  setTimeRemaining,
+  session,
+  userSadhanas,
+  setChosenSadhana,
+  chosenSadhana,
+}) => {
   const audioRef = useRef();
   const [initialDuration, setInitialDuration] = useState(timeRemaining);
   const [pauseCount, setPauseCount] = useState(0);
@@ -33,57 +41,6 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
   const [sessionSubmitted, setSessionSubmitted] = useState(false);
 
   const [chosenSadhanaTitle, setChosenSadhanaTitle] = useState('');
-  const [loadingSadhanas, setLoadingSadhanas] = useState(true);
-
-  const [userSadhanas, setUserSadhanas] = useState([]);
-  const [chosenSadhana, setChosenSadhana] = useState({
-    title: '',
-    initialDuration: 60,
-  });
-
-  useEffect(() => {
-    async function fetchUserSadhanas(userId) {
-      try {
-        const response = await fetch(`/api/userSadhana`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const sadhanas = await response.json();
-
-        sadhanas.sort((a, b) => {
-          if (isSadhanaCompletedToday(a) && !isSadhanaCompletedToday(b)) {
-            return 1;
-          } else if (
-            !isSadhanaCompletedToday(a) &&
-            isSadhanaCompletedToday(b)
-          ) {
-            return -1;
-          }
-          return 0;
-        });
-        return sadhanas;
-      } catch (error) {
-        console.error('There was a problem fetching the user sadhanas:', error);
-        return [];
-      }
-    }
-    const fetchUser = async () => {
-      if (session) {
-        const sadhanas = await fetchUserSadhanas(session.user.id);
-        setUserSadhanas(sadhanas);
-        setChosenSadhana(
-          sadhanas[0] || {
-            title: '',
-            initialDuration: 60,
-          }
-        );
-        setLoadingSadhanas(false);
-      } else {
-        setLoadingSadhanas(false);
-      }
-    };
-    fetchUser();
-  }, [session]);
 
   useEffect(() => {
     let interval;
@@ -174,12 +131,6 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
     resetTimer();
   };
 
-  function isSadhanaCompletedToday(sadhana) {
-    // const today = new Date();
-    // const todayString = today.toISOString().split('T')[0];
-    // return sadhana.sessionDates.some(dateString => dateString === todayString);
-  }
-
   const changeChosenSadhana = sadhanaTitle => {
     const thisOne = userSadhanas.filter(x => x.title == sadhanaTitle);
     if (thisOne) {
@@ -235,15 +186,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
   };
 
   return (
-    <div
-      className='max-w-xl mt-2 text-center rounded-xl border-black border-2 text-white bg-black p-8'
-      style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0,
-        0.6)), url("https://cdn.midjourney.com/ec0fe507-2218-495a-9f60-d90ed2213441/0_0.png")`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
+    <div className='max-w-xl mt-2 text-center rounded-xl border-black border-2 text-white bg-black p-8 opacity-80'>
       {!showSummary && (
         <div className=''>
           <label
@@ -252,92 +195,64 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
           >
             What are you going to work on now?
           </label>
-          {loadingSadhanas ? (
-            <input
-              type='text'
-              name='title'
-              id='title'
-              placeholder='loading user sadhanas...'
-              disabled
-              className={`${russo.className} shadow appearance-none border rounded-xl w-full mt-1 mb-2 py-2 px-3 text-grey-100 bg-black leading-tight focus:outline-none focus:shadow-outline text-grey-200`}
-            />
-          ) : (
+          <>
             <>
-              {session ? (
-                <>
-                  {userSadhanas.length > 0 ? (
-                    <select
-                      name='title'
-                      id='title'
-                      disabled={started}
-                      value={chosenSadhanaTitle}
-                      onChange={e => {
-                        changeChosenSadhana(e.target.value);
-                        setInitialDuration(() => {
-                          return (
-                            userSadhanas.filter(
-                              x => x.title == e.target.value
-                            )[0].targetSessionDuration * 60
-                          );
-                        });
-                        return setChosenSadhanaTitle(e.target.value);
-                      }}
-                      required
-                      className={`${russo.className} shadow appearance-none border rounded-xl w-full mt-1 mb-2 py-2 px-3 text-grey-100 bg-black leading-tight focus:outline-none focus:shadow-outline`}
-                    >
-                      {userSadhanas.map(sadhana => (
+              <>
+                {userSadhanas.length > 0 ? (
+                  <select
+                    name='title'
+                    id='title'
+                    disabled={started}
+                    value={chosenSadhanaTitle}
+                    onChange={e => {
+                      changeChosenSadhana(e.target.value);
+                      setInitialDuration(() => {
+                        return (
+                          userSadhanas.filter(x => x.title == e.target.value)[0]
+                            .targetSessionDuration * 60
+                        );
+                      });
+                      return setChosenSadhanaTitle(e.target.value);
+                    }}
+                    required
+                    className={`${russo.className} shadow appearance-none border rounded-xl w-full mt-1 mb-2 py-2 px-3 text-grey-100 bg-black leading-tight focus:outline-none focus:shadow-outline`}
+                  >
+                    {userSadhanas.map(sadhana => {
+                      if (calculateDayIndex(sadhana.startingTimestamp) < 0)
+                        return;
+                      return (
                         <option
+                          disabled={sadhana.didTheWork}
                           key={sadhana.id}
                           value={sadhana.title}
-                          style={{
-                            backgroundColor: isSadhanaCompletedToday(sadhana)
-                              ? 'green'
-                              : 'initial',
-                          }}
                         >
                           {sadhana.title}
+                          {sadhana.didTheWork && ' -       READY!'}
                         </option>
-                      ))}
-                    </select>
-                  ) : (
-                    <input
-                      type='text'
-                      name='title'
-                      id='title'
-                      placeholder='N&W Season 3 Deep Work Session'
-                      disabled={started}
-                      value={chosenSadhana.title}
-                      onChange={e =>
-                        setChosenSadhana(prev => ({
-                          ...prev,
-                          ['title']: e.target.value,
-                        }))
-                      }
-                      required
-                      className={`${russo.className} shadow appearance-none border rounded-xl w-full mt-1 mb-2 py-2 px-3 text-grey-100 bg-black leading-tight focus:outline-none focus:shadow-outline text-grey-200`}
-                    />
-                  )}
-                </>
-              ) : (
-                <input
-                  type='text'
-                  name='title'
-                  id='title'
-                  placeholder='N&W Season 3 Deep Work Session'
-                  disabled={started}
-                  value={chosenSadhana.title}
-                  onChange={e =>
-                    setChosenSadhana(prev => ({
-                      ...prev,
-                      ['title']: e.target.value,
-                    }))
-                  }
-                  required
-                  className={`${russo.className} shadow appearance-none border rounded-xl w-full mt-1 mb-2 py-2 px-3 text-grey-100 bg-black leading-tight focus:outline-none focus:shadow-outline text-grey-200`}
-                />
-              )}
+                      );
+                    })}
+                  </select>
+                ) : (
+                  <input
+                    type='text'
+                    name='title'
+                    id='title'
+                    placeholder='N&W Season 3 Deep Work Session'
+                    disabled={started}
+                    value={chosenSadhana.title}
+                    onChange={e =>
+                      setChosenSadhana(prev => ({
+                        ...prev,
+                        ['title']: e.target.value,
+                      }))
+                    }
+                    required
+                    className={`${russo.className} shadow appearance-none border rounded-xl w-full mt-1 mb-2 py-2 px-3 text-grey-100 bg-black leading-tight focus:outline-none focus:shadow-outline text-grey-200`}
+                  />
+                )}
+              </>
             </>
-          )}
+          </>
         </div>
       )}
       <div className=''>

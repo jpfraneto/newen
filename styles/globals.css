@@ -54,6 +54,23 @@ h4 {
   align-items: center;
 }
 
+.welcomehero {
+  width: 100vw;
+  height: 100vh;
+  color: rgb(63, 199, 95);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcomehero h4 {
+  font-size: 3rem;
+  color: rgb(63, 199, 95);
+  -webkit-text-stroke: 2px black;
+}
+
 .bacckground {
   background-image: url('/images/bggg.png');
 }

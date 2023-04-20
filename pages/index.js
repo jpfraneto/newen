@@ -6,7 +6,12 @@ import Link from 'next/link';
 import { useSession, signOut, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import OldTimer from '@component/components/OldTimer';
-import { formatTime } from '@component/lib/functions';
+import {
+  didUserCompleteWork,
+  calculateDayIndex,
+} from '@component/lib/functions';
+import Spinner from '@component/components/Spinner';
+import WelcomeScreen from '@component/components/WelcomeScreen';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const rajdhani = Rajdhani({ weight: '400', subsets: ['devanagari'] });
@@ -15,12 +20,51 @@ const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 export default function Home() {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [loading, setLoading] = useState(true);
   const [timeRemaining, setTimeRemaining] = useState(100 * 60);
+  const [userSadhanas, setUserSadhanas] = useState(null);
+  const [loadingSadhanas, setLoadingSadhanas] = useState(true);
+  const [chosenSadhana, setChosenSadhana] = useState({
+    title: '',
+    initialDuration: 60,
+  });
 
   useEffect(() => {
     setTimeRemaining(router.query.time || 100 * 60);
   }, [router]);
+
+  useEffect(() => {
+    async function fetchUserSadhanas(userId) {
+      try {
+        const response = await fetch(`/api/userinfo`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+
+        const responnn = data.sadhanas.map(x =>
+          didUserCompleteWork(
+            data.user,
+            x.id,
+            calculateDayIndex(x.startingTimestamp)
+          )
+        );
+        data.sadhanas = data.sadhanas.map((x, i) => {
+          return { ...x, ['didTheWork']: responnn[i] };
+        });
+        setUserSadhanas(data.sadhanas || []);
+        setLoadingSadhanas(false);
+        return;
+      } catch (error) {
+        setUserSadhanas([]);
+        return;
+      }
+    }
+    fetchUserSadhanas();
+  }, [session]);
+
+  if (status === 'loading' || loadingSadhanas) return <WelcomeScreen />;
+
+  console.log('the session is :', session);
 
   return (
     <>
@@ -46,6 +90,9 @@ export default function Home() {
             timeRemaining={timeRemaining}
             setTimeRemaining={setTimeRemaining}
             session={session}
+            userSadhanas={userSadhanas}
+            chosenSadhana={chosenSadhana}
+            setChosenSadhana={setChosenSadhana}
           />
 
           {/* <div>

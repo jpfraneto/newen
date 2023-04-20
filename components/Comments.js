@@ -35,6 +35,7 @@ function Comments({
 
     if (response.ok) {
       const data = await response.json();
+      console.log('the data is');
       setSadhanaDayComments(prev => {
         return [...prev, data.comment];
       });
