@@ -56,7 +56,7 @@ const SadhanaDashboardTimer = ({ sadhana, session, isSessionSubmitted }) => {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isRunning, timeRemaining, setTimeRemaining, finished, started]);
+  }, [isRunning, finished, started]);
 
   const handleFinishedTimer = () => {
     audioRef.current.play();

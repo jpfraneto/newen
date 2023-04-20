@@ -41,7 +41,6 @@ export default function SadhanaDetail({ sadhana }) {
   const dayIndex = calculateDayIndex(sadhana?.startingTimestamp) + 1;
 
   useEffect(() => {
-    if (status === 'loading') return;
     const loggedInUserId = session?.user.id;
     const isUserParticipating = participants.some(
       participant => participant.id === loggedInUserId
@@ -50,7 +49,7 @@ export default function SadhanaDetail({ sadhana }) {
     if (isUserParticipating) {
       setButtonText('Joined!');
     }
-  }, [session]);
+  }, [session, participants]);
 
   useEffect(() => {
     const fetchUpdates = async () => {

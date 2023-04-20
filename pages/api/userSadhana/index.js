@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth/next';
 import prisma from '@component/lib/prismaClient';
-import { authOptions } from '../auth/[...nextauth]';
+import { authOptions } from '@component/pages/api/auth/[...nextauth]';
 
 export default async function handler(req, res) {
   const session = await getServerSession(req, res, authOptions);
