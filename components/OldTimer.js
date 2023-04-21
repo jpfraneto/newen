@@ -276,7 +276,7 @@ const Timer = ({
           >
             <a
               className='text-blue-300 hover:text-yellow-400'
-              href='https://open.spotify.com/playlist/7J8WrKKXY86wKqHaFhPYGg'
+              href='https://open.spotify.com/playlist/5RX9wCeKxQGT9vaSmxxamr'
               target='_blank'
             >
               Open playlist in spotify.
