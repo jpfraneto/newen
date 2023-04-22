@@ -4,7 +4,9 @@ import useSWR from 'swr';
 import Link from 'next/link';
 import { BsPatchCheck } from 'react-icons/bs';
 import { formatDistanceToNow } from 'date-fns';
+import { AiOutlinePlus, AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { formatTime } from '@component/lib/functions';
+import Spinner from './Spinner';
 
 const fetcher = url => fetch(url).then(res => res.json());
 
@@ -17,6 +19,8 @@ const DashboardComponent = ({ session }) => {
 
   const [completed, setCompleted] = useState([]);
   const [selectedSadhanaIndex, setSelectedSadhanaIndex] = useState(null);
+  const [savingSessionLoading, setSavingSessionLoading] = useState(false);
+  const [submittingId, setSubmittingId] = useState(null);
 
   useEffect(() => {
     if (sadhanas) {
@@ -32,10 +36,50 @@ const DashboardComponent = ({ session }) => {
     setCompleted(updatedCompleted);
   };
 
-  const toggleCompletion = index => {
-    const updatedCompleted = [...completed];
-    updatedCompleted[index] = !updatedCompleted[index];
-    setCompleted(updatedCompleted);
+  const toggleCompletion = async (index, sadhana) => {
+    console.log('in here, ', index);
+    setSavingSessionLoading(true);
+    setSubmittingId(index);
+    const res = await handleSubmitSession(sadhana);
+    if (res) {
+      setSavingSessionLoading(false);
+      const updatedCompleted = [...completed];
+      updatedCompleted[index] = !updatedCompleted[index];
+      setCompleted(updatedCompleted);
+    } else {
+      alert(
+        'There was a problem submitting your session. I will fix this soon.'
+      );
+    }
+  };
+
+  const handleSubmitSession = async sadhana => {
+    try {
+      const response = await fetch('/api/sadhanaSessions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: session.user.id,
+          sadhanaId: sadhana.id,
+          completedAt: new Date(),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      await response.json();
+
+      return true;
+    } catch (error) {
+      console.error(
+        'There was a problem submitting the sadhana session:',
+        error
+      );
+    }
   };
 
   const openModal = index => {
@@ -78,18 +122,16 @@ const DashboardComponent = ({ session }) => {
     <div className='max-w- md:container mx-auto px-4'>
       {sadhanas?.length > 0 ? (
         <div className=' overflow-x-scroll'>
-          <table className='table-auto w-full my-2 bg-green-500  shadow-md rounded-md'>
+          <table className='table-auto w-full my-2 bg-black text-white  shadow-md rounded-md'>
             <thead>
-              <tr className='bg-green-700'>
-                <th className='px-4 py-2 text-white'>Sadhana Name</th>
-                <th className='px-4 py-2 text-white'>
-                  Target Session Duration
-                </th>
-                <th className='px-4 py-2 text-white w-8'>Timer</th>
-                <th className='px-4 py-2 text-white'>Participants Ready</th>
-                <th className='px-4 py-2 text-white'>Sessions</th>
+              <tr className='bg-black text-white'>
+                <th className='px-4 py-2 text-white'>Completed?</th>
 
-                <th className='px-4 py-2 text-white'>Completed today?</th>
+                <th className='px-4 py-2 text-white'>Sadhana Name</th>
+
+                <th className='px-4 py-2 text-white'>Ready Today</th>
+                <th className='px-4 py-2 text-white'>Sessions</th>
+                <th className='px-4 py-2 text-white w-8'>Timer</th>
 
                 {/* <th className='px-4 py-2 text-white w-8'>Other</th> */}
               </tr>
@@ -99,15 +141,56 @@ const DashboardComponent = ({ session }) => {
                 sadhanas?.map((sadhana, index) => (
                   <tr
                     key={index}
-                    className={index % 2 === 0 ? 'bg-blue-400' : 'bg-blue-300'}
+                    className={
+                      index % 2 === 0 ? 'bg-neutral-400' : 'bg-neutral-300'
+                    }
                   >
+                    <td
+                      className={`hover:text-black border px-4 py-2 text-center  cursor-pointer`}
+                    >
+                      {savingSessionLoading && submittingId === index ? (
+                        <span className='flex justify-center w-8 items-center mx-auto'>
+                          <Spinner />
+                        </span>
+                      ) : (
+                        <>
+                          {completed[index] ? (
+                            <span className='flex justify-center w-8 items-center mx-auto'>
+                              <Check fillColor='238739' />
+                            </span>
+                          ) : (
+                            <span
+                              onClick={() => toggleCompletion(index, sadhana)}
+                              className='flex justify-center w-8 items-center mx-auto'
+                            >
+                              <Check fillColor='bf1736' />
+                            </span>
+                          )}
+                        </>
+                      )}
+                    </td>
                     <td className='border px-4 py-2 text-black text-center'>
                       <Link href={`/sadhana/${sadhana.id}`}>
                         {sadhana.title}{' '}
                       </Link>
                     </td>
+
+                    <td className='border px-4 py-2 text-black text-center'>{`${
+                      completed[index] ? 1 : 0
+                    }/${sadhana.userLimit}`}</td>
                     <td className='border px-4 py-2 text-black text-center'>
-                      {formatTime(sadhana.targetSessionDuration)}
+                      {evaluateSadhanaTime(sadhana.startingTimestamp) ? (
+                        `${getCurrentDay(sadhana.startingTimestamp)}/${
+                          sadhana.targetSessions
+                        }`
+                      ) : (
+                        <p>{`Starts ${formatDistanceToNow(
+                          new Date(sadhana.startingTimestamp).getTime(),
+                          {
+                            addSuffix: true,
+                          }
+                        )}`}</p>
+                      )}
                     </td>
                     <td className='border px-4 py-2 text-black text-center w-48'>
                       {completed[index] ? (
@@ -128,68 +211,42 @@ const DashboardComponent = ({ session }) => {
                               }}
                             />
                           ) : (
-                            <p>Not yet!</p>
+                            <p>Not yet.</p>
                           )}
                         </>
                       )}
                     </td>
-                    <td className='border px-4 py-2 text-black text-center'>{`${
-                      completed[index] ? 1 : 0
-                    }/${sadhana.userLimit}`}</td>
-                    <td className='border px-4 py-2 text-black text-center'>
-                      {evaluateSadhanaTime(sadhana.startingTimestamp) ? (
-                        `${getCurrentDay(sadhana.startingTimestamp)}/${
-                          sadhana.targetSessions
-                        }`
-                      ) : (
-                        <p>{`Starts ${formatDistanceToNow(
-                          new Date(sadhana.startingTimestamp).getTime(),
-                          {
-                            addSuffix: true,
-                          }
-                        )}`}</p>
-                      )}
-                    </td>
-
-                    <td
-                      className={`hover:text-black border px-4 py-2 text-center  cursor-pointer`}
-                      onClick={() => toggleCompletion(index)}
-                    >
-                      {completed[index] ? (
-                        <span className='flex justify-center w-8 items-center mx-auto'>
-                          <Check fillColor='238739' />
-                        </span>
-                      ) : (
-                        <span className='flex justify-center w-8 items-center mx-auto'>
-                          <Check fillColor='bf1736' />
-                        </span>
-                      )}
-                    </td>
-                    {/* <td className='border px-4 py-2 text-black text-center'>
-                      {evaluateSadhanaTime(sadhana.startingTimestamp) && (
-                        <span
-                          onClick={() => openModal(index)}
-                          className='flex justify-center w-full cursor-pointer'
-                        >
-                          <GrNotes size={24} />
-                        </span>
-                      )}
-                    </td> */}
                   </tr>
                 ))}
             </tbody>
+            <tr>
+              <td className='p-2 hover:text-yellow-300 '>
+                <Link
+                  href='/sadhana/new'
+                  className='flex items-center space-x-2'
+                  passHref
+                >
+                  <AiOutlinePlus /> <span className=''>Create new sadhana</span>
+                </Link>
+              </td>
+            </tr>
           </table>
 
           {!submitted ? (
             <div className='flex items-center justify-center'>
-              <p className='text-xl mr-4'>{`${completedCount}/${sadhanas?.length} today`}</p>
-              {completedCount === sadhanas?.length && (
-                <button
+              {completedCount === sadhanas?.length ? (
+                <>
+                  {' '}
+                  {/* <button
                   className='bg-green-500 text-white px-6 py-2 rounded'
                   onClick={handleSubmit}
                 >
                   Submit a new day of work
-                </button>
+                </button> */}
+                  <p>Congratulations, you finished everything for today.</p>
+                </>
+              ) : (
+                <p className='text-xl mr-4'>{`${completedCount}/${sadhanas?.length} today`}</p>
               )}
             </div>
           ) : (
@@ -214,12 +271,9 @@ const DashboardComponent = ({ session }) => {
       )}
       <div className='flex flex-col items-center'>
         {' '}
-        <Link
-          className='border-black border-2 inline-block bg-gradient-to-r from-green-500 via-brown-500 to-green-500 text-black font-bold text-2xl px-6 py-3  mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-          href='/sadhana/new'
-        >
+        {/* <Link className='border-black border-2 inline-block bg-gradient-to-r from-green-500 via-brown-500 to-green-500 text-black font-bold text-2xl px-6 py-3  mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'>
           Add new sadhana
-        </Link>
+        </Link> */}
         <Link
           className='border-black border-2 mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
           href='/'

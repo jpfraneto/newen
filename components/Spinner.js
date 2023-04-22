@@ -2,8 +2,8 @@ import React from 'react';
 
 const Spinner = () => {
   return (
-    <div class='flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 animate-spin'>
-      <div class='h-9 w-9 rounded-full bg-gray-200'></div>
+    <div class='flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 animate-spin'>
+      <div class='h-5 w-5 rounded-full bg-black'></div>
     </div>
     // <svg
     //   class='w-12 h-12 animate-spin text-indigo-400'

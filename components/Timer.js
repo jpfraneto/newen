@@ -5,6 +5,7 @@ import {
   BsPlayCircle,
   BsPauseCircle,
   BsPatchCheckFill,
+  BsStopwatchFill,
   BsFillSkipBackwardCircleFill,
 } from 'react-icons/bs';
 
@@ -121,7 +122,7 @@ const Timer = ({ sessionTargetDuration, onCompletion, sadhana }) => {
           onClick={startTimer}
           className='hover:text-blue-900 text-black font-semibold  border-black rounded-full my-auto '
         >
-          GO!
+          <BsStopwatchFill size={26} />
         </button>
       )}
       {showModal && (
@@ -177,7 +178,7 @@ const Timer = ({ sessionTargetDuration, onCompletion, sadhana }) => {
             </div>
             <textarea
               className=' md:w-96 h-60 mt-4 p-2 rounded-md'
-              placeholder='Take notes about this session...'
+              placeholder='Notes about this session...'
             />
             <div className='flex justify-center items-center mt-4 w-full'>
               {finished ? (

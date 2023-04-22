@@ -14,7 +14,7 @@ export default function App({ Component, pageProps }) {
         <title>sadhana · the power of consistency</title>
       </Head>
       <SessionProvider className={rubik.className} session={pageProps.session}>
-        <UserMenu /> {/* Add UserMenu component */}
+        <UserMenu />
         <Component {...pageProps} />
       </SessionProvider>
     </>

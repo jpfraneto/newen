@@ -11,6 +11,8 @@ const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 const UserMenu = () => {
   const { data: session, status } = useSession();
 
+  if (status === 'loading') return;
+
   return (
     <div
       className={`${russo.className} blocktext-gray-700 text-sm font-bold  text-black hidden  md:absolute text-center bottom-0 md:top-4 w-full md:w-fit md:right-4 mx-0 md:mx-3 md:inline-block bg-gradient-to-r from-black via-black to-black   py-2 px-4  md:rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out border-white md:h-fit`}
