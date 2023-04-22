@@ -26,6 +26,7 @@ const Timer = ({
   setChosenSadhana,
   chosenSadhana,
 }) => {
+  console.log('the userSadhanas are:', userSadhanas);
   const audioRef = useRef();
   const [initialDuration, setInitialDuration] = useState(timeRemaining);
   const [pauseCount, setPauseCount] = useState(0);
