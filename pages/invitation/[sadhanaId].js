@@ -50,6 +50,10 @@ const SadhanaInvitation = () => {
         >
           Writing for 5 minutes / 5 days.
         </h4>
+        <p>
+          Do you want to commit to write for 5 days in a row? I will help you be
+          consistent.
+        </p>
         <div className='py-3'>
           {' '}
           {session ? (
