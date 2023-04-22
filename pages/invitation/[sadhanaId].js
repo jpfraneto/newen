@@ -39,7 +39,7 @@ const SadhanaInvitation = () => {
   }
 
   return (
-    <div className='p-8 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen flex items-center justify-center'>
+    <div className='p-8 bg-gradient-to-r from-purple-400 via-pink-500 text-black to-red-500 min-h-screen flex items-center justify-center'>
       <div className='bg-white p-8 rounded-lg w-full max-w-3xl'>
         <p className='text-black'>
           You have been invited by <Link href='/u/kithkui'>@kithkui</Link> to
@@ -65,7 +65,7 @@ const SadhanaInvitation = () => {
             </button>
           ) : (
             <div>
-              <p>You need to log in first to join.</p>
+              <p className='text-black'>You need to log in first to join.</p>
               <button
                 className=' inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold  py-2 px-4 rounded shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
                 onClick={signIn}
