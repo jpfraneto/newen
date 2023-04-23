@@ -52,6 +52,8 @@ const SadhanaInvitation = ({ sadhana }) => {
     }
   }
 
+  if (!sadhana) return <p>There was a problem...</p>;
+
   return (
     <div className='p-8 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 text-black min-h-screen flex items-center justify-center'>
       {isUserParticipating ? (
@@ -84,7 +86,10 @@ const SadhanaInvitation = ({ sadhana }) => {
           <p className='text-black'>
             You have been invited by{' '}
             <Link href='/u/kithkui'>
-              @{sadhana.author.username || sadhana.author.name}
+              @
+              {sadhana.author.username
+                ? sadhana.author.username
+                : sadhana.author.name}
             </Link>{' '}
             to participate in the following challenge:
           </p>
