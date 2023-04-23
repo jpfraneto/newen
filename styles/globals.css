@@ -67,8 +67,11 @@ h4 {
   background-size: cover;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+}
+
+.hero {
+  padding-top: 80px;
 }
 
 .welcomehero {

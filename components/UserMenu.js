@@ -28,7 +28,10 @@ const UserMenu = () => {
     >
       <div className='container mx-auto'>
         {!session ? (
-          <button className='hover:text-green-500 text-white' onClick={signIn}>
+          <button
+            className='hover:text-green-500 text-white text-3xl'
+            onClick={signIn}
+          >
             Login
           </button>
         ) : (
