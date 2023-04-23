@@ -368,7 +368,7 @@ export async function getStaticProps({ params }) {
 }
 
 function Participants({ participants }) {
-  console.log('in here, the participants are: ', participants);
+  const router = useRouter();
   return (
     <div className='flex items-center mb-4'>
       {participants?.map(participant => (

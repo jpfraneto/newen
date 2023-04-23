@@ -6,6 +6,7 @@ import { BsPatchCheck } from 'react-icons/bs';
 import { formatDistanceToNow } from 'date-fns';
 import { AiOutlinePlus, AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { formatTime } from '@component/lib/functions';
+import { GoVerified } from 'react-icons/go';
 import {
   didUserCompleteWork,
   calculateDayIndex,
@@ -195,15 +196,15 @@ const DashboardComponent = ({ session }) => {
                       ) : (
                         <>
                           {completed[index] ? (
-                            <span className='flex justify-center w-8 items-center mx-auto'>
-                              <Check fillColor='238739' />
+                            <span className='text-green-700 flex justify-center w-8 items-center mx-auto'>
+                              <GoVerified size={50} />
                             </span>
                           ) : (
                             <span
                               onClick={() => toggleCompletion(index, sadhana)}
-                              className='flex justify-center w-8 items-center mx-auto'
+                              className='text-red-600 flex justify-center w-8 items-center mx-auto'
                             >
-                              <Check fillColor='bf1736' />
+                              <GoVerified size={50} />
                             </span>
                           )}
                         </>
@@ -211,8 +212,8 @@ const DashboardComponent = ({ session }) => {
                     </td>
                     <td className='border px-4 py-2 text-black text-center w-48'>
                       {completed[index] ? (
-                        <span className='flex justify-center w-8 items-center mx-auto'>
-                          <Check fillColor='238739' />
+                        <span className='text-green-700 flex justify-center w-8 items-center mx-auto'>
+                          <GoVerified size={50} />
                         </span>
                       ) : (
                         <>
@@ -310,7 +311,13 @@ const DashboardComponent = ({ session }) => {
         </div>
       ) : (
         <>
-          <p>You don&apos;t have any sadhanas associated yet.</p>
+          <p>You don&apos;t have any challenges associated yet.</p>
+          <Link
+            href='/sadhana/new'
+            className='border-black border-2 inline-block bg-gradient-to-r from-green-500 via-brown-500 to-green-500 text-black font-bold text-2xl px-6 py-3  mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
+          >
+            Add new challenge
+          </Link>
         </>
       )}
       <div className='flex flex-col items-center'>

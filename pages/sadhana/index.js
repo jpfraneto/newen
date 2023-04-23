@@ -1,15 +1,24 @@
 import prisma from '../../lib/prismaClient';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
+
+const righteous = Righteous({ weight: '400', subsets: ['latin'] });
+const rajdhani = Rajdhani({ weight: '400', subsets: ['devanagari'] });
+const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
 export default function SadhanaList({ sadhanas }) {
   return (
-    <div className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen text-black py-8 px-4 sm:px-8 md:px-16 lg:px-32'>
+    <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen text-black py-8 px-4 sm:px-8 md:px-16 lg:px-32'>
       <div className='flex flex-col sm:flex-row items-center mb-4'>
-        <h1 className='text-3xl font-bold'>Sadhanas List</h1>
+        <h4
+          className={`${righteous.className} text-2xl md:text-5xl w-full font-bold`}
+        >
+          Challenges List
+        </h4>
       </div>
 
-      <div className='overflow-x-auto'>
+      <div className='overflow-x-auto rounded-xl'>
         <table className='rounded-2xl table-auto w-full text-center'>
           <thead>
             <tr className='bg-gray-100 rounded-2xl text-center'>

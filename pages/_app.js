@@ -19,7 +19,7 @@ export default function App({ Component, pageProps }) {
         session={pageProps.session}
       >
         <UserMenu />
-        <div className='flex flex-col min-h-screen'>
+        <div className='pt-16 flex flex-col min-h-screen'>
           <div className='flex-grow'>
             <Component {...pageProps} />
           </div>
