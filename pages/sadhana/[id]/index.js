@@ -88,6 +88,7 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
   };
 
   async function fetchSadhanaDayInfo(sadhanaId, dayNumber) {
+    alert('in here!');
     setChosenDayIndex(dayNumber + 1);
     setDayLoading(true);
     setDisplayDayInfo(true);
@@ -143,7 +144,7 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
 
   if (!sadhana)
     return (
-      <div className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen text-black py-8 px-60'>
+      <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen text-black py-8 px-60'>
         <p>
           Unable to find this sadhana, please refresh the page or create a new
           one <Link href='/sadhana/new'>here</Link>
@@ -152,7 +153,7 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
     );
 
   return (
-    <div className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen text-black py-8 px-4 md:px-16 lg:px-60'>
+    <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen text-black py-8 md:px-16 lg:px-60'>
       <div className='container text-center'>
         {' '}
         <div
@@ -226,7 +227,13 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
                           dayIndex
                         )}  rounded-full font-bold text cursor-pointer `}
                         onClick={() => {
-                          if (i <= dayIndex) fetchSadhanaDayInfo(sadhana.id, i);
+                          if (i < dayIndex)
+                            return fetchSadhanaDayInfo(sadhana.id, i);
+                          else if (i === dayIndex)
+                            return alert('this day is today!');
+                          else {
+                            return alert('This day is in the future!');
+                          }
                         }}
                       >
                         {i + 1}
@@ -266,7 +273,13 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
                                       >
                                         Day {chosenDayIndex}
                                       </h4>
-                                      <p>No one did the work this day.</p>
+                                      {chosenDayIndex === 1 ? (
+                                        <p>
+                                          No one has done the work of today yet.
+                                        </p>
+                                      ) : (
+                                        <p>No one did the work this day.</p>
+                                      )}
                                     </>
                                   )}
                                 </div>

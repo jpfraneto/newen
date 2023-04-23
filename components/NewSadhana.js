@@ -178,7 +178,7 @@ const NewSadhana = () => {
       ) : (
         <div>
           <h4
-            className={`${righteous.className} text-xl mb-2 text-center md:text-4xl w-full font-bold`}
+            className={`${righteous.className} text-3xl mb-2 text-center md:text-4xl w-full font-bold`}
           >
             Add new challenge
           </h4>
@@ -388,14 +388,14 @@ const NewSadhana = () => {
             </div>
             <div className='flex flex-col items-center justify-between'>
               <button
-                className='border-black border-2 inline-block bg-gradient-to-r from-green-500 via-brown-500 to-green-500 text-black font-bold text-2xl px-6 py-3  mt-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
+                className='border-black border-2 inline-block bg-gradient-to-r from-green-500 via-brown-500 to-green-500 text-black font-bold md:text-2xl px-2 md:px-6 py-1 md:py-3 m-1 mt-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
                 type='submit'
               >
                 {' '}
                 Create New Sadhana
               </button>
               <button
-                className='border-black border-2 mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
+                className='border-black border-2 mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold md:text-2xl px-2 md:px-6 py-1 md:py-3 m-1 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
                 type='button'
                 onClick={() => {
                   if (confirm('Are you sure you want to go back?'))

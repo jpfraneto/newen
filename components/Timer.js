@@ -132,14 +132,14 @@ const Timer = ({ sessionTargetDuration, onCompletion, sadhana }) => {
           }`}
         >
           <div
-            className='bg-white border-2 border-white rounded-xl p-6 flex flex-col items-center justify-between'
+            className='bg-white border-2 border-white rounded-xl p-2 flex flex-col items-center justify-between'
             style={{
               backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0,
                 0.6)), url("https://cdn.midjourney.com/ec0fe507-2218-495a-9f60-d90ed2213441/0_0.png")`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               height: '70vh',
-              width: '80vw',
+              width: '90vw',
             }}
           >
             <h2 className={`${russo.className} text-3xl font-bold text-white`}>
@@ -177,7 +177,7 @@ const Timer = ({ sessionTargetDuration, onCompletion, sadhana }) => {
               )}
             </div>
             <textarea
-              className=' md:w-96 h-60 mt-4 p-2 rounded-md'
+              className='px-2 md:w-96 h-60 w-64 mt-4 p-2 rounded-md'
               placeholder='Notes about this session...'
             />
             <div className='flex justify-center items-center mt-4 w-full'>

@@ -160,19 +160,18 @@ const DashboardComponent = ({ session }) => {
   if (loadingSadhanas) return <p>Loading...</p>;
 
   return (
-    <div className='max-w- md:container mx-auto px-4'>
+    <div className='max-w md:container mx-auto md:px-4'>
       {userSadhanas?.length > 0 ? (
         <div className=' overflow-x-scroll'>
           <table className='table-auto w-full my-2 bg-black text-white  shadow-md rounded-md'>
             <thead>
               <tr className='bg-black text-white'>
                 <th className='px-4 py-2 text-white'>Completed?</th>
-
+                <th className='px-4 py-2 text-white w-8'>Timer</th>
                 <th className='px-4 py-2 text-white'>Sadhana Name</th>
 
                 <th className='px-4 py-2 text-white'>Ready Today</th>
                 <th className='px-4 py-2 text-white'>Sessions</th>
-                <th className='px-4 py-2 text-white w-8'>Timer</th>
 
                 {/* <th className='px-4 py-2 text-white w-8'>Other</th> */}
               </tr>
@@ -210,29 +209,6 @@ const DashboardComponent = ({ session }) => {
                         </>
                       )}
                     </td>
-                    <td className='border px-4 py-2 text-black text-center'>
-                      <Link href={`/sadhana/${sadhana.id}`}>
-                        {sadhana.title}{' '}
-                      </Link>
-                    </td>
-
-                    <td className='border px-4 py-2 text-black text-center'>{`${
-                      completed[index] ? 1 : 0
-                    }/${sadhana.userLimit}`}</td>
-                    <td className='border px-4 py-2 text-black text-center'>
-                      {evaluateSadhanaTime(sadhana.startingTimestamp) ? (
-                        `${getCurrentDay(sadhana.startingTimestamp)}/${
-                          sadhana.targetSessions
-                        }`
-                      ) : (
-                        <p>{`Starts ${formatDistanceToNow(
-                          new Date(sadhana.startingTimestamp).getTime(),
-                          {
-                            addSuffix: true,
-                          }
-                        )}`}</p>
-                      )}
-                    </td>
                     <td className='border px-4 py-2 text-black text-center w-48'>
                       {completed[index] ? (
                         <span className='flex justify-center w-8 items-center mx-auto'>
@@ -255,6 +231,29 @@ const DashboardComponent = ({ session }) => {
                             <p>Not yet.</p>
                           )}
                         </>
+                      )}
+                    </td>
+                    <td className='border px-4 py-2 text-black text-center'>
+                      <Link href={`/sadhana/${sadhana.id}`}>
+                        {sadhana.title}{' '}
+                      </Link>
+                    </td>
+
+                    <td className='border px-4 py-2 text-black text-center'>{`${
+                      completed[index] ? 1 : 0
+                    }/${sadhana.userLimit}`}</td>
+                    <td className='border px-4 py-2 text-black text-center'>
+                      {evaluateSadhanaTime(sadhana.startingTimestamp) ? (
+                        `${getCurrentDay(sadhana.startingTimestamp)}/${
+                          sadhana.targetSessions
+                        }`
+                      ) : (
+                        <p>{`Starts ${formatDistanceToNow(
+                          new Date(sadhana.startingTimestamp).getTime(),
+                          {
+                            addSuffix: true,
+                          }
+                        )}`}</p>
                       )}
                     </td>
                   </tr>

@@ -39,10 +39,10 @@ const Dashboard = () => {
   return (
     <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen'>
       {session ? (
-        <div className='px-2 max-w-full md:w-8/12 m-auto py-8'>
+        <div className='md:px-2 max-w-full md:w-8/12 m-auto py-3 md:py-4'>
           <div className='text-white flex flex-col justify-items-center items-center py-4'>
             <h4
-              className={`${righteous.className} text-xl text-center md:text-5xl w-full font-bold`}
+              className={`${righteous.className} text-4xl text-center md:text-5xl w-full font-bold`}
             >
               Dashboard |{' '}
               {session.user.username

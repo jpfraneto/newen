@@ -4,12 +4,14 @@ import { useSession, signOut, signIn } from 'next-auth/react';
 import { Righteous, Russo_One } from 'next/font/google';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
 const UserMenu = () => {
   const { data: session, status } = useSession();
+  const router = useRouter();
 
   const handleRetrieveUsername = () => {
     const resp = confirm(
@@ -20,9 +22,11 @@ const UserMenu = () => {
 
   if (status === 'loading') return;
 
+  if (router.pathname !== '/') return;
+
   return (
     <div
-      className={`${russo.className} blocktext-gray-700 text-sm font-bold  text-white hidden  md:absolute text-center bottom-0 md:top-4 w-full md:w-fit md:right-4 mx-0 md:mx-3 md:inline-block bg-gradient-to-r from-black via-black to-black   py-2 px-4  md:rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out border-white md:h-fit`}
+      className={`${russo.className} blocktext-gray-700 text-sm font-bold text-white  absolute text-center left-1/2 transform -translate-x-1/2 rounded-xl md:top-4 top-2 md:w-fit md:right-4 mx-0 md:mx-3 md:inline-block bg-gradient-to-r from-black via-black to-black   py-2 px-16  md:rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out border-white md:h-fit`}
     >
       {!session ? (
         <button className='hover:text-green-500 text-white' onClick={signIn}>
@@ -44,9 +48,9 @@ const UserMenu = () => {
                 alt={session.user.name}
                 width={100}
                 height={100}
-                className='m-auto w-24 h-24 rounded-full border-white border-2'
+                className='mr-2 md:m-auto w-24 h-24 rounded-full border-white border-2'
               />
-              <div>
+              <div className=''>
                 {' '}
                 <Link
                   href={`/u/${session.user.id}`}
