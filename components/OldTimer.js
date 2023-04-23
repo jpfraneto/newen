@@ -258,7 +258,7 @@ const Timer = ({
           </>
         </div>
       )}
-      <div className=''>
+      {/* <div className=''>
         {!started && (
           <label
             className={`${russo.className} blocktext-gray-700 text-sm font-bold mb-4 text-white`}
@@ -287,7 +287,7 @@ const Timer = ({
             </a>{' '}
           </p>
         )}
-      </div>
+      </div> */}
       {!showSummary && (
         <>
           <h4 className={`${righteous.className} text-6xl font-bold mb-2`}>
