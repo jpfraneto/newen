@@ -53,7 +53,7 @@ const SadhanaInvitation = ({ sadhana }) => {
   }
 
   return (
-    <div className='p-8 bg-gradient-to-r from-purple-400 via-pink-500 text-black to-red-500 min-h-screen flex items-center justify-center'>
+    <div className='p-8 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 text-black min-h-screen flex items-center justify-center'>
       {isUserParticipating ? (
         <div className='bg-white p-8 rounded-lg w-full max-w-3xl'>
           <p className='text-black'>
@@ -62,7 +62,7 @@ const SadhanaInvitation = ({ sadhana }) => {
           <h4
             className={`${righteous.className} text-2xl md:text-5xl w-full font-bold`}
           >
-            Writing for 5 minutes / 5 days.
+            {sadhana.title}
           </h4>
           <div className='py-3'>
             <Link
@@ -82,17 +82,21 @@ const SadhanaInvitation = ({ sadhana }) => {
       ) : (
         <div className='bg-white p-8 rounded-lg w-full max-w-3xl'>
           <p className='text-black'>
-            You have been invited by <Link href='/u/kithkui'>@kithkui</Link> to
-            participate in the following sadhana:
+            You have been invited by{' '}
+            <Link href='/u/kithkui'>
+              @{sadhana.author.username || sadhana.author.name}
+            </Link>{' '}
+            to participate in the following challenge:
           </p>
           <h4
             className={`${righteous.className} text-2xl md:text-5xl w-full font-bold`}
           >
-            Writing for 5 minutes / 5 days.
+            {sadhana.title}
           </h4>
           <p>
-            Do you want to commit to write for 5 days in a row? I will help you
-            be consistent.
+            Do you want to commit to {sadhana.targetSessions} days in a row of
+            doing this, for {sadhana.targetSessionDuration} minutes? I will help
+            you be consistent.
           </p>
           <div className='py-3'>
             {' '}
