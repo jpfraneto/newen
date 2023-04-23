@@ -55,7 +55,7 @@ const SadhanaInvitation = ({ sadhana }) => {
   if (!sadhana) return <p>There was a problem...</p>;
 
   return (
-    <div className='p-8 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 text-black min-h-screen flex items-center justify-center'>
+    <div className=' bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 text-black min-h-screen pt-20'>
       {isUserParticipating ? (
         <div className='bg-white p-8 rounded-lg w-full max-w-3xl'>
           <p className='text-black'>
@@ -94,7 +94,7 @@ const SadhanaInvitation = ({ sadhana }) => {
             to participate in the following challenge:
           </p>
           <h4
-            className={`${righteous.className} text-2xl md:text-5xl w-full font-bold`}
+            className={`${righteous.className} text-4xl md:text-5xl w-full font-bold`}
           >
             {sadhana.title}
           </h4>

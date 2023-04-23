@@ -116,13 +116,13 @@ const NewSadhana = () => {
     <div className='text-black'>
       {loading ? (
         <div className='text-black'>
-          <p className='text-black text-3xl mb-4'>Saving sadhana...</p>
+          <p className='text-black text-3xl mb-4'>Saving challenge...</p>
         </div>
       ) : success ? (
         <div className='bg-white p-4 rounded-lg w-full max-w-md text-black'>
           <div>
             <p className='text-black text-xl mb-2'>
-              Whoa. Your Sadhana was added. This is the starting point of
+              Whoa. Your challenge was added. This is the starting point of
               something big. Eventually, these {formData.userLimit} people will
               navigate this {formData.targetSessions} day journey in community
               and will be transformed with you as a leader. Thanks for taking
@@ -167,7 +167,7 @@ const NewSadhana = () => {
         </div>
       ) : error ? (
         <div>
-          <p>There was an error adding the Sadhana. Please try again.</p>
+          <p>There was an error adding the Challenge. Please try again.</p>
           <button
             className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
             onClick={handleTryAgain}
@@ -392,7 +392,7 @@ const NewSadhana = () => {
                 type='submit'
               >
                 {' '}
-                Create New Sadhana
+                Create New Challenge
               </button>
               <button
                 className='border-black border-2 mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold md:text-2xl px-2 md:px-6 py-1 md:py-3 m-1 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'

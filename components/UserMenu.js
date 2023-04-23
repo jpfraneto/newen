@@ -33,12 +33,21 @@ const UserMenu = () => {
     >
       <div className='container mx-auto'>
         {!session ? (
-          <button
-            className='hover:text-green-500 text-white text-3xl'
-            onClick={signIn}
-          >
-            Login
-          </button>
+          <>
+            {' '}
+            <button
+              className='hover:text-green-500 mx-2 text-white text-3xl'
+              onClick={signIn}
+            >
+              Login
+            </button>
+            <Link
+              className='hover:text-blue-400 text-white text-3xl font-bold text-lg'
+              href='/sadhana'
+            >
+              Challenges
+            </Link>
+          </>
         ) : (
           <>
             {!session.user.username ? (
@@ -67,6 +76,12 @@ const UserMenu = () => {
                       href='/'
                     >
                       Landing
+                    </Link>
+                    <Link
+                      className='hover:text-blue-400 text-white font-bold text-lg'
+                      href='/sadhana'
+                    >
+                      Challenges
                     </Link>
                     <Link
                       className='hover:text-blue-400 text-white font-bold text-lg'
