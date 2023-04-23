@@ -1,10 +1,14 @@
-// components/NewSadhana.js
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { signIn } from 'next-auth/react';
+import Spinner from '@component/components/Spinner';
+import { BsInstagram, BsTwitter, BsWhatsapp } from 'react-icons/bs';
+import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
+
+const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
 const NewSadhana = () => {
   const router = useRouter();
@@ -16,7 +20,7 @@ const NewSadhana = () => {
     targetSessions: '',
     targetSessionDuration: '',
     periodicity: 'daily',
-    startingTimestamp: new Date().getTime(),
+    startingTimestamp: new Date().toISOString().slice(0, 10),
     isPrivate: false,
   });
 
@@ -49,13 +53,43 @@ const NewSadhana = () => {
     setError(false);
   };
 
+  const handleShare = platform => {
+    switch (platform) {
+      case 'twitter':
+        shareOnTwitter();
+        break;
+      case 'instagram':
+        shareOnInstagram();
+        break;
+      case 'whatsapp':
+        shareOnWhatsApp();
+        break;
+    }
+  };
+
   const shareOnTwitter = () => {
-    const url = `https://twitter.com/intent/tweet?text=I%20just%20created%20a%20new%20challenge%20for%20every%20one%20of%20us.%20It%20will%20consist%20of%2088%20days%20of%20writing%20100%20minutes%20daily.%20If%20you%20want%20to%20participate,%20click%20the%20link%20in%20my%20bio%20and%20you%20will%20be%20directed%20to%20the%20website%20where%20this%20is%20all%20going%20to%20happen.%0A%0ALFG!`;
+    const text = `I just created a ${formData.targetSessions} day challenge, on which I will invite you to be consistent and do X. Each session will last ${formData.targetSessionDuration} minutes.\n\nLets do this together!\n\nHop into this link and sign up:\n\nhttps://www.sadhana.lat/invitation/${sadhanaId}`;
+
+    const url =
+      'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
 
     window.open(url, '_blank');
   };
 
-  if (status === 'loading') return <p>Loading!</p>;
+  const shareOnInstagram = () => {
+    alert(
+      'To share on Instagram, please create an Instagram story and add the link to your story.'
+    );
+  };
+
+  const shareOnWhatsApp = () => {
+    const text = `I just created a ${formData.targetSessions} day challenge, on which I will invite you to be consistent and do X. Each session will last ${formData.targetSessionDuration} minutes.\n Lets do this together!\n Here you can participate and track your progress: \n https://www.sadhana.lat/invitation/${sadhanaId}`;
+    const url =
+      'https://api.whatsapp.com/send?text=' + encodeURIComponent(text);
+    window.open(url, '_blank');
+  };
+
+  if (status === 'loading') return <Spinner />;
 
   if (!session)
     return (
@@ -85,18 +119,51 @@ const NewSadhana = () => {
           <p className='text-black text-3xl mb-4'>Saving sadhana...</p>
         </div>
       ) : success ? (
-        <div>
-          <p className='text-black text-3xl mb-4'>
-            Your Sadhana was added. You can see its dashboard{' '}
-            <a className='text-blue-400' href={`/sadhana/${sadhanaId}`}>
-              here
-            </a>{' '}
-            or you can share it on{' '}
-            <button className='text-blue-400' onClick={shareOnTwitter}>
-              Twitter
-            </button>
-            .
-          </p>
+        <div className='bg-white p-4 rounded-lg w-full max-w-md text-black'>
+          <div>
+            <p className='text-black text-xl mb-2'>
+              Whoa. Your Sadhana was added. This is the starting point of
+              something big. Eventually, these {formData.userLimit} people will
+              navigate this {formData.targetSessions} day journey in community
+              and will be transformed with you as a leader. Thanks for taking
+              this step. The world needs it.
+            </p>
+            <Link
+              href={`/sadhana/${sadhanaId}`}
+              className='border-black border-2 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-4 py-2 my-1 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
+            >
+              Visit Dashboard
+            </Link>
+            <div>
+              <h4
+                className={`${righteous.className} text-2xl text-center mb-3 md:text-3xl w-full font-bold`}
+              >
+                Invite your followers
+              </h4>
+              <div className='flex justify-center space-x-3'>
+                <span className='hover:text-blue-500 hover:cursor-pointer'>
+                  {' '}
+                  <BsTwitter
+                    size={40}
+                    className=''
+                    onClick={() => handleShare('twitter')}
+                  />
+                </span>
+                <span className='hover:text-pink-500 hover:cursor-pointer'>
+                  <BsInstagram
+                    size={40}
+                    onClick={() => handleShare('instagram')}
+                  />
+                </span>
+                <span className='hover:text-green-600 hover:cursor-pointer'>
+                  <BsWhatsapp
+                    size={40}
+                    onClick={() => handleShare('whatsapp')}
+                  />
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       ) : error ? (
         <div>
@@ -110,10 +177,14 @@ const NewSadhana = () => {
         </div>
       ) : (
         <div>
-          <h1 className='text-black text-3xl mb-4'>Add new sadhana</h1>
+          <h4
+            className={`${righteous.className} text-xl mb-2 text-center md:text-4xl w-full font-bold`}
+          >
+            Add new challenge
+          </h4>
           <form
             onSubmit={handleSubmit}
-            className='bg-red-200 shadow-md rounded px-8 pt-6 pb-8 mb-4'
+            className='bg-red-100 shadow-md rounded px-4 pt-6 pb-8 mb-4'
           >
             <div className='mb-4'>
               <label
@@ -126,7 +197,7 @@ const NewSadhana = () => {
                 type='text'
                 name='title'
                 id='title'
-                placeholder='Nights and Weekends Season 3'
+                placeholder='Your challenge'
                 value={formData.title}
                 onChange={handleChange}
                 required
@@ -143,7 +214,7 @@ const NewSadhana = () => {
               <textarea
                 name='content'
                 id='content'
-                placeholder='Building the most fun app of the future. The one that will make creativity a game. The most joyful of them all. There are no rights or wrongs, polarity is part of the past. There is just showing up, as yourself, and being sincere with what you bring. The rest is history.'
+                placeholder='This will appear in the challenges dashboard and will motivate people to pursue it.'
                 value={formData.content}
                 onChange={handleChange}
                 required
@@ -168,6 +239,10 @@ const NewSadhana = () => {
                 required
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
               />
+              <span className='text-sm text-gray-600 mb-2'>
+                Having a limited amount of people being able to participate
+                generates a scarcity that makes the challenge more valuable.
+              </span>
             </div>
             <div className='mb-4'>
               <label
@@ -254,16 +329,17 @@ const NewSadhana = () => {
               <input
                 type='text'
                 id='periodicity'
-                value='200 $APE'
+                value={`${formData.targetSessions * 2} USD`}
                 readOnly
                 className='border-2 border-gray-300 p-2 bg-gray-100 cursor-not-allowed rounded-md'
               />
               <span className='text-sm text-gray-600 mb-2'>
                 This will be used for betting against your capacity of Doing The
-                Work. If you fail, you pay. If you show up, you grow.
+                Work. For each day you show up, you get 1 USD back at the end of
+                the challenge (determined by how many days did it last).
               </span>
             </div>
-            <div className='flex flex-col'>
+            {/* <div className='flex flex-col'>
               <label
                 htmlFor='periodicity'
                 className='block text-gray-700 text-sm font-bold mb-2'
@@ -281,7 +357,7 @@ const NewSadhana = () => {
                 Custom hashtag that will be used to connect all of the
                 participants on social media.
               </span>
-            </div>
+            </div> */}
             <div className='mb-4'>
               <label
                 className='block text-gray-700 text-sm font-bold mb-2'
@@ -321,7 +397,10 @@ const NewSadhana = () => {
               <button
                 className='border-black border-2 mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
                 type='button'
-                onClick={() => router.back()}
+                onClick={() => {
+                  if (confirm('Are you sure you want to go back?'))
+                    router.back();
+                }}
               >
                 {' '}
                 Go Back
@@ -335,159 +414,3 @@ const NewSadhana = () => {
 };
 
 export default NewSadhana;
-
-{
-  /* <form className='space-y-4' onSubmit={handleSubmit}>
-  <div className='flex flex-col'>
-    <label htmlFor='title' className='font-semibold'>
-      Title:
-    </label>
-    <input
-      type='text'
-      id='title'
-      value={title}
-      onChange={e => setTitle(e.target.value)}
-      required
-      className='border-2 border-gray-300 p-2 rounded-md'
-    />
-  </div>
-  <div className='flex flex-col'>
-    <label htmlFor='content' className='font-semibold'>
-      Content:
-    </label>
-    <textarea
-      id='content'
-      value={content}
-      onChange={e => setContent(e.target.value)}
-      required
-      className='border-2 border-gray-300 p-2 rounded-md h-48'
-    />
-  </div>
-  <div className='flex flex-col'>
-    <label htmlFor='userLimit' className='font-semibold'>
-      User Limit:
-    </label>
-    <input
-      type='number'
-      id='userLimit'
-      value={userLimit}
-      onChange={e => setUserLimit(e.target.value)}
-      required
-      className='border-2 border-gray-300 p-2 rounded-md'
-    />
-  </div>
-  <div className='flex flex-col'>
-    <label htmlFor='targetSessions' className='font-semibold'>
-      Target Sessions:
-    </label>
-    <input
-      type='number'
-      id='targetSessions'
-      value={targetSessions}
-      onChange={e => setTargetSessions(e.target.value)}
-      required
-      className='border-2 border-gray-300 p-2 rounded-md'
-    />
-  </div>
-  <div className='flex flex-col'>
-    <label htmlFor='targetSessionDuration' className='font-semibold'>
-      Target Session Duration (minutes):
-    </label>
-    <input
-      type='number'
-      id='targetSessionDuration'
-      value={targetSessionDuration}
-      onChange={e => setTargetSessionDuration(e.target.value)}
-      required
-      className='border-2 border-gray-300 p-2 rounded-md'
-    />
-  </div>
-  <div className='flex flex-col'>
-    <label htmlFor='periodicity' className='font-semibold'>
-      Periodicity:
-    </label>
-    <input
-      type='text'
-      id='periodicity'
-      value={periodicity}
-      readOnly
-      className='border-2 border-gray-300 p-2 bg-gray-100 cursor-not-allowed rounded-md'
-    />
-    <span className='text-sm text-gray-600'>
-      In the future, you will be able to customize this as well.
-    </span>
-  </div>
-  <div className='flex flex-col'>
-    <label htmlFor='periodicity' className='font-semibold'>
-      Bet:
-    </label>
-    <input
-      type='text'
-      id='periodicity'
-      value='200 $APE'
-      readOnly
-      className='border-2 border-gray-300 p-2 bg-gray-100 cursor-not-allowed rounded-md'
-    />
-    <span className='text-sm text-gray-600'>
-      This will be used for betting against your capacity of Doing The Work. If
-      you fail, you pay. If you show up, you grow.
-    </span>
-  </div>
-  <div className='flex flex-col'>
-    <label htmlFor='periodicity' className='font-semibold'>
-      Custom Hashtag:
-    </label>
-    <input
-      type='text'
-      id='periodicity'
-      value='#n&ws3lfg'
-      readOnly
-      className='border-2 border-gray-300 p-2 bg-gray-100 cursor-not-allowed rounded-md'
-    />
-    <span className='text-sm text-gray-600'>
-      This is a custom hashtag generated by AI using the information provided
-      before, and it will be used to connect all of the participants in the
-      arena on which the work is really done: social media.
-    </span>
-  </div>
-  <div className='flex flex-col'>
-    <label htmlFor='startingDate' className='font-semibold'>
-      Starting Date:
-    </label>
-    <input
-      type='date'
-      id='startingDate'
-      value={startingDate}
-      onChange={e => {
-        setStartingDate(e.target.value);
-      }}
-      required
-      className='border-2 border-gray-300 p-2 rounded-md'
-    />
-  </div>
-  <div className='flex items-center space-x-2'>
-    <input
-      type='checkbox'
-      id='isPrivate'
-      checked={isPrivate}
-      onChange={e => setIsPrivate(e.target.checked)}
-      className='form-checkbox text-blue-600'
-    />
-    <label htmlFor='isPrivate' className='font-semibold'>
-      This sadhana is private (this means that only people with an exclusive
-      link will be able to participate)
-    </label>
-  </div>
-  <button
-    type='submit'
-    className='bg-blue-600 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700'
-  >
-    Create New Sadhana
-  </button>
-  <Link href='/'>
-    <button className='mx-4 bg-green-600 text-white font-semibold py-2 px-4 rounded hover:bg-green-700'>
-      Go Back
-    </button>
-  </Link>
-</form>; */
-}

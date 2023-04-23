@@ -31,7 +31,6 @@ const DashboardComponent = ({ session }) => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log('the data is: ', data);
 
         const responnn = data.sadhanas.map(x =>
           didUserCompleteWork(
@@ -43,7 +42,7 @@ const DashboardComponent = ({ session }) => {
         data.sadhanas = data.sadhanas.map((x, i) => {
           return { ...x, ['didTheWork']: responnn[i] };
         });
-        console.log('in hereeeee', data.sadhanas);
+        data.sadhanas = sortByStartingTimestampDescending(data.sadhanas);
         setUserSadhanas(data.sadhanas);
         setLoadingSadhanas(false);
         return;
@@ -57,6 +56,14 @@ const DashboardComponent = ({ session }) => {
 
   const [submitted, setSubmitted] = useState(false);
 
+  function sortByStartingTimestampDescending(array) {
+    return array.sort(
+      (a, b) =>
+        new Date(a.startingTimestamp).getTime() -
+        new Date(b.startingTimestamp).getTime()
+    );
+  }
+
   const updateCompletion = (index, completedStatus) => {
     const updatedCompleted = [...completed];
     updatedCompleted[index] = completedStatus;
@@ -64,6 +71,16 @@ const DashboardComponent = ({ session }) => {
   };
 
   const toggleCompletion = async (index, sadhana) => {
+    console.log(
+      'IN HERE',
+      new Date(sadhana.startingTimestamp) > new Date().getTime()
+    );
+    if (new Date(sadhana.startingTimestamp).getTime() > new Date().getTime())
+      return alert(
+        `That challenge has not started yet. Please be patient and come back in ${Math.abs(
+          calculateDayIndex(sadhana.startingTimestamp)
+        )} day(s)`
+      );
     setSavingSessionLoading(true);
     setSubmittingId(index);
     const res = await handleSubmitSession(sadhana);
@@ -170,7 +187,7 @@ const DashboardComponent = ({ session }) => {
                     }
                   >
                     <td
-                      className={`hover:text-black border px-4 py-2 text-center  cursor-pointer`}
+                      className={`hover:text-black border px-4 py-2 text-center cursor-pointer`}
                     >
                       {savingSessionLoading && submittingId === index ? (
                         <span className='flex justify-center w-8 items-center mx-auto'>
@@ -270,7 +287,11 @@ const DashboardComponent = ({ session }) => {
                   <p>Congratulations, you finished everything for today.</p>
                 </>
               ) : (
-                <p className='text-xl mr-4'>{`${completedCount}/${userSadhanas?.length} today`}</p>
+                <p className='text-xl mr-4'>{`${completedCount}/${
+                  userSadhanas.filter(
+                    x => new Date(x.startingTimestamp) < new Date().getTime()
+                  ).length
+                } today`}</p>
               )}
             </div>
           ) : (

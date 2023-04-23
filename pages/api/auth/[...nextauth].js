@@ -43,6 +43,8 @@ export const authOptions = {
                 console.log(
                   'THIS MEANS THAT THIS IS THE FIRST LOGIN FROM THIS USER. I NEED TO ADD SOME FEATURE HERE TO RECORD THE username, providerAccountId and oauthProvider in the user in the database. But how can I do that if I dont have access to a callback?'
                 );
+                console.log('user', user);
+                console.log('profile', profile);
                 return true;
               }
               console.log('MORE THAN FIRST LOGIN FROM THIS USER.');

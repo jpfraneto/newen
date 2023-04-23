@@ -1,8 +1,11 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 import Image from 'next/image';
 import DashboardComponent from '@component/components/DashboardComponent';
+
+const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
 const Dashboard = () => {
   const router = useRouter();
@@ -12,7 +15,7 @@ const Dashboard = () => {
 
   if (!session)
     return (
-      <div className='p-8 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen flex items-center justify-center'>
+      <div className='p-8 linear-gradient(to right, rgb(55, 65, 81), rgb(17, 24, 39), rgb(0, 0, 0)) min-h-screen flex items-center justify-center'>
         <div className='bg-white p-8 rounded-lg w-full max-w-md'>
           <p className='text-black'>Sorry, but are not allowed to be here.</p>
           <button
@@ -34,18 +37,23 @@ const Dashboard = () => {
     );
 
   return (
-    <div className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen'>
+    <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen'>
       {session ? (
         <div className='px-2 max-w-full md:w-8/12 m-auto py-8'>
-          <div className='text-black flex flex-col justify-items-center items-center py-4'>
-            <h2 className='text-2xl font-bold'>
-              Dashboard | @{session.user.username}
-            </h2>
+          <div className='text-white flex flex-col justify-items-center items-center py-4'>
+            <h4
+              className={`${righteous.className} text-xl text-center md:text-5xl w-full font-bold`}
+            >
+              Dashboard |{' '}
+              {session.user.username
+                ? `@${session.user.username}`
+                : session.user.name}
+            </h4>
             <Image
               width={111}
               height={111}
               src={session.user.image}
-              className='rounded-full mt-2'
+              className='rounded-full mt-2 border-2 border-white'
               alt='Profile picture'
             />
           </div>

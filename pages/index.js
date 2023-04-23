@@ -73,7 +73,7 @@ export default function Home() {
           content='Deep Work timer and consistency trainer working alongside creators in challenges. '
         />
       </Head>
-      <main className='bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen overflow-scroll'>
+      <main className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen overflow-scroll'>
         <section className='hero pb-10 px-5 text-center text-white overflow-scroll'>
           <h2 className={`${russo.className} text-xl md:text-8xl font-bold`}>
             <span className='text-gray-400'></span>.sadhana.

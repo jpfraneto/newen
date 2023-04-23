@@ -199,7 +199,9 @@ const Timer = ({
           <>
             <>
               <>
-                {userSadhanas.length > 0 ? (
+                {userSadhanas.filter(
+                  x => new Date(x.startingTimestamp) < new Date().getTime()
+                ).length > 0 ? (
                   <select
                     name='title'
                     id='title'

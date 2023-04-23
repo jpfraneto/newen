@@ -11,6 +11,13 @@ const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 const UserMenu = () => {
   const { data: session, status } = useSession();
 
+  const handleRetrieveUsername = () => {
+    const resp = confirm(
+      'You will be logged out, and if you log in again you will have your twitters username associated with your account.'
+    );
+    if (resp) signOut();
+  };
+
   if (status === 'loading') return;
 
   return (
@@ -25,10 +32,10 @@ const UserMenu = () => {
         <>
           {!session.user.username ? (
             <p
-              onClick={() => signOut()}
+              onClick={handleRetrieveUsername}
               className='hover:text-blue-400 hover:cursor-pointer'
             >
-              Activate your account
+              Retrieve Twitter Username
             </p>
           ) : (
             <div className='flex md:flex-none justify-center md:flex-col'>

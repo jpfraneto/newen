@@ -15,16 +15,18 @@ import {
   FaUserAstronaut,
 } from 'react-icons/fa';
 import { calculateDayIndex } from '@component/lib/functions';
+import WelcomeScreen from '@component/components/WelcomeScreen';
+import Spinner from '@component/components/Spinner';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
-export default function SadhanaDetail({ sadhana }) {
+export default function SadhanaDetail({ sadhana, participantsData }) {
   const router = useRouter();
   const id = sadhana?.id || null;
   const { data: session, status } = useSession();
   const [buttonText, setButtonText] = useState('Participate');
-  const [participants, setParticipants] = useState(sadhana?.participants || []);
+  const [participants, setParticipants] = useState(participantsData);
   const [selectedSession, setSelectedSession] = useState(null);
   const [dayForDisplay, setDayForDisplay] = useState(null);
   const [dayLoading, setDayLoading] = useState(false);
@@ -40,6 +42,7 @@ export default function SadhanaDetail({ sadhana }) {
 
   useEffect(() => {
     const loggedInUserId = session?.user?.id;
+    if (!participants) return;
     const isUserParticipating = participants.some(
       participant => participant.id === loggedInUserId
     );
@@ -47,7 +50,7 @@ export default function SadhanaDetail({ sadhana }) {
     if (isUserParticipating) {
       setButtonText('Joined!');
     }
-  }, [session, participants]);
+  }, [session, participants, sadhana]);
 
   useEffect(() => {
     const fetchUpdates = async () => {
@@ -173,11 +176,15 @@ export default function SadhanaDetail({ sadhana }) {
               {!isUserParticipating ? (
                 <>
                   {' '}
-                  <p
-                    className={`${russo.className} blocktext-gray-700 text-sm font-bold  text-black`}
-                  >
-                    You are not part of this sadhana.
-                  </p>
+                  {status === 'loading' ? (
+                    <Spinner />
+                  ) : (
+                    <p
+                      className={`${russo.className} blocktext-gray-700 text-sm font-bold  text-black`}
+                    >
+                      You are not part of this sadhana.
+                    </p>
+                  )}
                   {session ? (
                     <>
                       {buttonText === 'Joined!' ? (
@@ -341,12 +348,14 @@ export async function getStaticProps({ params }) {
   return {
     props: {
       sadhana: JSON.parse(JSON.stringify(sadhana)),
+      participantsData: JSON.parse(JSON.stringify(sadhana.participants)),
     },
     revalidate: 60,
   };
 }
 
 function Participants({ participants }) {
+  console.log('in here, the participants are: ', participants);
   return (
     <div className='flex items-center mb-4'>
       {participants?.map(participant => (
@@ -373,7 +382,10 @@ function HeaderComponent({ sadhana, participants, dayIndex }) {
       <h4
         className={`${righteous.className} text-4xl font-bold mb-2 text-black`}
       >
-        {sadhana.title} - Today is day {dayIndex} of this challenge
+        {sadhana.title} -{' '}
+        {dayIndex < 0
+          ? `This challenge starts in ${dayIndex * -1} day(s)`
+          : `Today is day ${dayIndex} of this challenge`}
       </h4>
       <div className='flex gap-x-3 justify-center'>
         {' '}
