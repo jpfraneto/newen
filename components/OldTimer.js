@@ -269,28 +269,21 @@ const Timer = ({
               className='accent-pink-500 mx-2 p-2'
               onChange={() => setMusic(() => !music)}
             />
-            Do you want to get a customized playlist for this session, generated
-            with your mission for today?
+            Do you want to get a music recommendaton to go full-on with this
+            session?
           </label>
         )}
         {music && started && !finished && (
           <p
             className={`${russo.className} blocktext-gray-700 text-sm font-bold mb-4 text-white`}
           >
+            Here is the music for today:{' '}
             <a
               className='text-blue-300 hover:text-yellow-400'
-              href='https://open.spotify.com/playlist/5RX9wCeKxQGT9vaSmxxamr'
+              href='https://soundcloud.com/jonassaalbach/jonas-saalbach-live-set-fusion-festival-2019-sonnendeck'
               target='_blank'
             >
-              Open playlist in spotify.
-            </a>{' '}
-            Powered by{' '}
-            <a
-              className='text-blue-300 hover:text-yellow-400'
-              href='https://www.feelsapp.io'
-              target='_blank'
-            >
-              feelsapp.io
+              Open in soundcloud.
             </a>{' '}
           </p>
         )}
