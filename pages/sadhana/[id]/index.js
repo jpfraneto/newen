@@ -88,7 +88,6 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
   };
 
   async function fetchSadhanaDayInfo(sadhanaId, dayNumber) {
-    alert('in here!');
     setChosenDayIndex(dayNumber + 1);
     setDayLoading(true);
     setDisplayDayInfo(true);
