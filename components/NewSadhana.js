@@ -78,7 +78,7 @@ const NewSadhana = () => {
   };
 
   const shareOnLink = async () => {
-    const text = `https://www.sadhana.lat/invitation/${sadhana.id}`;
+    const text = `https://www.sadhana.lat/invitation/${sadhanaId}`;
 
     await navigator.clipboard.writeText(text);
     alert('Link copied.');
