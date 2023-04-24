@@ -483,9 +483,9 @@ function HeaderComponent({ sadhana, participants, dayIndex }) {
               onClick={() => handleShare('twitter')}
             />
           </span>
-          <span className='hover:text-pink-500 hover:cursor-pointer'>
+          {/* <span className='hover:text-pink-500 hover:cursor-pointer'>
             <BsInstagram size={20} onClick={() => handleShare('instagram')} />
-          </span>
+          </span> */}
           <span className='hover:text-green-600 hover:cursor-pointer'>
             <BsWhatsapp size={20} onClick={() => handleShare('whatsapp')} />
           </span>

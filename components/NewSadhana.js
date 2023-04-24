@@ -5,7 +5,12 @@ import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { signIn } from 'next-auth/react';
 import Spinner from '@component/components/Spinner';
-import { BsInstagram, BsTwitter, BsWhatsapp } from 'react-icons/bs';
+import {
+  BsInstagram,
+  BsTwitter,
+  BsWhatsapp,
+  BsLink45Deg,
+} from 'react-icons/bs';
 import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
@@ -144,7 +149,7 @@ const NewSadhana = () => {
               <h4
                 className={`${righteous.className} text-2xl text-center mb-3 md:text-3xl w-full font-bold`}
               >
-                Invite your followers
+                Invite your friends
               </h4>
               <div className='flex justify-center space-x-3'>
                 <span className='hover:text-blue-500 hover:cursor-pointer'>
@@ -155,17 +160,20 @@ const NewSadhana = () => {
                     onClick={() => handleShare('twitter')}
                   />
                 </span>
-                <span className='hover:text-pink-500 hover:cursor-pointer'>
+                {/* <span className='hover:text-pink-500 hover:cursor-pointer'>
                   <BsInstagram
                     size={40}
                     onClick={() => handleShare('instagram')}
                   />
-                </span>
+                </span> */}
                 <span className='hover:text-green-600 hover:cursor-pointer'>
                   <BsWhatsapp
                     size={40}
                     onClick={() => handleShare('whatsapp')}
                   />
+                </span>
+                <span className='hover:text-green-600 hover:cursor-pointer'>
+                  <BsLink45Deg size={40} onClick={() => handleShare('link')} />
                 </span>
               </div>
             </div>
