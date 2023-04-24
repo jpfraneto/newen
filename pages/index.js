@@ -84,7 +84,7 @@ export default function Home() {
             <span className='text-gray-400'></span>
           </h2>
           <h4
-            className={`${righteous.className} text-2xl md:text-5xl w-full font-bold`}
+            className={`${russo.className} text-2xl md:text-5xl w-full font-bold`}
           >
             the power of consistency
           </h4>

@@ -193,7 +193,7 @@ const Timer = ({
         <div className=''>
           <label
             htmlFor='title'
-            className={`${russo.className} blocktext-gray-700 text-sm font-bold mb-4 text-white`}
+            className={`${russo.className} blocktext-gray-700  font-bold mb-4 text-gray-300`}
           >
             What are you going to work on now?
           </label>
@@ -241,7 +241,7 @@ const Timer = ({
                     type='text'
                     name='title'
                     id='title'
-                    placeholder='N&W Season 3 Deep Work Session'
+                    placeholder='playing drums'
                     disabled={started}
                     value={chosenSadhana.title}
                     onChange={e =>
@@ -251,7 +251,7 @@ const Timer = ({
                       }))
                     }
                     required
-                    className={`${russo.className} shadow appearance-none border rounded-xl w-full mt-1 mb-2 py-2 px-3 text-grey-100 bg-black leading-tight focus:outline-none focus:shadow-outline text-grey-200`}
+                    className={`${russo.className} placeholder-gray-700 shadow appearance-none border rounded-xl w-full mt-1 mb-2 py-2 px-3 text-grey-100 bg-black leading-tight focus:outline-none focus:shadow-outline text-grey-200`}
                   />
                 )}
               </>
@@ -291,7 +291,7 @@ const Timer = ({
       </div> */}
       {!showSummary && (
         <>
-          <h4 className={`${righteous.className} text-6xl font-bold mb-2`}>
+          <h4 className={`${russo.className} text-6xl font-bold mb-2`}>
             {formatTime(timeRemaining)}
           </h4>
 
@@ -326,9 +326,12 @@ const Timer = ({
 
           {!isRunning && !started ? (
             <>
-              <p className={`mb-2 ${russo.className}`}>
+              <p
+                className={`${russo.className} blocktext-gray-700 font-bold mt-2 text-gray-300`}
+              >
                 Slide to change the session duration
               </p>
+
               <input
                 type='range'
                 min='0'
