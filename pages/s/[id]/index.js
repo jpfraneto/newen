@@ -3,7 +3,12 @@ import { signIn, useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { Righteous, Russo_One } from 'next/font/google';
 import SadhanaUpdate from '@component/components/SadhanaUpdate';
-import { BsInstagram, BsTwitter, BsWhatsapp } from 'react-icons/bs';
+import {
+  BsInstagram,
+  BsTwitter,
+  BsWhatsapp,
+  BsLink45Deg,
+} from 'react-icons/bs';
 
 import SadhanaDayTimer from '@component/components/SadhanaDayTimer';
 import SadhanaDayInfo from '@component/components/SadhanaDayInfo';
@@ -395,7 +400,17 @@ function HeaderComponent({ sadhana, participants, dayIndex }) {
       case 'whatsapp':
         shareOnWhatsApp();
         break;
+      case 'link':
+        shareOnLink();
+        break;
     }
+  };
+
+  const shareOnLink = async () => {
+    const text = `https://www.sadhana.lat/invitation/${sadhana.id}`;
+
+    await navigator.clipboard.writeText(text);
+    alert('Link copied.');
   };
 
   const shareOnTwitter = () => {
@@ -473,6 +488,9 @@ function HeaderComponent({ sadhana, participants, dayIndex }) {
           </span>
           <span className='hover:text-green-600 hover:cursor-pointer'>
             <BsWhatsapp size={20} onClick={() => handleShare('whatsapp')} />
+          </span>
+          <span className='hover:text-green-600 hover:cursor-pointer'>
+            <BsLink45Deg size={20} onClick={() => handleShare('link')} />
           </span>
         </div>
       </div>

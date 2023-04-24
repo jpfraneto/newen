@@ -62,6 +62,9 @@ const NewSadhana = () => {
       case 'whatsapp':
         shareOnWhatsApp();
         break;
+      case 'link':
+        shareOnLink();
+        break;
     }
   };
 
@@ -72,6 +75,13 @@ const NewSadhana = () => {
       'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
 
     window.open(url, '_blank');
+  };
+
+  const shareOnLink = async () => {
+    const text = `https://www.sadhana.lat/invitation/${sadhana.id}`;
+
+    await navigator.clipboard.writeText(text);
+    alert('Link copied.');
   };
 
   const shareOnInstagram = () => {
