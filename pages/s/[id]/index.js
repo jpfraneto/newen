@@ -454,9 +454,9 @@ function HeaderComponent({ sadhana, participants, dayIndex }) {
             day: 'numeric',
           })}
         </p>
-        <p className='flex gap-x-1 items-center'>
+        {/* <p className='flex gap-x-1 items-center'>
           <FaUsers size={20} /> {participants?.length}/{sadhana.userLimit}
-        </p>
+        </p> */}
         <div className='flex flex-row space-x-1 p-1 bg-purple-200 border-2 border-black rounded'>
           {' '}
           <span>Invite your friends:</span>
