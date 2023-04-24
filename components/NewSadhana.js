@@ -16,12 +16,10 @@ const NewSadhana = () => {
   const [formData, setFormData] = useState({
     title: '',
     content: '',
-    userLimit: '',
     targetSessions: '',
     targetSessionDuration: '',
     periodicity: 'daily',
     startingTimestamp: new Date().toISOString().slice(0, 10),
-    isPrivate: false,
   });
 
   const [loading, setLoading] = useState(false);
@@ -221,7 +219,7 @@ const NewSadhana = () => {
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-32'
               />
             </div>
-            <div className='mb-4'>
+            {/* <div className='mb-4'>
               <label
                 htmlFor='userLimit'
                 className='block text-gray-700 text-sm font-bold mb-2'
@@ -243,7 +241,7 @@ const NewSadhana = () => {
                 Having a limited amount of people being able to participate
                 generates a scarcity that makes the challenge more valuable.
               </span>
-            </div>
+            </div> */}
             <div className='mb-4'>
               <label
                 htmlFor='targetSessions'
@@ -319,7 +317,7 @@ const NewSadhana = () => {
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline '
               />
             </div>
-            <div className='flex flex-col'>
+            {/* <div className='flex flex-col'>
               <label
                 htmlFor='periodicity'
                 className='block text-gray-700 text-sm font-bold mb-2'
@@ -338,7 +336,7 @@ const NewSadhana = () => {
                 Work. For each day you show up, you get 1 USD back at the end of
                 the challenge (determined by how many days did it last).
               </span>
-            </div>
+            </div> */}
             {/* <div className='flex flex-col'>
               <label
                 htmlFor='periodicity'
@@ -358,7 +356,7 @@ const NewSadhana = () => {
                 participants on social media.
               </span>
             </div> */}
-            <div className='mb-4'>
+            {/* <div className='mb-4'>
               <label
                 className='block text-gray-700 text-sm font-bold mb-2'
                 htmlFor='isPrivate'
@@ -385,7 +383,7 @@ const NewSadhana = () => {
                   ? 'Only people with the custom-made link can participate. It wont be displayed in the list of sadhanas for people to join.'
                   : 'Anyone can join.'}
               </label>
-            </div>
+            </div> */}
             <div className='flex flex-col items-center justify-between'>
               <button
                 className='border-black border-2 inline-block bg-gradient-to-r from-green-500 via-brown-500 to-green-500 text-black font-bold md:text-2xl px-2 md:px-6 py-1 md:py-3 m-1 mt-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'

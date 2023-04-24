@@ -4,7 +4,6 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@component/pages/api/auth/[...nextauth].js';
 
 const handler = async (req, res) => {
-  let user;
   try {
     if (req.method !== 'POST') {
       return res.status(501).end();
@@ -14,26 +13,7 @@ const handler = async (req, res) => {
 
     if (!session) return res.status(401).json({ message: 'Not logged in' });
 
-    switch (session.user.oauthProvider) {
-      case 'twitter':
-        user = await prisma.user.findUnique({
-          where: {
-            id: session.user.id,
-          },
-        });
-        break;
-      case 'google':
-        user = await prisma.user.findUnique({
-          where: {
-            email: session.user.email,
-          },
-        });
-        break;
-    }
-
-    if (!user) return res.status(401).json({ message: 'User not found' });
-
-    await createSadhana(req, res, user);
+    await createSadhana(req, res, session);
 
     res.end();
   } catch (error) {
@@ -41,20 +21,18 @@ const handler = async (req, res) => {
   }
 };
 
-const createSadhana = async (req, res, user) => {
+const createSadhana = async (req, res, session) => {
   try {
     console.log('the req.body when creating a new sadhana is: ', req.body);
     const {
       title,
       content,
-      userLimit,
       targetSessions,
       targetSessionDuration,
       periodicity,
       startingTimestamp,
-      isPrivate,
     } = req.body;
-
+    console.log('the starting timestamp is: ', startingTimestamp);
     const parsedStartingTimestamp = new Date(startingTimestamp);
     if (isNaN(parsedStartingTimestamp)) {
       return res
@@ -64,18 +42,16 @@ const createSadhana = async (req, res, user) => {
     const sadhanaData = {
       title: title,
       content: content,
-      userLimit: parseInt(userLimit),
       targetSessions: parseInt(targetSessions),
       targetSessionDuration: parseInt(targetSessionDuration),
       periodicity: periodicity,
       startingTimestamp: parsedStartingTimestamp.toISOString(),
-      isPrivate: isPrivate,
       author: {
-        connect: { id: user.id },
+        connect: { id: session.user.id },
       },
       participants: {
         connect: {
-          id: user.id,
+          id: session.user.id,
         },
       },
     };

@@ -82,12 +82,12 @@ model Sadhana {
   targetSessionDuration Int
   periodicity         String
   startingTimestamp   String
-  userLimit           Int
+  userLimit           Int?
   elapsedDays         Int @default(0)
   started             Boolean  @default(false)
   sadhanaSessions     SadhanaSession[]
   sadhanaDays         SadhanaDay[]
-  isPrivate           Boolean
+  isPrivate           Boolean @default(false)
   activeDay           Int?
   updates SadhanaUpdate[]
 }
