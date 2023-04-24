@@ -32,7 +32,6 @@ const DashboardComponent = ({ session }) => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-
         const responnn = data.sadhanas.map(x =>
           didUserCompleteWork(
             data.user,
@@ -43,6 +42,8 @@ const DashboardComponent = ({ session }) => {
         data.sadhanas = data.sadhanas.map((x, i) => {
           return { ...x, ['didTheWork']: responnn[i] };
         });
+        setCompleted(responnn);
+
         data.sadhanas = sortByStartingTimestampDescending(data.sadhanas);
         setUserSadhanas(data.sadhanas);
         setLoadingSadhanas(false);
@@ -72,10 +73,6 @@ const DashboardComponent = ({ session }) => {
   };
 
   const toggleCompletion = async (index, sadhana) => {
-    console.log(
-      'IN HERE',
-      new Date(sadhana.startingTimestamp) > new Date().getTime()
-    );
     if (new Date(sadhana.startingTimestamp).getTime() > new Date().getTime())
       return alert(
         `That challenge has not started yet. Please be patient and come back in ${Math.abs(
@@ -167,11 +164,10 @@ const DashboardComponent = ({ session }) => {
           <table className='table-auto w-full my-2 bg-black text-white  shadow-md rounded-md'>
             <thead>
               <tr className='bg-black text-white'>
+                <th className='px-4 py-2 text-white'>Sadhana Name</th>
                 <th className='px-4 py-2 text-white'>Completed?</th>
                 <th className='px-4 py-2 text-white w-8'>Timer</th>
-                <th className='px-4 py-2 text-white'>Sadhana Name</th>
-
-                <th className='px-4 py-2 text-white'>Ready Today</th>
+                {/* <th className='px-4 py-2 text-white'>Ready Today</th> */}
                 <th className='px-4 py-2 text-white'>Sessions</th>
 
                 {/* <th className='px-4 py-2 text-white w-8'>Other</th> */}
@@ -186,6 +182,9 @@ const DashboardComponent = ({ session }) => {
                       index % 2 === 0 ? 'bg-neutral-400' : 'bg-neutral-300'
                     }
                   >
+                    <td className='border px-4 py-2 text-black text-center'>
+                      <Link href={`/s/${sadhana.id}`}>{sadhana.title} </Link>
+                    </td>
                     <td
                       className={`hover:text-black border px-4 py-2 text-center cursor-pointer`}
                     >
@@ -197,7 +196,12 @@ const DashboardComponent = ({ session }) => {
                         <>
                           {completed[index] ? (
                             <span className='text-green-700 flex justify-center w-8 items-center mx-auto'>
-                              <GoVerified size={50} />
+                              <GoVerified
+                                size={50}
+                                onClick={() =>
+                                  alert('You already did this one today.')
+                                }
+                              />
                             </span>
                           ) : (
                             <span
@@ -213,7 +217,12 @@ const DashboardComponent = ({ session }) => {
                     <td className='border px-4 py-2 text-black text-center w-48'>
                       {completed[index] ? (
                         <span className='text-green-700 flex justify-center w-8 items-center mx-auto'>
-                          <GoVerified size={50} />
+                          <GoVerified
+                            size={50}
+                            onClick={() =>
+                              alert('You already did this one today.')
+                            }
+                          />
                         </span>
                       ) : (
                         <>
@@ -234,15 +243,10 @@ const DashboardComponent = ({ session }) => {
                         </>
                       )}
                     </td>
-                    <td className='border px-4 py-2 text-black text-center'>
-                      <Link href={`/sadhana/${sadhana.id}`}>
-                        {sadhana.title}{' '}
-                      </Link>
-                    </td>
 
-                    <td className='border px-4 py-2 text-black text-center'>{`${
+                    {/* <td className='border px-4 py-2 text-black text-center'>{`${
                       completed[index] ? 1 : 0
-                    }/${sadhana.userLimit}`}</td>
+                    }/${sadhana.userLimit}`}</td> */}
                     <td className='border px-4 py-2 text-black text-center'>
                       {evaluateSadhanaTime(sadhana.startingTimestamp) ? (
                         `${getCurrentDay(sadhana.startingTimestamp)}/${
@@ -263,11 +267,12 @@ const DashboardComponent = ({ session }) => {
             <tr>
               <td className='p-2 hover:text-yellow-300 '>
                 <Link
-                  href='/sadhana/new'
+                  href='/s/new'
                   className='flex items-center space-x-2'
                   passHref
                 >
-                  <AiOutlinePlus /> <span className=''>Create new sadhana</span>
+                  <AiOutlinePlus />{' '}
+                  <span className=''>Create new challenge</span>
                 </Link>
               </td>
             </tr>
@@ -313,7 +318,7 @@ const DashboardComponent = ({ session }) => {
         <>
           <p>You don&apos;t have any challenges associated yet.</p>
           <Link
-            href='/sadhana/new'
+            href='/s/new'
             className='border-black border-2 inline-block bg-gradient-to-r from-green-500 via-brown-500 to-green-500 text-black font-bold text-2xl px-6 py-3  mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
           >
             Add new challenge

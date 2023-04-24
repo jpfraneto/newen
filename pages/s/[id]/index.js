@@ -3,6 +3,8 @@ import { signIn, useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { Righteous, Russo_One } from 'next/font/google';
 import SadhanaUpdate from '@component/components/SadhanaUpdate';
+import { BsInstagram, BsTwitter, BsWhatsapp } from 'react-icons/bs';
+
 import SadhanaDayTimer from '@component/components/SadhanaDayTimer';
 import SadhanaDayInfo from '@component/components/SadhanaDayInfo';
 import prisma from '../../../lib/prismaClient';
@@ -33,6 +35,7 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
   const [timeRemaining, setTimeRemaining] = useState(
     sadhana?.targetSessionDuration || 0
   );
+  const [isUserParticipating, setIsUserParticipating] = useState(false);
   const [displayDayInfo, setDisplayDayInfo] = useState(false);
   const [chosenDayIndex, setChosenDayIndex] = useState(
     calculateDayIndex(sadhana?.startingTimestamp) + 1
@@ -41,16 +44,13 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
   const dayIndex = calculateDayIndex(sadhana?.startingTimestamp) + 1;
 
   useEffect(() => {
-    const loggedInUserId = session?.user?.id;
-    if (!participants) return;
-    const isUserParticipating = participants.some(
-      participant => participant.id === loggedInUserId
+    if (!session) return;
+    setIsUserParticipating(
+      sadhana?.participants?.some(
+        participant => participant.id === session?.user.id
+      )
     );
-
-    if (isUserParticipating) {
-      setButtonText('Joined!');
-    }
-  }, [session, participants, sadhana]);
+  }, [session]);
 
   useEffect(() => {
     const fetchUpdates = async () => {
@@ -65,9 +65,6 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
   }, [id, router]);
 
   const loggedInUserId = session?.user?.id || null;
-  const isUserParticipating = sadhana?.participants?.some(
-    participant => participant.id === loggedInUserId
-  );
 
   const checkIfUserDidTheWork = () => {
     if (!session?.user) return false;
@@ -116,6 +113,7 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
         const responseInfo = await response.json();
         setParticipants([...responseInfo.participants]);
         setButtonText('Joined!');
+        setIsUserParticipating(true);
       } else {
         setButtonText('Error!');
       }
@@ -146,7 +144,7 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
       <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen text-black py-8 px-60'>
         <p>
           Unable to find this sadhana, please refresh the page or create a new
-          one <Link href='/sadhana/new'>here</Link>
+          one <Link href='/s/new'>here</Link>
         </p>
       </div>
     );
@@ -179,39 +177,36 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
                   {status === 'loading' ? (
                     <Spinner />
                   ) : (
-                    <p
-                      className={`${russo.className} blocktext-gray-700 text-sm font-bold  text-black`}
-                    >
-                      You are not part of this sadhana.
-                    </p>
-                  )}
-                  {session ? (
                     <>
-                      {buttonText === 'Joined!' ? (
-                        <button
-                          className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                          disabled
-                        >
-                          {buttonText}
-                        </button>
+                      {session ? (
+                        <>
+                          {buttonText === 'Joined!' ? (
+                            <button
+                              className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                              disabled
+                            >
+                              {buttonText}
+                            </button>
+                          ) : (
+                            <button
+                              className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                              onClick={handleParticipate}
+                            >
+                              {buttonText}
+                            </button>
+                          )}
+                        </>
                       ) : (
-                        <button
-                          className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                          onClick={handleParticipate}
-                        >
-                          {buttonText}
-                        </button>
+                        <>
+                          {' '}
+                          <button
+                            className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                            onClick={signIn}
+                          >
+                            If you log in, you can join.
+                          </button>
+                        </>
                       )}
-                    </>
-                  ) : (
-                    <>
-                      {' '}
-                      <button
-                        className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                        onClick={signIn}
-                      >
-                        If you log in, you can join.
-                      </button>
                     </>
                   )}
                 </>
@@ -239,6 +234,7 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
                       </div>
                     ))}
                   </div>
+
                   {dayIndex === chosenDayIndex && (
                     <div>
                       {true ? (
@@ -313,7 +309,7 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
           <div className='flex flex-row items-center justify-center'>
             {' '}
             <Link
-              href='/sadhana'
+              href='/s'
               className='m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
             >
               Go to sadhanas
@@ -388,6 +384,41 @@ function Participants({ participants }) {
 }
 
 function HeaderComponent({ sadhana, participants, dayIndex }) {
+  const handleShare = platform => {
+    switch (platform) {
+      case 'twitter':
+        shareOnTwitter();
+        break;
+      case 'instagram':
+        shareOnInstagram();
+        break;
+      case 'whatsapp':
+        shareOnWhatsApp();
+        break;
+    }
+  };
+
+  const shareOnTwitter = () => {
+    const text = `I want to challenge to a ${sadhana.targetSessions} day challenge, doing X. Each session will last ${sadhana.targetSessionDuration} minutes.\n\nLets do this together!\n\nHere you can sign up:\n\nhttps://www.sadhana.lat/invitation/${sadhana.id}`;
+
+    const url =
+      'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
+
+    window.open(url, '_blank');
+  };
+
+  const shareOnInstagram = () => {
+    alert(
+      'To share on Instagram, please create an Instagram story and add the link to your story.'
+    );
+  };
+
+  const shareOnWhatsApp = () => {
+    const text = `I want to challenge to a ${sadhana.targetSessions} day challenge, doing X. Each session will last ${sadhana.targetSessionDuration} minutes.\n\nLets do this together!\n\nHere you can sign up:\n\nhttps://www.sadhana.lat/invitation/${sadhana.id}`;
+    const url =
+      'https://api.whatsapp.com/send?text=' + encodeURIComponent(text);
+    window.open(url, '_blank');
+  };
   return (
     <>
       {' '}
@@ -407,7 +438,7 @@ function HeaderComponent({ sadhana, participants, dayIndex }) {
             className='text-blue-500 hover:underline'
             href={`/u/${sadhana.author.id}`}
           >
-            @{sadhana.author.username}
+            @{sadhana.author.username || sadhana.author.name}
           </Link>
         </p>
         <p className='flex gap-x-1 items-center'>
@@ -426,6 +457,24 @@ function HeaderComponent({ sadhana, participants, dayIndex }) {
         <p className='flex gap-x-1 items-center'>
           <FaUsers size={20} /> {participants?.length}/{sadhana.userLimit}
         </p>
+        <div className='flex flex-row space-x-1 p-1 bg-purple-200 border-2 border-black rounded'>
+          {' '}
+          <span>Invite your friends:</span>
+          <span className='hover:text-blue-500 hover:cursor-pointer'>
+            {' '}
+            <BsTwitter
+              size={20}
+              className=''
+              onClick={() => handleShare('twitter')}
+            />
+          </span>
+          <span className='hover:text-pink-500 hover:cursor-pointer'>
+            <BsInstagram size={20} onClick={() => handleShare('instagram')} />
+          </span>
+          <span className='hover:text-green-600 hover:cursor-pointer'>
+            <BsWhatsapp size={20} onClick={() => handleShare('whatsapp')} />
+          </span>
+        </div>
       </div>
       <p className='italic my-2'>{sadhana.content}</p>
       <h4

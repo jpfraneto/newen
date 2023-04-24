@@ -10,24 +10,30 @@ const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 export default function SadhanaList({ sadhanas }) {
   return (
     <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen text-black py-8 px-4 sm:px-8 md:px-16 lg:px-32'>
-      <div className='flex flex-col sm:flex-row items-center mb-4'>
+      <div className='mb-2'>
         <h4
           className={`${righteous.className} text-2xl md:text-5xl w-full font-bold`}
         >
           Challenges List
         </h4>
+        <Link
+          className='linkButton my-2 inline-block bg-gradient-to-r border-white border-2 hover:text-yellow-700 active:translate-y-1 text-white font-bold text-2xl px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out w-fit'
+          href={`/s/new`}
+        >
+          Add Challenge
+        </Link>
       </div>
 
-      <div className='overflow-x-auto rounded-xl'>
+      <div
+        className={`${russo.className} overflow-x-auto rounded-xl font-bold`}
+      >
         <table className='rounded-2xl table-auto w-full text-center'>
           <thead>
             <tr className='bg-gray-100 rounded-2xl text-center'>
               <th className='px-4 py-2'>Title</th>
               <th className='px-4 py-2'>Author</th>
               <th className='px-4 py-2'>Target Sessions</th>
-              <th className='px-4 py-2'>Target Session Duration (minutes)</th>
               <th className='px-4 py-2'>Starting Date</th>
-              <th className='px-4 py-2'>Users</th>
             </tr>
           </thead>
           <tbody>
@@ -36,13 +42,8 @@ export default function SadhanaList({ sadhanas }) {
                 key={sadhana.id}
                 className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}
               >
-                <td className='px-4 py-2'>
-                  <Link
-                    className='hover:text-blue-400 inline-block bg-gradient-to-r from-black via-black to-black text-white font-bold text-xl px-4 py-2 rounded-lg shadow-md transition-all duration-100 ease-in-out'
-                    href={`/sadhana/${sadhana.id}`}
-                  >
-                    {sadhana.title}
-                  </Link>
+                <td className='px-4 py-2 text-left'>
+                  <Link href={`/s/${sadhana.id}`}>{sadhana.title}</Link>
                 </td>
                 <td className='px-4 py-2'>
                   <Link
@@ -57,11 +58,12 @@ export default function SadhanaList({ sadhanas }) {
                       height={32}
                       className='rounded-full'
                     />
-                    <span>@{sadhana.author.username}</span>
+                    <span>
+                      @{sadhana.author.username || sadhana.author.name}
+                    </span>
                   </Link>
                 </td>
                 <td className='px-4 py-2'>{sadhana.targetSessions}</td>
-                <td className='px-4 py-2'>{sadhana.targetSessionDuration}</td>
                 <td className='px-4 py-2'>
                   {new Date(sadhana.startingTimestamp).toLocaleDateString(
                     'en-US',
@@ -73,21 +75,10 @@ export default function SadhanaList({ sadhanas }) {
                     }
                   )}
                 </td>
-                <td className='px-4 py-2'>
-                  {sadhana.participants.length}/{sadhana.userLimit}
-                </td>
               </tr>
             ))}
           </tbody>
         </table>
-      </div>
-      <div className='mt-3 flex flex-col sm:flex-row items-center mb-4'>
-        <Link
-          className='ml-0 mt-4 sm:mt-0 inline-block bg-gradient-to-r from-black via-black to-black text-white font-bold text-2xl px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-          href={`/sadhana/new`}
-        >
-          Add Sadhana
-        </Link>
       </div>
     </div>
   );

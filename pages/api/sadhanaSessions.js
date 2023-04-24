@@ -78,7 +78,7 @@ async function createSadhanaSession(
   }
 
   // Calculate the current day index of the Sadhana
-  const dayIndex = calculateDayIndex(sadhana.startingTimestamp) + 1;
+  const dayIndex = calculateDayIndex(sadhana.startingTimestamp);
   // Find or create the SadhanaDay with the calculated day index
   const sadhanaDay = await prisma.sadhanaDay.findFirst({
     where: {

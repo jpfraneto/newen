@@ -43,7 +43,7 @@ const UserMenu = () => {
             </button>
             <Link
               className='hover:text-blue-400 text-white text-3xl font-bold text-lg'
-              href='/sadhana'
+              href='/s'
             >
               Challenges
             </Link>
@@ -79,7 +79,7 @@ const UserMenu = () => {
                     </Link>
                     <Link
                       className='hover:text-blue-400 text-white font-bold text-lg'
-                      href='/sadhana'
+                      href='/s'
                     >
                       Challenges
                     </Link>

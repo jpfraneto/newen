@@ -120,14 +120,12 @@ const NewSadhana = () => {
         <div className='bg-white p-4 rounded-lg w-full max-w-md text-black'>
           <div>
             <p className='text-black text-xl mb-2'>
-              Whoa. Your challenge was added. This is the starting point of
-              something big. Eventually, these {formData.userLimit} people will
-              navigate this {formData.targetSessions} day journey in community
-              and will be transformed with you as a leader. Thanks for taking
-              this step. The world needs it.
+              You just commited to something. This is the starting point of your
+              own growth. Do you want to challenge someone to do this with you?
+              Share it with the buttons below.
             </p>
             <Link
-              href={`/sadhana/${sadhanaId}`}
+              href={`/s/${sadhanaId}`}
               className='border-black border-2 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-4 py-2 my-1 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
             >
               Visit Dashboard

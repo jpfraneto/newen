@@ -17,7 +17,7 @@ const SadhanaDashboard = () => {
     const fetchSadhanaData = async () => {
       // Fetch the sadhana data
       if (!id || status === 'loading') return;
-      if (status === 'unauthenticated') return router.push(`/sadhana/${id}`);
+      if (status === 'unauthenticated') return router.push(`/s/${id}`);
 
       const sadhanaData = await fetch(`/api/sadhana/${id}`).then(res =>
         res.json()
@@ -26,7 +26,7 @@ const SadhanaDashboard = () => {
 
       if (sadhanaData.sadhana.authorId !== session?.user.id) {
         alert('you cant access this route');
-        router.push(`/sadhana/${id}`);
+        router.push(`/s/${id}`);
       } else {
         console.log('in here');
         setSadhana(sadhanaData.sadhana);

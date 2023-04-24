@@ -1,8 +1,13 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Rubik_80s_Fade, Russo_One } from 'next/font/google';
+import { signIn, signOut, useSession } from 'next-auth/react';
+
+const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
 const Navbar = () => {
+  const { data: session, status } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -10,14 +15,39 @@ const Navbar = () => {
   };
 
   return (
-    <nav className='bg-black flex flex-col items-center sticky top-0 z-50'>
+    <nav
+      className={`${russo.className} bg-black flex flex-col items-center sticky top-0 z-50`}
+    >
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full'>
         <div className='flex justify-between h-16 items-center'>
           <Link href='/'>S</Link>
           <div className='hidden md:flex items-center space-x-4'>
-            <Link href='/sadhana'>Challenges</Link>
-            <Link href='/sadhana/new'>New</Link>
-            <Link href='/sadhana/new'>Dashboard</Link>
+            <Link className='hover:text-yellow-700' href='/s'>
+              Challenges
+            </Link>
+            {!session ? (
+              <button
+                className='hover:text-yellow-700'
+                onClick={() => signIn()}
+              >
+                Login
+              </button>
+            ) : (
+              <>
+                <Link className='hover:text-yellow-700' href='/s/new'>
+                  New
+                </Link>
+                <Link className='hover:text-yellow-700' href='/dashboard'>
+                  Dashboard
+                </Link>{' '}
+                <button
+                  className='hover:text-yellow-700'
+                  onClick={() => signOut()}
+                >
+                  Logout
+                </button>
+              </>
+            )}
           </div>
           <button
             onClick={toggleMenu}
@@ -63,9 +93,27 @@ const Navbar = () => {
         } md:hidden w-full bg-black`}
       >
         <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col items-end'>
-          <Link href='/sadhana'>Challenges</Link>
-          <Link href='/sadhana/new'>New</Link>
-          <Link href='/sadhana/new'>Dashboard</Link>
+          <Link href='/s'>Challenges</Link>
+          {!session ? (
+            <button className='hover:text-yellow-700' onClick={() => signIn()}>
+              Login
+            </button>
+          ) : (
+            <>
+              <Link className='hover:text-yellow-700' href='/s/new'>
+                New
+              </Link>
+              <Link className='hover:text-yellow-700' href='/dashboard'>
+                Dashboard
+              </Link>{' '}
+              <button
+                className='hover:text-yellow-700'
+                onClick={() => signOut()}
+              >
+                Logout
+              </button>
+            </>
+          )}
         </div>
       </div>
     </nav>
