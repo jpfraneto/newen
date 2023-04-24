@@ -29,10 +29,6 @@ export default function Home() {
   });
 
   useEffect(() => {
-    setTimeRemaining(router.query.time || 100 * 60);
-  }, [router]);
-
-  useEffect(() => {
     async function fetchUserSadhanas(userId) {
       try {
         const response = await fetch(`/api/userinfo`);
@@ -52,7 +48,15 @@ export default function Home() {
           return { ...x, ['didTheWork']: responnn[i] };
         });
         setUserSadhanas(data.sadhanas || []);
+
         setLoadingSadhanas(false);
+        const unfinished = data.sadhanas.filter(x => !x.didTheWork);
+        setChosenSadhana(unfinished[0] || []);
+        setTimeRemaining(
+          unfinished[0].targetSessionDuration * 60 ||
+            router.query.time ||
+            100 * 60
+        );
         return;
       } catch (error) {
         setUserSadhanas([]);

@@ -64,7 +64,7 @@ h4 {
 .hero {
   width: 100vw;
   height: 100vh;
-  background-image: url('/images/bg5.png');
+  /* background-image: url('/images/bg5.png'); */
   text-align: center;
   background-position: center;
   background-repeat: no-repeat;

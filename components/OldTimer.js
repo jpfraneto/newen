@@ -26,9 +26,10 @@ const Timer = ({
   setChosenSadhana,
   chosenSadhana,
 }) => {
-  console.log('the userSadhanas are:', userSadhanas);
   const audioRef = useRef();
-  const [initialDuration, setInitialDuration] = useState(timeRemaining);
+  const [initialDuration, setInitialDuration] = useState(
+    chosenSadhana.targetSessionDuration
+  );
   const [pauseCount, setPauseCount] = useState(0);
   const [totalPausedTime, setTotalPausedTime] = useState(0);
   const [showSummary, setShowSummary] = useState(false);

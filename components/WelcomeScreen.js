@@ -11,7 +11,11 @@ const WelcomeScreen = () => {
   return (
     <main className='bg-black min-h-screen overflow-scroll'>
       <section className='welcomehero pb-10 px-5 text-center overflow-scroll'>
-        <Image src={gm} width={333} height={333} />
+        <h4
+          className={`${righteous.className} text-2xl md:text-5xl w-full font-bold`}
+        >
+          loading...
+        </h4>
       </section>
     </main>
   );
