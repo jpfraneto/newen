@@ -193,7 +193,7 @@ const Timer = ({
         <div className=''>
           <label
             htmlFor='title'
-            className={`${russo.className} blocktext-gray-700  font-bold mb-4 text-gray-300`}
+            className={`${russo.className} blocktext-gray-700 mb-4 text-gray-300`}
           >
             What are you going to work on now?
           </label>
@@ -327,7 +327,7 @@ const Timer = ({
           {!isRunning && !started ? (
             <>
               <p
-                className={`${russo.className} blocktext-gray-700 font-bold mt-2 text-gray-300`}
+                className={`${russo.className} blocktext-gray-700 mt-2 text-gray-300`}
               >
                 Slide to change the session duration
               </p>
@@ -345,7 +345,7 @@ const Timer = ({
             <>
               {!session && (
                 <p
-                  className={`${russo.className} blocktext-gray-700 text-sm font-bold  text-white`}
+                  className={`${russo.className} blocktext-gray-700 text-sm text-white`}
                 >
                   After you finish the session, you will be able to submit it to
                   your profile so that you can keep track of your progress.{' '}
@@ -358,7 +358,7 @@ const Timer = ({
 
       {started && showSummary && (
         <div>
-          <h3 className='text-4xl font-bold mb-4'>
+          <h3 className='text-4xl mb-4'>
             Congratulations, you just finished a {initialDuration / 60} minute
             session.
           </h3>
@@ -368,18 +368,18 @@ const Timer = ({
               {' '}
               <button
                 onClick={signIn}
-                className='bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded mt-4 mx-2'
+                className='bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded mt-4 mx-2'
               >
                 {noSessionMessage ? 'Create Account - Log In' : 'Submit'}
               </button>
               <button
                 onClick={handleNewSessionBtn}
-                className='bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded mt-4'
+                className='bg-yellow-500 hover:bg-yellow-600 text-white  py-2 px-4 rounded mt-4'
               >
                 New Session
               </button>
               <p
-                className={`${russo.className} mt-2 blocktext-gray-700 text-sm font-bold  text-white`}
+                className={`${russo.className} mt-2 blocktext-gray-700 text-sm  text-white`}
               >
                 {noSessionMessage}
               </p>
@@ -389,14 +389,14 @@ const Timer = ({
               {sessionSubmitted ? (
                 <button
                   disabled={true}
-                  className='bg-green-500 hover:cursor-not-allowed text-white font-semibold py-2 px-4 rounded mt-4 mx-2'
+                  className='bg-green-500 hover:cursor-not-allowed text-white py-2 px-4 rounded mt-4 mx-2'
                 >
                   {submitSessionBtn}
                 </button>
               ) : (
                 <button
                   onClick={handleSubmitSessionHandler}
-                  className='bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded mt-4 mx-2'
+                  className='bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded mt-4 mx-2'
                 >
                   {submitSessionBtn}
                 </button>
@@ -404,7 +404,7 @@ const Timer = ({
 
               <button
                 onClick={handleNewSessionBtn}
-                className='bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded mt-4'
+                className='bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded mt-4'
               >
                 New Session
               </button>
