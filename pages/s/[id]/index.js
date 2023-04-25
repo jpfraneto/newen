@@ -34,9 +34,11 @@ export default function SadhanaDetail({
   sessionsArray,
 }) {
   const router = useRouter();
-  const id = sadhana?.id || null;
   const { data: session, status } = useSession();
   const [buttonText, setButtonText] = useState('Participate');
+  const [dayIndex, setDayIndex] = useState(
+    calculateDayIndex(sadhana?.startingTimestamp)
+  );
   const [participants, setParticipants] = useState(participantsData);
   const [selectedSession, setSelectedSession] = useState(null);
   const [dayForDisplay, setDayForDisplay] = useState(null);
@@ -44,7 +46,7 @@ export default function SadhanaDetail({
   const [loadingUserSessions, setLoadingUserSessions] = useState(true);
   const [dayLoading, setDayLoading] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(
-    sadhana?.targetSessionDuration || 0
+    sadhana?.targetSessionDuration
   );
   const [isUserParticipating, setIsUserParticipating] = useState(false);
   const [displayDayInfo, setDisplayDayInfo] = useState(false);
@@ -52,20 +54,16 @@ export default function SadhanaDetail({
     calculateDayIndex(sadhana?.startingTimestamp)
   );
   const [updates, setUpdates] = useState([]);
-  const dayIndex = calculateDayIndex(sadhana?.startingTimestamp);
 
   useEffect(() => {
     if (!session) return;
     setIsUserParticipating(
-      sadhana?.participants?.some(
+      sadhana?.participants.some(
         participant => participant.id === session?.user.id
       )
     );
     const fetchSadhanaInfoInUser = async () => {
-      console.log(
-        'Here I will fetch the information of this sadhana in the logged in user, so that with it I can update the state of each one of the circles.'
-      );
-      const response = await fetch(`/api/u/${sadhana.id}/sessions`);
+      const response = await fetch(`/api/u/${sadhana?.id}/sessions`);
       const data = await response.json();
 
       const newUserSessions = [...userSessions];
@@ -77,19 +75,19 @@ export default function SadhanaDetail({
       setLoadingUserSessions(false);
     };
     fetchSadhanaInfoInUser();
-  }, [session, sadhana.id, sadhana?.participants, userSessions]);
+  }, [session, sadhana, userSessions]);
 
   useEffect(() => {
     const fetchUpdates = async () => {
-      const response = await fetch(`/api/sadhana/${id}/updates`);
+      const response = await fetch(`/api/sadhana/${sadhana?.id}/updates`);
       const data = await response.json();
       setUpdates(data);
     };
 
-    if (id) {
+    if (sadhana?.id) {
       fetchUpdates();
     }
-  }, [id, router]);
+  }, [router]);
 
   const populateSadhanaSessions = () => {
     Array.from({ length: sadhana.targetSessions }, (_, i) => (
@@ -218,7 +216,7 @@ export default function SadhanaDetail({
     );
 
   return (
-    <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen text-black py-8 md:px-16 lg:px-60'>
+    <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen overflow-x-scroll text-black py-8 md:px-16 lg:px-60'>
       <div className='container text-center'>
         {' '}
         <div
@@ -434,27 +432,38 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const sadhana = await prisma.sadhana.findUnique({
-    where: { id: parseInt(params.id) },
-    include: {
-      author: true,
-      participants: true,
-      updates: true,
-      sadhanaDays: {
-        include: {
-          sessions: { include: { author: true } },
-          comments: { include: { author: true } },
+  let sadhana;
+  if (!isNaN(parseInt(params.id))) {
+    sadhana = await prisma.sadhana.findUnique({
+      where: { id: parseInt(params.id) },
+      include: {
+        author: true,
+        participants: true,
+        updates: true,
+        sadhanaDays: {
+          include: {
+            sessions: { include: { author: true } },
+            comments: { include: { author: true } },
+          },
         },
       },
-    },
+    });
+  }
+
+  if (!sadhana) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/s/nonexistent',
+      },
+    };
+  }
+
+  let sessionsArray = Array.from({ length: sadhana.targetSessions }, (_, i) => {
+    return { sessionIndex: i + 1 };
   });
 
-  const sessionsArray = Array.from(
-    { length: sadhana.targetSessions },
-    (_, i) => {
-      return { sessionIndex: i + 1 };
-    }
-  );
+  if (!sessionsArray) sessionsArray = [];
 
   return {
     props: {
@@ -544,9 +553,9 @@ function HeaderComponent({ sadhana, participants, dayIndex }) {
           ? `This challenge starts in ${dayIndex * -1} day(s)`
           : `Today is day ${dayIndex} of this challenge`}
       </h4>
-      <div className='flex gap-x-3 justify-center'>
+      <div className='flex flex-wrap wrap gap-x-3 justify-center'>
         {' '}
-        <p className='flex gap-x-1 items-center'>
+        <p className='flex gap-x-1 my-1 items-center'>
           <FaUserAstronaut size={20} />
           <Link
             className='text-blue-500 hover:underline'
@@ -555,11 +564,11 @@ function HeaderComponent({ sadhana, participants, dayIndex }) {
             @{sadhana.author.username || sadhana.author.name}
           </Link>
         </p>
-        <p className='flex gap-x-1 items-center'>
+        <p className='flex gap-x-1 my-1  items-center'>
           <FaClock size={20} />
           {Math.floor(sadhana.targetSessionDuration)} minutes
         </p>
-        <p className='flex gap-x-1 items-center'>
+        <p className='flex gap-x-1 my-1  items-center'>
           <FaCalendarDay size={20} />
           {new Date(sadhana.startingTimestamp).toLocaleDateString('en-US', {
             weekday: 'long',
@@ -571,7 +580,7 @@ function HeaderComponent({ sadhana, participants, dayIndex }) {
         {/* <p className='flex gap-x-1 items-center'>
           <FaUsers size={20} /> {participants?.length}/{sadhana.userLimit}
         </p> */}
-        <div className='flex flex-row space-x-1 p-1 bg-purple-200 border-2 border-black rounded'>
+        <div className='flex flex-row space-x-1 p-1 my-1  bg-purple-200 border-2 border-black rounded'>
           {' '}
           <span>Invite your friends:</span>
           <span className='hover:text-blue-500 hover:cursor-pointer'>
