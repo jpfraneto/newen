@@ -28,7 +28,11 @@ import Spinner from '@component/components/Spinner';
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
-export default function SadhanaDetail({ sadhana, participantsData }) {
+export default function SadhanaDetail({
+  sadhana,
+  participantsData,
+  sessionsArray,
+}) {
   const router = useRouter();
   const id = sadhana?.id || null;
   const { data: session, status } = useSession();
@@ -36,13 +40,7 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
   const [participants, setParticipants] = useState(participantsData);
   const [selectedSession, setSelectedSession] = useState(null);
   const [dayForDisplay, setDayForDisplay] = useState(null);
-  const [userSessions, setUserSessions] = useState(
-    sadhana
-      ? Array.from({ length: sadhana.targetSessions }, (_, i) => {
-          return { sessionIndex: i + 1 };
-        })
-      : []
-  );
+  const [userSessions, setUserSessions] = useState(sessionsArray);
   const [loadingUserSessions, setLoadingUserSessions] = useState(true);
   const [dayLoading, setDayLoading] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(
@@ -451,10 +449,18 @@ export async function getStaticProps({ params }) {
     },
   });
 
+  const sessionsArray = Array.from(
+    { length: sadhana.targetSessions },
+    (_, i) => {
+      return { sessionIndex: i + 1 };
+    }
+  );
+
   return {
     props: {
       sadhana: JSON.parse(JSON.stringify(sadhana)),
       participantsData: JSON.parse(JSON.stringify(sadhana.participants)),
+      sessionsArray: JSON.parse(JSON.stringify(sessionsArray)),
     },
     revalidate: 60,
   };
