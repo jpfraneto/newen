@@ -9,7 +9,6 @@ import prisma from '@component/lib/prismaClient';
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
 const SadhanaInvitation = ({ sadhana }) => {
-  console.log('this sadhana is: ', sadhana);
   const router = useRouter();
   const { data: session, status } = useSession();
   const [buttonText, setButtonText] = useState('Lets go!');
@@ -19,7 +18,7 @@ const SadhanaInvitation = ({ sadhana }) => {
   useEffect(() => {
     if (!session) return;
 
-    const participate = sadhana.participants.filter(
+    const participate = sadhana?.participants.filter(
       x => x.id === session.user.id
     );
     if (participate.length > 0) setIsUserParticipating(true);
