@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { BsPatchCheck } from 'react-icons/bs';
 import { formatDistanceToNow } from 'date-fns';
 import { AiOutlinePlus, AiOutlineLoading3Quarters } from 'react-icons/ai';
-import { formatTime } from '@component/lib/functions';
 import { GoVerified } from 'react-icons/go';
 import {
   didUserCompleteWork,
@@ -135,7 +134,7 @@ const DashboardComponent = ({ session }) => {
   const getCurrentDay = startDate => {
     const currentDate = new Date();
     const start = new Date(startDate);
-    const diff = Math.floor((currentDate - start) / (1000 * 60 * 60 * 24)) + 1;
+    const diff = Math.floor((currentDate - start) / (1000 * 60 * 60 * 24));
     return diff;
   };
 
@@ -164,13 +163,10 @@ const DashboardComponent = ({ session }) => {
           <table className='table-auto w-full my-2 bg-black text-white  shadow-md rounded-md'>
             <thead>
               <tr className='bg-black text-white'>
-                <th className='px-4 py-2 text-white'>Sadhana Name</th>
+                <th className='px-4 py-2 text-white'>Challenge</th>
                 <th className='px-4 py-2 text-white'>Completed?</th>
                 <th className='px-4 py-2 text-white w-8'>Timer</th>
-                {/* <th className='px-4 py-2 text-white'>Ready Today</th> */}
                 <th className='px-4 py-2 text-white'>Sessions</th>
-
-                {/* <th className='px-4 py-2 text-white w-8'>Other</th> */}
               </tr>
             </thead>
             <tbody>
@@ -244,12 +240,9 @@ const DashboardComponent = ({ session }) => {
                       )}
                     </td>
 
-                    {/* <td className='border px-4 py-2 text-black text-center'>{`${
-                      completed[index] ? 1 : 0
-                    }/${sadhana.userLimit}`}</td> */}
                     <td className='border px-4 py-2 text-black text-center'>
                       {evaluateSadhanaTime(sadhana.startingTimestamp) ? (
-                        `${getCurrentDay(sadhana.startingTimestamp)}/${
+                        `${calculateDayIndex(sadhana.startingTimestamp)}/${
                           sadhana.targetSessions
                         }`
                       ) : (
@@ -282,13 +275,6 @@ const DashboardComponent = ({ session }) => {
             <div className='flex items-center justify-center'>
               {completedCount === userSadhanas?.length ? (
                 <>
-                  {' '}
-                  {/* <button
-                  className='bg-green-500 text-white px-6 py-2 rounded'
-                  onClick={handleSubmit}
-                >
-                  Submit a new day of work
-                </button> */}
                   <p>Congratulations, you finished everything for today.</p>
                 </>
               ) : (
@@ -326,10 +312,6 @@ const DashboardComponent = ({ session }) => {
         </>
       )}
       <div className='flex flex-col items-center'>
-        {' '}
-        {/* <Link className='border-black border-2 inline-block bg-gradient-to-r from-green-500 via-brown-500 to-green-500 text-black font-bold text-2xl px-6 py-3  mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'>
-          Add new sadhana
-        </Link> */}
         <Link
           className='border-black border-2 mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
           href='/'

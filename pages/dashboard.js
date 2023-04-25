@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { formatDate } from '@component/lib/functions';
 import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 import Image from 'next/image';
 import DashboardComponent from '@component/components/DashboardComponent';
@@ -44,7 +45,7 @@ const Dashboard = () => {
             <h4
               className={`${righteous.className} text-4xl text-center md:text-5xl w-full font-bold`}
             >
-              Dashboard |{' '}
+              {formatDate(new Date().getTime())} |{' '}
               {session.user.username
                 ? `@${session.user.username}`
                 : session.user.name}
@@ -60,7 +61,16 @@ const Dashboard = () => {
           <DashboardComponent session={session} />
         </div>
       ) : (
-        <p>You are not logged in 😞</p>
+        <>
+          {' '}
+          <p>You are not logged in 😞</p>
+          <button
+            className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mt-2'
+            onClick={signIn}
+          >
+            Login
+          </button>
+        </>
       )}
     </div>
   );

@@ -36,6 +36,12 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
   const [participants, setParticipants] = useState(participantsData);
   const [selectedSession, setSelectedSession] = useState(null);
   const [dayForDisplay, setDayForDisplay] = useState(null);
+  const [userSessions, setUserSessions] = useState(
+    Array.from({ length: sadhana.targetSessions }, (_, i) => {
+      return { sessionIndex: i + 1 };
+    })
+  );
+  const [loadingUserSessions, setLoadingUserSessions] = useState(true);
   const [dayLoading, setDayLoading] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(
     sadhana?.targetSessionDuration || 0
@@ -43,10 +49,10 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
   const [isUserParticipating, setIsUserParticipating] = useState(false);
   const [displayDayInfo, setDisplayDayInfo] = useState(false);
   const [chosenDayIndex, setChosenDayIndex] = useState(
-    calculateDayIndex(sadhana?.startingTimestamp) + 1
+    calculateDayIndex(sadhana?.startingTimestamp)
   );
   const [updates, setUpdates] = useState([]);
-  const dayIndex = calculateDayIndex(sadhana?.startingTimestamp) + 1;
+  const dayIndex = calculateDayIndex(sadhana?.startingTimestamp);
 
   useEffect(() => {
     if (!session) return;
@@ -55,6 +61,22 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
         participant => participant.id === session?.user.id
       )
     );
+    const fetchSadhanaInfoInUser = async () => {
+      console.log(
+        'Here I will fetch the information of this sadhana in the logged in user, so that with it I can update the state of each one of the circles.'
+      );
+      const response = await fetch(`/api/u/${sadhana.id}/sessions`);
+      const data = await response.json();
+
+      const newUserSessions = [...userSessions];
+      data.map(x => {
+        newUserSessions[x.sessionIndex - 1] = x;
+      });
+      setUserSessions(newUserSessions);
+
+      setLoadingUserSessions(false);
+    };
+    fetchSadhanaInfoInUser();
   }, [session]);
 
   useEffect(() => {
@@ -68,6 +90,27 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
       fetchUpdates();
     }
   }, [id, router]);
+
+  const populateSadhanaSessions = () => {
+    Array.from({ length: sadhana.targetSessions }, (_, i) => (
+      <div
+        key={i}
+        className={` w-8 h-8 m-1 flex items-center justify-center text-black ${getDayFormatting(
+          i + 1,
+          dayIndex
+        )}  rounded-full font-bold text cursor-pointer `}
+        onClick={() => {
+          if (i < dayIndex) return fetchSadhanaDayInfo(sadhana.id, i);
+          else if (i === dayIndex) return alert('this day is today!');
+          else {
+            return alert('This day is in the future!');
+          }
+        }}
+      >
+        {i + 1}
+      </div>
+    ));
+  };
 
   const loggedInUserId = session?.user?.id || null;
 
@@ -130,13 +173,33 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
 
   const getDayFormatting = (index, todayIndex) => {
     const str = '';
-    if (chosenDayIndex === index) return 'bg-blue-300';
+    if (chosenDayIndex === index)
+      return 'bg-blue-500 text-white border-2 border-black shadow-lg';
     if (todayIndex < index) {
-      return str + 'bg-red-300  hover:cursor-not-allowed';
+      return (
+        str + 'bg-transparent border-black border  hover:cursor-not-allowed'
+      );
     } else if (todayIndex === index) {
       return str + 'bg-green-600 border-black border-2 shadow-md';
     } else {
       return str + 'bg-green-300 hover:bg-green-500';
+    }
+  };
+
+  const newGetDayFormatting = thisSession => {
+    const str = '';
+    if (dayIndex < thisSession.sessionIndex)
+      return 'bg-transparent border-black border  hover:cursor-not-allowed';
+    else if (dayIndex === thisSession.sessionIndex) {
+      if (thisSession.id)
+        return 'bg-green-600 text-white border-2 border-black shadow-lg';
+      return 'bg-blue-500 text-white border-2 border-black shadow-lg';
+    } else if (dayIndex > thisSession.sessionIndex) {
+      if (thisSession.id) {
+        return 'bg-green-600 ';
+      } else {
+        return 'bg-red-600';
+      }
     }
   };
 
@@ -217,28 +280,56 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
                 </>
               ) : (
                 <>
-                  <div className=' flex flex-wrap justify-left overflow-x-scroll mb-3'>
-                    {Array.from({ length: sadhana.targetSessions }, (_, i) => (
-                      <div
-                        key={i}
-                        className={` w-8 h-8 m-1 flex items-center justify-center text-black ${getDayFormatting(
-                          i + 1,
-                          dayIndex
-                        )}  rounded-full font-bold text cursor-pointer `}
-                        onClick={() => {
-                          if (i < dayIndex)
-                            return fetchSadhanaDayInfo(sadhana.id, i);
-                          else if (i === dayIndex)
-                            return alert('this day is today!');
-                          else {
-                            return alert('This day is in the future!');
-                          }
-                        }}
-                      >
-                        {i + 1}
-                      </div>
-                    ))}
-                  </div>
+                  {loadingUserSessions ? (
+                    <Spinner />
+                  ) : (
+                    <div className=' flex flex-wrap justify-left overflow-x-scroll mb-3'>
+                      {userSessions.map((thisSession, i) => {
+                        return (
+                          <div
+                            key={i}
+                            className={` w-8 h-8 m-1 flex items-center justify-center text-black ${newGetDayFormatting(
+                              thisSession
+                            )}  rounded-full font-bold text cursor-pointer `}
+                            onClick={() => {
+                              if (i < dayIndex)
+                                return fetchSadhanaDayInfo(sadhana.id, i);
+                              else if (i === dayIndex)
+                                return alert('this day is today!');
+                              else {
+                                return alert('This day is in the future!');
+                              }
+                            }}
+                          >
+                            {i + 1}
+                          </div>
+                        );
+                      })}
+                      {/* {Array.from(
+                        { length: sadhana.targetSessions },
+                        (_, i) => (
+                          <div
+                            key={i}
+                            className={` w-8 h-8 m-1 flex items-center justify-center text-black ${getDayFormatting(
+                              i + 1,
+                              dayIndex
+                            )}  rounded-full font-bold text cursor-pointer `}
+                            onClick={() => {
+                              if (i < dayIndex)
+                                return fetchSadhanaDayInfo(sadhana.id, i);
+                              else if (i === dayIndex)
+                                return alert('this day is today!');
+                              else {
+                                return alert('This day is in the future!');
+                              }
+                            }}
+                          >
+                            {i + 1}
+                          </div>
+                        )
+                      )} */}
+                    </div>
+                  )}
 
                   {dayIndex === chosenDayIndex && (
                     <div>

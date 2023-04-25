@@ -5,8 +5,6 @@ import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 import Link from 'next/link';
 import { useSession, signOut, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@component/pages/api/auth/[...nextauth].js';
 import OldTimer from '@component/components/OldTimer';
 import {
   didUserCompleteWork,
@@ -70,6 +68,8 @@ export default function Home() {
 
   if (status === 'loading' || loadingSadhanas) return <WelcomeScreen />;
 
+  if (session) router.redirect('/dashboard');
+
   return (
     <>
       <Head>
@@ -102,21 +102,4 @@ export default function Home() {
       </main>
     </>
   );
-}
-
-export async function getServerSideProps(context) {
-  const session = await getServerSession(context.req, context.res, authOptions);
-
-  if (session) {
-    return {
-      redirect: {
-        destination: '/dashboard',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: { session },
-  };
 }
