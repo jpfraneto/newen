@@ -37,9 +37,11 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
   const [selectedSession, setSelectedSession] = useState(null);
   const [dayForDisplay, setDayForDisplay] = useState(null);
   const [userSessions, setUserSessions] = useState(
-    Array.from({ length: sadhana.targetSessions }, (_, i) => {
-      return { sessionIndex: i + 1 };
-    })
+    sadhana
+      ? Array.from({ length: sadhana.targetSessions }, (_, i) => {
+          return { sessionIndex: i + 1 };
+        })
+      : []
   );
   const [loadingUserSessions, setLoadingUserSessions] = useState(true);
   const [dayLoading, setDayLoading] = useState(false);
