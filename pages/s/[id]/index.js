@@ -77,7 +77,7 @@ export default function SadhanaDetail({ sadhana, participantsData }) {
       setLoadingUserSessions(false);
     };
     fetchSadhanaInfoInUser();
-  }, [session]);
+  }, [session, sadhana.id, sadhana?.participants, userSessions]);
 
   useEffect(() => {
     const fetchUpdates = async () => {

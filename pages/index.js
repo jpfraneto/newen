@@ -66,7 +66,7 @@ export default function Home() {
       }
     }
     fetchUserSadhanas();
-  }, [session]);
+  }, [session, router.query.time]);
 
   if (status === 'loading' || loadingSadhanas) return <WelcomeScreen />;
 

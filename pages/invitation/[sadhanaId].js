@@ -23,7 +23,7 @@ const SadhanaInvitation = ({ sadhana }) => {
       x => x.id === session.user.id
     );
     if (participate.length > 0) setIsUserParticipating(true);
-  }, [session]);
+  }, [session, sadhana.participants]);
 
   async function handleParticipate() {
     try {
