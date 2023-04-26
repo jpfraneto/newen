@@ -27,19 +27,40 @@ export default async function handler(req, res) {
       if (!session) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
-
-      await prisma.sadhanaDay.deleteMany({
-        where: {
-          sadhanaId: parseInt(sadhanaId),
-        },
-      });
-
+      // First, delete the related sadhana sessions
       await prisma.sadhanaSession.deleteMany({
         where: {
           sadhanaId: parseInt(sadhanaId),
         },
       });
 
+      // Find sadhana days to delete related comments
+      const sadhanaDays = await prisma.sadhanaDay.findMany({
+        where: {
+          sadhanaId: parseInt(sadhanaId),
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      // Delete comments related to the sadhana days
+      for (const sadhanaDay of sadhanaDays) {
+        await prisma.comment.deleteMany({
+          where: {
+            sadhanaDayId: sadhanaDay.id,
+          },
+        });
+      }
+
+      // Delete the related sadhana days
+      await prisma.sadhanaDay.deleteMany({
+        where: {
+          sadhanaId: parseInt(sadhanaId),
+        },
+      });
+
+      // Then, delete the sadhana
       await prisma.sadhana.delete({
         where: {
           id: parseInt(sadhanaId),
