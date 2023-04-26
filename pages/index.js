@@ -101,6 +101,7 @@ export default function Home({ sadhanas }) {
               {sadhanas.map(sadhana => {
                 return (
                   <div
+                    key={sadhana.id}
                     className={`${russo.className} text-white  md:text-xl border p-8 rounded-2xl bg-black text-white`}
                   >
                     <h2 className='mb-4 text-2xl'>{sadhana.title}</h2>
