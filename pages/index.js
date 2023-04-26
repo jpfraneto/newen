@@ -7,6 +7,7 @@ import { useSession, signOut, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@component/pages/api/auth/[...nextauth].js';
+import prisma from '@component/lib/prismaClient';
 import OldTimer from '@component/components/OldTimer';
 import {
   didUserCompleteWork,
@@ -159,6 +160,7 @@ export async function getServerSideProps(context) {
       context.res,
       authOptions
     );
+
     const sadhanas = await prisma.sadhana.findMany({
       take: 3,
       orderBy: {

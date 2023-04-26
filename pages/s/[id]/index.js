@@ -579,9 +579,11 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
         method: 'DELETE',
       });
 
-      if (!response.ok) {
-        throw new Error('Something went wrong while deleting the sadhana.');
-      }
+      console.log('the response is: ', response);
+
+      // if (!response.ok) {
+      //   throw new Error('Something went wrong while deleting the sadhana.');
+      // }
 
       // Navigate to another page after deletion, e.g., the homepage
       router.push('/');
