@@ -14,7 +14,8 @@ export default function SadhanaList({ sadhanas }) {
         <h4
           className={`${righteous.className} text-2xl md:text-5xl w-full font-bold`}
         >
-          Challenges List
+          Challenges List{' '}
+          <span className='text-xl'>(only displaying the 25 newest ones)</span>
         </h4>
         <Link
           className='linkButton my-2 inline-block bg-gradient-to-r border-white border-2 hover:text-yellow-700 active:translate-y-1 text-white font-bold text-2xl px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out w-fit'
