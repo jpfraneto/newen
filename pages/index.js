@@ -91,41 +91,44 @@ export default function Home({ sadhanas }) {
           </h4>
           <div>
             <hr className='mb-10' />
-            <h4
-              className={`${russo.className} text-white  text-2xl md:text-4xl mb-2`}
-            >
-              last 3 uploaded challenges:
-            </h4>
+            {sadhanas && (
+              <h4
+                className={`${russo.className} text-white  text-2xl md:text-4xl mb-2`}
+              >
+                last 3 uploaded challenges:
+              </h4>
+            )}
 
             <div className='flex space-x-2 space-y-2 items-center justify-center flex-wrap'>
-              {sadhanas.map(sadhana => {
-                return (
-                  <div
-                    key={sadhana.id}
-                    className={`${russo.className} text-white  md:text-xl border p-8 rounded-2xl bg-black text-white`}
-                  >
-                    <h2 className='mb-4 text-2xl'>{sadhana.title}</h2>
-                    <p className='mt-2'>
-                      {sadhana.targetSessionDuration} min/day -{' '}
-                      {sadhana.targetSessions} days
-                    </p>
-                    <p>{sadhana.participants.length} person</p>
-                    <p className='text-red-200'>
-                      Today is day{' '}
-                      {calculateDayIndex(sadhana.startingTimestamp)}
-                    </p>
-                    <div className='mt-4'>
-                      {' '}
-                      <Link
-                        href={`/s/${sadhana.id}`}
-                        className=' bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded mt-4'
-                      >
-                        go
-                      </Link>
+              {sadhanas &&
+                sadhanas.map(sadhana => {
+                  return (
+                    <div
+                      key={sadhana.id}
+                      className={`${russo.className} text-white  md:text-xl border p-8 rounded-2xl bg-black text-white`}
+                    >
+                      <h2 className='mb-4 text-2xl'>{sadhana.title}</h2>
+                      <p className='mt-2'>
+                        {sadhana.targetSessionDuration} min/day -{' '}
+                        {sadhana.targetSessions} days
+                      </p>
+                      <p>{sadhana.participants.length} person</p>
+                      <p className='text-red-200'>
+                        Today is day{' '}
+                        {calculateDayIndex(sadhana.startingTimestamp)}
+                      </p>
+                      <div className='mt-4'>
+                        {' '}
+                        <Link
+                          href={`/s/${sadhana.id}`}
+                          className=' bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded mt-4'
+                        >
+                          go
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
             <Link
               href='/s/new'
@@ -150,30 +153,41 @@ export default function Home({ sadhanas }) {
 }
 
 export async function getServerSideProps(context) {
-  const session = await getServerSession(context.req, context.res, authOptions);
-  const sadhanas = await prisma.sadhana.findMany({
-    take: 3,
-    orderBy: {
-      createdAt: 'desc',
-    },
-    include: {
-      participants: true,
-    },
-  });
+  try {
+    const session = await getServerSession(
+      context.req,
+      context.res,
+      authOptions
+    );
+    const sadhanas = await prisma.sadhana.findMany({
+      take: 3,
+      orderBy: {
+        createdAt: 'desc',
+      },
+      include: {
+        participants: true,
+      },
+    });
 
-  if (session) {
+    if (session) {
+      return {
+        redirect: {
+          destination: '/dashboard',
+          permanent: false,
+        },
+      };
+    }
+
     return {
-      redirect: {
-        destination: '/dashboard',
-        permanent: false,
+      props: {
+        sadhanas: JSON.parse(JSON.stringify(sadhanas)),
+        session,
       },
     };
+  } catch (error) {
+    console.error('Error in getServerSideProps:', error);
+    return {
+      notFound: true,
+    };
   }
-
-  return {
-    props: {
-      sadhanas: JSON.parse(JSON.stringify(sadhanas)),
-      session,
-    },
-  };
 }
