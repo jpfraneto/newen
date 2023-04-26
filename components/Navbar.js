@@ -21,8 +21,8 @@ const Navbar = () => {
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full'>
         <div className='flex justify-between h-16 items-center'>
           <Link href='/'>S</Link>
-          <div className='hidden md:flex items-center space-x-4'>
-            <Link className='hover:text-yellow-700' href='/s'>
+          <div className='hidden md:flex items-center'>
+            <Link className='hover:text-yellow-700 mx-2' href='/s'>
               Challenges
             </Link>
             {!session ? (
@@ -33,7 +33,7 @@ const Navbar = () => {
                 Login
               </button>
             ) : (
-              <>
+              <div className='space-x-2' onClick={toggleMenu}>
                 <Link className='hover:text-yellow-700' href='/s/new'>
                   New
                 </Link>
@@ -46,7 +46,7 @@ const Navbar = () => {
                 >
                   Logout
                 </button>
-              </>
+              </div>
             )}
           </div>
           <button
@@ -92,27 +92,35 @@ const Navbar = () => {
           isMenuOpen ? 'block' : 'hidden'
         } md:hidden w-full bg-black`}
       >
-        <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col items-end'>
-          <Link href='/s'>Challenges</Link>
+        <div className=' pt-2 pb-3  sm:px-3 flex flex-col items-end'>
+          <Link href='/s' className='text-left px-0'>
+            Challenges
+          </Link>
           {!session ? (
             <button className='hover:text-yellow-700' onClick={() => signIn()}>
               Login
             </button>
           ) : (
-            <>
-              <Link className='hover:text-yellow-700' href='/s/new'>
+            <div className='flex flex-col items-left' onClick={toggleMenu}>
+              <Link
+                className='hover:text-yellow-700 text-left px-0'
+                href='/s/new'
+              >
                 New
               </Link>
-              <Link className='hover:text-yellow-700' href='/dashboard'>
+              <Link
+                className='hover:text-yellow-700 text-left px-0'
+                href='/dashboard'
+              >
                 Dashboard
               </Link>{' '}
               <button
-                className='hover:text-yellow-700'
+                className='hover:text-yellow-700 text-left px-0'
                 onClick={() => signOut()}
               >
                 Logout
               </button>
-            </>
+            </div>
           )}
         </div>
       </div>

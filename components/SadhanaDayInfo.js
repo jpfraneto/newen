@@ -16,17 +16,17 @@ function SadhanaDayInfo({
   const router = useRouter();
 
   return (
-    <div className='bg-gray-200 shadow-xl border-2 border-black rounded px-8 pt-6 pb-8 mb-4'>
-      <h4 className={`${righteous.className} text-4xl font-bold mb-2`}>
+    <div className='bg-gray-300  border-black border-t-2 pt-6 pb-8'>
+      <h4 className={`${righteous.className} text-5xl font-bold mb-2`}>
         Day {sadhanaDay.dayIndex}
       </h4>
       <p
-        className={`${russo.className} blocktext-gray-700 text-sm font-bold mb-4 text-black`}
+        className={`${russo.className} blocktext-gray-700 text-sm font-bold mb-2 text-left mx-2 text-black`}
       >
         Participants Ready:
       </p>
 
-      <div className='flex items-center mb-4'>
+      <div className='flex items-center'>
         {sadhanaDay.sessions.map(session => (
           <div key={session.id} className='hover:cursor-pointer'>
             <Image

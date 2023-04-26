@@ -90,7 +90,7 @@ function Comments({
   };
 
   return (
-    <div className='w-full bg-gray-300 p-4 rounded-xl'>
+    <div className='w-full bg-gray-300 p-2 rounded-xl'>
       <h4
         className={`${righteous.className} text-left mb-2 text-4xl  font-bold`}
       >
@@ -139,7 +139,7 @@ function Comments({
           placeholder='Add a comment to this day'
           value={newComment}
           onChange={e => setNewComment(e.target.value)}
-          className='w-full h-24 p-2 resize-none mb-2 rounded shadow text-black'
+          className='w-full h-24 p-2 resize-none mb-2 rounded  text-black'
         />
         <button
           onClick={handleSubmit}

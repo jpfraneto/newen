@@ -221,11 +221,11 @@ export default function SadhanaDetail({
     );
 
   return (
-    <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen overflow-x-scroll text-black py-8 md:px-16 lg:px-60'>
+    <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen overflow-x-scroll text-black py-0 md:px-16 lg:px-60 px-2 md:py-10'>
       <div className='container text-center'>
         {' '}
         <div
-          className={`${russo.className} bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 blocktext-gray-700 text-sm font-bold mb-4 text-black`}
+          className={`${russo.className} bg-white shadow-md md:rounded px-2 md:px-8 pt-6 blocktext-gray-700 text-sm font-bold  text-black`}
         >
           <HeaderComponent
             sadhana={sadhana}
@@ -242,7 +242,7 @@ export default function SadhanaDetail({
               This sadhana starts in {dayIndex * -1} days.
             </p>
           ) : (
-            <div className='border-2 border-gray-300 bg-gray-200 mb-2 p-4 rounded-xl '>
+            <div className='border-2 border-gray-800 bg-gray-200  px-1 rounded-xl '>
               {!isUserParticipating ? (
                 <>
                   {' '}
@@ -287,7 +287,7 @@ export default function SadhanaDetail({
                   {loadingUserSessions ? (
                     <Spinner />
                   ) : (
-                    <div className=' flex flex-wrap justify-left overflow-x-scroll mb-3'>
+                    <div className=' flex flex-wrap justify-center mb-3 pt-3'>
                       <>
                         {completedToday ? (
                           <>
@@ -338,7 +338,7 @@ export default function SadhanaDetail({
                         {displayDayInfo ? (
                           <>
                             {dayLoading ? (
-                              <div className='mb-10'>
+                              <div className='md:mb-10'>
                                 <p
                                   className={`${russo.className} blocktext-gray-700 text-sm font-bold  text-black`}
                                 >

@@ -179,14 +179,14 @@ const DashboardComponent = ({ session }) => {
                       index % 2 === 0 ? 'bg-neutral-400' : 'bg-neutral-300'
                     }
                   >
-                    <td className='border px-4 py-2 text-black text-center'>
+                    <td className='border px-4 py-2 text-yellow-800 text-center'>
                       <Link href={`/s/${sadhana.id}`}>{sadhana.title} </Link>
                     </td>
                     <td
                       className={`hover:text-black border px-4 py-2 text-center cursor-pointer`}
                     >
                       {savingSessionLoading && submittingId === index ? (
-                        <span className='flex justify-center w-8 items-center mx-auto'>
+                        <span className='flex justify-center w-8  items-center mx-auto'>
                           <Spinner />
                         </span>
                       ) : (
