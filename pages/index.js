@@ -76,7 +76,7 @@ export default function Home() {
         <title>sadhana</title>
         <meta
           name='description'
-          content='Deep Work timer and consistency trainer working alongside creators in challenges. '
+          content='Come up with challenges for you and your friends. Stay accountable. Keep up the good work.'
         />
       </Head>
       <main className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen overflow-scroll'>

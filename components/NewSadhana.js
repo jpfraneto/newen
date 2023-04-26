@@ -74,7 +74,7 @@ const NewSadhana = () => {
   };
 
   const shareOnTwitter = () => {
-    const text = `I just created a ${formData.targetSessions} day challenge, on which I will invite you to be consistent and do X. Each session will last ${formData.targetSessionDuration} minutes.\n\nLets do this together!\n\nHop into this link and sign up:\n\nhttps://www.sadhana.lat/invitation/${sadhanaId}`;
+    const text = `I just created a ${formData.targetSessions} day challenge, on which I will invite you to be consistent and do ${formData.title}. Each session will last ${formData.targetSessionDuration} minutes.\n\nLets do this together!\n\nHop into this link and sign up:\n\nhttps://www.sadhana.lat/invitation/${sadhanaId}`;
 
     const url =
       'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
@@ -96,7 +96,7 @@ const NewSadhana = () => {
   };
 
   const shareOnWhatsApp = () => {
-    const text = `I just created a ${formData.targetSessions} day challenge, on which I will invite you to be consistent and do X. Each session will last ${formData.targetSessionDuration} minutes.\n Lets do this together!\n Here you can participate and track your progress: \n https://www.sadhana.lat/invitation/${sadhanaId}`;
+    const text = `I just created a ${formData.targetSessions} day challenge, on which I will invite you to be consistent and do ${formData.title}. Each session will last ${formData.targetSessionDuration} minutes.\n Lets do this together!\n Here you can participate and track your progress: \n https://www.sadhana.lat/invitation/${sadhanaId}`;
     const url =
       'https://api.whatsapp.com/send?text=' + encodeURIComponent(text);
     window.open(url, '_blank');

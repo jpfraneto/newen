@@ -406,13 +406,13 @@ export default function SadhanaDetail({
               href='/s'
               className='m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
             >
-              Go to sadhanas
+              Go to challenges
             </Link>
             <Link
               href='/'
               className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline '
             >
-              Back to landing
+              Back
             </Link>
           </div>
         </div>
