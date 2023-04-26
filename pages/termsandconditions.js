@@ -51,9 +51,9 @@ export default function Home() {
                 to upload a challenge and go through it.
               </li>
               <li>
-                4. I don't care if your challenge is writing a letter to your ex
-                girlfriend for 3 days during 20 days, or walking down the sun,
-                or whatever. The important thing is that you do it.{' '}
+                4. I don&apos;t care if your challenge is writing a letter to
+                your ex girlfriend for 3 days during 20 days, or walking down
+                the sun, or whatever. The important thing is that you do it.{' '}
               </li>
               <li>
                 5. The crazier, the better. 3 days is the bottom limit, but it
@@ -62,14 +62,14 @@ export default function Home() {
                 that I can add it to the pool for this prize.
               </li>
               <li>
-                6. Remember, if I don't win the contest, I won't be able to
-                honor my word here. I won't have any money for it.
+                6. Remember, if I don&apos;t win the contest, I won&apos;t be
+                able to honor my word here. I won&apos;t have any money for it.
               </li>
               <li>
-                7. I'm building something really cool here, and I could use your
-                help on it. And that means coming up with a challenge, and just
-                doing it! The transformative power of this thing is real, and I
-                want to invite you to experience it on your own world.
+                7. I&apos;m building something really cool here, and I could use
+                your help on it. And that means coming up with a challenge, and
+                just doing it! The transformative power of this thing is real,
+                and I want to invite you to experience it on your own world.
               </li>
             </ol>
           </div>
