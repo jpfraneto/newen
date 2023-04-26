@@ -31,6 +31,7 @@ const DashboardComponent = ({ session }) => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
+        console.log('the data in here is: ', data);
         const responnn = data.sadhanas.map(x =>
           didUserCompleteWork(
             data.user,

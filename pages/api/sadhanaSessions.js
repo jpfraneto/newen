@@ -1,6 +1,7 @@
 import prisma from '@component/lib/prismaClient';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from './auth/[...nextauth]';
+import { calculateDayIndex } from '@component/lib/functions';
 
 const handler = async (req, res) => {
   if (req.method !== 'POST') {
@@ -22,30 +23,9 @@ const handler = async (req, res) => {
       req.body.userId,
       req.body.completedAt,
       'Wena compare',
-      3
+      3,
+      session
     );
-
-    // const sadhanaSession = await prisma.sadhanaSession.create({
-    //   data: {
-    //     completedAt: new Date(completedAt),
-    //     sessionIndex: 8, // Add the required sessionIndex field
-    //     startingTimestamp: new Date(), // Add the required startingTimestamp field
-    //     finishedTimestamp: new Date(), // Add the required finishedTimestamp field
-    //     feeling: 5, // Add the required feeling field, you can change it according to your needs
-    //     sadhana: {
-    //       connect: {
-    //         id: sadhanaId,
-    //       },
-    //     },
-    //     author: {
-    //       connect: {
-    //         id: userId,
-    //       },
-    //     },
-    //   },
-    // });
-
-    console.log('the sadhana session element is: ', sadhanaSession);
 
     res.status(200).json(sadhanaSession);
   } catch (error) {
@@ -56,19 +36,13 @@ const handler = async (req, res) => {
 
 export default handler;
 
-function calculateDayIndex(startingTimestamp) {
-  const currentDate = new Date();
-  const startDate = new Date(startingTimestamp);
-  const timeDifference = currentDate - startDate;
-  return Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-}
-
 async function createSadhanaSession(
   sadhanaId,
   userId,
   completedAt,
   notes,
-  feeling
+  feeling,
+  session
 ) {
   // Fetch the sadhana
   const sadhana = await prisma.sadhana.findUnique({ where: { id: sadhanaId } });
@@ -108,6 +82,23 @@ async function createSadhanaSession(
       feeling: feeling,
     },
   });
+  console.log('wa', sadhanaSession, session.user);
+  sadhanaSession.author = {
+    image: session.user.image,
+    username: session.user.username || session.user.name || '',
+  };
+  if (createdSadhanaDay.comments?.length > 0) {
+  } else {
+    createdSadhanaDay.comments = [];
+  }
+  if (createdSadhanaDay.sessions?.length > 0) {
+    createdSadhanaDay.sessions = [
+      ...createdSadhanaDay.sessions,
+      sadhanaSession,
+    ];
+  } else {
+    createdSadhanaDay.sessions = [sadhanaSession];
+  }
 
-  return sadhanaSession;
+  return { sadhanaSession, createdSadhanaDay };
 }

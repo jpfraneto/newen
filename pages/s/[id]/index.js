@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { Righteous, Russo_One } from 'next/font/google';
+import DoTheWorkInChallenge from '@component/components/DoTheWorkInChallenge';
 import SadhanaUpdate from '@component/components/SadhanaUpdate';
 import {
   BsInstagram,
@@ -42,9 +43,12 @@ export default function SadhanaDetail({
   const [participants, setParticipants] = useState(participantsData);
   const [selectedSession, setSelectedSession] = useState(null);
   const [dayForDisplay, setDayForDisplay] = useState(null);
+  const [sadhanaForDisplay, setSadhanaForDisplay] = useState(sadhana);
+  const [completedToday, setCompletedToday] = useState(false);
   const [userSessions, setUserSessions] = useState(sessionsArray);
   const [loadingUserSessions, setLoadingUserSessions] = useState(true);
   const [dayLoading, setDayLoading] = useState(false);
+  const [sadhanaDayComments, setSadhanaDayComments] = useState(null);
   const [timeRemaining, setTimeRemaining] = useState(
     sadhana?.targetSessionDuration
   );
@@ -135,10 +139,11 @@ export default function SadhanaDetail({
     setDayLoading(true);
     setDisplayDayInfo(true);
 
-    const thisDay = sadhana.sadhanaDays.filter(
-      x => x.dayIndex === dayNumber + 1
-    )[0];
-
+    const thisDay =
+      sadhanaForDisplay.sadhanaDays.filter(
+        x => x.dayIndex === dayNumber + 1
+      )[0] || [];
+    setSadhanaDayComments(thisDay.comments || []);
     setDayForDisplay(thisDay);
     setDayLoading(false);
   }
@@ -227,6 +232,7 @@ export default function SadhanaDetail({
             participants={participants}
             dayIndex={dayIndex}
           />
+
           <Participants participants={participants} />
 
           {dayIndex < 0 ? (
@@ -282,119 +288,123 @@ export default function SadhanaDetail({
                     <Spinner />
                   ) : (
                     <div className=' flex flex-wrap justify-left overflow-x-scroll mb-3'>
-                      {userSessions.map((thisSession, i) => {
-                        return (
-                          <div
-                            key={i}
-                            className={` w-8 h-8 m-1 flex items-center justify-center text-black ${newGetDayFormatting(
-                              thisSession
-                            )}  rounded-full font-bold text cursor-pointer `}
-                            onClick={() => {
-                              if (i < dayIndex)
-                                return fetchSadhanaDayInfo(sadhana.id, i);
-                              else if (i === dayIndex)
-                                return alert('this day is today!');
-                              else {
-                                return alert('This day is in the future!');
-                              }
-                            }}
-                          >
-                            {i + 1}
-                          </div>
-                        );
-                      })}
-                      {/* {Array.from(
-                        { length: sadhana.targetSessions },
-                        (_, i) => (
-                          <div
-                            key={i}
-                            className={` w-8 h-8 m-1 flex items-center justify-center text-black ${getDayFormatting(
-                              i + 1,
-                              dayIndex
-                            )}  rounded-full font-bold text cursor-pointer `}
-                            onClick={() => {
-                              if (i < dayIndex)
-                                return fetchSadhanaDayInfo(sadhana.id, i);
-                              else if (i === dayIndex)
-                                return alert('this day is today!');
-                              else {
-                                return alert('This day is in the future!');
-                              }
-                            }}
-                          >
-                            {i + 1}
-                          </div>
-                        )
-                      )} */}
+                      <>
+                        {completedToday ? (
+                          <>
+                            {' '}
+                            {userSessions.map((thisSession, i) => {
+                              return (
+                                <div
+                                  key={i}
+                                  className={` w-8 h-8 m-1 flex items-center justify-center text-black ${newGetDayFormatting(
+                                    thisSession
+                                  )}  rounded-full font-bold text cursor-pointer `}
+                                  onClick={() => {
+                                    if (i < dayIndex)
+                                      return fetchSadhanaDayInfo(sadhana.id, i);
+                                    else if (i === dayIndex)
+                                      return alert('this day is today!');
+                                    else {
+                                      return alert(
+                                        'This day is in the future!'
+                                      );
+                                    }
+                                  }}
+                                >
+                                  {i + 1}
+                                </div>
+                              );
+                            })}
+                          </>
+                        ) : (
+                          <DoTheWorkInChallenge
+                            session={session}
+                            today={dayIndex}
+                            setCompletedToday={setCompletedToday}
+                            completedToday={completedToday}
+                            sadhanaForDisplay={sadhanaForDisplay}
+                            setSadhanaForDisplay={setSadhanaForDisplay}
+                            setDisplayDayInfo={setDisplayDayInfo}
+                            setDayForDisplay={setDayForDisplay}
+                          />
+                        )}
+                      </>
                     </div>
                   )}
 
-                  {dayIndex === chosenDayIndex && (
-                    <div>
-                      {true ? (
-                        <div>
-                          {displayDayInfo ? (
-                            <>
-                              {dayLoading ? (
-                                <div className='mb-10'>
-                                  <p
-                                    className={`${russo.className} blocktext-gray-700 text-sm font-bold  text-black`}
-                                  >
-                                    Loading the information of this day...
-                                  </p>
-                                </div>
-                              ) : (
-                                <div className='mb-10'>
-                                  {/* <SadhanaUpdate
+                  <div>
+                    {true ? (
+                      <div>
+                        {displayDayInfo ? (
+                          <>
+                            {dayLoading ? (
+                              <div className='mb-10'>
+                                <p
+                                  className={`${russo.className} blocktext-gray-700 text-sm font-bold  text-black`}
+                                >
+                                  Loading the information of this day...
+                                </p>
+                              </div>
+                            ) : (
+                              <div className='mb-10'>
+                                {/* <SadhanaUpdate
                         update={updates.find(
                           update => update.dayIndex === sadhana.activeDay
                         )}
                       /> */}
-                                  {dayForDisplay ? (
+
+                                {dayForDisplay && dayForDisplay.id ? (
+                                  <>
                                     <SadhanaDayInfo
                                       sadhanaDay={dayForDisplay}
                                       currentUser={session.user}
+                                      sadhanaDayComments={sadhanaDayComments}
+                                      setSadhanaDayComments={
+                                        setSadhanaDayComments
+                                      }
                                     />
-                                  ) : (
-                                    <>
-                                      <h4
-                                        className={`${righteous.className}  text-4xl font-bold mb-2 `}
-                                      >
-                                        Day {chosenDayIndex}
-                                      </h4>
-                                      {chosenDayIndex === 1 ? (
+                                  </>
+                                ) : (
+                                  <>
+                                    <h4
+                                      className={`${righteous.className}  text-4xl font-bold mb-2 `}
+                                    >
+                                      Day {chosenDayIndex}
+                                    </h4>
+                                    {chosenDayIndex === dayIndex ? (
+                                      <div>
                                         <p>
                                           No one has done the work of today yet.
                                         </p>
-                                      ) : (
-                                        <p>No one did the work this day.</p>
-                                      )}
-                                    </>
-                                  )}
-                                </div>
-                              )}
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                        </div>
-                      ) : (
-                        <div>
-                          {isUserParticipating ? (
-                            <p>
-                              <SadhanaDayTimer
-                                session={session}
-                                timeRemaining={timeRemaining}
-                                setTimeRemaining={setTimeRemaining}
-                              />
-                            </p>
-                          ) : (
-                            <></>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  )}
+                                      </div>
+                                    ) : (
+                                      <p>No one did the work this day.</p>
+                                    )}
+                                  </>
+                                )}
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                      </div>
+                    ) : (
+                      <div>
+                        {isUserParticipating ? (
+                          <p>
+                            <SadhanaDayTimer
+                              session={session}
+                              timeRemaining={timeRemaining}
+                              setTimeRemaining={setTimeRemaining}
+                            />
+                          </p>
+                        ) : (
+                          <></>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </>
               )}
             </div>
@@ -478,21 +488,32 @@ export async function getStaticProps({ params }) {
 function Participants({ participants }) {
   const router = useRouter();
   return (
-    <div className='flex items-center mb-4'>
-      {participants?.map(participant => (
-        <div key={participant.id} className='text-center hover:cursor-pointer'>
-          <Image
-            src={participant.image}
-            onClick={() => router.push(`/u/${participant.id}`)}
-            alt={participant.name}
-            width={200}
-            height={200}
-            className='w-16 h-16 rounded-full mr-2'
-            title={participant.name}
-          />
-        </div>
-      ))}
-    </div>
+    <>
+      {' '}
+      <h4
+        className={`${righteous.className} text-left text-4xl font-bold mb-2 text-black`}
+      >
+        Users
+      </h4>{' '}
+      <div className='flex items-center mb-4'>
+        {participants?.map(participant => (
+          <div
+            key={participant.id}
+            className='text-center hover:cursor-pointer'
+          >
+            <Image
+              src={participant.image}
+              onClick={() => router.push(`/u/${participant.id}`)}
+              alt={participant.name}
+              width={200}
+              height={200}
+              className='w-16 h-16 rounded-full mr-2'
+              title={participant.name}
+            />
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
 
@@ -546,12 +567,16 @@ function HeaderComponent({ sadhana, participants, dayIndex }) {
     <>
       {' '}
       <h4
-        className={`${righteous.className} text-4xl font-bold mb-2 text-black`}
+        className={`${righteous.className} text-5xl text-green-500 font-bold `}
       >
-        {sadhana.title} -{' '}
+        {sadhana.title}
+      </h4>
+      <h4
+        className={`${righteous.className} text-3xl font-bold mb-2 text-black`}
+      >
         {dayIndex < 0
           ? `This challenge starts in ${dayIndex * -1} day(s)`
-          : `Today is day ${dayIndex} of this challenge`}
+          : `Day ${dayIndex}`}
       </h4>
       <div className='flex flex-wrap wrap gap-x-3 justify-center'>
         {' '}
@@ -603,11 +628,6 @@ function HeaderComponent({ sadhana, participants, dayIndex }) {
         </div>
       </div>
       <p className='italic my-2'>{sadhana.content}</p>
-      <h4
-        className={`${righteous.className} text-left text-4xl font-bold mb-2 text-black`}
-      >
-        Users
-      </h4>
     </>
   );
 }

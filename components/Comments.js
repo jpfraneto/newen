@@ -16,6 +16,7 @@ function Comments({
 }) {
   const [newComment, setNewComment] = useState('');
   const [newCommentBtnText, setNewCommentBtnText] = useState('Add Comment');
+  const [now, setNow] = useState(new Date());
 
   const handleSubmit = async () => {
     setNewCommentBtnText('Commenting...');
@@ -35,9 +36,9 @@ function Comments({
 
     if (response.ok) {
       const data = await response.json();
-      console.log('the data is');
       setSadhanaDayComments(prev => {
-        return [...prev, data.comment];
+        if (prev) return [...prev, data.comment];
+        else return [data.comment];
       });
       setNewCommentBtnText('Comment Added!');
       setTimeout(() => {
@@ -91,7 +92,6 @@ function Comments({
   return (
     <div className='w-full bg-gray-300 p-4 rounded-xl'>
       <h4
-        onClick={() => console.log(sadhanaDayComments)}
         className={`${righteous.className} text-left mb-2 text-4xl  font-bold`}
       >
         Comments
@@ -111,7 +111,7 @@ function Comments({
                 />
                 <span className='font-semibold'>{comment.author.username}</span>
                 <span className='text-sm text-left text-gray-500'>
-                  {formatDistance(new Date(comment.createdAt), new Date(), {
+                  {formatDistance(new Date(comment.createdAt), now, {
                     addSuffix: true,
                   })}
                 </span>
