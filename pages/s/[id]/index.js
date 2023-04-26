@@ -654,7 +654,7 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
           </span>
         </div>
       </div>
-      {session && (
+      {session && session.user.id === sadhana.authorId && (
         <button
           className='bg-red-500 text-white font-bold py-2 px-4 rounded'
           onClick={() => deleteSadhana(sadhana.id)}

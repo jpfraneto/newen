@@ -66,7 +66,7 @@ export default async function handler(req, res) {
           id: parseInt(sadhanaId),
         },
       });
-      res.status(204).json({});
+      res.status(200).json({});
     } else {
       res.status(405).json({ message: 'Method not allowed' });
     }

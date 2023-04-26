@@ -23,7 +23,6 @@ const handler = async (req, res) => {
 
 const createSadhana = async (req, res, session) => {
   try {
-    console.log('the req.body when creating a new sadhana is: ', req.body);
     const {
       title,
       content,
