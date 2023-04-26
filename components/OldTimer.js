@@ -188,7 +188,7 @@ const Timer = ({
   };
 
   return (
-    <div className='max-w-xl mt-2 text-center rounded-xl border-black border-2 text-white bg-black p-8 opacity-80'>
+    <div className='max-w-xl mt-2 text-center rounded-xl  text-white  p-8'>
       {!showSummary && (
         <div className=''>
           <label

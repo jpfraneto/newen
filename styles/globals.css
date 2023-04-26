@@ -103,7 +103,7 @@ h4 {
   background-image: url('/images/bggg.png');
 }
 
-.hero h2 {
+/* .hero h2 {
   font-size: 4rem;
   margin-bottom: 0;
 }
@@ -111,7 +111,7 @@ h4 {
 .mainContainer h4 {
   font-size: 3rem;
   margin: 0;
-}
+} */
 
 .flex-grow {
   flex: 1 0 auto;

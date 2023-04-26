@@ -16,9 +16,11 @@ const Dashboard = () => {
 
   if (!session)
     return (
-      <div className='p-8 linear-gradient(to right, rgb(55, 65, 81), rgb(17, 24, 39), rgb(0, 0, 0)) min-h-screen flex items-center justify-center'>
-        <div className='bg-white p-8 rounded-lg w-full max-w-md'>
-          <p className='text-black'>Sorry, but are not allowed to be here.</p>
+      <div className='p-8 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen flex items-center justify-center'>
+        <div className=' p-8 rounded-lg w-full max-w-md'>
+          <p className={`${righteous.className} text-white`}>
+            Sorry, but are not allowed to be here.
+          </p>
           <button
             className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mt-2'
             onClick={signIn}

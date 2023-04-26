@@ -20,10 +20,10 @@ const Navbar = () => {
     >
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full'>
         <div className='flex justify-between h-16 items-center'>
-          <Link href='/'>S</Link>
+          <Link href='/'>sadhana</Link>
           <div className='hidden md:flex items-center'>
-            <Link className='hover:text-yellow-700 mx-2' href='/s'>
-              Challenges
+            <Link className='hover:text-yellow-700 mx-2 px-3' href='/s'>
+              All Challenges
             </Link>
             {!session ? (
               <button
@@ -93,8 +93,8 @@ const Navbar = () => {
         } md:hidden w-full bg-black`}
       >
         <div className=' pt-2 pb-3  sm:px-3 flex flex-col items-end'>
-          <Link href='/s' className='text-left px-0'>
-            Challenges
+          <Link href='/s' className='text-left px-3'>
+            All Challenges
           </Link>
           {!session ? (
             <button className='hover:text-yellow-700' onClick={() => signIn()}>
