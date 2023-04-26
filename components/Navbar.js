@@ -22,18 +22,21 @@ const Navbar = () => {
         <div className='flex justify-between h-16 items-center'>
           <Link href='/'>sadhana</Link>
           <div className='hidden md:flex items-center'>
-            <Link className='hover:text-yellow-700 mx-2 px-3' href='/s'>
+            <Link
+              className='hover:text-yellow-700 items-start mx-2 px-3'
+              href='/s'
+            >
               All Challenges
             </Link>
             {!session ? (
               <button
-                className='hover:text-yellow-700'
+                className='hover:text-yellow-700 text-left'
                 onClick={() => signIn()}
               >
                 Login
               </button>
             ) : (
-              <div className='space-x-2' onClick={toggleMenu}>
+              <div className='space-x-2 text-left' onClick={toggleMenu}>
                 <Link className='hover:text-yellow-700' href='/s/new'>
                   New
                 </Link>

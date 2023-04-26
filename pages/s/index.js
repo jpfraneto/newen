@@ -9,8 +9,8 @@ const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
 export default function SadhanaList({ sadhanas }) {
   return (
-    <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen text-black py-8 px-4 sm:px-8 md:px-16 lg:px-32'>
-      <div className='mb-2'>
+    <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen text-black py-8 sm:px-8 md:px-16 lg:px-32'>
+      <div className='px-4 mb-2'>
         <h4
           className={`${righteous.className} text-2xl md:text-5xl w-full font-bold`}
         >
@@ -25,12 +25,10 @@ export default function SadhanaList({ sadhanas }) {
         </Link>
       </div>
 
-      <div
-        className={`${russo.className} overflow-x-auto rounded-xl font-bold`}
-      >
+      <div className={` overflow-x-auto rounded-xl text-white font-bold`}>
         <table className='rounded-2xl table-auto w-full text-center'>
           <thead>
-            <tr className='bg-gray-100 rounded-2xl text-center'>
+            <tr className='bg-black bg-opacity-90	 rounded-2xl text-center'>
               <th className='px-4 py-2'>Title</th>
               <th className='px-4 py-2'>Author</th>
               <th className='px-4 py-2'>Target Sessions</th>
@@ -41,9 +39,11 @@ export default function SadhanaList({ sadhanas }) {
             {sadhanas.map((sadhana, index) => (
               <tr
                 key={sadhana.id}
-                className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}
+                className={`bg-black ${
+                  index % 2 === 0 ? ' bg-opacity-30	' : 'bg-opacity-60'
+                }`}
               >
-                <td className='px-4 py-2 text-left'>
+                <td className='px-4 py-2 text-red-100 text-left'>
                   <Link href={`/s/${sadhana.id}`}>{sadhana.title}</Link>
                 </td>
                 <td className='px-4 py-2'>
