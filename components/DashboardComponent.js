@@ -161,7 +161,7 @@ const DashboardComponent = ({ session }) => {
     <div className='max-w md:container mx-auto md:px-4'>
       {userSadhanas?.length > 0 ? (
         <div className=' overflow-x-scroll'>
-          <table className='table-auto w-full my-2 bg-black text-white  shadow-md rounded-md'>
+          <table className='table-auto w-full my-2  text-white  shadow-md rounded-md'>
             <thead>
               <tr className='bg-black text-white'>
                 <th className='px-4 py-2 text-white'>Challenge</th>
@@ -175,15 +175,15 @@ const DashboardComponent = ({ session }) => {
                 userSadhanas?.map((sadhana, index) => (
                   <tr
                     key={index}
-                    className={
-                      index % 2 === 0 ? 'bg-neutral-400' : 'bg-neutral-300'
-                    }
+                    className={`bg-black ${
+                      index % 2 === 0 ? ' bg-opacity-30	' : 'bg-opacity-60'
+                    }`}
                   >
-                    <td className='border px-4 py-2 text-yellow-800 text-center'>
+                    <td className=' px-4 py-2 text-blue-400 text-center'>
                       <Link href={`/s/${sadhana.id}`}>{sadhana.title} </Link>
                     </td>
                     <td
-                      className={`hover:text-black border px-4 py-2 text-center cursor-pointer`}
+                      className={`hover:text-black  px-4 py-2 text-center cursor-pointer`}
                     >
                       {savingSessionLoading && submittingId === index ? (
                         <span className='flex justify-center w-8  items-center mx-auto'>
@@ -211,7 +211,7 @@ const DashboardComponent = ({ session }) => {
                         </>
                       )}
                     </td>
-                    <td className='border px-4 py-2 text-black text-center w-48'>
+                    <td className=' px-4 py-2 text-black text-center w-48'>
                       {completed[index] ? (
                         <span className='text-green-700 flex justify-center w-8 items-center mx-auto'>
                           <GoVerified
@@ -242,7 +242,7 @@ const DashboardComponent = ({ session }) => {
                       )}
                     </td>
 
-                    <td className='border px-4 py-2 text-black text-center'>
+                    <td className=' px-4 py-2 text-white text-center'>
                       {evaluateSadhanaTime(sadhana.startingTimestamp) ? (
                         `${calculateDayIndex(sadhana.startingTimestamp)}/${
                           sadhana.targetSessions

@@ -81,13 +81,13 @@ export default function Home({ sadhanas }) {
         />
       </Head>
       <main className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen overflow-scroll'>
-        <section className='hero pb-10 px-5 text-center text-white overflow-scroll'>
+        <section className='hero px-5 text-center text-white overflow-scroll'>
           {/* <h4
             className={`${russo.className} text-2xl md:text-5xl w-full font-bold`}
           >
             the power of consistency
           </h4> */}
-          <h4 className={`${russo.className} text-white  text-2xl md:text-6xl`}>
+          <h4 className={`${russo.className} text-white text-2xl md:text-6xl`}>
             The power of consistency
           </h4>
           <div>
@@ -124,7 +124,7 @@ export default function Home({ sadhanas }) {
                           href={`/s/${sadhana.id}`}
                           className=' bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded mt-4'
                         >
-                          go
+                          check it out
                         </Link>
                       </div>
                     </div>

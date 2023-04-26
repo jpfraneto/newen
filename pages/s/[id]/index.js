@@ -579,8 +579,6 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
         method: 'DELETE',
       });
 
-      console.log('the response is: ', response);
-
       // if (!response.ok) {
       //   throw new Error('Something went wrong while deleting the sadhana.');
       // }
@@ -596,7 +594,7 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
     <>
       {' '}
       <h4
-        className={`${righteous.className} text-5xl text-green-500 font-bold `}
+        className={`${righteous.className} text-5xl text-blue-400 font-bold `}
       >
         {sadhana.title}
       </h4>
@@ -612,7 +610,7 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
         <p className='flex gap-x-1 my-1 items-center'>
           <FaUserAstronaut size={20} />
           <Link
-            className='text-blue-500 hover:underline'
+            className='text-blue-400 hover:underline'
             href={`/u/${sadhana.author.id}`}
           >
             @{sadhana.author.username || sadhana.author.name}

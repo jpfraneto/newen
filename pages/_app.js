@@ -25,7 +25,7 @@ export default function App({ Component, pageProps }) {
           <div className='flex-grow'>
             <Component {...pageProps} />
           </div>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </SessionProvider>
     </>

@@ -12,7 +12,7 @@ export default function SadhanaList({ sadhanas }) {
     <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen text-black py-8 sm:px-8 md:px-16 lg:px-32'>
       <div className='px-4 mb-2'>
         <h4
-          className={`${righteous.className} text-2xl md:text-5xl w-full font-bold`}
+          className={`${righteous.className} text-blue-400 text-2xl md:text-5xl w-full font-bold`}
         >
           Challenges List{' '}
           <span className='text-xl'>(only displaying the 25 newest ones)</span>

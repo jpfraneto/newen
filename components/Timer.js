@@ -120,9 +120,9 @@ const Timer = ({ sessionTargetDuration, onCompletion, sadhana, timerSize }) => {
       {!finished && (
         <button
           onClick={startTimer}
-          className='hover:text-blue-900 text-black font-semibold  border-black rounded-full my-auto '
+          className='hover:text-blue-900 text-blue-400 font-semibold  border-black rounded-full my-auto '
         >
-          <BsStopwatchFill size={timerSize ? 100 : 26} />
+          <BsStopwatchFill size={timerSize ? 100 : 33} />
         </button>
       )}
       {showModal && (
