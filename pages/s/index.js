@@ -86,6 +86,10 @@ export default function SadhanaList({ sadhanas }) {
 
 export async function getServerSideProps({}) {
   const sadhanas = await prisma.sadhana.findMany({
+    take: 25,
+    orderBy: {
+      createdAt: 'desc',
+    },
     include: {
       author: true,
       participants: true,
