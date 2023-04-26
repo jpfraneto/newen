@@ -225,6 +225,7 @@ const DashboardComponent = ({ session }) => {
                         <>
                           {evaluateSadhanaTime(sadhana.startingTimestamp) ? (
                             <Timer
+                              timerSize={false}
                               sessionTargetDuration={
                                 sadhana.targetSessionDuration
                               }

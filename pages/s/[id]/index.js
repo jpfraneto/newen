@@ -221,7 +221,7 @@ export default function SadhanaDetail({
     );
 
   return (
-    <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen overflow-x-scroll text-black py-0 md:px-16 lg:px-60 px-2 md:py-10'>
+    <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen overflow-x-scroll text-black py-2 md:px-16 lg:px-60 px-2 md:py-10'>
       <div className='container text-center'>
         {' '}
         <div
@@ -242,7 +242,7 @@ export default function SadhanaDetail({
               This sadhana starts in {dayIndex * -1} days.
             </p>
           ) : (
-            <div className='border-2 border-gray-800 bg-gray-200  px-1 rounded-xl '>
+            <div className='border-2 border-gray-800 bg-gray-200  px-1 py-1 rounded-xl '>
               {!isUserParticipating ? (
                 <>
                   {' '}

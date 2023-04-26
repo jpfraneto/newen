@@ -90,7 +90,7 @@ function Comments({
   };
 
   return (
-    <div className='w-full bg-gray-300 p-2 rounded-xl'>
+    <div className='w-full bg-gray-300 px-2 rounded-xl'>
       <h4
         className={`${righteous.className} text-left mb-2 text-4xl  font-bold`}
       >

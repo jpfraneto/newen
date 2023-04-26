@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Timer from './Timer';
 import Spinner from './Spinner';
+import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 import { GoVerified } from 'react-icons/go';
+
+const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
 const DoTheWorkInChallenge = ({
   sadhanaForDisplay,
@@ -86,51 +89,59 @@ const DoTheWorkInChallenge = ({
   };
   return (
     <div className=''>
-      <h2>It&apos;s time to do todays work!</h2>
-      <td
-        className={`hover:text-black border px-4 py-2 text-center cursor-pointer`}
+      <h4
+        className={`${russo.className} text-2xl md:text-5xl w-full font-bold`}
       >
-        {savingSessionLoading ? (
-          <span className='flex justify-center w-8 items-center mx-auto'>
-            <Spinner />
-          </span>
-        ) : (
-          <>
-            {completedToday ? (
-              <span className='text-green-700 flex justify-center  items-center mx-auto'>
-                <GoVerified size={100} />
-              </span>
-            ) : (
-              <span
-                onClick={() => toggleCompletion(sadhanaForDisplay)}
-                className='text-red-600 flex justify-center items-center mx-auto'
-              >
-                <GoVerified size={100} />
-              </span>
-            )}
-          </>
-        )}
-      </td>
-      <td className='border px-4 py-2 text-black text-center w-48'>
-        {completedToday ? (
-          <span className='text-green-700 flex justify-center  items-center mx-auto'>
-            <GoVerified
-              size={100}
-              onClick={() => alert('You already did this one today.')}
-            />
-          </span>
-        ) : (
-          <>
-            <Timer
-              sessionTargetDuration={sadhanaForDisplay.targetSessionDuration}
-              sadhana={sadhanaForDisplay}
-              onCompletion={() => {
-                setCompletedToday(true);
-              }}
-            />
-          </>
-        )}
-      </td>
+        It&apos;s time to do todays work!
+      </h4>
+      <div className='flex flex-row justify-center'>
+        {' '}
+        <div
+          className={`hover:text-black border px-4 py-2 text-center cursor-pointer`}
+        >
+          {savingSessionLoading ? (
+            <span className='flex justify-center w-8 items-center mx-auto'>
+              <Spinner />
+            </span>
+          ) : (
+            <>
+              {completedToday ? (
+                <span className='text-green-700 flex justify-center  items-center mx-auto'>
+                  <GoVerified size={100} />
+                </span>
+              ) : (
+                <span
+                  onClick={() => toggleCompletion(sadhanaForDisplay)}
+                  className='text-red-600 hover:text-red-700 flex justify-center items-center mx-auto'
+                >
+                  <GoVerified size={100} />
+                </span>
+              )}
+            </>
+          )}
+        </div>
+        <div className='border px-4 py-2 text-black text-center w-48'>
+          {completedToday ? (
+            <span className='text-green-700 flex justify-center  items-center mx-auto'>
+              <GoVerified
+                size={100}
+                onClick={() => alert('You already did this one today.')}
+              />
+            </span>
+          ) : (
+            <>
+              <Timer
+                timerSize={true}
+                sessionTargetDuration={sadhanaForDisplay.targetSessionDuration}
+                sadhana={sadhanaForDisplay}
+                onCompletion={() => {
+                  toggleCompletion(sadhanaForDisplay);
+                }}
+              />
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

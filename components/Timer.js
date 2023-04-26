@@ -12,7 +12,7 @@ import {
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
-const Timer = ({ sessionTargetDuration, onCompletion, sadhana }) => {
+const Timer = ({ sessionTargetDuration, onCompletion, sadhana, timerSize }) => {
   const audioRef = useRef();
   const [duration, setDuration] = useState(sessionTargetDuration * 60);
   const [timeRemaining, setTimeRemaining] = useState(
@@ -122,7 +122,7 @@ const Timer = ({ sessionTargetDuration, onCompletion, sadhana }) => {
           onClick={startTimer}
           className='hover:text-blue-900 text-black font-semibold  border-black rounded-full my-auto '
         >
-          <BsStopwatchFill size={26} />
+          <BsStopwatchFill size={timerSize ? 100 : 26} />
         </button>
       )}
       {showModal && (
