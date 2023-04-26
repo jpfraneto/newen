@@ -157,7 +157,6 @@ export async function getServerSideProps(context) {
       createdAt: 'desc',
     },
     include: {
-      author: true,
       participants: true,
     },
   });

@@ -228,6 +228,7 @@ export default function SadhanaDetail({
           className={`${russo.className} bg-white shadow-md md:rounded px-2 md:px-8 pt-6 blocktext-gray-700 text-sm font-bold  text-black`}
         >
           <HeaderComponent
+            session={session}
             sadhana={sadhana}
             participants={participants}
             dayIndex={dayIndex}
@@ -517,7 +518,7 @@ function Participants({ participants }) {
   );
 }
 
-function HeaderComponent({ sadhana, participants, dayIndex }) {
+function HeaderComponent({ sadhana, session, dayIndex }) {
   const handleShare = platform => {
     switch (platform) {
       case 'twitter':
@@ -563,6 +564,32 @@ function HeaderComponent({ sadhana, participants, dayIndex }) {
       'https://api.whatsapp.com/send?text=' + encodeURIComponent(text);
     window.open(url, '_blank');
   };
+
+  async function deleteSadhana(id) {
+    if (!session) {
+      return signIn();
+    }
+
+    if (!confirm('Are you sure you want to delete this sadhana?')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/sadhana/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Something went wrong while deleting the sadhana.');
+      }
+
+      // Navigate to another page after deletion, e.g., the homepage
+      router.push('/');
+    } catch (error) {
+      console.error(error);
+      alert('There was an error deleting the sadhana. Please try again.');
+    }
+  }
   return (
     <>
       {' '}
@@ -627,6 +654,14 @@ function HeaderComponent({ sadhana, participants, dayIndex }) {
           </span>
         </div>
       </div>
+      {session && (
+        <button
+          className='bg-red-500 text-white font-bold py-2 px-4 rounded'
+          onClick={() => deleteSadhana(sadhana.id)}
+        >
+          Delete Challenge
+        </button>
+      )}
       <p className='italic my-2'>{sadhana.content}</p>
     </>
   );
