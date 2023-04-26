@@ -133,7 +133,7 @@ export default function Home({ sadhanas }) {
             </div>
             <Link
               href='/s/new'
-              className={`${russo.className} mt-8 md:text-4xl mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold  py-2 px-4 rounded rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out hover:opacity-70`}
+              className={`${russo.className} mt-8 md:text-4xl mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold  py-2 px-4 rounded rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out hover:opacity-70 mb-10`}
             >
               I want to challenge myself (and friends)
             </Link>
