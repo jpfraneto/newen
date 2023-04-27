@@ -45,10 +45,12 @@ export default async function (req, res) {
       { role: 'user', content: message },
     ];
     console.log('Im going to fetch openai with this messages', messages);
+
     const completion = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
       messages: messages,
     });
+
     console.log('THE completion data is: ', completion.data);
     res.status(200).json({ result: completion.data.choices[0].message });
   } catch (error) {
@@ -56,6 +58,7 @@ export default async function (req, res) {
       console.error(error.response.status, error.response.data);
       res.status(error.response.status).json(error.response.data);
     } else {
+      console.log('THE ERROR IS: ', error);
       console.error(`Error with OpenAI API request: ${error.message}`);
       res.status(500).json({
         error: {
