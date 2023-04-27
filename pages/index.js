@@ -32,7 +32,7 @@ const LandingPage = ({ landingSadhanas }) => {
             Meet Anky: Your Companion on the Hero&apos;s Journey 🐒
           </h1>
         </div>
-        <div className='relative w-1/2 mb-6 h-screen'>
+        <div className='relative w-1/2 mb-6 h-[90vh]'>
           <Image
             src='/images/anky.png'
             alt="Anky guiding users on their Hero's Journey"

@@ -37,23 +37,23 @@ const Anky = () => {
   return (
     <div
       className='relative w-full h-screen bg-cover bg-center'
-      style={{ backgroundImage: "url('/images/anky.png')" }}
+      style={{ backgroundImage: "url('/images/ankyhuman.png')" }}
     >
       <div className='bg-black bg-opacity-60 h-full flex flex-col items-center justify-center p-4'>
         <input
           type='text'
           value={userInput}
           onChange={handleChange}
-          placeholder='Ask Anky for help...'
+          placeholder='Ask Anky for help with your challenge...'
           className='w-1/2 p-2 mb-4 bg-white text-black rounded-lg'
         />
         <button
           onClick={handleSubmit}
           className='mb-4 bg-[#009FE3] py-2 px-6 rounded-lg font-semibold text-xl text-white hover:bg-[#E6007E] hover:text-black transition-colors duration-300'
         >
-          Send to Anky
+          Send
         </button>
-        <em className='text-xl text-white'>{displayedResponse}</em>
+        <em className='text-xl text-white ankytext'>{displayedResponse}</em>
       </div>
     </div>
   );
