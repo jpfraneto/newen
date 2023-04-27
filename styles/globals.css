@@ -146,6 +146,34 @@ footer {
   }
 }
 
+@keyframes textSpacing {
+  0% {
+    letter-spacing: 1px;
+  }
+  20% {
+    letter-spacing: 2px;
+  }
+  40% {
+    letter-spacing: 3px;
+  }
+  60% {
+    letter-spacing: 4px;
+  }
+  80% {
+    letter-spacing: 5px;
+  }
+  100% {
+    letter-spacing: 4px;
+  }
+}
+
+.spacing-animation {
+  animation-name: textSpacing;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
 .fade-in {
   animation: fadeIn 1s ease-in-out;
 }

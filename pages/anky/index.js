@@ -113,8 +113,12 @@ const Anky = () => {
           {sentText ? (
             <div>
               {isLoading ? (
-                <div className='flex justify-center items-center  w-11/12 md:w-6/12 mx-auto'>
-                  <h1 className='heroanky text-4xl text-left md:text-6xl font-bold'>
+                <div className='flex  w-11/12 md:w-6/12 mx-auto'>
+                  <h1
+                    className={`heroanky text-4xl text-left md:text-6xl font-bold ${
+                      isLoading ? 'spacing-animation' : ''
+                    }`}
+                  >
                     Anky is thinking... 🐒
                   </h1>
                 </div>

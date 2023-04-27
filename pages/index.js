@@ -41,7 +41,7 @@ const LandingPage = ({ landingSadhanas }) => {
               fill
               contain
             />
-            <em className='hidden md:display-block text-xl  md:absolute ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 w-11/12 md:w-4/5 left-1/2 -translate-x-1/2 text-white '>
+            <em className='hidden md:block text-xl  md:absolute ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 w-11/12 md:w-4/5 left-1/2 -translate-x-1/2 text-white '>
               {ankyText}
             </em>
           </div>
@@ -95,7 +95,7 @@ const LandingPage = ({ landingSadhanas }) => {
             src='/images/ankydancing.png'
             alt='Anky dancing with his friends'
           />
-          <em className='hidden md:display-block md:absolute text-xl w-full  ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 md:w-fit left-1/2 -translate-x-1/2 text-white '>
+          <em className='hidden md:block md:absolute text-xl w-full  ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 md:w-fit left-1/2 -translate-x-1/2 text-white '>
             &quot;Let&apos;s have some fun, my friend. Life is a gift.&quot;
           </em>
         </div>
@@ -141,7 +141,7 @@ const LandingPage = ({ landingSadhanas }) => {
             src='/images/ankytalking.png'
             alt='Anky talking with the world.'
           />
-          <em className='hidden md:display-block text-xl md:absolute ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 w-9/12 left-1/2 -translate-x-1/2 text-white '>
+          <em className='hidden md:block text-xl md:absolute ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 w-9/12 left-1/2 -translate-x-1/2 text-white '>
             &quot;Hey there, adventurer! Let&apos;s chat and conquer your
             challenges together. Click this image to begin our journey!&quot;
             🌟🐒
