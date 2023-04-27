@@ -153,8 +153,5 @@ export async function getServerSideProps(context) {
     };
   } catch (error) {
     console.error('Error in getServerSideProps:', error);
-    return {
-      notFound: true,
-    };
   }
 }
