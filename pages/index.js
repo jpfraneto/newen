@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { BraahOne } from 'next/font/google';
 import Link from 'next/link';
+import prisma from '@component/lib/prismaClient';
 
 const LandingPage = ({ landingSadhanas }) => {
   const [ankyText, setAnkyText] = useState('');
