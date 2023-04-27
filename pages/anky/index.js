@@ -27,24 +27,32 @@ const Anky = () => {
 
   const styleResponseText = text => {
     const parts = text.split(/\d+\. /).slice(1);
-    const intro = parts.shift().split('\n');
+    let intro;
+
+    if (parts.length > 0) {
+      intro = parts.shift().split('\n');
+    } else {
+      intro = text.split('\n');
+    }
 
     return (
       <div>
         {intro.map((paragraph, index) => (
-          <p className='mb-4' key={`intro-${index}`}>
+          <p className='mb-3' key={`intro-${index}`}>
             {paragraph.trim()}
           </p>
         ))}
-        <ol>
-          {parts.map((part, index) => (
-            <li key={index}>
-              {part.split('\n').map((paragraph, pIndex) => (
-                <p key={`part-${index}-${pIndex}`}>{paragraph.trim()}</p>
-              ))}
-            </li>
-          ))}
-        </ol>
+        {parts.length > 0 && (
+          <ol>
+            {parts.map((part, index) => (
+              <li className='mb-2' key={index}>
+                {part.split('\n').map((paragraph, pIndex) => (
+                  <p key={`part-${index}-${pIndex}`}>{paragraph.trim()}</p>
+                ))}
+              </li>
+            ))}
+          </ol>
+        )}
       </div>
     );
   };
@@ -77,6 +85,9 @@ const Anky = () => {
       console.log('the result from fetching the api is: ', result);
       return result;
     } catch (error) {
+      setAnkyResponse(
+        "I'm sorry, but I'm having trouble feeling your problem right now. Please come back later, and let my friend jp know about this problem at jpfraneto@gmail.com"
+      );
       console.error('Error sending message:', error.message);
     }
     setIsLoading(false);
@@ -84,40 +95,39 @@ const Anky = () => {
 
   return (
     <div
-      className='relative w-full h-screen bg-cover bg-center  flex flex-col items-center'
-      style={{ backgroundImage: "url('/images/ankyhuman.png')" }}
+      className='relative w-full h-screen bg-cover bg-center bg-black flex flex-col items-center'
+      style={{
+        backgroundImage: `url(/images/ankyhuman.png`,
+      }}
     >
       <div className='bg-black bg-opacity-60 h-full flex flex-col w-full items-center justify-center p-4'>
-        <div className='mt-100  w-full my-auto flex flex-col'>
+        <div className='mt-100 fade-in w-full my-auto flex flex-col'>
+          <em className='max-h-[40vh] mb-3 overflow-y-scroll text-xl block text-white ankytext w-11/12 md:w-6/12 mx-auto'>
+            Hey there, what is challenging you right now?
+          </em>
+          {sentText && (
+            <p className='landingtext text-2xl text-white w-11/12 mb-4 text-left mx-auto md:w-1/2 '>
+              {userInput}
+            </p>
+          )}
           {sentText ? (
             <div>
               {isLoading ? (
-                <div>
-                  <p>Anky is thinking...</p>
-
-                  <div className='relative w-full md:w-1/2 md:mb-6 h-[100vw] md:h-[90vh]'>
-                    <Image
-                      src='/images/ankythinking.png'
-                      alt='Anky thinking'
-                      layout='fill'
-                      objectFit='contain'
-                    />
-                  </div>
+                <div className='flex justify-center items-center  w-11/12 md:w-6/12 mx-auto'>
+                  <h1 className='heroanky text-4xl text-left md:text-6xl font-bold'>
+                    Anky is thinking... 🐒
+                  </h1>
                 </div>
               ) : (
                 <div>
-                  <p className='landingtext w-11/12 mb-4 text-center mx-auto md:w-1/2 px-4'>
-                    {' '}
-                    {userInput}
-                  </p>
                   <em className='max-h-[40vh] overflow-y-scroll text-xl block text-white ankytext w-11/12 md:w-6/12 mx-auto'>
-                    {styleResponseText(displayedResponse)}
+                    {ankyResponse && styleResponseText(displayedResponse)}
                   </em>
                 </div>
               )}
             </div>
           ) : (
-            <div className='fade-in flex flex-col items-center justify-center'>
+            <div className=' flex flex-col items-center justify-center'>
               <input
                 type='text'
                 value={userInput}

@@ -41,14 +41,14 @@ const LandingPage = ({ landingSadhanas }) => {
               layout='fill'
               objectFit='contain'
             />
-            <em className='hidden text-xl md:absolute ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 w-11/12 md:w-4/5 left-1/2 -translate-x-1/2 text-white '>
+            <em className='display-none md:display-block text-xl  md:absolute ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 w-11/12 md:w-4/5 left-1/2 -translate-x-1/2 text-white '>
               {ankyText}
             </em>
           </div>
           <em className=' text-xl md:hidden ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-2 w-full text-white '>
             {ankyText}
           </em>
-          <hr className='mb-48 md:hidden' />
+          <hr className='mb-24 md:hidden' />
         </div>
         <div className='landingtext w-11/12 mx-auto md:w-1/2 px-4'>
           {' '}
@@ -93,7 +93,7 @@ const LandingPage = ({ landingSadhanas }) => {
             src='/images/ankydancing.png'
             alt='Anky dancing with his friends'
           />
-          <em className='hidden md:absolute text-xl w-full  ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 md:w-fit left-1/2 -translate-x-1/2 text-white '>
+          <em className='display-none md:display-block md:absolute text-xl w-full  ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 md:w-fit left-1/2 -translate-x-1/2 text-white '>
             &quot;Let&apos;s have some fun, my friend. Life is a gift.&quot;
           </em>
         </div>
@@ -139,7 +139,7 @@ const LandingPage = ({ landingSadhanas }) => {
             src='/images/ankytalking.png'
             alt='Anky talking with the world.'
           />
-          <em className='hidden text-xl md:absolute ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 w-9/12 left-1/2 -translate-x-1/2 text-white '>
+          <em className='display-none md:display-block text-xl md:absolute ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 w-9/12 left-1/2 -translate-x-1/2 text-white '>
             &quot;Hey there, adventurer! Let&apos;s chat and conquer your
             challenges together. Click this image to begin our journey!&quot;
             🌟🐒
