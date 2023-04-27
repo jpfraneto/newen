@@ -38,8 +38,8 @@ const LandingPage = ({ landingSadhanas }) => {
             <Image
               src='/images/anky.png'
               alt="Anky guiding users on their Hero's Journey"
-              layout='fill'
-              objectFit='contain'
+              fill
+              contain
             />
             <em className='hidden md:display-block text-xl  md:absolute ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 w-11/12 md:w-4/5 left-1/2 -translate-x-1/2 text-white '>
               {ankyText}
@@ -82,8 +82,10 @@ const LandingPage = ({ landingSadhanas }) => {
               href='/s/new'
               className='mb-10 bg-[#009FE3] py-2 px-6 rounded-lg font-semibold text-xl text-white hover:bg-[#E6007E] hover:text-black transition-colors duration-300'
             >
-              Begin Your Adventure / Add your first challenge
+              Begin Your Adventure*
             </Link>
+            <br />
+            <small className='text-xs mt-2'>*Add your first challenge</small>
           </div>
         </div>
         <div className='mt-8 relative w-11/12 md:w-8/12 mb-2 md:mb-8 rounded-3xl border-white border-2 overflow-hidden aspect-video'>
