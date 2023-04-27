@@ -137,6 +137,19 @@ footer {
   flex-shrink: 0;
 }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+
 @media only screen and (max-width: 600px) {
   .hero h2 {
     font-size: 2rem;

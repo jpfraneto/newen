@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Anky = () => {
   const [userInput, setUserInput] = useState('');
   const [ankyResponse, setAnkyResponse] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [displayedResponse, setDisplayedResponse] = useState('');
 
   const handleChange = event => {
@@ -29,9 +31,14 @@ const Anky = () => {
   }, [ankyResponse]);
 
   const fetchOpenAI = async inputText => {
-    // Replace this with the actual API call to OpenAI
-    const response = 'This is a sample response from Anky.';
-    return response;
+    setIsLoading(true);
+    try {
+      const result = await axios.post('/api/anky', { message: inputText });
+      setAnkyResponse(result.data.result);
+    } catch (error) {
+      console.error('Error sending message:', error.message);
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -51,7 +58,7 @@ const Anky = () => {
           onClick={handleSubmit}
           className='mb-4 bg-[#009FE3] py-2 px-6 rounded-lg font-semibold text-xl text-white hover:bg-[#E6007E] hover:text-black transition-colors duration-300'
         >
-          Send
+          {isLoading ? 'Anky is pondering a response...' : 'Send'}
         </button>
         <em className='text-xl text-white ankytext'>{displayedResponse}</em>
       </div>
