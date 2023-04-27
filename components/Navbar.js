@@ -16,7 +16,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`${russo.className} bg-black flex flex-col items-center sticky top-0 z-50`}
+      className={`${russo.className} bg-black flex flex-col items-center sticky top-0 z-50 border-b-2 border-b-white`}
     >
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full'>
         <div className='flex justify-between h-16 items-center'>
