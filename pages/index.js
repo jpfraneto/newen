@@ -28,7 +28,7 @@ const LandingPage = ({ landingSadhanas }) => {
         {' '}
         <div className='flex flex-col pl-8 text-center w-1/2'>
           <h1 className='heroanky  text-6xl font-bold '>
-            Meet Anky: Your Companion on the Hero's Journey 🐒
+            Meet Anky: Your Companion on the Hero&apos;s Journey 🐒
           </h1>
         </div>
         <div className='relative w-1/2 mb-6 h-screen'>
@@ -51,10 +51,10 @@ const LandingPage = ({ landingSadhanas }) => {
           devotion and perseverance.
         </p>
         <p className='text-lg mb-4'>
-          Inspired by Anky's spirit, we have created an app that combines the
-          power of modern technology with the ancient wisdom of personal growth.
-          Welcome to Sadhana, your gateway to embark on the Hero's Journey, with
-          Anky as your trusty companion.
+          Inspired by Anky&apos;s spirit, we have created an app that combines
+          the power of modern technology with the ancient wisdom of personal
+          growth. Welcome to Sadhana, your gateway to embark on the Hero&apos;s
+          Journey, with Anky as your trusty companion.
         </p>
         <p className='text-lg mb-4'>
           As you venture forth, Anky will be by your side, offering support,
@@ -90,7 +90,7 @@ const LandingPage = ({ landingSadhanas }) => {
               </p>
               <p className='text-xl '>Author: {sadhanas.author.name}</p>
 
-              <p className='text-xl mb-4 text-[#FFED00]'>Anky's Advice:</p>
+              <p className='text-xl mb-4 text-[#FFED00]'>Anky&apos;s Advice:</p>
               <em className='text-xl ankytext my-4 text-black'>
                 {sadhanas.ankysAdvice}
               </em>
