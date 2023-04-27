@@ -94,11 +94,11 @@ const LandingPage = ({ landingSadhanas }) => {
             alt='Anky dancing with his friends'
           />
           <em className='hidden md:absolute text-xl w-full  ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 md:w-fit left-1/2 -translate-x-1/2 text-white '>
-            "Let&apos;s have some fun, my friend. Life is a gift."
+            &quot;Let&apos;s have some fun, my friend. Life is a gift.&quot;
           </em>
         </div>
         <em className='md:hidden text-xl w-full ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 md:w-fit  text-white '>
-          "Let&apos;s have some fun, my friend. Life is a gift."
+          &quot;Let&apos;s have some fun, my friend. Life is a gift.&quot;
         </em>
         <div className='mt-4'>
           <h1 className='mx-8 heroanky mt-8 text-4xl md:text-6xl font-bold  text-left'>
@@ -140,13 +140,14 @@ const LandingPage = ({ landingSadhanas }) => {
             alt='Anky talking with the world.'
           />
           <em className='hidden text-xl md:absolute ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 w-9/12 left-1/2 -translate-x-1/2 text-white '>
-            "Hey there, adventurer! Let's chat and conquer your challenges
-            together. Click this image to begin our journey!" 🌟🐒
+            &quot;Hey there, adventurer! Let&apos;s chat and conquer your
+            challenges together. Click this image to begin our journey!&quot;
+            🌟🐒
           </em>
         </div>
         <em className='md:hidden text-xl ankytext bottom-2 mb-10 bg-black bg-opacity-50 rounded-xl p-4 w-11/12  text-white '>
-          "Hey there, adventurer! Let's chat and conquer your challenges
-          together. Click this image to begin our journey!" 🌟🐒
+          &quot;Hey there, adventurer! Let&apos;s chat and conquer your
+          challenges together. Click this image to begin our journey!&quot; 🌟🐒
         </em>
       </div>
       <Footer />
@@ -220,9 +221,9 @@ const Footer = () => (
           personal growth, self-discovery, and fulfillment.
         </p>
         <p>
-          Disclaimer: Anky's advice and guidance are based on an AI model, and
-          should not be considered as professional advice. Use the information
-          provided at your own discretion.
+          Disclaimer: Anky&apos;s advice and guidance are based on an AI model,
+          and should not be considered as professional advice. Use the
+          information provided at your own discretion.
         </p>
       </div>
       <div>

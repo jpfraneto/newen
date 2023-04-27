@@ -15,6 +15,15 @@ export default async function (req, res) {
     });
     return;
   }
+  const password = req.body.password;
+  if (password.trim() !== process.env.ANKYPASSWORD) {
+    res.status(400).json({
+      error: {
+        message: 'Please enter a valid password',
+      },
+    });
+    return;
+  }
 
   const message = req.body.message || '';
   if (message.trim().length === 0) {
@@ -27,15 +36,21 @@ export default async function (req, res) {
   }
 
   try {
-    const promptToAnky = generatePrompt(message);
-    console.log('the prompt to anky is: ', promptToAnky);
-    const completion = await openai.createCompletion({
-      model: 'text-davinci-003',
-      prompt: promptToAnky,
-      temperature: 0.6,
+    const messages = [
+      {
+        role: 'system',
+        content:
+          'You are Anky, a wise, supportive, and energetic chatbot with a quirky sense of humor, is here to motivate users on their personal growth journey while they use an app called sadhana, where they create and participate in challenges.',
+      },
+      { role: 'user', content: message },
+    ];
+    console.log('Im going to fetch openai with this messages', messages);
+    const completion = await openai.createChatCompletion({
+      model: 'gpt-3.5-turbo',
+      messages: messages,
     });
-    console.log('THE COMPLETIONIS: ', completion);
-    res.status(200).json({ result: completion.data.choices[0].text });
+    console.log('THE completion data is: ', completion.data);
+    res.status(200).json({ result: completion.data.choices[0].message });
   } catch (error) {
     if (error.response) {
       console.error(error.response.status, error.response.data);
@@ -52,5 +67,5 @@ export default async function (req, res) {
 }
 
 function generatePrompt(message) {
-  return `Anky, a wise, supportive, and energetic chatbot with a quirky sense of humor, is here to motivate users on their personal growth journey. A user asks: "${message}". How would Anky respond to inspire and guide the user while staying true to its unique personality?`;
+  return ` A user asks: "${message}". How would Anky respond to the user with practical tips for being able to complete his or her challenge?`;
 }
