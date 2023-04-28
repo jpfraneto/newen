@@ -29,6 +29,7 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
   const [isRunning, setIsRunning] = useState(false);
   const [started, setStarted] = useState(false);
   const [finished, setFinished] = useState(false);
+  const [hiddenTime, setHiddenTime] = useState(null);
   const [paused, setPaused] = useState(true);
   const [timeRemaining, setTimeRemaining] = useState(
     sadhana.targetSessionDuration * 60
@@ -57,6 +58,26 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
       if (interval) clearInterval(interval);
     };
   }, [isRunning, timeRemaining, finished, started]);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden && isRunning) {
+        setHiddenTime(new Date());
+        pauseTimer();
+      } else if (!document.hidden && hiddenTime) {
+        const timeElapsed = Math.floor((new Date() - hiddenTime) / 1000);
+        setTimeRemaining(timeRemaining - timeElapsed);
+        setHiddenTime(null);
+        startTimer();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
 
   const handleFinishedTimer = () => {
     audioRef.current.play();
