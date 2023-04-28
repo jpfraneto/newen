@@ -12,6 +12,7 @@ import {
   setInterval,
   setTimeout,
 } from 'worker-timers';
+
 import { calculateDayIndex } from '@component/lib/functions';
 import { signIn } from 'next-auth/react';
 
@@ -60,22 +61,25 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
   }, [isRunning, timeRemaining, finished, started]);
 
   useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.hidden && isRunning) {
-        setHiddenTime(new Date());
-        pauseTimer();
-      } else if (!document.hidden && hiddenTime) {
-        const timeElapsed = Math.floor((new Date() - hiddenTime) / 1000);
-        setTimeRemaining(timeRemaining - timeElapsed);
-        setHiddenTime(null);
-        startTimer();
+    let wakeLock = null;
+    const requestWakeLock = async () => {
+      try {
+        wakeLock = await navigator.wakeLock.request('screen');
+      } catch (err) {
+        console.error(
+          `Error requesting wake lock: ${err.name}, ${err.message}`
+        );
       }
     };
 
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    if ('wakeLock' in navigator) {
+      requestWakeLock();
+    }
 
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (wakeLock) {
+        wakeLock.release();
+      }
     };
   }, []);
 
