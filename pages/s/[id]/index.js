@@ -4,13 +4,13 @@ import { useState, useEffect } from 'react';
 import { Righteous, Russo_One } from 'next/font/google';
 import DoTheWorkInChallenge from '@component/components/DoTheWorkInChallenge';
 import SadhanaUpdate from '@component/components/SadhanaUpdate';
+import NewDashboardTimer from '@component/components/NewDashboardTimer';
 import {
   BsInstagram,
   BsTwitter,
   BsWhatsapp,
   BsLink45Deg,
 } from 'react-icons/bs';
-
 import SadhanaDayTimer from '@component/components/SadhanaDayTimer';
 import SadhanaDayInfo from '@component/components/SadhanaDayInfo';
 import prisma from '../../../lib/prismaClient';
@@ -49,11 +49,15 @@ export default function SadhanaDetail({
   const [loadingUserSessions, setLoadingUserSessions] = useState(true);
   const [dayLoading, setDayLoading] = useState(false);
   const [sadhanaDayComments, setSadhanaDayComments] = useState(null);
+  const [savingSessionLoading, setSavingSessionLoading] = useState(false);
+  const [submittingId, setSubmittingId] = useState(undefined);
+
   const [timeRemaining, setTimeRemaining] = useState(
     sadhana?.targetSessionDuration
   );
   const [isUserParticipating, setIsUserParticipating] = useState(false);
   const [displayDayInfo, setDisplayDayInfo] = useState(false);
+
   const [chosenDayIndex, setChosenDayIndex] = useState(
     calculateDayIndex(sadhana?.startingTimestamp)
   );
@@ -112,26 +116,6 @@ export default function SadhanaDetail({
         {i + 1}
       </div>
     ));
-  };
-
-  const loggedInUserId = session?.user?.id || null;
-
-  const checkIfUserDidTheWork = () => {
-    if (!session?.user) return false;
-    const thisDay = sadhana?.sadhanaDays?.filter(
-      x => x.dayIndex === dayIndex
-    )?.[0];
-    if (!thisDay) return false;
-    const aloja = thisDay.sessions?.filter(
-      x => x.authorId === session.user.id
-    )?.[0];
-    if (aloja) {
-      console.log('This means that the user did the work today');
-      return true;
-    } else {
-      console.log('This means that the user has not done the work.');
-      return false;
-    }
   };
 
   async function fetchSadhanaDayInfo(sadhanaId, dayNumber) {
@@ -206,6 +190,34 @@ export default function SadhanaDetail({
     }
   };
 
+  const handleSubmitSession = async sadhana => {
+    try {
+      const response = await fetch('/api/sadhanaSessions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: session.user.id,
+          sadhanaId: sadhana.id,
+          completedAt: new Date(),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      await response.json();
+      return true;
+    } catch (error) {
+      console.error(
+        'There was a problem submitting the sadhana session:',
+        error
+      );
+    }
+  };
+
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
@@ -221,11 +233,11 @@ export default function SadhanaDetail({
     );
 
   return (
-    <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen overflow-x-scroll text-black py-2 md:px-16 lg:px-60 px-2 md:py-10'>
+    <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen overflow-x-scroll text-white md:text-black py-2 md:px-16 lg:px-60 px-2 md:py-10'>
       <div className='container text-center'>
         {' '}
         <div
-          className={`${russo.className} bg-white shadow-md md:rounded px-2 md:px-8 pt-6 blocktext-gray-700 text-sm font-bold  text-black`}
+          className={`${russo.className} md:bg-white shadow-md md:rounded px-2 md:px-8 pt-6 blocktext-gray-700 text-sm font-bold  text-black`}
         >
           <HeaderComponent
             session={session}
@@ -238,7 +250,7 @@ export default function SadhanaDetail({
 
           {dayIndex < 0 ? (
             <p
-              className={`${russo.className} blocktext-gray-700 text-sm font-bold  text-black`}
+              className={`${russo.className} blocktext-gray-700 text-sm font-bold `}
             >
               This sadhana starts in {dayIndex * -1} days.
             </p>
@@ -347,13 +359,7 @@ export default function SadhanaDetail({
                                 </p>
                               </div>
                             ) : (
-                              <div className='mb-10'>
-                                {/* <SadhanaUpdate
-                        update={updates.find(
-                          update => update.dayIndex === sadhana.activeDay
-                        )}
-                      /> */}
-
+                              <div className=''>
                                 {dayForDisplay && dayForDisplay.id ? (
                                   <>
                                     <SadhanaDayInfo
@@ -420,7 +426,7 @@ export default function SadhanaDetail({
               Go to challenges
             </Link>
             <Link
-              href='/'
+              href='/dashboard'
               className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline '
             >
               Back
@@ -492,7 +498,7 @@ function Participants({ participants }) {
     <>
       {' '}
       <h4
-        className={`${righteous.className} text-left text-4xl font-bold mb-2 text-black`}
+        className={`${righteous.className} text-left text-4xl font-bold mb-2 text-white md:text-black`}
       >
         Users
       </h4>{' '}
@@ -598,16 +604,14 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
       >
         {sadhana.title}
       </h4>
-      <h4
-        className={`${righteous.className} text-3xl font-bold mb-2 text-black`}
-      >
+      <h4 className={`${righteous.className} text-3xl font-bold mb-2`}>
         {dayIndex < 0
           ? `This challenge starts in ${dayIndex * -1} day(s)`
           : `Day ${dayIndex}`}
       </h4>
       <div className='flex flex-wrap wrap gap-x-3 justify-center'>
         {' '}
-        <p className='flex gap-x-1 my-1 items-center'>
+        <p className='flex gap-x-1 my-1 items-center text-white md:text-black'>
           <FaUserAstronaut size={20} />
           <Link
             className='text-blue-400 hover:underline'
@@ -616,11 +620,11 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
             @{sadhana.author.username || sadhana.author.name}
           </Link>
         </p>
-        <p className='flex gap-x-1 my-1  items-center'>
+        <p className='flex gap-x-1 my-1 text-white md:text-black items-center'>
           <FaClock size={20} />
           {Math.floor(sadhana.targetSessionDuration)} minutes
         </p>
-        <p className='flex gap-x-1 my-1  items-center'>
+        <p className='flex gap-x-1 my-1 text-white md:text-black items-center'>
           <FaCalendarDay size={20} />
           {new Date(sadhana.startingTimestamp).toLocaleDateString('en-US', {
             weekday: 'long',
@@ -629,9 +633,6 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
             day: 'numeric',
           })}
         </p>
-        {/* <p className='flex gap-x-1 items-center'>
-          <FaUsers size={20} /> {participants?.length}/{sadhana.userLimit}
-        </p> */}
         <div className='flex flex-row space-x-1 p-1 my-1  bg-purple-200 border-2 border-black rounded'>
           {' '}
           <span>Invite your friends:</span>
@@ -643,9 +644,6 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
               onClick={() => handleShare('twitter')}
             />
           </span>
-          {/* <span className='hover:text-pink-500 hover:cursor-pointer'>
-            <BsInstagram size={20} onClick={() => handleShare('instagram')} />
-          </span> */}
           <span className='hover:text-green-600 hover:cursor-pointer'>
             <BsWhatsapp size={20} onClick={() => handleShare('whatsapp')} />
           </span>
@@ -662,7 +660,7 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
           Delete Challenge
         </button>
       )}
-      <p className='italic my-2'>{sadhana.content}</p>
+      <p className='italic my-2 text-white md:text-black'>{sadhana.content}</p>
     </>
   );
 }

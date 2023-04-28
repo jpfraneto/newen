@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import Timer from './Timer';
 import Spinner from './Spinner';
 import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 import { GoVerified } from 'react-icons/go';
+import TimerModal from '@component/components/TimerModal';
+import { RiTimerFill } from 'react-icons/ri';
+import NewDashboardTimer from './NewDashboardTimer';
 
 const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
@@ -18,6 +20,9 @@ const DoTheWorkInChallenge = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [savingSessionLoading, setSavingSessionLoading] = useState(false);
+  const [selectedSadhana, setSelectedSadhana] = useState(sadhanaForDisplay);
+  const [selectedSadhanaIndex, setSelectedSadhanaIndex] = useState(null);
+  const [timerModalOpen, setTimerModalOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -32,6 +37,21 @@ const DoTheWorkInChallenge = ({
       setCompletedToday(false);
     }
   }, []);
+
+  const openTimerModal = sadhana => {
+    setSelectedSadhana(sadhana);
+    setTimerModalOpen(true);
+  };
+
+  const closeTimerModal = () => {
+    if (confirm('Are you sure that you want to finish the session like this?'))
+      setTimerModalOpen(false);
+  };
+
+  const handleChooseThisSadhanaTimer = (index, thisSadhanaInFunction) => {
+    openTimerModal(thisSadhanaInFunction);
+    setSelectedSadhanaIndex(index);
+  };
 
   const evaluateSadhanaTime = startingTimestamp => {
     const now = new Date().getTime();
@@ -89,10 +109,8 @@ const DoTheWorkInChallenge = ({
   };
   return (
     <div className=''>
-      <h4
-        className={`${russo.className} text-2xl md:text-5xl w-full font-bold`}
-      >
-        It&apos;s time to do todays work!
+      <h4 className={` text-3xl md:text-5xl w-full `}>
+        It&apos;s time to do todays work !
       </h4>
       <div className='flex flex-row justify-center'>
         {' '}
@@ -130,18 +148,32 @@ const DoTheWorkInChallenge = ({
             </span>
           ) : (
             <>
-              <Timer
-                timerSize={true}
-                sessionTargetDuration={sadhanaForDisplay.targetSessionDuration}
-                sadhana={sadhanaForDisplay}
-                onCompletion={() => {
-                  toggleCompletion(sadhanaForDisplay);
-                }}
-              />
+              <div>
+                <span
+                  onClick={() =>
+                    handleChooseThisSadhanaTimer(0, sadhanaForDisplay)
+                  }
+                  className='text-red-600 flex justify-center items-center mx-auto hover:cursor-pointer'
+                >
+                  <RiTimerFill size={100} />
+                </span>
+              </div>
             </>
           )}
         </div>
       </div>
+      <TimerModal isOpen={timerModalOpen} onClose={closeTimerModal}>
+        {timerModalOpen && (
+          <NewDashboardTimer
+            session={session}
+            onCompletion={() => {
+              console.log('inside the oncompletion function');
+              toggleCompletion(selectedSadhanaIndex, selectedSadhana);
+            }}
+            sadhana={selectedSadhana}
+          />
+        )}
+      </TimerModal>
     </div>
   );
 };
