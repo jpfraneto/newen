@@ -27,6 +27,7 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
   const [pauseCount, setPauseCount] = useState(0);
   const [totalPausedTime, setTotalPausedTime] = useState(0);
   const [showSummary, setShowSummary] = useState(false);
+  const [startTime, setStartTime] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
   const [started, setStarted] = useState(false);
   const [finished, setFinished] = useState(false);
@@ -39,12 +40,13 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
 
   useEffect(() => {
     let interval;
+
     if (finished) return;
+
     if (isRunning && timeRemaining > 0) {
+      setStartTime(Date.now());
       interval = setInterval(() => {
-        setTimeRemaining(time => {
-          return time - 1;
-        });
+        setTimeRemaining(time => time - 1);
       }, 1000);
     } else if (!isRunning && timeRemaining !== 0) {
       if (interval) clearInterval(interval);
@@ -61,27 +63,21 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
   }, [isRunning, timeRemaining, finished, started]);
 
   useEffect(() => {
-    let wakeLock = null;
-    const requestWakeLock = async () => {
-      try {
-        wakeLock = await navigator.wakeLock.request('screen');
-      } catch (err) {
-        console.error(
-          `Error requesting wake lock: ${err.name}, ${err.message}`
-        );
+    const handleVisibilityChange = () => {
+      if (document.hidden && isRunning) {
+        const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+        setTimeRemaining(time => Math.max(0, time - elapsedTime));
+      } else if (!document.hidden && isRunning) {
+        setStartTime(Date.now());
       }
     };
 
-    if ('wakeLock' in navigator) {
-      requestWakeLock();
-    }
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
-      if (wakeLock) {
-        wakeLock.release();
-      }
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, [isRunning, startTime]);
 
   const handleFinishedTimer = () => {
     audioRef.current.play();
