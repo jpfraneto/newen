@@ -19,7 +19,6 @@ const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
 const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
-  console.log('inside the new dashboard timer0,', sadhana);
   const audioRef = useRef();
   const [initialDuration, setInitialDuration] = useState(
     sadhana.targetSessionDuration * 60
@@ -45,7 +44,7 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
     if (isRunning && timeRemaining > 0) {
       interval = setInterval(() => {
         setTimeRemaining(time => {
-          return +time - 1;
+          return time - 1;
         });
       }, 1000);
     } else if (!isRunning && timeRemaining !== 0) {
@@ -60,7 +59,7 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isRunning, timeRemaining, setTimeRemaining, finished, started]);
+  }, [isRunning, timeRemaining, finished, started]);
 
   const handleFinishedTimer = () => {
     audioRef.current.play();
@@ -179,8 +178,8 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
   if (!sadhana) return <></>;
 
   return (
-    <div className='max-w-xl w-full h-full mt-2 text-center rounded-xl  text-black  p-8'>
-      {!showSummary && (
+    <div className='max-w-xl w-full h-full mt-2 text-center rounded-xl  text-black p-4'>
+      <div className='h-full w-full'>
         <div className=''>
           <label
             htmlFor='title'
@@ -189,43 +188,43 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
             {sadhana.title}
           </label>
         </div>
-      )}
-      {!showSummary && (
-        <>
-          <h4 className={`${russo.className} text-6xl font-bold mb-2`}>
-            {formatTime(timeRemaining)}
-          </h4>
+        <h4 className={`${russo.className} text-6xl font-bold mb-2`}>
+          {formatTime(timeRemaining)}
+        </h4>
 
-          <div className='text-transparent flex justify-center items-center'>
-            {isRunning && !paused && !finished && (
+        <div className='text-transparent flex justify-center items-center'>
+          {isRunning && !paused && !finished && (
+            <button
+              onClick={pauseTimer}
+              className='bg-red-500 hover:bg-red-600 text-black font-semibold border-black rounded-full my-auto mx-2'
+            >
+              <BsPauseCircle size={50} />
+            </button>
+          )}
+          {!isRunning && paused && (
+            <>
               <button
-                onClick={pauseTimer}
-                className='bg-red-500 hover:bg-red-600 text-black font-semibold border-black rounded-full my-auto mx-2'
+                onClick={startTimer}
+                type='button'
+                className='bg-green-500 hover:bg-green-600 text-black font-semibold border-black rounded-full my-auto mx-2'
               >
-                <BsPauseCircle size={50} />
+                <BsPlayCircle size={50} />
               </button>
-            )}
-            {!isRunning && paused && (
-              <>
+              {started && (
                 <button
-                  onClick={startTimer}
-                  className='bg-green-500 hover:bg-green-600 text-black font-semibold border-black rounded-full my-auto mx-2'
+                  onClick={resetTimer}
+                  className='bg-yellow-500 hover:bg-yellow-600 text-black font-semibold border-black rounded-full my-auto mx-2'
                 >
-                  <BsPlayCircle size={50} />
+                  <BsFillSkipBackwardCircleFill size={50} />
                 </button>
-                {started && (
-                  <button
-                    onClick={resetTimer}
-                    className='bg-yellow-500 hover:bg-yellow-600 text-black font-semibold border-black rounded-full my-auto mx-2'
-                  >
-                    <BsFillSkipBackwardCircleFill size={50} />
-                  </button>
-                )}
-              </>
-            )}
-          </div>
+              )}
+            </>
+          )}
+        </div>
 
-          {!isRunning && !started ? (
+        <div>
+          {' '}
+          {!started && (
             <>
               <p
                 className={`${russo.className} blocktext-gray-700 mt-2 text-black`}
@@ -242,40 +241,28 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
                 className='w-full mb-6 accent-green-500'
               />
             </>
-          ) : (
-            <>
-              {!session && (
-                <p
-                  className={`${russo.className} blocktext-gray-700 text-sm text-white`}
-                >
-                  After you finish the session, you will be able to submit it to
-                  your profile so that you can keep track of your progress.{' '}
-                </p>
-              )}{' '}
-            </>
           )}
-        </>
-      )}
-
-      {started && showSummary && (
-        <div>
-          <h3 className='text-4xl mb-4'>
-            Congratulations, you just finished a {initialDuration / 60} minute
-            session.
-          </h3>
-          <button
-            onClick={handleSubmitSessionHandler}
-            className='bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded mt-4 mx-2'
-          >
-            {submitSessionBtn}
-          </button>
         </div>
-      )}
-      <br />
-      <audio ref={audioRef} hidden>
-        <source src='/sounds/bell.mp3' type='audio/mpeg' />
-        Your browser does not support the audio element.
-      </audio>
+
+        {started && showSummary && (
+          <div>
+            <h3 className='text-4xl mb-4'>
+              Congratulations, you just finished a {initialDuration / 60} minute
+              session.
+            </h3>
+            <button
+              onClick={handleSubmitSessionHandler}
+              className='bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded mt-4 mx-2'
+            >
+              {submitSessionBtn}
+            </button>
+          </div>
+        )}
+        <audio ref={audioRef} hidden>
+          <source src='/sounds/bell.mp3' type='audio/mpeg' />
+          Your browser does not support the audio element.
+        </audio>
+      </div>
     </div>
   );
 };

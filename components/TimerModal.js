@@ -11,6 +11,7 @@ const TimerModal = ({ isOpen, onClose, children }) => {
         {children}
         <button
           onClick={onClose}
+          type='button'
           className='absolute top-0 right-0 mx-4 text-red-600 hover:text-red-800 font-bold text-2xl'
         >
           &times;

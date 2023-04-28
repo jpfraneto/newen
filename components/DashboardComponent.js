@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import NewDashboardTimer from './NewDashboardTimer';
 import TimerModal from './TimerModal';
 import useSWR from 'swr';
@@ -24,6 +24,7 @@ const DashboardComponent = ({ session }) => {
 
   const [savingSessionLoading, setSavingSessionLoading] = useState(false);
   const [submittingId, setSubmittingId] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
   const [loadingSadhanas, setLoadingSadhanas] = useState(true);
   const [timerModalOpen, setTimerModalOpen] = useState(false);
 
@@ -60,7 +61,17 @@ const DashboardComponent = ({ session }) => {
     fetchUserSadhanas();
   }, [session]);
 
-  const [submitted, setSubmitted] = useState(false);
+  const memoizedNewDashboardTimer = useMemo(() => {
+    return (
+      <NewDashboardTimer
+        session={session}
+        onCompletion={() => {
+          if (!completed[index]) updateCompletion(index, true);
+        }}
+        sadhana={selectedSadhana}
+      />
+    );
+  }, [selectedSadhana]);
 
   function sortByStartingTimestampDescending(array) {
     return array.sort(
@@ -236,21 +247,6 @@ const DashboardComponent = ({ session }) => {
                               >
                                 <RiTimerFill size={50} />
                               </span>
-                              <TimerModal
-                                isOpen={timerModalOpen}
-                                onClose={closeTimerModal}
-                              >
-                                {timerModalOpen && (
-                                  <NewDashboardTimer
-                                    session={session}
-                                    onCompletion={() => {
-                                      if (!completed[index])
-                                        updateCompletion(index, true);
-                                    }}
-                                    sadhana={selectedSadhana}
-                                  />
-                                )}
-                              </TimerModal>
                             </div>
                           ) : (
                             <p>Not yet.</p>
@@ -330,6 +326,9 @@ const DashboardComponent = ({ session }) => {
           </Link>
         </>
       )}
+      <TimerModal isOpen={timerModalOpen} onClose={closeTimerModal}>
+        {memoizedNewDashboardTimer}
+      </TimerModal>
       <div className='flex flex-col items-center'>
         <Link
           className='border-black border-2 mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
