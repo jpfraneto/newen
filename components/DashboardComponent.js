@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Timer from './Timer';
+import NewDashboardTimer from './NewDashboardTimer';
+import TimerModal from './TimerModal';
 import useSWR from 'swr';
 import Link from 'next/link';
 import { BsPatchCheck } from 'react-icons/bs';
 import { formatDistanceToNow } from 'date-fns';
 import { AiOutlinePlus, AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { RiTimerFill } from 'react-icons/ri';
 import { GoVerified } from 'react-icons/go';
 import {
   didUserCompleteWork,
@@ -18,9 +20,12 @@ const DashboardComponent = ({ session }) => {
   const [userSadhanas, setUserSadhanas] = useState(null);
   const [completed, setCompleted] = useState([]);
   const [selectedSadhanaIndex, setSelectedSadhanaIndex] = useState(null);
+  const [selectedSadhana, setSelectedSadhana] = useState(null);
+
   const [savingSessionLoading, setSavingSessionLoading] = useState(false);
   const [submittingId, setSubmittingId] = useState(null);
   const [loadingSadhanas, setLoadingSadhanas] = useState(true);
+  const [timerModalOpen, setTimerModalOpen] = useState(false);
 
   useEffect(() => {
     if (!session) return;
@@ -31,7 +36,6 @@ const DashboardComponent = ({ session }) => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log('the data in here is: ', data);
         const responnn = data.sadhanas.map(x =>
           didUserCompleteWork(
             data.user,
@@ -123,13 +127,14 @@ const DashboardComponent = ({ session }) => {
     }
   };
 
-  const openModal = index => {
-    setSelectedSadhanaIndex(index);
-    setShowModal(true);
+  const openTimerModal = sadhana => {
+    setSelectedSadhana(sadhana);
+    setTimerModalOpen(true);
   };
 
-  const closeModal = () => {
-    setShowModal(false);
+  const closeTimerModal = () => {
+    if (confirm('Are you sure that you want to finish the session like this?'))
+      setTimerModalOpen(false);
   };
 
   const getCurrentDay = startDate => {
@@ -224,17 +229,29 @@ const DashboardComponent = ({ session }) => {
                       ) : (
                         <>
                           {evaluateSadhanaTime(sadhana.startingTimestamp) ? (
-                            <Timer
-                              timerSize={false}
-                              sessionTargetDuration={
-                                sadhana.targetSessionDuration
-                              }
-                              sadhana={sadhana}
-                              onCompletion={() => {
-                                if (!completed[index])
-                                  updateCompletion(index, true);
-                              }}
-                            />
+                            <div>
+                              <span
+                                onClick={() => openTimerModal(sadhana)}
+                                className='text-red-600 flex justify-center w-8 items-center mx-auto hover:cursor-pointer'
+                              >
+                                <RiTimerFill size={50} />
+                              </span>
+                              <TimerModal
+                                isOpen={timerModalOpen}
+                                onClose={closeTimerModal}
+                              >
+                                {timerModalOpen && (
+                                  <NewDashboardTimer
+                                    session={session}
+                                    onCompletion={() => {
+                                      if (!completed[index])
+                                        updateCompletion(index, true);
+                                    }}
+                                    sadhana={selectedSadhana}
+                                  />
+                                )}
+                              </TimerModal>
+                            </div>
                           ) : (
                             <p>Not yet.</p>
                           )}
