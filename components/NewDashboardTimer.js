@@ -34,9 +34,6 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
     sadhana.targetSessionDuration * 60
   );
   const [submitSessionBtn, setSubmitSessionBtn] = useState('');
-  const [music, setMusic] = useState('');
-  const [noSessionMessage, setNoSessionMessage] = useState('');
-  const [sessionSubmitted, setSessionSubmitted] = useState(false);
 
   useEffect(() => {
     let interval;
@@ -63,8 +60,7 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
 
   const handleFinishedTimer = () => {
     audioRef.current.play();
-    onCompletion();
-    setSubmitSessionBtn('Submit Session');
+    setSubmitSessionBtn('Upload Session');
   };
 
   const startTimer = () => {
@@ -116,63 +112,9 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
       .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  const submitSession = () => {
-    const email = window.prompt(
-      'Please enter your email to be informed of future updates:'
-    );
-    // Handle email submission (e.g., send to server, store in localStorage, etc.)
-    console.log(`Email submitted: ${email}`);
-  };
-
-  const newSession = () => {
-    setFinished(false);
-    resetTimer();
-  };
-
-  const handleSubmitSessionHandler = async () => {
-    if (!session) {
-      return setNoSessionMessage(
-        'If you create an account, you will be able to save this session and stay accountable to your goals.'
-      );
-    }
-
-    setSubmitSessionBtn('Saving session...');
-
-    try {
-      const response = await fetch('/api/sadhanaSessions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: session.user.id,
-          sadhanaId: sadhana.id,
-          completedAt: new Date(),
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const sadhanaSession = await response.json();
-
-      setSessionSubmitted(true);
-      setSubmitSessionBtn('Session saved!');
-    } catch (error) {
-      console.error(
-        'There was a problem submitting the sadhana session:',
-        error
-      );
-      alert('There was a problem submitting your session. Please try again.');
-    }
-  };
-
-  const handleNewSessionBtn = () => {
-    setTimeRemaining(initialDuration);
-    setFinished(false);
-    setStarted(false);
-    setShowSummary(false);
+  const handleSubmitSessionHandler = () => {
+    onCompletion();
+    setSubmitSessionBtn('Adding Session...');
   };
 
   if (!sadhana) return <></>;
@@ -180,17 +122,22 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
   return (
     <div className='max-w-xl w-full h-full mt-2 text-center rounded-xl  text-black p-4'>
       <div className='h-full w-full'>
-        <div className=''>
-          <label
-            htmlFor='title'
-            className={`${russo.className} blocktext-gray-700 mb-4 text-3xl text-black`}
-          >
-            {sadhana.title}
-          </label>
-        </div>
-        <h4 className={`${russo.className} text-6xl font-bold mb-2`}>
-          {formatTime(timeRemaining)}
-        </h4>
+        {!showSummary && (
+          <>
+            {' '}
+            <div className=''>
+              <label
+                htmlFor='title'
+                className={`${russo.className} blocktext-gray-700 mb-4 text-3xl text-black`}
+              >
+                {sadhana.title}
+              </label>
+            </div>
+            <h4 className={`${russo.className} text-6xl font-bold mb-2`}>
+              {formatTime(timeRemaining)}
+            </h4>
+          </>
+        )}
 
         <div className='text-transparent flex justify-center items-center'>
           {isRunning && !paused && !finished && (
@@ -248,7 +195,7 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
           <div>
             <h3 className='text-4xl mb-4'>
               Congratulations, you just finished a {initialDuration / 60} minute
-              session.
+              session of your challenge {sadhana.title}
             </h3>
             <button
               onClick={handleSubmitSessionHandler}

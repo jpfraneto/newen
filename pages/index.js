@@ -20,7 +20,7 @@ const LandingPage = ({ landingSadhanas }) => {
       } else {
         clearInterval(interval);
       }
-    }, 50);
+    }, 20);
 
     return () => clearInterval(interval);
   }, []);

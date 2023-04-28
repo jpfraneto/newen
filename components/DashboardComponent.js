@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import NewDashboardTimer from './NewDashboardTimer';
 import TimerModal from './TimerModal';
 import useSWR from 'swr';
@@ -61,18 +61,6 @@ const DashboardComponent = ({ session }) => {
     fetchUserSadhanas();
   }, [session]);
 
-  const memoizedNewDashboardTimer = useMemo(() => {
-    return (
-      <NewDashboardTimer
-        session={session}
-        onCompletion={() => {
-          if (!completed[index]) updateCompletion(index, true);
-        }}
-        sadhana={selectedSadhana}
-      />
-    );
-  }, [selectedSadhana]);
-
   function sortByStartingTimestampDescending(array) {
     return array.sort(
       (a, b) =>
@@ -102,6 +90,8 @@ const DashboardComponent = ({ session }) => {
       const updatedCompleted = [...completed];
       updatedCompleted[index] = !updatedCompleted[index];
       setCompleted(updatedCompleted);
+      setSelectedSadhana(null);
+      setTimerModalOpen(false);
     } else {
       alert(
         'There was a problem submitting your session. I will fix this soon.'
@@ -128,7 +118,6 @@ const DashboardComponent = ({ session }) => {
       }
 
       await response.json();
-
       return true;
     } catch (error) {
       console.error(
@@ -168,6 +157,11 @@ const DashboardComponent = ({ session }) => {
   };
 
   const completedCount = completed.filter(item => item).length;
+
+  const handleChooseThisSadhanaTimer = (index, thisSadhanaInFunction) => {
+    openTimerModal(thisSadhanaInFunction);
+    setSelectedSadhanaIndex(index);
+  };
 
   if (!session) return <p>Unauthorized</p>;
 
@@ -242,7 +236,9 @@ const DashboardComponent = ({ session }) => {
                           {evaluateSadhanaTime(sadhana.startingTimestamp) ? (
                             <div>
                               <span
-                                onClick={() => openTimerModal(sadhana)}
+                                onClick={() =>
+                                  handleChooseThisSadhanaTimer(index, sadhana)
+                                }
                                 className='text-red-600 flex justify-center w-8 items-center mx-auto hover:cursor-pointer'
                               >
                                 <RiTimerFill size={50} />
@@ -271,19 +267,19 @@ const DashboardComponent = ({ session }) => {
                     </td>
                   </tr>
                 ))}
+              <tr>
+                <td className='p-2 hover:text-yellow-300 '>
+                  <Link
+                    href='/s/new'
+                    className='flex items-center space-x-2'
+                    passHref
+                  >
+                    <AiOutlinePlus />{' '}
+                    <span className=''>Create new challenge</span>
+                  </Link>
+                </td>
+              </tr>
             </tbody>
-            <tr>
-              <td className='p-2 hover:text-yellow-300 '>
-                <Link
-                  href='/s/new'
-                  className='flex items-center space-x-2'
-                  passHref
-                >
-                  <AiOutlinePlus />{' '}
-                  <span className=''>Create new challenge</span>
-                </Link>
-              </td>
-            </tr>
           </table>
 
           {!submitted ? (
@@ -327,7 +323,16 @@ const DashboardComponent = ({ session }) => {
         </>
       )}
       <TimerModal isOpen={timerModalOpen} onClose={closeTimerModal}>
-        {memoizedNewDashboardTimer}
+        {timerModalOpen && (
+          <NewDashboardTimer
+            session={session}
+            onCompletion={() => {
+              console.log('inside the oncompletion function');
+              toggleCompletion(selectedSadhanaIndex, selectedSadhana);
+            }}
+            sadhana={selectedSadhana}
+          />
+        )}
       </TimerModal>
       <div className='flex flex-col items-center'>
         <Link
