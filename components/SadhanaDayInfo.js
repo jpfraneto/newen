@@ -30,7 +30,7 @@ function SadhanaDayInfo({
         {sadhanaDay.sessions.map(session => (
           <div key={session.id} className='hover:cursor-pointer'>
             <Image
-              src={session.author.image}
+              src={session.author.image || '/images/ankycompressed.png'}
               onClick={() => router.push(`/u/${session.authorId}`)}
               alt={session.author.username}
               width={200}

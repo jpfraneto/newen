@@ -103,13 +103,15 @@ function Comments({
               <div className='flex flex-col items-start'>
                 {' '}
                 <Image
-                  src={comment.author.image}
+                  src={comment.author.image || '/images/ankycompressed.png'}
                   width={40}
                   height={40}
                   alt={comment.author.username}
                   className='w-12 h-12 rounded-full mr-4'
                 />
-                <span className='font-semibold'>{comment.author.username}</span>
+                <span className='font-semibold'>
+                  {comment.author.username || comment.author.email}
+                </span>
                 <span className='text-sm text-left text-gray-500'>
                   {formatDistance(new Date(comment.createdAt), now, {
                     addSuffix: true,

@@ -11,6 +11,7 @@ const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const Dashboard = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
+  console.log('the session is: ', session);
 
   if (status === 'loading') return <p>Loading</p>;
 
@@ -50,12 +51,12 @@ const Dashboard = () => {
               {formatDate(new Date().getTime())} |{' '}
               {session.user.username
                 ? `@${session.user.username}`
-                : session.user.name}
+                : session.user.name || session.user.email}
             </h4>
             <Image
               width={111}
               height={111}
-              src={session.user.image}
+              src={session.user?.image || '/images/ankycompressed.png'}
               className='rounded-full mt-2 border-2 border-white'
               alt='Profile picture'
             />

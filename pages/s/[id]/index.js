@@ -481,6 +481,7 @@ export async function getStaticProps({ params }) {
   });
 
   if (!sessionsArray) sessionsArray = [];
+  console.log('the sadhana is:', sadhana);
 
   return {
     props: {
@@ -508,15 +509,27 @@ function Participants({ participants }) {
             key={participant.id}
             className='text-center hover:cursor-pointer'
           >
-            <Image
-              src={participant.image}
-              onClick={() => router.push(`/u/${participant.id}`)}
-              alt={participant.name}
-              width={200}
-              height={200}
-              className='w-16 h-16 rounded-full mr-2'
-              title={participant.name}
-            />
+            {participant.image ? (
+              <Image
+                src={participant.image}
+                onClick={() => router.push(`/u/${participant.id}`)}
+                alt={participant.name || 'name'}
+                width={200}
+                height={200}
+                className='w-16 h-16 rounded-full mr-2'
+                title={participant.name || 'participant image'}
+              />
+            ) : (
+              <Image
+                src='/images/ankycompressed.png'
+                onClick={() => router.push(`/u/${participant.id}`)}
+                alt={participant.name || 'name'}
+                width={200}
+                height={200}
+                className='w-16 h-16 rounded-full mr-2'
+                title={participant.name || 'participant image'}
+              />
+            )}
           </div>
         ))}
       </div>
@@ -617,7 +630,10 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
             className='text-blue-400 hover:underline'
             href={`/u/${sadhana.author.id}`}
           >
-            @{sadhana.author.username || sadhana.author.name}
+            @
+            {sadhana.author?.username ||
+              sadhana.author?.name ||
+              sadhana.author?.email}
           </Link>
         </p>
         <p className='flex gap-x-1 my-1 text-white md:text-black items-center'>
