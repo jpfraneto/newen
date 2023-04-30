@@ -13,9 +13,6 @@ import {
   setTimeout,
 } from 'worker-timers';
 
-import { calculateDayIndex } from '@component/lib/functions';
-import { signIn } from 'next-auth/react';
-
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 

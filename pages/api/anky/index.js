@@ -44,7 +44,6 @@ export default async function (req, res) {
       },
       { role: 'user', content: message },
     ];
-    console.log('Im going to fetch openai with this messages', messages);
 
     const completion = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',

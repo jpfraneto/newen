@@ -27,7 +27,7 @@ const DashboardComponent = ({ session }) => {
   const [submitted, setSubmitted] = useState(false);
   const [loadingSadhanas, setLoadingSadhanas] = useState(true);
   const [timerModalOpen, setTimerModalOpen] = useState(false);
-
+  console.log('inside the dashboard component0, ', session);
   useEffect(() => {
     if (!session) return;
     async function fetchUserSadhanas() {
@@ -41,7 +41,7 @@ const DashboardComponent = ({ session }) => {
           didUserCompleteWork(
             data.user,
             x.id,
-            calculateDayIndex(x.startingTimestamp)
+            calculateDayIndex(x.startingTimestamp, session.user.timeZone)
           )
         );
         data.sadhanas = data.sadhanas.map((x, i) => {
@@ -54,6 +54,7 @@ const DashboardComponent = ({ session }) => {
         setLoadingSadhanas(false);
         return;
       } catch (error) {
+        console.log('there was an error here:', error);
         setUserSadhanas([]);
         return;
       }
@@ -79,7 +80,7 @@ const DashboardComponent = ({ session }) => {
     if (new Date(sadhana.startingTimestamp).getTime() > new Date().getTime())
       return alert(
         `That challenge has not started yet. Please be patient and come back in ${Math.abs(
-          calculateDayIndex(sadhana.startingTimestamp)
+          calculateDayIndex(sadhana.startingTimestamp, session.user.timeZone)
         )} day(s)`
       );
     setSavingSessionLoading(true);
@@ -253,9 +254,10 @@ const DashboardComponent = ({ session }) => {
 
                     <td className=' px-4 py-2 text-white text-center'>
                       {evaluateSadhanaTime(sadhana.startingTimestamp) ? (
-                        `${calculateDayIndex(sadhana.startingTimestamp)}/${
-                          sadhana.targetSessions
-                        }`
+                        `${calculateDayIndex(
+                          sadhana.startingTimestamp,
+                          session.user.timeZone
+                        )}/${sadhana.targetSessions}`
                       ) : (
                         <p>{`Starts ${formatDistanceToNow(
                           new Date(sadhana.startingTimestamp).getTime(),

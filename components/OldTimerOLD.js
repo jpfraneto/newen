@@ -222,7 +222,12 @@ const Timer = ({
                     className={`${russo.className} shadow appearance-none border rounded-xl w-full mt-1 mb-2 py-2 px-3 text-grey-100 bg-black leading-tight focus:outline-none focus:shadow-outline`}
                   >
                     {userSadhanas.map(sadhana => {
-                      if (calculateDayIndex(sadhana.startingTimestamp) < 0)
+                      if (
+                        calculateDayIndex(
+                          sadhana.startingTimestamp,
+                          session.user.timeZone
+                        ) < 0
+                      )
                         return;
                       return (
                         <option

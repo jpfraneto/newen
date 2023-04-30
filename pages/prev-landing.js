@@ -44,7 +44,7 @@ export default function Home({ sadhanas }) {
           didUserCompleteWork(
             data.user,
             x.id,
-            calculateDayIndex(x.startingTimestamp)
+            calculateDayIndex(x.startingTimestamp, session.user.timeZone)
           )
         );
         data.sadhanas = data.sadhanas.map((x, i) => {
@@ -116,7 +116,10 @@ export default function Home({ sadhanas }) {
                       <p>{sadhana.participants.length} person</p>
                       <p className='text-red-200'>
                         Today is day{' '}
-                        {calculateDayIndex(sadhana.startingTimestamp)}
+                        {calculateDayIndex(
+                          sadhana.startingTimestamp,
+                          session.user.timeZone
+                        )}
                       </p>
                       <div className='mt-4'>
                         {' '}

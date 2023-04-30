@@ -11,10 +11,9 @@ const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const Dashboard = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
-  console.log('the session is: ', session);
 
   if (status === 'loading') return <p>Loading</p>;
-
+  console.log('after the loading', session);
   if (!session)
     return (
       <div className='p-8 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen flex items-center justify-center'>

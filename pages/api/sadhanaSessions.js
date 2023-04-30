@@ -2,6 +2,7 @@ import prisma from '@component/lib/prismaClient';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from './auth/[...nextauth]';
 import { calculateDayIndex } from '@component/lib/functions';
+import { sendSadhanaCompletionEmail } from '@component/lib/emailFunctions';
 
 const handler = async (req, res) => {
   if (req.method !== 'POST') {
@@ -52,7 +53,13 @@ async function createSadhanaSession(
   }
 
   // Calculate the current day index of the Sadhana
-  const dayIndex = calculateDayIndex(sadhana.startingTimestamp);
+  const dayIndex = calculateDayIndex(
+    sadhana.startingTimestamp,
+    session.user.timeZone
+  );
+
+  const isLastSession = dayIndex >= sadhana.targetSessions;
+
   // Find or create the SadhanaDay with the calculated day index
   const sadhanaDay = await prisma.sadhanaDay.findFirst({
     where: {
@@ -82,7 +89,7 @@ async function createSadhanaSession(
       feeling: feeling,
     },
   });
-  console.log('wa', sadhanaSession, session.user);
+
   sadhanaSession.author = {
     image: session.user.image,
     username: session.user.username || session.user.name || '',
@@ -98,6 +105,16 @@ async function createSadhanaSession(
     ];
   } else {
     createdSadhanaDay.sessions = [sadhanaSession];
+  }
+
+  if (isLastSession) {
+    await prisma.sadhana.update({
+      where: { id: sadhanaId },
+      data: { status: 'completed' },
+    });
+    console.log('this is the last session of this sadhana!!');
+
+    await sendSadhanaCompletionEmail(session.user, sadhana);
   }
 
   return { sadhanaSession, createdSadhanaDay };

@@ -6,10 +6,7 @@ import Link from 'next/link';
 import { useSession, signOut, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import OldTimer from '@component/components/OldTimer';
-import {
-  didUserCompleteWork,
-  calculateDayIndex,
-} from '@component/lib/functions';
+
 import Spinner from '@component/components/Spinner';
 import WelcomeScreen from '@component/components/WelcomeScreen';
 

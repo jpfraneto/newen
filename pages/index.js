@@ -4,6 +4,8 @@ import { BraahOne } from 'next/font/google';
 import Link from 'next/link';
 import prisma from '@component/lib/prismaClient';
 import { useRouter } from 'next/router';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@component/pages/api/auth/[...nextauth].js';
 
 const LandingPage = ({ landingSadhanas }) => {
   const router = useRouter();
@@ -179,6 +181,12 @@ export default LandingPage;
 
 export async function getServerSideProps(context) {
   try {
+    const session = await getServerSession(
+      context.req,
+      context.res,
+      authOptions
+    );
+
     const sadhanas = await prisma.sadhana.findMany({
       take: 5,
       orderBy: {
@@ -200,10 +208,18 @@ export async function getServerSideProps(context) {
       'Lights, camera, action! 🎥 Create your weekly recap video with joy and pride, and let your journey be a beacon of inspiration to others on social media. 🌈';
     sadhanas[4].ankysAdvice =
       'El agua fría te llama, valiente aventurero. 🌊 Sumérgete en sus profundidades y enfrenta el desafío con valentía y determinación. ¡Convierte cada minuto en una victoria! 💪';
-
+    if (session) {
+      return {
+        redirect: {
+          destination: '/dashboard',
+          permanent: false,
+        },
+      };
+    }
     return {
       props: {
         landingSadhanas: JSON.parse(JSON.stringify(sadhanas)),
+        session,
       },
     };
   } catch (error) {

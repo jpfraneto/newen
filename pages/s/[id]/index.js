@@ -38,7 +38,10 @@ export default function SadhanaDetail({
   const { data: session, status } = useSession();
   const [buttonText, setButtonText] = useState('Participate');
   const [dayIndex, setDayIndex] = useState(
-    calculateDayIndex(sadhana?.startingTimestamp)
+    calculateDayIndex(
+      sadhana?.startingTimestamp,
+      Intl.DateTimeFormat().resolvedOptions().timeZone
+    )
   );
   const [participants, setParticipants] = useState(participantsData);
   const [selectedSession, setSelectedSession] = useState(null);
@@ -59,7 +62,10 @@ export default function SadhanaDetail({
   const [displayDayInfo, setDisplayDayInfo] = useState(false);
 
   const [chosenDayIndex, setChosenDayIndex] = useState(
-    calculateDayIndex(sadhana?.startingTimestamp)
+    calculateDayIndex(
+      sadhana?.startingTimestamp,
+      Intl.DateTimeFormat().resolvedOptions().timeZone
+    )
   );
   const [updates, setUpdates] = useState([]);
 
