@@ -39,7 +39,7 @@ const SadhanaInvitation = ({ sadhana }) => {
       if (response.ok) {
         const responseInfo = await response.json();
         setButtonText(
-          'You are in. You can come here and log your progress as soon as it starts, on monday 24th.'
+          'Listo, estás adentro. Sube tu video con este hashtag #sadhana y así nos podemos encontrar en IG o TikTok!'
         );
         setSignedUpToSadhana(true);
       } else {
@@ -98,10 +98,10 @@ const SadhanaInvitation = ({ sadhana }) => {
             {sadhana.title}
           </h4>
           <p>
-            Quieres comprometerte a {sadhana.targetSessions} dias haciendo este,
-            por un mínimo de {sadhana.targetSessionDuration} minutos? Esta
-            plataforma te va a ayudar a ser consistente. Entre todos nos vamos a
-            ayudar.
+            Quieres comprometerte a {sadhana.targetSessions} dias haciendo este
+            desafío, por un mínimo de {sadhana.targetSessionDuration} minutos?
+            Esta plataforma te va a ayudar a ser consistente. Entre todos nos
+            vamos a ayudar.
           </p>
           <div className='py-3'>
             {' '}
@@ -115,7 +115,7 @@ const SadhanaInvitation = ({ sadhana }) => {
                   {buttonText}
                 </button>
                 {signedUpToSadhana && (
-                  <Link href='/dashboard'>Go to Dashboard</Link>
+                  <Link href='/dashboard'>Ir a mi perfil</Link>
                 )}
               </>
             ) : (
