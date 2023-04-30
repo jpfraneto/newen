@@ -83,14 +83,14 @@ const SadhanaInvitation = ({ sadhana }) => {
       ) : (
         <div className='bg-white p-8 rounded-lg w-full max-w-3xl'>
           <p className='text-black'>
-            You have been invited by{' '}
+            Fuiste invitado por{' '}
             <Link href='/u/kithkui'>
               @
               {sadhana.author.username
                 ? sadhana.author.username
                 : sadhana.author.name}
             </Link>{' '}
-            to participate in the following challenge:
+            a participar del siguiente desafío:
           </p>
           <h4
             className={`${righteous.className} text-4xl md:text-5xl w-full font-bold`}
@@ -98,9 +98,10 @@ const SadhanaInvitation = ({ sadhana }) => {
             {sadhana.title}
           </h4>
           <p>
-            Do you want to commit to {sadhana.targetSessions} days in a row of
-            doing this, for {sadhana.targetSessionDuration} minutes? I will help
-            you be consistent.
+            Quieres comprometerte a {sadhana.targetSessions} dias haciendo este,
+            por un mínimo de {sadhana.targetSessionDuration} minutos? Esta
+            plataforma te va a ayudar a ser consistente. Entre todos nos vamos a
+            ayudar.
           </p>
           <div className='py-3'>
             {' '}
@@ -119,12 +120,14 @@ const SadhanaInvitation = ({ sadhana }) => {
               </>
             ) : (
               <div>
-                <p className='text-black'>You need to log in first to join.</p>
+                <p className='text-black'>
+                  Tienes que iniciar sesión para participar.
+                </p>
                 <button
                   className=' inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold  py-2 px-4 rounded shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
                   onClick={signIn}
                 >
-                  Login
+                  Iniciar Sesión
                 </button>
               </div>
             )}
