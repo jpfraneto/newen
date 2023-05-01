@@ -83,14 +83,14 @@ const SadhanaInvitation = ({ sadhana }) => {
       ) : (
         <div className='bg-white p-8 rounded-lg w-full max-w-3xl'>
           <p className='text-black'>
-            Fuiste invitado por{' '}
+            You were invited by{' '}
             <Link href='/u/kithkui'>
               @
               {sadhana.author.username
                 ? sadhana.author.username
                 : sadhana.author.name}
             </Link>{' '}
-            a participar del siguiente desafío:
+            to participate in the following challenge:
           </p>
           <h4
             className={`${righteous.className} text-4xl md:text-5xl w-full font-bold`}
@@ -98,10 +98,9 @@ const SadhanaInvitation = ({ sadhana }) => {
             {sadhana.title}
           </h4>
           <p>
-            Quieres comprometerte a {sadhana.targetSessions} dias haciendo este
-            desafío, por un mínimo de {sadhana.targetSessionDuration} minutos?
-            Esta plataforma te va a ayudar a ser consistente. Entre todos nos
-            vamos a ayudar.
+            Do you want to commit to {sadhana.targetSessions} days doing this
+            challenge, for a min of {sadhana.targetSessionDuration} every day?
+            This platform will help you be consistent. We help each other.
           </p>
           <div className='py-3'>
             {' '}
@@ -115,19 +114,17 @@ const SadhanaInvitation = ({ sadhana }) => {
                   {buttonText}
                 </button>
                 {signedUpToSadhana && (
-                  <Link href='/dashboard'>Ir a mi perfil</Link>
+                  <Link href='/dashboard'>Go to my profile</Link>
                 )}
               </>
             ) : (
               <div>
-                <p className='text-black'>
-                  Tienes que iniciar sesión para participar.
-                </p>
+                <p className='text-black'>You need to login to participate.</p>
                 <button
                   className=' inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold  py-2 px-4 rounded shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
                   onClick={signIn}
                 >
-                  Iniciar Sesión
+                  Login
                 </button>
               </div>
             )}

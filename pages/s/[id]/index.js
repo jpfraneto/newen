@@ -561,14 +561,14 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
   };
 
   const shareOnLink = async () => {
-    const text = `https://www.sadhana.lat/invitation/${sadhana.id}`;
+    const text = `https://www.sadhana.lat/i/${sadhana.id}`;
 
     await navigator.clipboard.writeText(text);
     alert('Link copied.');
   };
 
   const shareOnTwitter = () => {
-    const text = `I want to challenge to a ${sadhana.targetSessions} day challenge, doing X. Each session will last ${sadhana.targetSessionDuration} minutes.\n\nLets do this together!\n\nHere you can sign up:\n\nhttps://www.sadhana.lat/invitation/${sadhana.id}`;
+    const text = `I want to challenge to a ${sadhana.targetSessions} day challenge, doing X. Each session will last ${sadhana.targetSessionDuration} minutes.\n\nLets do this together!\n\nHere you can sign up:\n\nhttps://www.sadhana.lat/i/${sadhana.id}`;
 
     const url =
       'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
@@ -583,7 +583,7 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
   };
 
   const shareOnWhatsApp = () => {
-    const text = `I want to challenge to a ${sadhana.targetSessions} day challenge, doing X. Each session will last ${sadhana.targetSessionDuration} minutes.\n\nLets do this together!\n\nHere you can sign up:\n\nhttps://www.sadhana.lat/invitation/${sadhana.id}`;
+    const text = `I want to challenge to a ${sadhana.targetSessions} day challenge, doing X. Each session will last ${sadhana.targetSessionDuration} minutes.\n\nLets do this together!\n\nHere you can sign up:\n\nhttps://www.sadhana.lat/i/${sadhana.id}`;
     const url =
       'https://api.whatsapp.com/send?text=' + encodeURIComponent(text);
     window.open(url, '_blank');
