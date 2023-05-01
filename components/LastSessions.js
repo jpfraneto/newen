@@ -25,6 +25,14 @@ const LastSessions = () => {
         {sessions.map(session => (
           <li key={session.id} className='border p-4 rounded'>
             <p>
+              <span className='font-semibold'>Author ID:</span>{' '}
+              {session.author.id}
+            </p>
+            <p>
+              <span className='font-semibold'>Email:</span>{' '}
+              {session.author.email}
+            </p>
+            <p>
               <span className='font-semibold'>Author:</span>{' '}
               {session.author.name}
             </p>

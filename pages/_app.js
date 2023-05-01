@@ -1,6 +1,7 @@
 import '@component/styles/globals.css';
 import Head from 'next/head';
 import { SessionProvider } from 'next-auth/react';
+import { ToastContainer } from 'react-toastify';
 import { Rubik_80s_Fade, Russo_One } from 'next/font/google';
 import UserMenu from '../components/UserMenu'; // Import UserMenu component
 import Footer from '../components/Footer';
@@ -27,6 +28,7 @@ export default function App({ Component, pageProps }) {
           </div>
           {/* <Footer /> */}
         </div>
+        <ToastContainer />
       </SessionProvider>
     </>
   );

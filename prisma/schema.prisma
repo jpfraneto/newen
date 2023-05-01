@@ -30,6 +30,7 @@ model User {
   participatedSadhanas Sadhana[]   @relation("SadhanaParticipants") // Sadhanas the user is participating in
   socials        Social[]
   sadhanaSessions SadhanaSession[]
+   whatsapp       String?           // WhatsApp number
 }
 
 model VerificationToken {
@@ -151,5 +152,6 @@ model Social {
   main     Boolean
   user     User    @relation(fields: [userId], references: [id])
   userId   String
-}
 
+  @@unique([userId, platform])
+}

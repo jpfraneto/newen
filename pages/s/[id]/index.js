@@ -487,7 +487,6 @@ export async function getStaticProps({ params }) {
   });
 
   if (!sessionsArray) sessionsArray = [];
-  console.log('the sadhana is:', sadhana);
 
   return {
     props: {

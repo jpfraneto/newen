@@ -11,6 +11,7 @@ import { GoVerified } from 'react-icons/go';
 import {
   didUserCompleteWork,
   calculateDayIndex,
+  isValidTimeZone,
 } from '@component/lib/functions';
 import Spinner from './Spinner';
 
@@ -27,7 +28,6 @@ const DashboardComponent = ({ session }) => {
   const [submitted, setSubmitted] = useState(false);
   const [loadingSadhanas, setLoadingSadhanas] = useState(true);
   const [timerModalOpen, setTimerModalOpen] = useState(false);
-  console.log('inside the dashboard component0, ', session);
   useEffect(() => {
     if (!session) return;
     async function fetchUserSadhanas() {
@@ -37,17 +37,17 @@ const DashboardComponent = ({ session }) => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        const responnn = data.sadhanas.map(x =>
-          didUserCompleteWork(
+        if (!isValidTimeZone(session.user.timeZone)) return;
+        const responnn = data.sadhanas.map(x => {
+          return didUserCompleteWork(
             data.user,
             x.id,
             calculateDayIndex(x.startingTimestamp, session.user.timeZone)
-          )
-        );
+          );
+        });
         data.sadhanas = data.sadhanas.map((x, i) => {
           return { ...x, ['didTheWork']: responnn[i] };
         });
-        setCompleted(responnn);
 
         data.sadhanas = sortByStartingTimestampDescending(data.sadhanas);
         setUserSadhanas(data.sadhanas);
@@ -88,9 +88,15 @@ const DashboardComponent = ({ session }) => {
     const res = await handleSubmitSession(sadhana);
     if (res) {
       setSavingSessionLoading(false);
-      const updatedCompleted = [...completed];
-      updatedCompleted[index] = !updatedCompleted[index];
-      setCompleted(updatedCompleted);
+      setUserSadhanas(prev => {
+        return prev.map(currentSadhana => {
+          if (currentSadhana.id === sadhana.id) {
+            return { ...currentSadhana, didTheWork: true };
+          } else {
+            return currentSadhana;
+          }
+        });
+      });
       setSelectedSadhana(null);
       setTimerModalOpen(false);
     } else {
@@ -170,6 +176,7 @@ const DashboardComponent = ({ session }) => {
 
   return (
     <div className='max-w md:container mx-auto md:px-4'>
+      <button onClick={() => console.log(userSadhanas)}>completed?</button>
       {userSadhanas?.length > 0 ? (
         <div className=' overflow-x-scroll'>
           <table className='table-auto w-full my-2  text-white  shadow-md rounded-md'>
@@ -202,7 +209,7 @@ const DashboardComponent = ({ session }) => {
                         </span>
                       ) : (
                         <>
-                          {completed[index] ? (
+                          {sadhana.didTheWork ? (
                             <span className='text-green-700 flex justify-center w-8 items-center mx-auto'>
                               <GoVerified
                                 size={50}
@@ -223,7 +230,7 @@ const DashboardComponent = ({ session }) => {
                       )}
                     </td>
                     <td className=' px-4 py-2 text-black text-center w-48'>
-                      {completed[index] ? (
+                      {sadhana.didTheWork ? (
                         <span className='text-green-700 flex justify-center w-8 items-center mx-auto'>
                           <GoVerified
                             size={50}
