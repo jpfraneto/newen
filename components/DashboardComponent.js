@@ -37,7 +37,10 @@ const DashboardComponent = ({ session }) => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        if (!isValidTimeZone(session.user.timeZone)) return;
+        let timezoneNow = session.user.timeZone;
+        if (!isValidTimeZone(session.user.timeZone)) {
+          timezoneNow = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        }
         const responnn = data.sadhanas.map(x => {
           return didUserCompleteWork(
             data.user,
