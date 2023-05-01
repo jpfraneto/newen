@@ -56,7 +56,7 @@ const SadhanaInvitation = ({ sadhana }) => {
   return (
     <div className=' bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 text-black min-h-screen pt-20'>
       {isUserParticipating ? (
-        <div className='bg-white p-8 rounded-lg w-full max-w-3xl'>
+        <div className='bg-white p-8 rounded-lg w-full mx-auto max-w-3xl'>
           <p className='text-black'>
             Hold on... You are already part of this one.
           </p>
@@ -81,7 +81,7 @@ const SadhanaInvitation = ({ sadhana }) => {
           </div>
         </div>
       ) : (
-        <div className='bg-white p-8 rounded-lg w-full max-w-3xl'>
+        <div className='bg-white p-8 rounded-lg mx-auto w-full max-w-3xl'>
           <p className='text-black'>
             You were invited by{' '}
             <Link href='/u/kithkui'>
@@ -99,8 +99,9 @@ const SadhanaInvitation = ({ sadhana }) => {
           </h4>
           <p>
             Do you want to commit to {sadhana.targetSessions} days doing this
-            challenge, for a min of {sadhana.targetSessionDuration} every day?
-            This platform will help you be consistent. We help each other.
+            challenge, for a minimum of {sadhana.targetSessionDuration} minutes
+            every day? This platform will help you be consistent. We help each
+            other.
           </p>
           <div className='py-3'>
             {' '}
