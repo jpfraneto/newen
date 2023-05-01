@@ -2,6 +2,7 @@
 import prisma from '@component/lib/prismaClient';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@component/pages/api/auth/[...nextauth].js';
+import { sendSadhanaCreationEmail } from '@component/lib/emailFunctions';
 
 const handler = async (req, res) => {
   try {
@@ -60,6 +61,10 @@ const createSadhana = async (req, res, session) => {
     const prismaResponse = await prisma.sadhana.create({
       data: sadhanaData,
     });
+
+    if (session.user.email) {
+      await sendSadhanaCreationEmail(sadhanaData, session.user.email);
+    }
 
     console.log('the prisma response is: ', prismaResponse);
 
