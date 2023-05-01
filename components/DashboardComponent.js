@@ -179,7 +179,6 @@ const DashboardComponent = ({ session }) => {
 
   return (
     <div className='max-w md:container mx-auto md:px-4'>
-      <button onClick={() => console.log(userSadhanas)}>completed?</button>
       {userSadhanas?.length > 0 ? (
         <div className=' overflow-x-scroll'>
           <table className='table-auto w-full my-2  text-white  shadow-md rounded-md'>
