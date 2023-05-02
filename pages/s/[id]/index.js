@@ -181,6 +181,7 @@ export default function SadhanaDetail({
 
   const newGetDayFormatting = thisSession => {
     const str = '';
+    if (!thisSession) return 'bg-red-600';
     if (dayIndex < thisSession.sessionIndex)
       return 'bg-transparent border-black border  hover:cursor-not-allowed';
     else if (dayIndex === thisSession.sessionIndex) {
@@ -487,6 +488,7 @@ export async function getStaticProps({ params }) {
   });
 
   if (!sessionsArray) sessionsArray = [];
+  console.log('returning this sadhana: ', sadhana);
 
   return {
     props: {
@@ -506,7 +508,7 @@ function Participants({ participants }) {
       <h4
         className={`${righteous.className} text-left text-4xl font-bold mb-2 text-white md:text-black`}
       >
-        Users
+        Participants:
       </h4>{' '}
       <div className='flex items-center mb-4'>
         {participants?.map(participant => (
@@ -610,10 +612,14 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
       // Navigate to another page after deletion, e.g., the homepage
       router.push('/');
     } catch (error) {
+      console.log('the error is: ', error);
       console.error(error);
       alert('There was an error deleting the sadhana. Please try again.');
     }
   }
+  const date = new Date(sadhana.startingTimestamp);
+  const timeZoneOffset = date.getTimezoneOffset() * 60000; // Offset in milliseconds
+  const localDate = new Date(date.getTime() + timeZoneOffset);
   return (
     <>
       {' '}
@@ -628,7 +634,6 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
           : `Day ${dayIndex}`}
       </h4>
       <div className='flex flex-wrap wrap gap-x-3 justify-center'>
-        {' '}
         <p className='flex gap-x-1 my-1 items-center text-white md:text-black'>
           <FaUserAstronaut size={20} />
           <Link
@@ -647,7 +652,7 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
         </p>
         <p className='flex gap-x-1 my-1 text-white md:text-black items-center'>
           <FaCalendarDay size={20} />
-          {new Date(sadhana.startingTimestamp).toLocaleDateString('en-US', {
+          {localDate.toLocaleDateString('en-US', {
             weekday: 'long',
             year: 'numeric',
             month: 'long',
@@ -655,10 +660,8 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
           })}
         </p>
         <div className='flex flex-row space-x-1 p-1 my-1  bg-purple-200 border-2 border-black rounded'>
-          {' '}
           <span>Invite your friends:</span>
           <span className='hover:text-blue-500 hover:cursor-pointer'>
-            {' '}
             <BsTwitter
               size={20}
               className=''

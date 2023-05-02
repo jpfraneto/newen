@@ -6,6 +6,9 @@ import Link from 'next/link';
 import { BsPatchCheck } from 'react-icons/bs';
 import { formatDistanceToNow } from 'date-fns';
 import { AiOutlinePlus, AiOutlineLoading3Quarters } from 'react-icons/ai';
+import PendingSadhanasDisplay from './SadhanasDisplay/PendingSadhanasDisplay';
+import ActiveSadhanasDisplay from './SadhanasDisplay/ActiveSadhanasDisplay';
+import CompletedSadhanasDisplay from './SadhanasDisplay/CompletedSadhanasDisplay';
 import { RiTimerFill } from 'react-icons/ri';
 import { GoVerified } from 'react-icons/go';
 import {
@@ -28,6 +31,9 @@ const DashboardComponent = ({ session }) => {
   const [submitted, setSubmitted] = useState(false);
   const [loadingSadhanas, setLoadingSadhanas] = useState(true);
   const [timerModalOpen, setTimerModalOpen] = useState(false);
+  const [sadhanaFilter, setSadhanaFilter] = useState('active');
+  const [filteredSadhanas, setFilteredSadhanas] = useState(null);
+
   useEffect(() => {
     if (!session) return;
     async function fetchUserSadhanas() {
@@ -54,6 +60,7 @@ const DashboardComponent = ({ session }) => {
 
         data.sadhanas = sortByStartingTimestampDescending(data.sadhanas);
         setUserSadhanas(data.sadhanas);
+        setFilteredSadhanas(data.sadhanas, 'active');
         setLoadingSadhanas(false);
         return;
       } catch (error) {
@@ -65,12 +72,33 @@ const DashboardComponent = ({ session }) => {
     fetchUserSadhanas();
   }, [session]);
 
+  useEffect(() => {
+    if (!userSadhanas) return;
+    setFilteredSadhanas(filterSadhanasByStatus(userSadhanas, sadhanaFilter));
+  }, [userSadhanas, sadhanaFilter]);
+
+  function filterSadhanasByStatus(sadhanas, status) {
+    return sadhanas.filter(sadhana => sadhana.status === status);
+  }
+
   function sortByStartingTimestampDescending(array) {
     return array.sort(
       (a, b) =>
         new Date(a.startingTimestamp).getTime() -
         new Date(b.startingTimestamp).getTime()
     );
+  }
+
+  function calculateCompletedSessions(sadhana) {
+    // Your logic to calculate the number of completed sessions for the given sadhana
+    // This may depend on your data structure and how you are storing session information
+
+    // As an example, assuming sessions are stored as an array of objects inside the sadhana:
+    if (!sadhana || !sadhana.sessions) return;
+    const completedSessions = sadhana.sessions?.filter(
+      session => session.completed
+    );
+    return completedSessions.length;
   }
 
   const updateCompletion = (index, completedStatus) => {
@@ -137,6 +165,29 @@ const DashboardComponent = ({ session }) => {
     }
   };
 
+  const filterSadhanas = (sadhanas, filter) => {
+    switch (filter) {
+      case 'pending':
+        return sadhanas.filter(
+          sadhana => sadhana.status.toLowerCase() === 'pending'
+        );
+      case 'active':
+        return sadhanas.filter(
+          sadhana => sadhana.status.toLowerCase() === 'active'
+        );
+      case 'completed':
+        return sadhanas.filter(
+          sadhana => sadhana.status.toLowerCase() === 'completed'
+        );
+      default:
+        return sadhanas;
+    }
+  };
+
+  const displayedSadhanas = userSadhanas
+    ? filterSadhanas(userSadhanas, sadhanaFilter)
+    : [];
+
   const openTimerModal = sadhana => {
     setSelectedSadhana(sadhana);
     setTimerModalOpen(true);
@@ -179,121 +230,65 @@ const DashboardComponent = ({ session }) => {
 
   return (
     <div className='max-w md:container mx-auto md:px-4'>
+      <div className='flex justify-center space-x-1 md:space-x-4 my-4'>
+        <button
+          className={`bg-black text-white px-4 py-2 rounded-md ${
+            sadhanaFilter === 'pending' ? 'opacity-100' : 'opacity-50'
+          }`}
+          onClick={() => setSadhanaFilter('pending')}
+        >
+          Pending
+        </button>
+        <button
+          className={`bg-black text-white px-4 py-2 rounded-md ${
+            sadhanaFilter === 'active' ? 'opacity-100' : 'opacity-50'
+          }`}
+          onClick={() => setSadhanaFilter('active')}
+        >
+          Active
+        </button>
+        <button
+          className={`bg-black text-white px-4 py-2 rounded-md ${
+            sadhanaFilter === 'completed' ? 'opacity-100' : 'opacity-50'
+          }`}
+          onClick={() => setSadhanaFilter('completed')}
+        >
+          Completed
+        </button>
+        <Link passHref href='/s/new'>
+          <button
+            className={`bg-gray-500 border-black border-2 opacity-70 hover:bg-gray-900 text-white px-4 py-2 rounded-md border-2 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:opacity-70`}
+          >
+            Add New
+          </button>
+        </Link>
+      </div>
+
       {userSadhanas?.length > 0 ? (
         <div className=' overflow-x-scroll'>
-          <table className='table-auto w-full my-2  text-white  shadow-md rounded-md'>
-            <thead>
-              <tr className='bg-black text-white'>
-                <th className='px-4 py-2 text-white'>Challenge</th>
-                <th className='px-4 py-2 text-white'>Completed?</th>
-                <th className='px-4 py-2 text-white w-8'>Timer</th>
-                <th className='px-4 py-2 text-white'>Sessions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {userSadhanas &&
-                userSadhanas?.map((sadhana, index) => (
-                  <tr
-                    key={index}
-                    className={`bg-black ${
-                      index % 2 === 0 ? ' bg-opacity-30	' : 'bg-opacity-60'
-                    }`}
-                  >
-                    <td className=' px-4 py-2 text-blue-400 text-center'>
-                      <Link href={`/s/${sadhana.id}`}>{sadhana.title} </Link>
-                    </td>
-                    <td
-                      className={`hover:text-black  px-4 py-2 text-center cursor-pointer`}
-                    >
-                      {savingSessionLoading && submittingId === index ? (
-                        <span className='flex justify-center w-8  items-center mx-auto'>
-                          <Spinner />
-                        </span>
-                      ) : (
-                        <>
-                          {sadhana.didTheWork ? (
-                            <span className='text-green-700 flex justify-center w-8 items-center mx-auto'>
-                              <GoVerified
-                                size={50}
-                                onClick={() =>
-                                  alert('You already did this one today.')
-                                }
-                              />
-                            </span>
-                          ) : (
-                            <span
-                              onClick={() => toggleCompletion(index, sadhana)}
-                              className='text-red-600 flex justify-center w-8 items-center mx-auto'
-                            >
-                              <GoVerified size={50} />
-                            </span>
-                          )}
-                        </>
-                      )}
-                    </td>
-                    <td className=' px-4 py-2 text-black text-center w-48'>
-                      {sadhana.didTheWork ? (
-                        <span className='text-green-700 flex justify-center w-8 items-center mx-auto'>
-                          <GoVerified
-                            size={50}
-                            onClick={() =>
-                              alert('You already did this one today.')
-                            }
-                          />
-                        </span>
-                      ) : (
-                        <>
-                          {evaluateSadhanaTime(sadhana.startingTimestamp) ? (
-                            <div>
-                              <span
-                                onClick={() =>
-                                  handleChooseThisSadhanaTimer(index, sadhana)
-                                }
-                                className='text-red-600 flex justify-center w-8 items-center mx-auto hover:cursor-pointer'
-                              >
-                                <RiTimerFill size={50} />
-                              </span>
-                            </div>
-                          ) : (
-                            <p>Not yet.</p>
-                          )}
-                        </>
-                      )}
-                    </td>
+          {sadhanaFilter === 'pending' && (
+            <PendingSadhanasDisplay sadhanas={filteredSadhanas} />
+          )}
+          {sadhanaFilter === 'active' && (
+            <ActiveSadhanasDisplay
+              sadhanas={filteredSadhanas}
+              savingSessionLoading={savingSessionLoading}
+              submittingId={submittingId}
+              toggleCompletion={toggleCompletion}
+              evaluateSadhanaTime={evaluateSadhanaTime}
+              handleChooseThisSadhanaTimer={handleChooseThisSadhanaTimer}
+              calculateDayIndex={calculateDayIndex}
+              session={session}
+            />
+          )}
+          {sadhanaFilter === 'completed' && (
+            <CompletedSadhanasDisplay
+              sadhanas={filteredSadhanas}
+              calculateCompletedSessions={calculateCompletedSessions}
+            />
+          )}
 
-                    <td className=' px-4 py-2 text-white text-center'>
-                      {evaluateSadhanaTime(sadhana.startingTimestamp) ? (
-                        `${calculateDayIndex(
-                          sadhana.startingTimestamp,
-                          session.user.timeZone
-                        )}/${sadhana.targetSessions}`
-                      ) : (
-                        <p>{`Starts ${formatDistanceToNow(
-                          new Date(sadhana.startingTimestamp).getTime(),
-                          {
-                            addSuffix: true,
-                          }
-                        )}`}</p>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              <tr>
-                <td className='p-2 hover:text-yellow-300 '>
-                  <Link
-                    href='/s/new'
-                    className='flex items-center space-x-2'
-                    passHref
-                  >
-                    <AiOutlinePlus />{' '}
-                    <span className=''>Create new challenge</span>
-                  </Link>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          {!submitted ? (
+          {/* {!submitted ? (
             <div className='flex items-center justify-center'>
               {completedCount === userSadhanas?.length ? (
                 <>
@@ -320,7 +315,7 @@ const DashboardComponent = ({ session }) => {
                 better boundaries for yourself.
               </strong>
             </>
-          )}
+          )} */}
         </div>
       ) : (
         <>

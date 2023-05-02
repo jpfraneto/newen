@@ -32,7 +32,6 @@ const createSadhana = async (req, res, session) => {
       periodicity,
       startingTimestamp,
     } = req.body;
-    console.log('the starting timestamp is: ', startingTimestamp);
     const parsedStartingTimestamp = new Date(startingTimestamp);
     if (isNaN(parsedStartingTimestamp)) {
       return res
@@ -55,8 +54,6 @@ const createSadhana = async (req, res, session) => {
         },
       },
     };
-
-    console.log('Data being passed to prisma.sadhana.create:', sadhanaData);
 
     const prismaResponse = await prisma.sadhana.create({
       data: sadhanaData,
