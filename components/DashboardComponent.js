@@ -287,35 +287,6 @@ const DashboardComponent = ({ session }) => {
               calculateCompletedSessions={calculateCompletedSessions}
             />
           )}
-
-          {/* {!submitted ? (
-            <div className='flex items-center justify-center'>
-              {completedCount === userSadhanas?.length ? (
-                <>
-                  <p>Congratulations, you finished everything for today.</p>
-                </>
-              ) : (
-                <p className='text-xl mr-4'>{`${completedCount}/${
-                  userSadhanas.filter(
-                    x => new Date(x.startingTimestamp) < new Date().getTime()
-                  ).length
-                } today`}</p>
-              )}
-            </div>
-          ) : (
-            <>
-              <p className='text-center text-black mt-4'>
-                Successfully submitted!
-              </p>
-              <strong>
-                Because you submitted the session, now you are able to see the
-                chat for today, and participate in the community conversation
-                for each one of the challenges that you are part of. If you cant
-                finish one days work, maybe you should commit to do less and set
-                better boundaries for yourself.
-              </strong>
-            </>
-          )} */}
         </div>
       ) : (
         <>

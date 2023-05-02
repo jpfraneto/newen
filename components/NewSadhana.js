@@ -140,7 +140,54 @@ const NewSadhana = () => {
         </Link>
       </div>
     );
-  if (step === '7') return <p>The sadhana was added!</p>;
+
+  if (step == 7)
+    return (
+      <div className='bg-white p-4 rounded-lg w-full max-w-md text-black'>
+        <div>
+          <p className='text-black text-xl mb-2'>
+            You just commited to something. This is the starting point of your
+            own growth. Do you want to challenge someone to do this with you?
+            Share it with the buttons below.
+          </p>
+          <Link
+            href={`/s/${sadhanaId}`}
+            className='border-black border-2 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-4 py-2 my-1 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
+          >
+            Visit Dashboard
+          </Link>
+          <div>
+            <h4
+              className={`${righteous.className} text-2xl text-center mb-3 md:text-3xl w-full font-bold`}
+            >
+              Invite your friends
+            </h4>
+            <div className='flex justify-center space-x-3'>
+              <span className='hover:text-blue-500 hover:cursor-pointer'>
+                {' '}
+                <BsTwitter
+                  size={40}
+                  className=''
+                  onClick={() => handleShare('twitter')}
+                />
+              </span>
+              {/* <span className='hover:text-pink-500 hover:cursor-pointer'>
+                  <BsInstagram
+                    size={40}
+                    onClick={() => handleShare('instagram')}
+                  />
+                </span> */}
+              <span className='hover:text-green-600 hover:cursor-pointer'>
+                <BsWhatsapp size={40} onClick={() => handleShare('whatsapp')} />
+              </span>
+              <span className='hover:text-green-600 hover:cursor-pointer'>
+                <BsLink45Deg size={40} onClick={() => handleShare('link')} />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
 
   return (
     <div className='flex items-center justify-center '>
@@ -269,7 +316,7 @@ const NewSadhana = () => {
           </div>
         )}
         <div className='flex justify-between'>
-          {step > 1 && (
+          {step > 1 && !success && (
             <button
               type='button'
               onClick={handlePrev}
