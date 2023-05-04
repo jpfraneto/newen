@@ -2,9 +2,13 @@ import React from 'react';
 import SadhanaTableDisplay from './SadhanaTableDisplay';
 import Link from 'next/link';
 
-const CompletedSadhanasDisplay = ({ sadhanas, calculateCompletedSessions }) => {
-  const columns = ['Name', 'Finished At', 'Total Completed Sessions'];
-
+const CompletedSadhanasDisplay = ({
+  sadhanas,
+  calculateCompletedSessions,
+  userSessions,
+}) => {
+  const columns = ['Name', 'Finished At', 'Target Sessions', '% of Success'];
+  console.log('the userSessions', userSessions);
   const rows = sadhanas.map((sadhana, index) => {
     const startingDate = new Date(sadhana.startingTimestamp);
     const endingDate = new Date(
@@ -14,6 +18,10 @@ const CompletedSadhanasDisplay = ({ sadhanas, calculateCompletedSessions }) => {
 
     const timeZoneOffset = endingDate.getTimezoneOffset() * 60000;
     const localEndingDate = new Date(endingDate.getTime() + timeZoneOffset);
+    const thisSadhanaIndexInSession = userSessions.findIndex(
+      (x, i) => x.sadhanaId === sadhana.id
+    );
+    console.log('HRE', thisSadhanaIndexInSession);
 
     return (
       <tr
@@ -34,7 +42,15 @@ const CompletedSadhanasDisplay = ({ sadhanas, calculateCompletedSessions }) => {
           })}
         </td>
         <td className='px-4 py-2 text-white text-center'>
-          {calculateCompletedSessions(sadhana)}/{sadhana.targetSessions}
+          {sadhana.targetSessions}
+        </td>
+        <td className='px-4 py-2 text-white text-center'>
+          {`${Math.floor(
+            (100 *
+              userSessions[thisSadhanaIndexInSession]
+                .filteredSessionsForThisSadhana.length) /
+              sadhana.targetSessions
+          )}%`}
         </td>
       </tr>
     );

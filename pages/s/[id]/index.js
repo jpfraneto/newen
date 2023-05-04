@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Righteous, Russo_One } from 'next/font/google';
 import DoTheWorkInChallenge from '@component/components/DoTheWorkInChallenge';
 import SadhanaUpdate from '@component/components/SadhanaUpdate';
+import FinishedSadhanaComponent from '@component/components/FinishedSadhanaComponent';
 import NewDashboardTimer from '@component/components/NewDashboardTimer';
 import {
   BsInstagram,
@@ -44,6 +45,8 @@ export default function SadhanaDetail({
     )
   );
   const [participants, setParticipants] = useState(participantsData);
+  const [chosenDayForDisplayIndex, setChosenDayForDisplayIndex] =
+    useState(null);
   const [selectedSession, setSelectedSession] = useState(null);
   const [dayForDisplay, setDayForDisplay] = useState(null);
   const [sadhanaForDisplay, setSadhanaForDisplay] = useState(sadhana);
@@ -236,6 +239,54 @@ export default function SadhanaDetail({
           Unable to find this sadhana, please refresh the page or create a new
           one <Link href='/s/new'>here</Link>
         </p>
+      </div>
+    );
+
+  if (dayIndex > sadhana.targetSessions)
+    return (
+      <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen overflow-x-scroll text-white md:text-black py-2 md:px-16 lg:px-60 px-2 md:py-10'>
+        <div className='container text-center'>
+          {' '}
+          <div
+            className={`${russo.className} md:bg-white shadow-md md:rounded px-2 md:px-8 pt-6 blocktext-gray-700 text-sm font-bold  text-black`}
+          >
+            <FinishedSadhanaComponent
+              session={session}
+              fetchSadhanaDayInfo={fetchSadhanaDayInfo}
+              sadhana={sadhana}
+              participants={participants}
+              dayIndex={dayIndex}
+            />
+
+            <Participants participants={participants} />
+            <div className='container'>
+              {dayForDisplay && (
+                <SadhanaDayInfo
+                  sadhanaDay={dayForDisplay}
+                  currentUser={session.user}
+                  sadhanaDayComments={sadhanaDayComments}
+                  setSadhanaDayComments={setSadhanaDayComments}
+                />
+              )}
+            </div>
+
+            <div className='flex flex-row items-center justify-center'>
+              {' '}
+              <Link
+                href='/s'
+                className='m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+              >
+                Go to challenges
+              </Link>
+              <Link
+                href='/dashboard'
+                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline '
+              >
+                Back
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     );
 
@@ -545,6 +596,7 @@ function Participants({ participants }) {
 }
 
 function HeaderComponent({ sadhana, session, dayIndex }) {
+  console.log('this sadhana is: ', sadhana);
   const handleShare = platform => {
     switch (platform) {
       case 'twitter':
@@ -659,22 +711,24 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
             day: 'numeric',
           })}
         </p>
-        <div className='flex flex-row space-x-1 p-1 my-1  bg-purple-200 border-2 border-black rounded'>
-          <span>Invite your friends:</span>
-          <span className='hover:text-blue-500 hover:cursor-pointer'>
-            <BsTwitter
-              size={20}
-              className=''
-              onClick={() => handleShare('twitter')}
-            />
-          </span>
-          <span className='hover:text-green-600 hover:cursor-pointer'>
-            <BsWhatsapp size={20} onClick={() => handleShare('whatsapp')} />
-          </span>
-          <span className='hover:text-green-600 hover:cursor-pointer'>
-            <BsLink45Deg size={20} onClick={() => handleShare('link')} />
-          </span>
-        </div>
+        {!sadhana.isPrivate && (
+          <div className='flex flex-row space-x-1 p-1 my-1  bg-purple-200 border-2 border-black rounded'>
+            <span>Invite your friends:</span>
+            <span className='hover:text-blue-500 hover:cursor-pointer'>
+              <BsTwitter
+                size={20}
+                className=''
+                onClick={() => handleShare('twitter')}
+              />
+            </span>
+            <span className='hover:text-green-600 hover:cursor-pointer'>
+              <BsWhatsapp size={20} onClick={() => handleShare('whatsapp')} />
+            </span>
+            <span className='hover:text-green-600 hover:cursor-pointer'>
+              <BsLink45Deg size={20} onClick={() => handleShare('link')} />
+            </span>
+          </div>
+        )}
       </div>
       {session && session.user.id === sadhana.authorId && (
         <button

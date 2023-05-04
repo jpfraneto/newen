@@ -17,7 +17,13 @@ const ActiveSadhanasDisplay = ({
   calculateDayIndex,
   session,
 }) => {
-  const columns = ['Challenge', 'Completed?', 'Timer', 'Sessions'];
+  const columns = [
+    'Challenge',
+    'Completed?',
+    'Timer',
+    'Sessions',
+    '% Completed',
+  ];
 
   const rows = sadhanas.map((sadhana, index) => (
     <tr
@@ -94,6 +100,9 @@ const ActiveSadhanasDisplay = ({
             }
           )}`}</p>
         )}
+      </td>
+      <td className=' px-4 py-2 text-white text-center'>
+        {sadhana.percentageCompleted}
       </td>
     </tr>
   ));

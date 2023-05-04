@@ -42,7 +42,9 @@ const SadhanaDashboardTimer = ({ sadhana, session, isSessionSubmitted }) => {
     if (finished) return;
     if (isRunning && timeRemaining > 0) {
       interval = setInterval(() => {
-        setTimeRemaining(time => time - 1);
+        setTimeRemaining(time => {
+          return time - 1;
+        });
       }, 1000);
     } else if (!isRunning && timeRemaining !== 0) {
       if (interval) clearInterval(interval);
@@ -102,10 +104,10 @@ const SadhanaDashboardTimer = ({ sadhana, session, isSessionSubmitted }) => {
     const hours = Math.floor(time / 3600);
     const minutes = Math.floor((time % 3600) / 60);
     const seconds = time % 60;
-
-    return `${hours.toString().padStart(2, '0')}:${minutes
+    const timeToDisplay = `${hours.toString().padStart(2, '0')}:${minutes
       .toString()
       .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    return timeToDisplay;
   };
 
   const submitSession = () => {
@@ -215,7 +217,7 @@ const SadhanaDashboardTimer = ({ sadhana, session, isSessionSubmitted }) => {
             <>
               {session ? (
                 <>
-                  {userSadhanas.length > 0 ? (
+                  {userSadhanas?.length > 0 ? (
                     <select
                       name='title'
                       id='title'

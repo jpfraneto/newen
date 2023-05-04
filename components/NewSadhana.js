@@ -24,6 +24,7 @@ const NewSadhana = () => {
     targetSessions: '',
     targetSessionDuration: '',
     periodicity: 'daily',
+    isPrivate: false,
     startingTimestamp: new Date().toISOString().slice(0, 10),
   });
   const [loading, setLoading] = useState(false);
@@ -44,12 +45,13 @@ const NewSadhana = () => {
   };
 
   const ankyMessages = [
-    'Hello! Please enter the title for your sadhana.',
-    'Great! Now, please enter the content of your sadhana.',
-    'Next, please enter the target number of sessions.',
-    'Now, please enter the target session duration.',
-    'Please choose the periodicity of your sadhana.',
-    'Lastly, please select the starting date for your sadhana.',
+    "Hey there! This is Anky. Let's create an exciting new challenge together. First, please enter a captivating title for your sadhana.",
+    "Awesome title! Now, let's dive into the details. Please describe what your sadhana is all about.",
+    'Fantastic! Now, how many sessions do you want this to last? Set a challenging yet achievable goal! You can always create a new one in the future',
+    'Great! Time to decide how long each session should be. Remember, consistency is key, so choose a duration that you can maintain.',
+    "Let's talk frequency. How often do you want to work on your sadhana? Choose the periodicity that best fits your schedule and commitment.",
+    "Almost there! Pick a starting date for your sadhana. This is the day your transformation begins. Let's make it count!",
+    "Last but not least, do you want to keep this sadhana private or share it with others? Remember, sharing can inspire others and create a supportive community, but it's entirely up to you!",
   ];
 
   const handleSubmit = async e => {
@@ -60,7 +62,7 @@ const NewSadhana = () => {
       const response = await axios.post('/api/sadhana', formData);
       setLoading(false);
       setSuccess(true);
-      setStep(7);
+      setStep(88);
       setSadhanaId(response.data.id);
     } catch (error) {
       setLoading(false);
@@ -141,7 +143,7 @@ const NewSadhana = () => {
       </div>
     );
 
-  if (step == 7)
+  if (step == 88)
     return (
       <div className='bg-white p-4 rounded-lg w-full max-w-md text-black'>
         <div>
@@ -261,7 +263,7 @@ const NewSadhana = () => {
               htmlFor='targetSessionDuration'
               className='block text-gray-700 text-sm font-bold mb-2'
             >
-              Target Session Duration
+              Target Session Duration (in minutes)
             </label>
             <input
               type='number'
@@ -291,8 +293,12 @@ const NewSadhana = () => {
               className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             >
               <option value='daily'>Daily</option>
-              <option value='weekly'>Weekly</option>
-              <option value='monthly'>Monthly</option>
+              <option value='weekly' disabled>
+                Weekly
+              </option>
+              <option value='monthly' disabled>
+                Monthly
+              </option>
             </select>
           </div>
         )}
@@ -315,6 +321,30 @@ const NewSadhana = () => {
             />
           </div>
         )}
+        {step === 7 && (
+          <div>
+            {' '}
+            <label
+              className='block text-gray-700 text-sm font-bold mb-2'
+              htmlFor='isPrivate'
+            >
+              Is this Sadhana private?
+              <select
+                id='isPrivate'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                name='isPrivate'
+                value={formData.isPrivate}
+                onChange={handleChange}
+              >
+                <option value={false}>No</option>
+                <option value={true}>Yes</option>
+              </select>
+              {formData.isPrivate
+                ? 'Only you can see your progress in this sadhana.'
+                : 'Anyone can join.'}
+            </label>
+          </div>
+        )}
         <div className='flex justify-between'>
           {step > 1 && !success && (
             <button
@@ -325,7 +355,7 @@ const NewSadhana = () => {
               Previous
             </button>
           )}
-          {step < 6 && (
+          {step < 7 && (
             <button
               type='button'
               onClick={handleNext}
@@ -334,7 +364,7 @@ const NewSadhana = () => {
               Next
             </button>
           )}
-          {step === 6 && (
+          {step === 7 && (
             <button
               type='submit'
               onClick={handleSubmit}

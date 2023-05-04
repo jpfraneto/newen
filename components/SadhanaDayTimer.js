@@ -265,7 +265,7 @@ const Timer = ({ timeRemaining, setTimeRemaining, session }) => {
             <>
               {session ? (
                 <>
-                  {userSadhanas.length > 0 ? (
+                  {userSadhanas?.length > 0 ? (
                     <select
                       name='title'
                       id='title'

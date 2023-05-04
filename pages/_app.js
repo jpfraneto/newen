@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import { Rubik_80s_Fade, Russo_One } from 'next/font/google';
 import UserMenu from '../components/UserMenu'; // Import UserMenu component
 import Footer from '../components/Footer';
+import { useState } from 'react';
 import Navbar from '@component/components/Navbar';
 
 // If loading a variable font, you don't need to specify the font weight

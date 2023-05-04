@@ -15,6 +15,7 @@ import {
   didUserCompleteWork,
   calculateDayIndex,
   isValidTimeZone,
+  checkSessionsPercentage,
 } from '@component/lib/functions';
 import Spinner from './Spinner';
 
@@ -32,6 +33,7 @@ const DashboardComponent = ({ session }) => {
   const [loadingSadhanas, setLoadingSadhanas] = useState(true);
   const [timerModalOpen, setTimerModalOpen] = useState(false);
   const [sadhanaFilter, setSadhanaFilter] = useState('active');
+  const [userSessions, setUserSessions] = useState(null);
   const [filteredSadhanas, setFilteredSadhanas] = useState(null);
 
   useEffect(() => {
@@ -48,9 +50,10 @@ const DashboardComponent = ({ session }) => {
         if (!isValidTimeZone(session.user.timeZone)) {
           timezoneNow = Intl.DateTimeFormat().resolvedOptions().timeZone;
         }
-        console.log('the data.sadhanas', data.sadhanas, data.user);
         // I'm querying the data for this user inside the sadhana. Wouldnt it be better to get it from inside the user?
         // Why not check inside the sadhana sessions for this user??? instead of mapping through the data.sadhanas
+        const aloja = await checkSessionsPercentage(data.sadhanas, data.user);
+        setUserSessions(aloja);
         const responnn = data.sadhanas.map(x => {
           return didUserCompleteWork(
             data.user,
@@ -59,7 +62,24 @@ const DashboardComponent = ({ session }) => {
           );
         });
         data.sadhanas = data.sadhanas.map((x, i) => {
-          return { ...x, ['didTheWork']: responnn[i] };
+          return {
+            ...x,
+            ['didTheWork']: responnn[i],
+            ['dayIndexToday']: calculateDayIndex(
+              x.startingTimestamp,
+              session.user.timeZone
+            ),
+          };
+        });
+        data.sadhanas = data.sadhanas.map((x, i) => {
+          return {
+            ...x,
+            ['percentageCompleted']: `${Math.floor(
+              (aloja[i].filteredSessionsForThisSadhana.length /
+                x.dayIndexToday) *
+                100
+            )}%`,
+          };
         });
 
         data.sadhanas = sortByStartingTimestampDescending(data.sadhanas);
@@ -102,7 +122,7 @@ const DashboardComponent = ({ session }) => {
     const completedSessions = sadhana.sessions?.filter(
       session => session.completed
     );
-    return completedSessions.length;
+    return completedSessions?.length;
   }
 
   const updateCompletion = (index, completedStatus) => {
@@ -126,7 +146,19 @@ const DashboardComponent = ({ session }) => {
       setUserSadhanas(prev => {
         return prev.map(currentSadhana => {
           if (currentSadhana.id === sadhana.id) {
-            return { ...currentSadhana, didTheWork: true };
+            console.log('The current sadhana is: ', currentSadhana);
+            return {
+              ...currentSadhana,
+              didTheWork: true,
+              percentageCompleted: `${Math.floor(
+                (100 *
+                  ((+currentSadhana.percentageCompleted.replace('%', '') *
+                    currentSadhana.dayIndexToday) /
+                    100 +
+                    1)) /
+                  currentSadhana.dayIndexToday
+              )}%`,
+            };
           } else {
             return currentSadhana;
           }
@@ -221,7 +253,7 @@ const DashboardComponent = ({ session }) => {
     return new Date(startingTimestamp).getTime() < now;
   };
 
-  const completedCount = completed.filter(item => item).length;
+  const completedCount = completed.filter(item => item)?.length;
 
   const handleChooseThisSadhanaTimer = (index, thisSadhanaInFunction) => {
     openTimerModal(thisSadhanaInFunction);
@@ -289,6 +321,7 @@ const DashboardComponent = ({ session }) => {
             <CompletedSadhanasDisplay
               sadhanas={filteredSadhanas}
               calculateCompletedSessions={calculateCompletedSessions}
+              userSessions={userSessions}
             />
           )}
         </div>
