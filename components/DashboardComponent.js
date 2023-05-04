@@ -44,9 +44,13 @@ const DashboardComponent = ({ session }) => {
         }
         const data = await response.json();
         let timezoneNow = session.user.timeZone;
+
         if (!isValidTimeZone(session.user.timeZone)) {
           timezoneNow = Intl.DateTimeFormat().resolvedOptions().timeZone;
         }
+        console.log('the data.sadhanas', data.sadhanas, data.user);
+        // I'm querying the data for this user inside the sadhana. Wouldnt it be better to get it from inside the user?
+        // Why not check inside the sadhana sessions for this user??? instead of mapping through the data.sadhanas
         const responnn = data.sadhanas.map(x => {
           return didUserCompleteWork(
             data.user,

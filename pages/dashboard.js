@@ -13,7 +13,6 @@ const Dashboard = () => {
   const { data: session, status } = useSession();
 
   if (status === 'loading') return <p>Loading</p>;
-  console.log('after the loading', session);
   if (!session)
     return (
       <div className='p-8 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen flex items-center justify-center'>
