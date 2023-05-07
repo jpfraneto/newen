@@ -105,7 +105,7 @@ export default function Settings({ user }) {
                   className='w-full p-2 border text-black border-gray-300 rounded mt-1'
                 />
                 <p className='text-xs text-gray-500'>
-                  We'll use this to communicate with you.
+                  We&apos;ll use this to communicate with you.
                 </p>
               </div>
 
@@ -145,7 +145,7 @@ export default function Settings({ user }) {
                   className='w-full p-2 border text-black border-gray-300 rounded mt-1'
                 />
                 <p className='text-xs text-gray-500'>
-                  We'll send daily reminders to this number.
+                  Anky will send you daily reminders to this number.
                 </p>
               </div>
 

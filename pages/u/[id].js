@@ -52,11 +52,10 @@ const UserPage = () => {
   if (!user) {
     return (
       <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen'>
-        <p>User doesn't exist yet.</p>
+        <p>User doesn&apos;t exist yet.</p>
       </div>
     );
   }
-
   return (
     <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 text-center min-h-screen'>
       <div className=' w-8/12 m-auto py-8 text-white'>
@@ -68,7 +67,7 @@ const UserPage = () => {
         <Image
           width={111}
           height={111}
-          src={user?.image || '/images/ankycompressed.png'}
+          src={user.image || '/images/ankycompressed.png'}
           className='rounded-full mx-auto mt-2 border-2 border-white'
           alt='Profile picture'
         />
