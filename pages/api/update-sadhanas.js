@@ -23,15 +23,9 @@ const updateSadhanasStatus = async sadhanas => {
 };
 
 export default async (req, res) => {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
+  if (req.method !== 'GET') {
+    res.setHeader('Allow', 'GET');
     res.status(405).end('Method Not Allowed');
-    return;
-  }
-
-  const session = await getServerSession(req, res, authOptions);
-  if (!session) {
-    res.status(401).json({ error: 'Not authenticated' });
     return;
   }
 
@@ -44,6 +38,10 @@ export default async (req, res) => {
       data: { status: updatedSadhana.status },
     });
   }
+
+  console.log(
+    'After the update sadhanas route. Everything was updated successfully.'
+  );
 
   res.status(200).json({ message: 'Sadhanas updated successfully' });
 };

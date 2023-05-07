@@ -4,26 +4,21 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getServerSession } from 'next-auth/next';
 import Image from 'next/image';
+import Link from 'next/link';
 import { authOptions } from '@component/pages/api/auth/[...nextauth].js';
+import Spinner from '@component/components/Spinner';
 
 export default function Settings({ user }) {
-  console.log('the user is: ', user);
+  const [updatingLoading, setUpdatingLoading] = useState(false);
+  const [updatedMessage, setUpdatedMessage] = useState('Save Changes');
   const [formData, setFormData] = useState({
     username: user.username || '',
     name: user.name,
-    whatsapp: '',
-    twitter: '',
-    instagram: '',
-    discord: '',
-    tiktok: '',
+    whatsapp: user.whatsapp,
+    email: user.email,
   });
 
   const handleChange = event => {
-    console.log(
-      'inside the handleChange',
-      event.target.name,
-      event.target.value
-    );
     setFormData(prevFormData => ({
       ...prevFormData,
       [event.target.name]: event.target.value,
@@ -34,6 +29,7 @@ export default function Settings({ user }) {
     e.preventDefault();
 
     try {
+      setUpdatingLoading(true);
       const response = await fetch('/api/settings/update', {
         method: 'PUT',
         headers: {
@@ -43,16 +39,15 @@ export default function Settings({ user }) {
           username: formData.username,
           name: formData.name,
           whatsapp: formData.whatsapp,
-          twitter: formData.twitter,
-          instagram: formData.instagram,
-          discord: formData.discord,
-          tiktok: formData.tiktok,
+          email: formData.email,
         }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
+        setUpdatingLoading(false);
+        setUpdatedMessage('Updated Successfully!');
         toast.success(data.message);
       } else {
         toast.error(data.message);
@@ -66,14 +61,14 @@ export default function Settings({ user }) {
   //   const handleDeleteAccount = () => {};
 
   return (
-    <div className='min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12'>
-      <div className='relative py-3 sm:max-w-2xl sm:mx-auto'>
+    <div className='min-h-screen bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900  py-6 flex flex-col justify-center sm:py-12'>
+      <div className='relative py-3 sm:max-w-3xl sm:mx-auto'>
         <div className='relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10'>
-          <div className='max-w-xl mx-auto'>
+          <div className='max-w-3xl mx-auto'>
             <div className='text-center'>
               <h1 className='text-2xl font-semibold text-gray-900'>Settings</h1>
             </div>
-            <form onSubmit={handleSubmit} className='space-y-6'>
+            <form onSubmit={handleSubmit} className='space-y-3'>
               <div>
                 <label
                   htmlFor='username'
@@ -89,6 +84,29 @@ export default function Settings({ user }) {
                   onChange={handleChange}
                   className='w-full p-2 border border-gray-300 text-black rounded mt-1'
                 />
+                <p className='text-xs text-gray-500'>
+                  Your unique identifier in the app.
+                </p>
+              </div>
+
+              <div>
+                <label
+                  htmlFor='email'
+                  className='text-sm font-bold text-gray-600 block'
+                >
+                  Email
+                </label>
+                <input
+                  id='email'
+                  type='email'
+                  name='email'
+                  value={formData.email}
+                  onChange={handleChange}
+                  className='w-full p-2 border text-black border-gray-300 rounded mt-1'
+                />
+                <p className='text-xs text-gray-500'>
+                  We'll use this to communicate with you.
+                </p>
               </div>
 
               <div>
@@ -106,6 +124,9 @@ export default function Settings({ user }) {
                   onChange={handleChange}
                   className='w-full p-2 border text-black border-gray-300 rounded mt-1'
                 />
+                <p className='text-xs text-gray-500'>
+                  Anky will refer to you by this name.
+                </p>
               </div>
 
               <div>
@@ -123,82 +144,25 @@ export default function Settings({ user }) {
                   onChange={handleChange}
                   className='w-full p-2 border text-black border-gray-300 rounded mt-1'
                 />
-              </div>
-
-              <div>
-                <label
-                  htmlFor='twitter'
-                  className='text-sm font-bold text-gray-600 block'
-                >
-                  Twitter
-                </label>
-                <input
-                  id='twitter'
-                  type='text'
-                  name='twitter'
-                  value={formData.twitter}
-                  onChange={handleChange}
-                  className='w-full p-2 border text-black border-gray-300 rounded mt-1'
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor='instagram'
-                  className='text-sm font-bold text-gray-600 block'
-                >
-                  Instagram
-                </label>
-                <input
-                  id='instagram'
-                  type='text'
-                  name='instagram'
-                  value={formData.instagram}
-                  onChange={handleChange}
-                  className='w-full p-2 border text-black border-gray-300 rounded mt-1'
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor='discord'
-                  className='text-sm font-bold text-gray-600 block'
-                >
-                  Discord
-                </label>
-                <input
-                  id='discord'
-                  type='text'
-                  name='discord'
-                  value={formData.discord}
-                  onChange={handleChange}
-                  className='w-full p-2 border text-black border-gray-300 rounded mt-1'
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor='tiktok'
-                  className='text-sm font-bold text-gray-600 block'
-                >
-                  TikTok
-                </label>
-                <input
-                  id='tiktok'
-                  type='text'
-                  name='tiktok'
-                  value={formData.tiktok}
-                  onChange={handleChange}
-                  className='w-full p-2 border text-black border-gray-300 rounded mt-1'
-                />
+                <p className='text-xs text-gray-500'>
+                  We'll send daily reminders to this number.
+                </p>
               </div>
 
               <button
                 type='submit'
-                className='w-full flex justify-center bg-indigo-500 text-gray-100 p-4  hover:bg-indigo-400 transition-all duration-300 ease-in-out flex items-center focus:outline-none'
+                className='w-full flex justify-center rounded-xl  bg-indigo-500 text-gray-100 p-4  hover:bg-indigo-400 transition-all duration-300 ease-in-out flex items-center focus:outline-none'
               >
-                Save Changes
+                {updatingLoading ? <Spinner /> : updatedMessage}
               </button>
+              {updatedMessage === 'Updated Successfully!' && (
+                <Link
+                  href='/dashboard'
+                  className='w-full flex justify-center rounded-xl  bg-green-500 text-gray-100 p-4  hover:bg-green-400 transition-all duration-300 ease-in-out flex items-center focus:outline-none'
+                >
+                  Back to Dashboard
+                </Link>
+              )}
             </form>
             {/* <button
               onClick={handleDeleteAccount}

@@ -4,6 +4,7 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import { formatDate } from '@component/lib/functions';
 import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 import Image from 'next/image';
+import Link from 'next/link';
 import DashboardComponent from '@component/components/DashboardComponent';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
@@ -58,6 +59,9 @@ const Dashboard = () => {
               className='rounded-full mt-2 border-2 border-white'
               alt='Profile picture'
             />
+            <Link href='/settings' className='hover:text-yellow-200'>
+              Edit Profile
+            </Link>
           </div>
           <DashboardComponent session={session} />
         </div>

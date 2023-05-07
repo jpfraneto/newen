@@ -47,6 +47,7 @@ export const authOptions = {
     async session({ session, token, user }) {
       session.user.id = user.id;
       session.user.oauthProvider = user.oauthProvider;
+      session.user.whatsapp = user.whatsapp;
       if (user.username) {
         session.user.username = user.username;
       }
@@ -59,7 +60,6 @@ export const authOptions = {
           where: { id: user.id },
           data: { timeZone: timeZone },
         });
-
         // Update the session object with the user's timezone
         session.user.timeZone = timeZone;
       } else {
