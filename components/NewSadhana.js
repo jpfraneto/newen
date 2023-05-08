@@ -46,10 +46,10 @@ const NewSadhana = () => {
   };
 
   const ankyMessages = [
-    "Hey there! This is Anky. Let's create an exciting new challenge together. First, please enter a captivating title for your sadhana.",
+    "Hey there! This is Anky, your companion in this journey. Let's create an exciting new challenge together. First, please enter a captivating title for your sadhana.",
     "Awesome title! Now, let's dive into the details. Please describe what your sadhana is all about.",
-    'Fantastic! Now, how many sessions do you want this to last? Set a challenging yet achievable goal! You can always create a new one in the future',
-    'Great! Time to decide how long each session should be. Remember, consistency is key, so choose a duration that you can maintain.',
+    'Fantastic! Now, how many sessions do you want this to last? Set a challenging yet achievable goal. You can always create a new one in the future.',
+    'Great! Time to decide how long each session will be. Remember, consistency is key, so choose a duration that you can maintain.',
     "Let's talk frequency. How often do you want to work on your sadhana? Choose the periodicity that best fits your schedule and commitment.",
     "Almost there! Pick a starting date for your sadhana. This is the day your transformation begins. Let's make it count!",
     "Last but not least, do you want to keep this sadhana private or share it with others? Remember, sharing can inspire others and create a supportive community, but it's entirely up to you!",
@@ -214,9 +214,9 @@ const NewSadhana = () => {
               type='text'
               name='title'
               id='title'
+              placeholder='ex: 30 days of Walking'
               value={formData.title}
               onChange={handleChange}
-              required
               className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             />
           </div>
@@ -232,9 +232,9 @@ const NewSadhana = () => {
             <textarea
               name='content'
               id='content'
+              placeholder='Explain your challenge to motivate others to be part of it.'
               value={formData.content}
               onChange={handleChange}
-              required
               className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
               rows='4'
             ></textarea>
@@ -252,9 +252,9 @@ const NewSadhana = () => {
               type='number'
               name='targetSessions'
               id='targetSessions'
+              placeholder='8'
               value={formData.targetSessions}
               onChange={handleChange}
-              required
               className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             />
           </div>
@@ -271,9 +271,9 @@ const NewSadhana = () => {
               type='number'
               name='targetSessionDuration'
               id='targetSessionDuration'
+              placeholder='10'
               value={formData.targetSessionDuration}
               onChange={handleChange}
-              required
               className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             />
           </div>
@@ -291,7 +291,6 @@ const NewSadhana = () => {
               id='periodicity'
               value={formData.periodicity}
               onChange={handleChange}
-              required
               className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             >
               <option value='daily'>Daily</option>
@@ -318,7 +317,6 @@ const NewSadhana = () => {
               id='startingTimestamp'
               value={formData.startingTimestamp}
               onChange={handleChange}
-              required
               className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             />
           </div>
