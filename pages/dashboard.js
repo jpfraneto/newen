@@ -2,6 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { formatDate } from '@component/lib/functions';
+import { toast } from 'react-toastify';
 import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -38,6 +39,17 @@ const Dashboard = () => {
         </div>
       </div>
     );
+  if (!session.user.whatsapp)
+    toast(<NewToast />, {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
 
   return (
     <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen'>
@@ -55,7 +67,7 @@ const Dashboard = () => {
             <Image
               width={111}
               height={111}
-              src={session.user?.image || '/images/ankycompressed.png'}
+              src={session.user.image || '/images/ankycompressed.png'}
               className='rounded-full mt-2 border-2 border-white'
               alt='Profile picture'
             />
@@ -82,3 +94,11 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+const NewToast = () => {
+  return (
+    <Link passHref href='/settings'>
+      Click here to add a whatsapp number to your profile.
+    </Link>
+  );
+};

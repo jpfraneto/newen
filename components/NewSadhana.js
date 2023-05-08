@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 import { useSession } from 'next-auth/react';
 import { signIn } from 'next-auth/react';
 import Spinner from '@component/components/Spinner';
@@ -63,6 +64,7 @@ const NewSadhana = () => {
       setLoading(false);
       setSuccess(true);
       setStep(88);
+      toast.success('Your sadhana was added!');
       setSadhanaId(response.data.id);
     } catch (error) {
       setLoading(false);

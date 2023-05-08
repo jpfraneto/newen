@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { Righteous, Russo_One } from 'next/font/google';
 import DoTheWorkInChallenge from '@component/components/DoTheWorkInChallenge';
 import SadhanaUpdate from '@component/components/SadhanaUpdate';
@@ -595,7 +596,7 @@ function Participants({ participants }) {
 }
 
 function HeaderComponent({ sadhana, session, dayIndex }) {
-  console.log('this sadhana is: ', sadhana);
+  const router = useRouter();
   const handleShare = platform => {
     switch (platform) {
       case 'twitter':
@@ -655,13 +656,8 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
       const response = await fetch(`/api/sadhana/${id}`, {
         method: 'DELETE',
       });
-
-      // if (!response.ok) {
-      //   throw new Error('Something went wrong while deleting the sadhana.');
-      // }
-
-      // Navigate to another page after deletion, e.g., the homepage
-      router.push('/');
+      toast.success('The sadhana was deleted.');
+      router.push('/dashboard');
     } catch (error) {
       console.log('the error is: ', error);
       console.error(error);

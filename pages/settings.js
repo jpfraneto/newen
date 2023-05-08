@@ -3,6 +3,8 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getServerSession } from 'next-auth/next';
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
 import Image from 'next/image';
 import Link from 'next/link';
 import { authOptions } from '@component/pages/api/auth/[...nextauth].js';
@@ -10,11 +12,11 @@ import Spinner from '@component/components/Spinner';
 
 export default function Settings({ user }) {
   const [updatingLoading, setUpdatingLoading] = useState(false);
+  const [value, setValue] = useState(user.whatsapp);
   const [updatedMessage, setUpdatedMessage] = useState('Save Changes');
   const [formData, setFormData] = useState({
     username: user.username || '',
     name: user.name,
-    whatsapp: user.whatsapp,
     email: user.email,
   });
 
@@ -38,7 +40,7 @@ export default function Settings({ user }) {
         body: JSON.stringify({
           username: formData.username,
           name: formData.name,
-          whatsapp: formData.whatsapp,
+          whatsapp: value,
           email: formData.email,
         }),
       });
@@ -88,7 +90,25 @@ export default function Settings({ user }) {
                   Your unique identifier in the app.
                 </p>
               </div>
-
+              <div>
+                <label
+                  htmlFor='name'
+                  className='text-sm font-bold text-gray-600 block'
+                >
+                  Name
+                </label>
+                <input
+                  id='name'
+                  type='text'
+                  name='name'
+                  value={formData.name}
+                  onChange={handleChange}
+                  className='w-full p-2 border text-black border-gray-300 rounded mt-1'
+                />
+                <p className='text-xs text-gray-500'>
+                  Anky will refer to you by this name.
+                </p>
+              </div>
               <div>
                 <label
                   htmlFor='email'
@@ -109,41 +129,21 @@ export default function Settings({ user }) {
                 </p>
               </div>
 
-              <div>
-                <label
-                  htmlFor='name'
-                  className='text-sm font-bold text-gray-600 block'
-                >
-                  Name
-                </label>
-                <input
-                  id='name'
-                  type='text'
-                  name='name'
-                  value={formData.name}
-                  onChange={handleChange}
-                  className='w-full p-2 border text-black border-gray-300 rounded mt-1'
-                />
-                <p className='text-xs text-gray-500'>
-                  Anky will refer to you by this name.
-                </p>
-              </div>
-
-              <div>
+              <div className='text-black mb-4'>
                 <label
                   htmlFor='whatsapp'
                   className='text-sm font-bold text-gray-600 block'
                 >
                   WhatsApp Number
                 </label>
-                <input
-                  id='whatsapp'
-                  type='tel'
-                  name='whatsapp'
-                  value={formData.whatsapp}
-                  onChange={handleChange}
-                  className='w-full p-2 border text-black border-gray-300 rounded mt-1'
+                <PhoneInput
+                  international
+                  className='border-gray-200 rounder-xl px-2 border-2'
+                  placeholder='Enter phone number'
+                  value={value}
+                  onChange={setValue}
                 />
+
                 <p className='text-xs text-gray-500'>
                   Anky will send you daily reminders to this number.
                 </p>
@@ -151,7 +151,7 @@ export default function Settings({ user }) {
 
               <button
                 type='submit'
-                className='w-full flex justify-center rounded-xl  bg-indigo-500 text-gray-100 p-4  hover:bg-indigo-400 transition-all duration-300 ease-in-out flex items-center focus:outline-none'
+                className='w-full mt-4 flex justify-center rounded-xl  bg-indigo-500 text-gray-100 p-4  hover:bg-indigo-400 transition-all duration-300 ease-in-out flex items-center focus:outline-none'
               >
                 {updatingLoading ? <Spinner /> : updatedMessage}
               </button>

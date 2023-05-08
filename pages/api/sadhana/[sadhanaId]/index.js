@@ -71,7 +71,7 @@ export default async function handler(req, res) {
       res.status(405).json({ message: 'Method not allowed' });
     }
   } catch (error) {
-    console.error(error);
+    console.error('This is the error eliminating the sadhana.', error);
     res.status(500).json({ message: 'Something went wrong' });
   }
 }

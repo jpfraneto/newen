@@ -59,8 +59,8 @@ const createSadhana = async (req, res, session) => {
       data: sadhanaData,
     });
 
-    if (session.user.email) {
-      await sendSadhanaCreationEmail(sadhanaData, session.user.email);
+    if (session.user) {
+      await sendSadhanaCreationEmail(sadhanaData, session.user);
     }
 
     console.log('the prisma response is: ', prismaResponse);

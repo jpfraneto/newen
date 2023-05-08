@@ -25,8 +25,8 @@ const LandingPage = () => {
     <div className=' text-black mx-auto '>
       <section className='text-center'>
         <div className='flex flex-col md:flex-row items-center justify-center w-full px-4'>
-          <div className='flex flex-col pl-0 pt-2 pb-8 md:pl-8 text-center  w-full md:w-1/2 md:aspect-auto fade-in'>
-            <h1 className='text-4xl font-bold mb-4'>
+          <div className='flex flex-col pl-0 pt-2  md:pb-8 md:pl-8 text-center  w-full md:w-1/2 md:aspect-auto fade-in'>
+            <h1 className='text-4xl font-bold mb-4 mt-10 md:mt-0'>
               Train Your capacity of being consistent.
             </h1>
             <p className='text-lg'>
@@ -43,7 +43,7 @@ const LandingPage = () => {
             </Link>
             <br />
           </div>
-          <div className='relative rounded-full  md:w-1/2 md:mb-6 h-[100vw] md:h-[90vh]'>
+          <div className='relative rounded-full w-full  md:w-1/2 md:mb-6 h-[100vw] md:h-[90vh]'>
             <Image
               src='/images/landingheroimage.png'
               alt='People being consistent'
@@ -55,7 +55,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className='bg-gray-200 py-20 grid grid-cols-1 md:grid-cols-3 gap-8 mb-16'>
+      <section className='bg-gray-200 px-20 md:px-0 py-20 grid grid-cols-1 md:grid-cols-3 gap-8 mb-16'>
         <div className='text-center'>
           <Image
             src='/images/community.png'
@@ -100,7 +100,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className='text-center pt-5 pb-20'>
+      <section className='text-center pt-5 pb-20 px-20 md:px-0'>
         <h2 className='text-2xl font-semibold mb-4'>Join Sadhana Today</h2>
         <p className='text-lg mb-6'>
           Don&apos;t miss your chance to be part of a revolutionary movement in
@@ -114,13 +114,13 @@ const LandingPage = () => {
         </button>
       </section>
 
-      <section className='h-fit py-20 bg-gray-200 flex items-center '>
+      <section className='h-fit flex flex-col md:py-20 bg-gray-200 flex items-center '>
         <div className='h-[90vh] aspect-square relative'>
           <Image src='/images/ankydancing222.png' alt='Anky' fill />
         </div>
 
-        <div className='text-center md:px-20'>
-          <h2 className='text-2xl font-semibold mb-4'>
+        <div className='text-center px-20 md:px-0 pb-10 md:pb-0 md:px-20'>
+          <h2 className='text-2xl font-semibold mb-4 mt-10  md:mt-0'>
             Meet Anky, Your Accountability Buddy
           </h2>
           <p>
@@ -164,7 +164,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className='h-fit py-20 flex flex-col items-center justify-center'>
+      <section className='h-fit py-20 px-20 md:px-0 flex flex-col items-center justify-center'>
         <h2 className='text-2xl font-semibold mb-4'>
           Start Your Journey Today
         </h2>
