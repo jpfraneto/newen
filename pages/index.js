@@ -23,9 +23,9 @@ const LandingPage = () => {
   ];
   return (
     <div className=' text-black mx-auto '>
-      <section className='text-center'>
+      <section className='text-center fade-in'>
         <div className='flex flex-col md:flex-row items-center justify-center w-full px-4'>
-          <div className='flex flex-col pl-0 pt-2  md:pb-8 md:pl-8 text-center  w-full md:w-1/2 md:aspect-auto fade-in'>
+          <div className='flex flex-col pl-0 pt-2  md:pb-8 md:pl-8 text-center  w-full md:w-1/2 md:aspect-auto '>
             <h1 className='text-4xl font-bold mb-4 mt-10 md:mt-0'>
               Train Your capacity of being consistent.
             </h1>
@@ -114,7 +114,7 @@ const LandingPage = () => {
         </button>
       </section>
 
-      <section className='h-fit flex flex-col md:py-20 bg-gray-200 flex items-center '>
+      <section className='h-fit flex flex-col bg-gray-200 md:flex-row items-center '>
         <div className='h-[90vh] aspect-square relative'>
           <Image src='/images/ankydancing222.png' alt='Anky' fill />
         </div>
