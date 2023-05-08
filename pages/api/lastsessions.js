@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
       const lastSessions = await prisma.sadhanaSession.findMany({
-        take: 20,
+        take: 40,
         orderBy: {
           completedAt: 'desc',
         },

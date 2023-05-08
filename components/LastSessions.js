@@ -24,14 +24,14 @@ const LastSessions = () => {
       <ul className='space-y-4'>
         {sessions.map(session => (
           <li key={session.id} className='border p-4 rounded'>
-            <p>
+            {/* <p>
               <span className='font-semibold'>Author ID:</span>{' '}
               {session.author.id}
             </p>
             <p>
               <span className='font-semibold'>Email:</span>{' '}
               {session.author.email}
-            </p>
+            </p> */}
             <p>
               <span className='font-semibold'>Author:</span>{' '}
               {session.author.name}
@@ -40,16 +40,16 @@ const LastSessions = () => {
               <span className='font-semibold'>Sadhana:</span>{' '}
               {session.sadhana.title}
             </p>
-            <p>
+            {/* <p>
               <span className='font-semibold'>Sadhana Day:</span>{' '}
               {session.sadhanaDay.day}
             </p>
             <p>
               <span className='font-semibold'>Feeling:</span> {session.feeling}
-            </p>
-            <p>
+            </p> */}
+            {/* <p>
               <span className='font-semibold'>Notes:</span> {session.notes}
-            </p>
+            </p> */}
             <p>
               <span className='font-semibold'>Completed at:</span>{' '}
               {new Date(session.completedAt).toLocaleString()}
