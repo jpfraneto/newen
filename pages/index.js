@@ -1,259 +1,200 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import { BraahOne } from 'next/font/google';
 import Link from 'next/link';
-import prisma from '@component/lib/prismaClient';
-import { useRouter } from 'next/router';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@component/pages/api/auth/[...nextauth].js';
+import { signIn } from 'next-auth/react';
 
-const LandingPage = ({ landingSadhanas }) => {
-  const router = useRouter();
-  const [ankyText, setAnkyText] = useState('');
-  const fullAnkyText =
-    "Greetings, brave traveler! 🌞 I am Anky, a steadfast companion and friend, here to join you on an epic journey of self-discovery and growth. Together, we'll tackle challenges, face fears, and unlock your boundless potential. So grab your courage, strap on your determination, and let's embark on a life-changing adventure! 🌈🐒💪";
-
-  useEffect(() => {
-    let currentText = '';
-    const interval = setInterval(() => {
-      if (currentText.length < fullAnkyText.length) {
-        currentText += fullAnkyText[currentText.length];
-        setAnkyText(currentText);
-      } else {
-        clearInterval(interval);
-      }
-    }, 20);
-
-    return () => clearInterval(interval);
-  }, []);
-
+const LandingPage = () => {
+  const sampleChallenges = [
+    {
+      title: '30 Days of Meditation',
+      description: 'Just sit 10 minutes daily.',
+      image: '/images/meditationanky.png',
+    },
+    {
+      title: 'Journalling',
+      description: '20 minutes of writing what comes to mind.',
+      image: '/images/journallinganky.png',
+    },
+    {
+      title: '21 days of Sunrise Walking',
+      description: 'Go outside for the sunrise and enjoy the morning breeze.',
+      image: '/images/walkinganky.png',
+    },
+  ];
   return (
-    <div className='landing-page'>
-      <div className='bg-black text-white min-h-screen flex flex-col items-center justify-center'>
+    <div className=' text-black mx-auto '>
+      <section className='text-center'>
         <div className='flex flex-col md:flex-row items-center justify-center w-full px-4'>
-          <div className='flex flex-col pl-0 pt-10 pb-8 md:pl-8 text-center  w-full md:w-1/2 md:aspect-auto fade-in'>
-            <h1 className='heroanky text-4xl md:text-6xl font-bold'>
-              Meet Anky: Your Companion on the Hero&apos;s Journey 🐒
+          <div className='flex flex-col pl-0 pt-2 pb-8 md:pl-8 text-center  w-full md:w-1/2 md:aspect-auto fade-in'>
+            <h1 className='text-4xl font-bold mb-4'>
+              Train Your capacity of being consistent.
             </h1>
+            <p className='text-lg'>
+              Join Sadhana, a powerful platform to develop mastery in your
+              creative and self-evolution pursuits.
+            </p>
+            <Link
+              href='/s/new'
+              className='mt-4 mb-0 w-fit mx-auto bg-[#009FE3] py-2 px-6 rounded-lg font-semibold text-xl text-white hover:bg-[#E6007E] hover:text-black transition-colors duration-300'
+            >
+              Begin Your Adventure*
+              <br />
+              <small className='text-xs'>*Add your first challenge</small>
+            </Link>
+            <br />
           </div>
-          <div className='relative w-full md:w-1/2 md:mb-6 h-[100vw] md:h-[90vh]'>
+          <div className='relative rounded-full  md:w-1/2 md:mb-6 h-[100vw] md:h-[90vh]'>
             <Image
-              src='/images/anky.png'
-              alt="Anky guiding users on their Hero's Journey"
+              src='/images/landingheroimage.png'
+              alt='People being consistent'
+              className='mx-auto rounded-full mb-2 p-10'
               fill
               contain
             />
-            <em className='hidden md:block text-xl  md:absolute ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 w-11/12 md:w-4/5 left-1/2 -translate-x-1/2 text-white '>
-              {ankyText}
-            </em>
-          </div>
-          <em className=' text-xl md:hidden ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-2 w-full text-white '>
-            {ankyText}
-          </em>
-          <hr className='mb-24 md:hidden' />
-        </div>
-        <div className='landingtext w-11/12 mx-auto md:w-1/2 px-4'>
-          {' '}
-          <p className='text-lg mb-4'>
-            In a mystical realm, Anky, a reincarnation of the Hindu god Hanuman,
-            discovered the secret to strength and power: consistency and
-            determination. Through this wisdom, Anky became a symbol of
-            unwavering devotion and perseverance.
-          </p>
-          <p className='text-lg mb-4'>
-            Inspired by Anky&apos;s spirit, we have created an app that combines
-            the power of modern technology with the ancient wisdom of personal
-            growth. Welcome to Sadhana, your gateway to embark on the
-            Hero&apos;s Journey, with Anky as your trusty companion.
-          </p>
-          <p className='text-lg mb-4'>
-            As you venture forth, Anky will be by your side, offering support,
-            motivation, and guidance. Together, you will explore the realms of
-            fitness, meditation, learning new skills, and more, all while
-            connecting with like-minded adventurers from around the world.
-          </p>
-          <p className='text-lg mb-4'>
-            Sadhana and Anky provide a vibrant, engaging, and social platform
-            that encourages you to challenge yourself, forge new paths, and grow
-            stronger with each step. Are you ready to embark on the journey of a
-            lifetime and unlock your true potential?
-          </p>
-          <div className='my-4'>
-            {' '}
-            <Link
-              href='/s/new'
-              className='mb-10 bg-[#009FE3] py-2 px-6 rounded-lg font-semibold text-xl text-white hover:bg-[#E6007E] hover:text-black transition-colors duration-300'
-            >
-              Begin Your Adventure*
-            </Link>
-            <br />
-            <small className='text-xs mt-2'>*Add your first challenge</small>
           </div>
         </div>
-        <div className='mt-8 relative w-11/12 md:w-8/12 mb-2 md:mb-8 rounded-3xl border-white border-2 overflow-hidden aspect-video'>
-          {' '}
-          <Image
-            fill
-            src='/images/ankydancing.png'
-            alt='Anky dancing with his friends'
-          />
-          <em className='hidden md:block md:absolute text-xl w-full  ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 md:w-fit left-1/2 -translate-x-1/2 text-white '>
-            &quot;Let&apos;s have some fun, my friend. Life is a gift.&quot;
-          </em>
-        </div>
-        <em className='md:hidden text-xl w-full ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 md:w-fit  text-white '>
-          &quot;Let&apos;s have some fun, my friend. Life is a gift.&quot;
-        </em>
-        <div className='mt-4'>
-          <h1 className='mx-8 heroanky mt-8 text-4xl md:text-6xl font-bold  text-left'>
-            Latest Challenges Added:
-          </h1>
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full px-8 mb-20'>
-            {landingSadhanas.map((sadhanas, index) => (
-              <div key={index} className='bg-[#009FE3] rounded-lg p-6'>
-                <h3 className='text-xl font-bold'>{sadhanas.title}</h3>
-                <p className='text-sm text-black mb-3'>
-                  {sadhanas.author.name}
-                </p>
-                <em className='text-sm my-4'>{sadhanas.content}</em>
-                <p className='text-lg my-4'>
-                  {sadhanas.targetSessionDuration} minutes /{' '}
-                  {sadhanas.targetSessions} days
-                </p>
+      </section>
 
-                <em className='text-xl ankytext my-4 text-black'>
-                  {sadhanas.ankysAdvice}
-                </em>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className='mt-4'>
-          <h1 className='mx-8 heroanky mt-4 text-4xl md:text-6xl font-bold text-left'>
-            Talk with Anky:
-          </h1>
-        </div>
-        <div
-          onClick={() => router.push('/anky')}
-          className='hover:cursor-pointer my-1 md:my-4  relative w-11/12 md:w-8/12 md:mb-8 rounded-3xl border-white border-2 overflow-hidden aspect-video'
-        >
-          {' '}
+      <section className='bg-gray-200 py-20 grid grid-cols-1 md:grid-cols-3 gap-8 mb-16'>
+        <div className='text-center'>
           <Image
-            fill
-            src='/images/ankytalking.png'
-            alt='Anky talking with the world.'
+            src='/images/community.png'
+            alt='Community'
+            className='mx-auto rounded-full mb-2'
+            width={300}
+            height={200}
           />
-          <em className='hidden md:block text-xl md:absolute ankytext bottom-2 bg-black bg-opacity-50 rounded-xl p-4 w-9/12 left-1/2 -translate-x-1/2 text-white '>
-            &quot;Hey there, adventurer! Let&apos;s chat and conquer your
-            challenges together. Click this image to begin our journey!&quot;
-            🌟🐒
-          </em>
+          <h2 className='text-2xl font-semibold mb-4'>Supportive Community</h2>
+          <p>
+            Connect with like-minded people, share your progress, and motivate
+            each other.
+          </p>
         </div>
-        <em className='md:hidden text-xl ankytext bottom-2 mb-10 bg-black bg-opacity-50 rounded-xl p-4 w-11/12  text-white '>
-          &quot;Hey there, adventurer! Let&apos;s chat and conquer your
-          challenges together. Click this image to begin our journey!&quot; 🌟🐒
-        </em>
-      </div>
-      <Footer />
+        <div className='text-center'>
+          <Image
+            src='/images/aiguidance.png'
+            alt='AI Guidance'
+            className='mx-auto rounded-full mb-2'
+            width={300}
+            height={200}
+          />
+          <h2 className='text-2xl font-semibold mb-4'>AI-Powered Guidance</h2>
+          <p>
+            Receive personalized AI guidance to help you overcome challenges and
+            grow as a creator.
+          </p>
+        </div>
+        <div className='text-center'>
+          <Image
+            src='/images/creativity.png'
+            className='mx-auto rounded-full mb-2'
+            alt='Challenges'
+            width={300}
+            height={200}
+          />
+          <h2 className='text-2xl font-semibold mb-4'>Engaging Challenges</h2>
+          <p>
+            Participate in unique challenges designed to foster skill
+            development and self-expression.
+          </p>
+        </div>
+      </section>
+
+      <section className='text-center pt-5 pb-20'>
+        <h2 className='text-2xl font-semibold mb-4'>Join Sadhana Today</h2>
+        <p className='text-lg mb-6'>
+          Don&apos;t miss your chance to be part of a revolutionary movement in
+          online creativity and personal growth.
+        </p>
+        <button
+          onClick={signIn}
+          className='bg-blue-500 text-white font-bold py-2 px-4 rounded'
+        >
+          Sign Up Now
+        </button>
+      </section>
+
+      <section className='h-fit py-20 bg-gray-200 flex items-center '>
+        <div className='h-[90vh] aspect-square relative'>
+          <Image src='/images/ankydancing222.png' alt='Anky' fill />
+        </div>
+
+        <div className='text-center md:px-20'>
+          <h2 className='text-2xl font-semibold mb-4'>
+            Meet Anky, Your Accountability Buddy
+          </h2>
+          <p>
+            Anky is here to guide you through your daily tasks, providing a
+            gentle nudge to stay on track and focused on your creative pursuits.
+          </p>
+        </div>
+      </section>
+
+      <section className='h-fit py-20 flex items-center justify-center'>
+        <div className='text-center mx-auto w-8/12'>
+          <h2 className='text-2xl font-semibold mb-4'>About Sadhana</h2>
+          <p>
+            Sadhana is a platform where people can challenge themselves, connect
+            with friends, and engage with creators from all around the world.
+            Through unique challenges, Sadhana aims to help individuals discover
+            their true selves and unlock their hidden potential. Join us on this
+            journey of self-discovery and personal growth.
+          </p>
+        </div>
+      </section>
+
+      <section className='h-fit bg-gray-200 py-20'>
+        <h2 className='text-2xl font-semibold text-center mb-8'>
+          Create your own challenge
+        </h2>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+          {sampleChallenges.map((challenge, index) => (
+            <div key={index} className='text-center'>
+              <Image
+                className='mx-auto rounded-full mb-2'
+                src={challenge.image}
+                alt={challenge.title}
+                width={222}
+                height={222}
+              />
+              <h3 className='text-xl font-semibold mb-4'>{challenge.title}</h3>
+              <p>{challenge.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className='h-fit py-20 flex flex-col items-center justify-center'>
+        <h2 className='text-2xl font-semibold mb-4'>
+          Start Your Journey Today
+        </h2>
+        <p className='text-lg mb-8'>
+          Commit to your first challenge and unlock your full potential:
+        </p>
+        <ol className='list-decimal list-inside mb-8'>
+          <li className='mb-4'>
+            Choose a challenge that resonates with you and your goals.
+          </li>
+          <li className='mb-4'>
+            Set a clear and achievable commitment to work on the challenge
+            consistently.
+          </li>
+          <li className='mb-4'>
+            Track your progress and engage with the community for support and
+            motivation.
+          </li>
+        </ol>
+        <Link
+          href='/s/new'
+          className='mt-4 mb-0 w-fit mx-auto bg-[#009FE3] py-2 px-6 rounded-lg font-semibold text-xl text-white hover:bg-[#E6007E] hover:text-black transition-colors duration-300'
+        >
+          Begin Your Adventure*
+          <br />
+          <small className='text-xs'>*Add your first challenge</small>
+        </Link>
+      </section>
     </div>
   );
-  <style jsx>{`
-    @keyframes typing {
-      from {
-        width: 0;
-      }
-      to {
-        width: 100%;
-      }
-    }
-
-    .typewriter-text {
-      overflow: hidden;
-      white-space: nowrap;
-      border-right: 0.15em solid white;
-      animation: typing 8s steps(100, end) 1s,
-        blink-caret 0.5s step-end infinite;
-    }
-  `}</style>;
 };
 
 export default LandingPage;
-
-export async function getServerSideProps(context) {
-  try {
-    const session = await getServerSession(
-      context.req,
-      context.res,
-      authOptions
-    );
-
-    const sadhanas = await prisma.sadhana.findMany({
-      take: 5,
-      orderBy: {
-        createdAt: 'desc',
-      },
-      include: {
-        participants: true,
-        author: true,
-      },
-    });
-
-    sadhanas[0].ankysAdvice =
-      'My dear friend, remember that every challenge is a chance to grow! Share your journey and let your story inspire others to join the Nights and Weekends adventure. 🌙✨';
-    sadhanas[1].ankysAdvice =
-      'Amigo, recuerda que cada momento es único y especial. ¡Abraza el presente y saborea cada segundo de esta hermosa aventura llamada vida! 🎁';
-    sadhanas[2].ankysAdvice =
-      'La vida es un tesoro, ¡sácale el máximo provecho! Lucha con pasión, sonríe con el corazón y descubre la magia en cada día. 🌟';
-    sadhanas[3].ankysAdvice =
-      'Lights, camera, action! 🎥 Create your weekly recap video with joy and pride, and let your journey be a beacon of inspiration to others on social media. 🌈';
-    sadhanas[4].ankysAdvice =
-      'El agua fría te llama, valiente aventurero. 🌊 Sumérgete en sus profundidades y enfrenta el desafío con valentía y determinación. ¡Convierte cada minuto en una victoria! 💪';
-    if (session) {
-      return {
-        redirect: {
-          destination: '/dashboard',
-          permanent: false,
-        },
-      };
-    }
-    return {
-      props: {
-        landingSadhanas: JSON.parse(JSON.stringify(sadhanas)),
-        session,
-      },
-    };
-  } catch (error) {
-    console.error('Error in getServerSideProps:', error);
-  }
-}
-
-const Footer = () => (
-  <footer className='bg-[#009FE3] py-8 px-4 text-white'>
-    <div className='container mx-auto grid grid-cols-2 gap-8 text-sm'>
-      <div>
-        <h2 className='text-xl font-semibold mb-4'>About Anky 🐒</h2>
-        <p className='mb-4'>
-          Anky is a friendly, wise, and supportive chatbot created to help you
-          navigate the challenges of life and unlock your true potential. Our
-          mission is to inspire, motivate, and guide individuals towards
-          personal growth, self-discovery, and fulfillment.
-        </p>
-        <p>
-          Disclaimer: Anky&apos;s advice and guidance are based on an AI model,
-          and should not be considered as professional advice. Use the
-          information provided at your own discretion.
-        </p>
-      </div>
-      <div>
-        <h2 className='text-xl font-semibold mb-4'>About Sadhana 🔥</h2>
-        <p>
-          Sadhana is a platform where people can challenge themselves, connect
-          with friends, and engage with creators from all around the world.
-          Through unique challenges, Sadhana aims to help individuals discover
-          their true selves and unlock their hidden potential. Join us on this
-          journey of self-discovery and personal growth.
-        </p>
-      </div>
-    </div>
-  </footer>
-);
