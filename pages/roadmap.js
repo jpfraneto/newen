@@ -29,13 +29,13 @@ export default function About() {
           consistency.
         </p>
         <p>
-          These NFTs won't be your traditional certificates. Instead, they will
-          be symbols of your commitment, your journey, and the work you've put
-          into your Sadhana. These tokens will be a new form of credentials that
-          you can proudly display in your crypto wallet, a testament to the work
-          you&apos;ve done, the growth you&apos;ve experienced, and the path
-          you&apos;ve walked alongside your favorite creators and their
-          community.
+          These NFTs won&apos;t be your traditional certificates. Instead, they
+          will be symbols of your commitment, your journey, and the work
+          you&apos;ve put into your Sadhana. These tokens will be a new form of
+          credentials that you can proudly display in your crypto wallet, a
+          testament to the work you&apos;ve done, the growth you&apos;ve
+          experienced, and the path you&apos;ve walked alongside your favorite
+          creators and their community.
         </p>
 
         <p>

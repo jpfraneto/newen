@@ -8,8 +8,8 @@ export default function About() {
       <div className='text-left'>
         <h1 className='text-center'>Careers</h1>
         <p>
-          Now, you might be looking around and thinking, "Where are all the job
-          listings?" Well, this is just starting out, and while there
+          Now, you might be looking around and thinking, &quot;Where are all the
+          job listings?&quot; Well, this is just starting out, and while there
           aren&apos;t any open positions just yet, there are big plans for the
           future.
         </p>
@@ -23,10 +23,10 @@ export default function About() {
         </p>
 
         <p>
-          Perhaps you're intrigued by this vision. Maybe you're even excited by
-          it. Maybe you see yourself as a part of this future, working towards a
-          world where value is placed on the individual rather than the
-          credentials they hold. If so, I would love to hear from you.
+          Perhaps you&apos;re intrigued by this vision. Maybe you&apos;re even
+          excited by it. Maybe you see yourself as a part of this future,
+          working towards a world where value is placed on the individual rather
+          than the credentials they hold. If so, I would love to hear from you.
         </p>
 
         <p>

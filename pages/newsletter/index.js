@@ -10,9 +10,9 @@ export default function Newsletter({ posts }) {
     <Layout>
       <h1 className='text-4xl font-bold mb-4'>Newsletter</h1>
       <p className='text-lg mb-6'>
-        Stay informed and inspired with our weekly newsletter. Here you'll find
-        tips, advice, and motivational stories to keep you committed to your
-        sadhana.
+        Stay informed and inspired with our weekly newsletter. Here you&apos;ll
+        find tips, advice, and motivational stories to keep you committed to
+        your sadhana.
       </p>
       <div className='space-y-4 bg-black bg-opacity-20'>
         {posts.map(post => (
@@ -23,7 +23,12 @@ export default function Newsletter({ posts }) {
             <p className='text-3xl text-gray-300 font-bold mb-2'>
               {post.frontmatter.title}
             </p>
-            <Image src={post.frontmatter.image} width={333} height={222} />
+            <Image
+              src={post.frontmatter.image}
+              alt='Newsletter Image'
+              width={333}
+              height={222}
+            />
             <p className='text-sm text-gray-200 mb-2'>
               {post.frontmatter.date} -{' '}
               <Link href={`/u/clgtinf7j0000js08w6041qqk`}>
