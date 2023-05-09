@@ -15,6 +15,9 @@ export default function PostPage({ post: { frontmatter, content, slug } }) {
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
+  if (!frontmatter || !content || !slug) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Layout>
