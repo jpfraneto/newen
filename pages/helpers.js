@@ -6,8 +6,7 @@ const HelpersPage = () => {
 
   const updateDatabase = async () => {
     alert('wena compare!');
-
-
+  };
   return (
     <div className='container mx-auto py-4'>
       <h1 className='text-2xl mb-4'>Helpers</h1>
