@@ -4,6 +4,7 @@ import { SessionProvider } from 'next-auth/react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { SSRProvider } from 'react-bootstrap';
 import { Rubik_80s_Fade, Russo_One } from 'next/font/google';
 import Navbar from '@component/components/Navbar';
 
@@ -13,7 +14,8 @@ const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
 export default function App({ Component, pageProps }) {
   return (
-    <>
+    <SSRProvider>
+      {' '}
       <Head>
         <title>sadhana · the power of consistency</title>
       </Head>
@@ -31,6 +33,6 @@ export default function App({ Component, pageProps }) {
         </div>
         <ToastContainer />
       </SessionProvider>
-    </>
+    </SSRProvider>
   );
 }

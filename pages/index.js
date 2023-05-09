@@ -49,7 +49,6 @@ const LandingPage = () => {
               alt='People being consistent'
               className='mx-auto rounded-full mb-2 p-4'
               fill
-              contain
             />
           </div>
         </div>
