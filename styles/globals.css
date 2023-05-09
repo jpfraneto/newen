@@ -33,6 +33,10 @@ body {
   margin: 0;
 }
 
+a {
+  text-decoration: none !important;
+}
+
 button:active {
   transform: translateY(2px);
 }
@@ -165,6 +169,19 @@ footer {
   100% {
     letter-spacing: 4px;
   }
+}
+
+.layoutstyle {
+  padding-top: 40px;
+  width: 96%;
+  max-width: 666px;
+  margin: 0 auto;
+  text-align: center;
+  font-family: 'Comic Neue', cursive;
+}
+
+.layoutstyle h1 {
+  font-family: 'Braah One', sans-serif;
 }
 
 .spacing-animation {

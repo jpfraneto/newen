@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@component/pages/api/auth/[...nextauth].js';
 import prisma from '@component/lib/prismaClient';
-import OldTimer from '@component/components/OldTimer';
+import OldTimer from '@component/components/OldComponents/OldTimer';
 import {
   didUserCompleteWork,
   calculateDayIndex,

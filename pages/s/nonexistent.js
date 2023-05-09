@@ -5,7 +5,7 @@ import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 import Link from 'next/link';
 import { useSession, signOut, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import OldTimer from '@component/components/OldTimer';
+import OldTimer from '@component/components/OldComponents/OldTimer';
 
 import Spinner from '@component/components/Spinner';
 import WelcomeScreen from '@component/components/WelcomeScreen';

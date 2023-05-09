@@ -53,14 +53,18 @@ export default function SadhanaList({ sadhanas }) {
                     passHref
                   >
                     <Image
-                      src={sadhana.author.image || '/default-avatar.png'}
+                      src={
+                        sadhana?.author?.image || '/images/ankycompressed.png'
+                      }
                       alt={sadhana.author.name}
                       width={32}
                       height={32}
                       className='rounded-full'
                     />
                     <span>
-                      @{sadhana.author.username || sadhana.author.name}
+                      {sadhana.author.name
+                        ? `@${sadhana.author.username || sadhana.author.name}`
+                        : 'No name yet'}
                     </span>
                   </Link>
                 </td>
