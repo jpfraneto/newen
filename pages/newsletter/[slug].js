@@ -75,7 +75,12 @@ export async function getStaticProps({ params: { slug } }) {
     'utf-8'
   );
 
+  console.log('markdownWithMeta', markdownWithMeta);
+
   const { data: frontmatter, content } = matter(markdownWithMeta);
+
+  console.log('frontmatter', frontmatter);
+  console.log('content', content);
 
   const processedContent = await remark().use(html).process(content);
   const contentHtml = processedContent.toString();
