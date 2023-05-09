@@ -25,10 +25,10 @@ export default function About() {
 
         <p>
           There&apos;s an image that I want to share with you, a picture from my
-          first Sadhana. For 108 days, I programmed a project called "The Open
-          Source Factory," vowing to publish a new app every month. This
-          journey, though deeply personal, is something I want to share with the
-          world. It&apos;s a testament to the value of perseverance and
+          first Sadhana. For 108 days, I programmed a project called &quot;The
+          Open Source Factory,&quot; vowing to publish a new app every month.
+          This journey, though deeply personal, is something I want to share
+          with the world. It&apos;s a testament to the value of perseverance and
           consistent effort, and it&apos;s the foundation upon which Sadhana is
           built.
         </p>
@@ -42,8 +42,8 @@ export default function About() {
             className='rounded'
           />
           <small className='text-center mt-2'>
-            My first sadhana - 108 days of programming a project called "The
-            Open Source Factory"
+            My first sadhana - 108 days of programming a project called
+            &quot;The Open Source Factory&quot;
           </small>
         </div>
 
