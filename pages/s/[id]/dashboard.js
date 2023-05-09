@@ -64,7 +64,6 @@ const SadhanaDashboard = () => {
       <h2 className='text-2xl font-semibold mb-4'>
         Submit Today&apos;s Update
       </h2>
-      <button onClick={() => console.log(sadhana)}>print</button>
       <form onSubmit={handleSubmitUpdate}>
         <div className='mb-4'>
           <label

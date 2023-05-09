@@ -6,7 +6,6 @@ export default async function handler(req, res) {
   const session = await getServerSession(req, res, authOptions);
 
   if (req.method === 'GET') {
-    console.log('INSIDE HEEERE', session);
     if (session && session.user.id === 'clgtinf7j0000js08w6041qqk') {
       try {
         // Function to update pending sadhanas

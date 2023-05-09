@@ -21,7 +21,6 @@ export default async function handler(req, res) {
   }
 
   const userId = session.user.id;
-  console.log('the user id is: ', userId, 'the req.body is:', req.body);
   const { username, name, whatsapp, email } = req.body;
 
   try {

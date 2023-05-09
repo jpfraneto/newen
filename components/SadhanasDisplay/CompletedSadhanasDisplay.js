@@ -21,7 +21,6 @@ const CompletedSadhanasDisplay = ({
     const thisSadhanaIndexInSession = userSessions.findIndex(
       (x, i) => x.sadhanaId === sadhana.id
     );
-    console.log('HRE', thisSadhanaIndexInSession);
 
     return (
       <tr

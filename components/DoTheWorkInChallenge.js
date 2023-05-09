@@ -91,7 +91,6 @@ const DoTheWorkInChallenge = ({
       const data = await response.json();
       setDisplayDayInfo(data.createdSadhanaDay);
       setSadhanaForDisplay(prev => {
-        console.log('the prev is: ', prev);
         return {
           ...prev,
           ['sadhanaDays']: [...prev.sadhanaDays, data.createdSadhanaDay],
@@ -167,7 +166,6 @@ const DoTheWorkInChallenge = ({
           <NewDashboardTimer
             session={session}
             onCompletion={() => {
-              console.log('inside the oncompletion function');
               toggleCompletion(selectedSadhanaIndex, selectedSadhana);
             }}
             sadhana={selectedSadhana}

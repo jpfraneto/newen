@@ -88,7 +88,6 @@ const DemoDashboardComponent = ({ session }) => {
   const handleSubmit = () => {
     alert('This is the handle submit function!');
     if (completed.every(item => item)) {
-      console.log('here!');
       setSubmitted(true);
     }
   };

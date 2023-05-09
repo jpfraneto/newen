@@ -146,7 +146,6 @@ const DashboardComponent = ({ session }) => {
       setUserSadhanas(prev => {
         return prev.map(currentSadhana => {
           if (currentSadhana.id === sadhana.id) {
-            console.log('The current sadhana is: ', currentSadhana);
             return {
               ...currentSadhana,
               didTheWork: true,
@@ -341,7 +340,6 @@ const DashboardComponent = ({ session }) => {
           <NewDashboardTimer
             session={session}
             onCompletion={() => {
-              console.log('inside the oncompletion function');
               toggleCompletion(selectedSadhanaIndex, selectedSadhana);
             }}
             sadhana={selectedSadhana}

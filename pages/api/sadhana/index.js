@@ -63,8 +63,6 @@ const createSadhana = async (req, res, session) => {
       await sendSadhanaCreationEmail(sadhanaData, session.user);
     }
 
-    console.log('the prisma response is: ', prismaResponse);
-
     res.status(201).json({ message: 'Sadhana created', id: prismaResponse.id });
   } catch (error) {
     console.log('there was an error adding the sadhana to the db', error);

@@ -50,7 +50,6 @@ export default async function (req, res) {
       messages: messages,
     });
 
-    console.log('THE completion data is: ', completion.data);
     res.status(200).json({ result: completion.data.choices[0].message });
   } catch (error) {
     console.log('there was another error in this thing.', error);

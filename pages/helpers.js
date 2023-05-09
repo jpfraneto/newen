@@ -6,18 +6,7 @@ const HelpersPage = () => {
 
   const updateDatabase = async () => {
     alert('wena compare!');
-    // try {
-    //   const response = await fetch('/api/update-sadhanas', {
-    //     method: 'POST',
-    //   });
-    //   const data = await response.json();
-    //   console.log(data);
-    //   alert('Database updated successfully');
-    // } catch (error) {
-    //   console.error('Error updating database:', error);
-    //   alert('Error updating database');
-    // }
-  };
+
 
   return (
     <div className='container mx-auto py-4'>
