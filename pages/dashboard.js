@@ -5,6 +5,7 @@ import { formatDate } from '@component/lib/functions';
 import { toast } from 'react-toastify';
 import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 import Image from 'next/image';
+import Layout from '@component/components/Layout';
 import Link from 'next/link';
 import BiggerLayout from '@component/components/BiggerLayout';
 import DashboardComponent from '@component/components/DashboardComponent';
