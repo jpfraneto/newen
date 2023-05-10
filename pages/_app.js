@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }) {
         className={`${russo.className}`}
         session={pageProps.session}
       >
-        <Navbar />
+        <Navbar session={pageProps.session} />
         <div className='flex flex-col min-h-screen'>
           <div className='flex-grow'>
             <Component {...pageProps} />

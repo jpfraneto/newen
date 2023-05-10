@@ -25,12 +25,13 @@ const Navigation = () => {
               Get Inspired
             </NavDropdown.Item>
           </NavDropdown>
-          <NavDropdown title='Success Stories' id='stories-nav-dropdown'>
+          {/* <NavDropdown title='Success Stories' id='stories-nav-dropdown'>
             <NavDropdown.Item href='/transformed'>
               People Transformed
             </NavDropdown.Item>
             <NavDropdown.Item href='/newsletter'>Newsletter</NavDropdown.Item>
-          </NavDropdown>
+          </NavDropdown> */}
+          <Nav.Link href='/newsletter'>Newsletter</Nav.Link>
           <NavDropdown title='Company' id='company-nav-dropdown'>
             <NavDropdown.Item href='/about'>About Sadhana</NavDropdown.Item>
             <NavDropdown.Item href='/careers'>Careers</NavDropdown.Item>
@@ -42,11 +43,10 @@ const Navigation = () => {
             </NavDropdown.Item>
             <NavDropdown.Item href='/music'>Music</NavDropdown.Item>
           </NavDropdown>
-          <NavDropdown title='Community' id='community-nav-dropdown'>
+          {/* <NavDropdown title='Community' id='community-nav-dropdown'>
             <NavDropdown.Item href='/community'>Community</NavDropdown.Item>
             <NavDropdown.Item href='/NFTs'>NFT Collection</NavDropdown.Item>
-          </NavDropdown>
-          <Nav.Link href='/pricing'>Pricing</Nav.Link>
+          </NavDropdown> */}
           {!session ? (
             <Nav.Link onClick={() => signIn()}>Sign In</Nav.Link>
           ) : (

@@ -14,13 +14,13 @@ export default function Newsletter({ posts }) {
         find tips, advice, and motivational stories to keep you committed to
         your sadhana.
       </p>
-      <div className='space-y-4 bg-black bg-opacity-20'>
+      <div className='space-y-4 bg-gray-400 bg-opacity-20 rounded-xl'>
         {posts.map(post => (
           <div
             key={post.slug}
             className='border flex flex-col items-center border-gray-300 p-4 rounded-md relative'
           >
-            <p className='text-3xl text-gray-300 font-bold mb-2'>
+            <p className='text-3xl text-black font-bold mb-2'>
               {post.frontmatter.title}
             </p>
             <Image
@@ -29,7 +29,7 @@ export default function Newsletter({ posts }) {
               width={333}
               height={222}
             />
-            <p className='text-sm text-gray-200 mb-2'>
+            <p className='text-sm text-black mb-2'>
               {post.frontmatter.date} -{' '}
               <Link href={`/u/clgtinf7j0000js08w6041qqk`}>
                 @{post.frontmatter.author}

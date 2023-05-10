@@ -27,6 +27,7 @@ import {
 import { calculateDayIndex } from '@component/lib/functions';
 import WelcomeScreen from '@component/components/WelcomeScreen';
 import Spinner from '@component/components/Spinner';
+import BiggerLayout from '@component/components/BiggerLayout';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
@@ -245,7 +246,7 @@ export default function SadhanaDetail({
 
   if (dayIndex > sadhana.targetSessions)
     return (
-      <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen overflow-x-scroll text-white md:text-black py-2 md:px-16 lg:px-60 px-2 md:py-10'>
+      <BiggerLayout>
         <div className='container text-center'>
           {' '}
           <div
@@ -288,11 +289,11 @@ export default function SadhanaDetail({
             </div>
           </div>
         </div>
-      </div>
+      </BiggerLayout>
     );
 
   return (
-    <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen overflow-x-scroll text-white md:text-black py-2 md:px-16 lg:px-60 px-2 md:py-10'>
+    <BiggerLayout>
       <div className='container text-center'>
         {' '}
         <div
@@ -493,7 +494,7 @@ export default function SadhanaDetail({
           </div>
         </div>
       </div>
-    </div>
+    </BiggerLayout>
   );
 }
 

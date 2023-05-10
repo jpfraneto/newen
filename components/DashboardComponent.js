@@ -267,7 +267,7 @@ const DashboardComponent = ({ session }) => {
     <div className='max-w md:container mx-auto md:px-4'>
       <div className='flex justify-center space-x-1 md:space-x-4 my-4'>
         <button
-          className={`bg-black text-white px-4 py-2 rounded-md ${
+          className={`bg-black text-white px-4 py-2 hover:opacity-70 rounded-md ${
             sadhanaFilter === 'pending' ? 'opacity-100' : 'opacity-50'
           }`}
           onClick={() => setSadhanaFilter('pending')}
@@ -275,7 +275,7 @@ const DashboardComponent = ({ session }) => {
           Pending
         </button>
         <button
-          className={`bg-black text-white px-4 py-2 rounded-md ${
+          className={`bg-black text-white px-4 py-2 hover:opacity-70 rounded-md ${
             sadhanaFilter === 'active' ? 'opacity-100' : 'opacity-50'
           }`}
           onClick={() => setSadhanaFilter('active')}
@@ -283,7 +283,7 @@ const DashboardComponent = ({ session }) => {
           Active
         </button>
         <button
-          className={`bg-black text-white px-4 py-2 rounded-md ${
+          className={`bg-black text-white px-4 py-2 rounded-md hover:opacity-70 ${
             sadhanaFilter === 'completed' ? 'opacity-100' : 'opacity-50'
           }`}
           onClick={() => setSadhanaFilter('completed')}
@@ -292,7 +292,7 @@ const DashboardComponent = ({ session }) => {
         </button>
         <Link passHref href='/s/new'>
           <button
-            className={`bg-gray-500 border-black border-2 opacity-70 hover:bg-gray-900 text-white px-4 py-2 rounded-md border-2 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:opacity-70`}
+            className={`bg-gray-500 border-black border-2 opacity-70 hover:bg-gray-900 text-white px-4 py-2 rounded-md border-2 bg-gradient-to-r from-purple-500 via-pink-500 hover:opacity-80 to-red-500 hover:opacity-70`}
           >
             Add New
           </button>

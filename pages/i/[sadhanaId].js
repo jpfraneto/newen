@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 import { useState } from 'react';
+import Layout from '@component/components/Layout';
 import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 import Link from 'next/link';
 import prisma from '@component/lib/prismaClient';
@@ -38,9 +39,7 @@ const SadhanaInvitation = ({ sadhana }) => {
 
       if (response.ok) {
         const responseInfo = await response.json();
-        setButtonText(
-          'Listo, estás adentro. Sube tu video con este hashtag #sadhana y así nos podemos encontrar en IG o TikTok!'
-        );
+        setButtonText('You are in. Click here to go to the sadhana page.');
         setSignedUpToSadhana(true);
       } else {
         setButtonText('Error!');
@@ -50,88 +49,119 @@ const SadhanaInvitation = ({ sadhana }) => {
       setButtonText('There was an error');
     }
   }
+  const handleInviteFriends = async () => {
+    const text = `https://www.sadhana.lat/i/${router.query.sadhanaId}`;
+
+    await navigator.clipboard.writeText(text);
+    alert('The link was copied.');
+  };
 
   if (!sadhana) return <p>There was a problem...</p>;
 
   return (
-    <div className=' bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 text-black min-h-screen pt-20'>
-      {isUserParticipating ? (
-        <div className='bg-white p-8 rounded-lg w-full mx-auto max-w-3xl'>
-          <p className='text-black'>
-            Hold on... You are already part of this one.
-          </p>
-          <h4
-            className={`${righteous.className} text-2xl md:text-5xl w-full font-bold`}
-          >
-            {sadhana.title}
-          </h4>
-          <div className='py-3'>
-            <Link
-              className=' inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold  py-2 px-4 rounded shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-              href={`/s/${sadhana.id}`}
+    <div
+      className='h-screen flex items-center justify-center bg-cover bg-center'
+      style={{ backgroundImage: "url('/images/ankyinvitation.png')" }}
+    >
+      <div className='w-full h-full bg-black opacity-50' />
+      <div>
+        <div className='absolute top-0 left-0 w-full h-full bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 opacity-50' />
+        <div className='absolute min-h-screen top-0 left-0 w-full h-full flex  justify-center text-center p-2'>
+          <div className='relative md:pt-20 z-10 text-white mx-auto max-w-3xl'>
+            <p className='text-lg md:text-2xl font-bold mb-0'>
+              An epic journey awaits.
+            </p>
+            <p className='text-lg md:text-2xl font-bold mb-2'>
+              I&apos;m Anky, and I will walk by your side.
+            </p>
+
+            <h4
+              className={`${righteous.className} text-4xl md:text-6xl font-bold mb-40`}
             >
-              Visit Challenge
-            </Link>
-            <Link
-              className='mx-2 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold  py-2 px-4 rounded shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-              href='/dashboard'
-            >
-              Go to your Dashboard
-            </Link>
-          </div>
-        </div>
-      ) : (
-        <div className='bg-white p-8 rounded-lg mx-auto w-full max-w-3xl'>
-          <p className='text-black'>
-            You were invited by{' '}
-            <Link href='/u/kithkui'>
-              @
-              {sadhana.author.username
-                ? sadhana.author.username
-                : sadhana.author.name}
-            </Link>{' '}
-            to participate in the following challenge:
-          </p>
-          <h4
-            className={`${righteous.className} text-4xl md:text-5xl w-full font-bold`}
-          >
-            {sadhana.title}
-          </h4>
-          <p>
-            Do you want to commit to {sadhana.targetSessions} days doing this
-            challenge, for a minimum of {sadhana.targetSessionDuration} minutes
-            every day? This platform will help you be consistent. We help each
-            other.
-          </p>
-          <div className='py-3'>
-            {' '}
-            {session ? (
+              {sadhana.title}
+            </h4>
+
+            {isUserParticipating ? (
               <>
-                {' '}
-                <button
-                  onClick={handleParticipate}
-                  className=' inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold  py-2 px-4 rounded shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-                >
-                  {buttonText}
-                </button>
-                {signedUpToSadhana && (
-                  <Link href='/dashboard'>Go to my profile</Link>
-                )}
+                <p className='text-base md:text-lg mb-4'>
+                  You are already part of this sadhana.
+                </p>
+                <div className='py-3'>
+                  <Link
+                    className=' inline-block bg-gradient-to-r from-purple-500 hover:opacity-80 via-pink-500 to-red-500 text-white font-bold  py-2 px-4 rounded shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
+                    href={`/s/${sadhana.id}`}
+                  >
+                    Visit
+                  </Link>
+                  <Link
+                    className='mx-2 inline-block bg-gradient-to-r from-purple-500 hover:opacity-80 via-pink-500 to-red-500 text-white font-bold  py-2 px-4 rounded shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
+                    href='/dashboard'
+                  >
+                    Go to your Dashboard
+                  </Link>
+                </div>
               </>
             ) : (
-              <div>
-                <p className='text-black'>You need to login to participate.</p>
-                <button
-                  className=' inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold  py-2 px-4 rounded shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-                  onClick={signIn}
-                >
-                  Login
-                </button>
-              </div>
+              <>
+                <p className='text-base md:text-lg mb-4'>
+                  Will you commit to {sadhana.targetSessions} days of this
+                  challenge, devoting a minimum of{' '}
+                  {sadhana.targetSessionDuration} minutes each day? Embark on
+                  this journey. You will strengthen, resolve and accomplish your
+                  goals with the power of your own determination.
+                </p>
+                {session ? (
+                  <div className='flex space-x-3  flex-wrap justify-center'>
+                    {signedUpToSadhana ? (
+                      <>
+                        <button
+                          onClick={handleParticipate}
+                          className=' inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold py-2 px-4 rounded shadow-md hover:shadow-lg hover:opacity-80 transition-all duration-200 ease-in-out'
+                        >
+                          {buttonText}
+                        </button>{' '}
+                        <button
+                          onClick={handleInviteFriends}
+                          className=' inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold py-2 px-4 rounded shadow-md hover:shadow-lg hover:opacity-80 transition-all duration-200 ease-in-out'
+                        >
+                          Invite your friends
+                        </button>{' '}
+                      </>
+                    ) : (
+                      <>
+                        <Link
+                          href={`/s/${router.query.sadhanaId}`}
+                          className=' inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold py-2 px-4 rounded shadow-md hover:shadow-lg hover:opacity-80 transition-all duration-200 ease-in-out'
+                        >
+                          {buttonText}
+                        </Link>{' '}
+                        <button
+                          onClick={handleInviteFriends}
+                          className=' inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold py-2 px-4 rounded shadow-md hover:shadow-lg hover:opacity-80 transition-all duration-200 ease-in-out'
+                        >
+                          Invite your friends
+                        </button>
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  <div>
+                    <p className='text-black'>
+                      You need to login to participate.
+                    </p>
+                    <button
+                      className=' inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold  py-2 px-4 rounded shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
+                      onClick={signIn}
+                    >
+                      Login
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

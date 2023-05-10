@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
+import BiggerLayout from '@component/components/BiggerLayout';
 import DashboardComponent from '@component/components/DashboardComponent';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
@@ -17,8 +18,8 @@ const Dashboard = () => {
   if (status === 'loading') return <p>Loading</p>;
   if (!session)
     return (
-      <div className='p-8 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen flex items-center justify-center'>
-        <div className=' p-8 rounded-lg w-full max-w-md'>
+      <Layout>
+        <div className='p-8 rounded-lg w-full max-w-md'>
           <p className={`${righteous.className} text-white`}>
             Sorry, but are not allowed to be here.
           </p>
@@ -37,7 +38,7 @@ const Dashboard = () => {
             Guest Demo
           </button> */}
         </div>
-      </div>
+      </Layout>
     );
   if (!session.user.whatsapp)
     toast(<NewToast />, {
@@ -52,7 +53,7 @@ const Dashboard = () => {
     });
 
   return (
-    <div className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 min-h-screen'>
+    <BiggerLayout>
       {session ? (
         <div className='md:px-2 max-w-full md:w-8/12 m-auto py-3 md:py-4'>
           <div className='text-white flex flex-col justify-items-center items-center py-4'>
@@ -68,7 +69,7 @@ const Dashboard = () => {
               width={111}
               height={111}
               src={session.user.image || '/images/ankycompressed.png'}
-              className='rounded-full mt-2 border-2 border-white'
+              className='rounded-full mt-2 border-2 border-black'
               alt='Profile picture'
             />
             <Link href='/settings' className='hover:text-yellow-200'>
@@ -89,7 +90,7 @@ const Dashboard = () => {
           </button>
         </>
       )}
-    </div>
+    </BiggerLayout>
   );
 };
 

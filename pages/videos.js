@@ -1,5 +1,6 @@
 import Layout from '@component/components/Layout';
-import ReactPlayer from 'react-player';
+import dynamic from 'next/dynamic';
+const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
 export default function Videos() {
   return (
@@ -36,33 +37,30 @@ export default function Videos() {
           quick dose of motivation, you&apos;ll find it here.
         </p>
 
-        <p>
-          And that&apos;s not all! We have some big plans for the future.
-          Here&apos;s a sneak peek:
-        </p>
+        <p>And that&apos;s not all! I have some big plans for the future:</p>
 
         <ul>
           <li>
-            <strong>Community Curated Content:</strong> We want to give you the
+            <strong>- Community Curated Content:</strong> I want to give you the
             power to contribute to this collection. If you have a video that has
             inspired you or taught you something valuable, you&apos;ll be able
             to submit it for consideration.
           </li>
           <li>
-            <strong>Creator Spotlights:</strong> We plan to feature videos from
+            <strong>- Creator Spotlights:</strong> I plan to feature videos from
             your favorite creators, giving you a chance to learn from them
             directly.
           </li>
           <li>
-            <strong>Interactive Learning:</strong> We aim to introduce features
+            <strong>- Interactive Learning:</strong> I aim to introduce features
             that will allow you to interact with the videos, providing a more
             engaging and effective learning experience.
           </li>
         </ul>
 
         <p>
-          We&apos;re excited to build this video library with your help. Keep
-          checking back as we continue to add more resources and features.
+          I&apos;m excited to build this video library with your help. Keep
+          checking back as I continue to add more resources and features.
         </p>
       </div>
     </Layout>

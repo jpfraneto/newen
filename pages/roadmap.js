@@ -8,9 +8,8 @@ export default function About() {
       <div className='text-left'>
         <h1 className='text-center'>Roadmap</h1>
         <p>
-          This is where I reveal the plans and aspirations for the future of
-          Sadhana, a place where you can get a sneak peek into the path I intend
-          to forge with this project.
+          This is a sneak peek into the path I intend to forge with this
+          project.
         </p>
 
         <p>

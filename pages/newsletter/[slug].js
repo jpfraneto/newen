@@ -30,7 +30,7 @@ export default function PostPage({ post }) {
           width={333}
           height={222}
         />
-        <p className='text-gray-200 mb-8'>
+        <p className='text-black mb-8'>
           {post.frontmatter.date} -{' '}
           <Link href={`/u/clgtinf7j0000js08w6041qqk`}>
             @{post.frontmatter.author}

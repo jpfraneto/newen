@@ -46,8 +46,8 @@ const NewSadhana = () => {
   };
 
   const ankyMessages = [
-    "Hey there! This is Anky, your companion in this journey. Let's create an exciting new challenge together. First, please enter a captivating title for your sadhana.",
-    "Awesome title! Now, let's dive into the details. Please describe what your sadhana is all about.",
+    "Let's create an exciting new challenge together. First, please enter a captivating title for it.",
+    "Now, let's dive into the details. Please describe what your sadhana is all about. This is the text that you will see every day as you come to do the work, and the one that people will read when they come to participate.",
     'Fantastic! Now, how many sessions do you want this to last? Set a challenging yet achievable goal. You can always create a new one in the future.',
     'Great! Time to decide how long each session will be. Remember, consistency is key, so choose a duration that you can maintain.',
     "Let's talk frequency. How often do you want to work on your sadhana? Choose the periodicity that best fits your schedule and commitment.",
@@ -147,7 +147,7 @@ const NewSadhana = () => {
 
   if (step == 88)
     return (
-      <div className='bg-white p-4 rounded-lg w-full max-w-md text-black'>
+      <div className=' p-4 rounded-lg w-full max-w-md text-black'>
         <div>
           <p className='text-black text-xl mb-2'>
             You just commited to something. This is the starting point of your
@@ -194,141 +194,105 @@ const NewSadhana = () => {
     );
 
   return (
-    <div className='flex items-center justify-center '>
-      <form
-        onSubmit={handleSubmit}
-        className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'
-      >
-        <h2 className='text-gray-700 font-semibold text-xl mb-6'>
-          {ankyMessages[step - 1]}
-        </h2>
-        {step === 1 && (
-          <div className='mb-4'>
-            <label
-              htmlFor='title'
-              className='block text-gray-700 text-sm font-bold mb-2'
-            >
-              Title
-            </label>
-            <input
-              type='text'
-              name='title'
-              id='title'
-              placeholder='ex: 30 days of Walking'
-              value={formData.title}
-              onChange={handleChange}
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-            />
-          </div>
-        )}
-        {step === 2 && (
-          <div className='mb-4'>
-            <label
-              htmlFor='content'
-              className='block text-gray-700 text-sm font-bold mb-2'
-            >
-              Content
-            </label>
-            <textarea
-              name='content'
-              id='content'
-              placeholder='Explain your challenge to motivate others to be part of it.'
-              value={formData.content}
-              onChange={handleChange}
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              rows='4'
-            ></textarea>
-          </div>
-        )}
-        {step === 3 && (
-          <div className='mb-4'>
-            <label
-              htmlFor='targetSessions'
-              className='block text-gray-700 text-sm font-bold mb-2'
-            >
-              Target Sessions
-            </label>
-            <input
-              type='number'
-              name='targetSessions'
-              id='targetSessions'
-              placeholder='8'
-              value={formData.targetSessions}
-              onChange={handleChange}
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-            />
-          </div>
-        )}
-        {step === 4 && (
-          <div className='mb-4'>
-            <label
-              htmlFor='targetSessionDuration'
-              className='block text-gray-700 text-sm font-bold mb-2'
-            >
-              Target Session Duration (in minutes)
-            </label>
-            <input
-              type='number'
-              name='targetSessionDuration'
-              id='targetSessionDuration'
-              placeholder='10'
-              value={formData.targetSessionDuration}
-              onChange={handleChange}
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-            />
-          </div>
-        )}
-        {step === 5 && (
-          <div className='mb-4'>
-            <label
-              htmlFor='periodicity'
-              className='block text-gray-700 text-sm font-bold mb-2'
-            >
-              Periodicity
-            </label>
-            <select
-              name='periodicity'
-              id='periodicity'
-              value={formData.periodicity}
-              onChange={handleChange}
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-            >
-              <option value='daily'>Daily</option>
-              <option value='weekly' disabled>
-                Weekly
-              </option>
-              <option value='monthly' disabled>
-                Monthly
-              </option>
-            </select>
-          </div>
-        )}
-        {step === 6 && (
-          <div className='mb-4'>
-            <label
-              htmlFor='startingTimestamp'
-              className='block text-gray-700 text-sm font-bold mb-2'
-            >
-              Starting Date
-            </label>
-            <input
-              type='date'
-              name='startingTimestamp'
-              id='startingTimestamp'
-              value={formData.startingTimestamp}
-              onChange={handleChange}
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-            />
-          </div>
-        )}
-        {step === 7 && (
-          <div>
-            {' '}
-            <label
-              className='block text-gray-700 text-sm font-bold mb-2'
-              htmlFor='isPrivate'
-            >
-              Is this Sadhana private?
+    <div className='relative  z-10 text-white mx-auto max-w-3xl'>
+      <div className='flex md:pt-10 flex-col items-center text-white '>
+        <p className='text-lg md:text-2xl font-bold mb-0'>
+          An epic journey awaits.
+        </p>
+        <p className='text-lg md:text-2xl font-bold mb-2'>
+          I&apos;m Anky, and I will walk by your side.
+        </p>
+
+        <form onSubmit={handleSubmit} className='rounded px-8 pt-48 pb-8 mb-4'>
+          <h2 className='text-black font-semibold text-xl  mb-6'>
+            {ankyMessages[step - 1]}
+          </h2>
+          {step === 1 && (
+            <div className='mb-4'>
+              <input
+                type='text'
+                name='title'
+                id='title'
+                placeholder='ex: 30 days of Walking'
+                value={formData.title}
+                onChange={handleChange}
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              />
+            </div>
+          )}
+          {step === 2 && (
+            <div className='mb-4'>
+              <textarea
+                name='content'
+                id='content'
+                placeholder='Explain your challenge to motivate others to be part of it.'
+                value={formData.content}
+                onChange={handleChange}
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                rows='4'
+              ></textarea>
+            </div>
+          )}
+          {step === 3 && (
+            <div className='mb-4'>
+              <input
+                type='number'
+                name='targetSessions'
+                id='targetSessions'
+                placeholder='8'
+                value={formData.targetSessions}
+                onChange={handleChange}
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              />
+            </div>
+          )}
+          {step === 4 && (
+            <div className='mb-4'>
+              <input
+                type='number'
+                name='targetSessionDuration'
+                id='targetSessionDuration'
+                placeholder='10'
+                value={formData.targetSessionDuration}
+                onChange={handleChange}
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              />
+            </div>
+          )}
+          {step === 5 && (
+            <div className='mb-4'>
+              <select
+                name='periodicity'
+                id='periodicity'
+                value={formData.periodicity}
+                onChange={handleChange}
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              >
+                <option value='daily'>Daily</option>
+                <option value='weekly' disabled>
+                  Weekly
+                </option>
+                <option value='monthly' disabled>
+                  Monthly
+                </option>
+              </select>
+            </div>
+          )}
+          {step === 6 && (
+            <div className='mb-4'>
+              <input
+                type='date'
+                name='startingTimestamp'
+                id='startingTimestamp'
+                value={formData.startingTimestamp}
+                onChange={handleChange}
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              />
+            </div>
+          )}
+          {step === 7 && (
+            <div>
+              {' '}
               <select
                 id='isPrivate'
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
@@ -342,39 +306,39 @@ const NewSadhana = () => {
               {formData.isPrivate
                 ? 'Only you can see your progress in this sadhana.'
                 : 'Anyone can join.'}
-            </label>
+            </div>
+          )}
+          <div className='flex justify-center space-x-2'>
+            {step > 1 && !success && (
+              <button
+                type='button'
+                onClick={handlePrev}
+                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+              >
+                Previous
+              </button>
+            )}
+            {step < 7 && (
+              <button
+                type='button'
+                onClick={handleNext}
+                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+              >
+                Next
+              </button>
+            )}
+            {step === 7 && (
+              <button
+                type='submit'
+                onClick={handleSubmit}
+                className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+              >
+                {loading ? 'Adding...' : 'Submit'}
+              </button>
+            )}
           </div>
-        )}
-        <div className='flex justify-between'>
-          {step > 1 && !success && (
-            <button
-              type='button'
-              onClick={handlePrev}
-              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-            >
-              Previous
-            </button>
-          )}
-          {step < 7 && (
-            <button
-              type='button'
-              onClick={handleNext}
-              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-            >
-              Next
-            </button>
-          )}
-          {step === 7 && (
-            <button
-              type='submit'
-              onClick={handleSubmit}
-              className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-            >
-              {loading ? 'Adding...' : 'Submit'}
-            </button>
-          )}
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };
