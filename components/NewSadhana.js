@@ -58,7 +58,25 @@ const NewSadhana = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     setLoading(true);
-
+    const {
+      title,
+      content,
+      targetSessions,
+      targetSessionDuration,
+      periodicity,
+      isPrivate,
+      startingTimestap,
+    } = formData;
+    if (
+      !title ||
+      !content ||
+      !targetSessions ||
+      targetSessionDuration ||
+      periodicity ||
+      isPrivate ||
+      startingTimestap
+    )
+      alert('Please fill out all the form elements!');
     try {
       const response = await axios.post('/api/sadhana', formData);
       setLoading(false);

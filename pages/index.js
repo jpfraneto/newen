@@ -36,7 +36,7 @@ const LandingPage = () => {
           <form className='flex flex-wrap text-sm md:text-xl mb-4 max-w-4xl justify-center space-x-8'>
             {challenges.map((x, i) => {
               return (
-                <div className='flex items-center mt-2'>
+                <div key={i} className='flex items-center mt-2'>
                   <input
                     type='checkbox'
                     name={`checkbox-${i}`}
