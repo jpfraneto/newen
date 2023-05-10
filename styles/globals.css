@@ -36,6 +36,7 @@ body {
     rgb(88, 28, 135),
     rgb(15, 23, 42)
   );
+  color: white;
   font-family: 'Russo One', sans-serif;
   min-height: 100vh;
   position: relative;

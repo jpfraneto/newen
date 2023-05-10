@@ -10,7 +10,11 @@ const NewNav = () => {
   const router = useRouter();
   return (
     <nav className='z-50 hover:cursor-pointer font-itim md:text-xl bg-thegreen h-16 flex items-center justify-between px-2 md:px-8'>
-      <div className='text-2xl text-black pl-4 font-russo'>sadhana</div>
+      <div className='text-2xl text-black pl-4 font-russo'>
+        <Link className='' href='/'>
+          sadhana
+        </Link>
+      </div>
       <div className='flex items-center space-x-2 md:space-x-8 md:pr-6'>
         <Link className='text-black hover:opacity-60' href='/s'>
           All Challenges {/* change here */}

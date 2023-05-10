@@ -346,7 +346,7 @@ const DashboardComponent = ({ session }) => {
       </TimerModal>
       <div className='flex flex-col mt-10 items-center'>
         <Button
-          buttonAction={() => router.push('/w')}
+          buttonAction={() => router.push('/')}
           buttonText='Back to landing'
         />
       </div>

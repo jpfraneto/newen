@@ -28,7 +28,7 @@ const LandingPage = () => {
             boundaries.
           </p>
         </div>
-        <div className='space-y-2 mt-24 text-center '>
+        <div className='space-y-2 mt-40 text-center '>
           <p className='font-itim text-xl mb-0'>
             Which will be your next challenge?
           </p>
@@ -41,17 +41,17 @@ const LandingPage = () => {
                     type='checkbox'
                     name={`checkbox-${i}`}
                     id={`checkbox-${i}`}
-                    class='bg-red-300 hover:bg-pink-400 cursor-pointer
+                    className='bg-red-300 hover:bg-pink-400 cursor-pointer
     md:w-8 md:h-8 h-4 w-4 border-3 border-rose-500 rounded-lg checked:bg-rose-600'
                   />
-                  <label for={`checkbox-${i}`} className='ml-3'>
+                  <label htmlFor={`checkbox-${i}`} className='ml-3'>
                     {x}
                   </label>
                 </div>
               );
             })}
           </form>
-          <div>
+          <div className='mt-4 '>
             {' '}
             <Link
               href='/s/new'
