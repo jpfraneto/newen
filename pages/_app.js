@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { SSRProvider } from 'react-bootstrap';
 import { Rubik_80s_Fade, Russo_One } from 'next/font/google';
 import Navbar from '@component/components/Navbar';
+import NewNav from '@component/components/NewNav';
 
 // If loading a variable font, you don't need to specify the font weight
 const rubik = Rubik_80s_Fade({ weight: '400', subsets: ['latin'] });
@@ -23,9 +24,9 @@ export default function App({ Component, pageProps }) {
         className={`${russo.className}`}
         session={pageProps.session}
       >
-        <Navbar session={pageProps.session} />
+        <NewNav />
         <div className='flex flex-col min-h-screen'>
-          <div className='flex-grow'>
+          <div>
             <Component {...pageProps} />
           </div>
 

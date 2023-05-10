@@ -194,8 +194,8 @@ const NewSadhana = () => {
     );
 
   return (
-    <div className='relative  z-10 text-white mx-auto max-w-3xl'>
-      <div className='flex md:pt-10 flex-col items-center text-white '>
+    <div className='relative font-itim  z-10 text-white mx-auto max-w-3xl'>
+      <div className='flex md:pt-10 flex-col items-start text-theorange  '>
         <p className='text-lg md:text-2xl font-bold mb-0'>
           An epic journey awaits.
         </p>
@@ -204,7 +204,7 @@ const NewSadhana = () => {
         </p>
 
         <form onSubmit={handleSubmit} className='rounded px-8 pt-48 pb-8 mb-4'>
-          <h2 className='text-black font-semibold text-xl  mb-6'>
+          <h2 className=' text-theorange  text-2xl  mb-6 '>
             {ankyMessages[step - 1]}
           </h2>
           {step === 1 && (
@@ -322,7 +322,7 @@ const NewSadhana = () => {
               <button
                 type='button'
                 onClick={handleNext}
-                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                className='font-itim bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
               >
                 Next
               </button>
