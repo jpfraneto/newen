@@ -17,13 +17,13 @@ const LandingPage = () => {
         className='text-white h-screen bg-black bg-opacity-20 bg-cover bg-center flex flex-col items-center  space-y-8'
         style={{ backgroundImage: 'url(/images/ankybg.png)' }}
       >
-        <div className='text-center pt-20 mb-48'>
-          <h1 className='text-7xl font-bold space-x-4 mb-0'>
+        <div className='text-center pt-16 mb-48'>
+          <h1 className='text-6xl md:text-7xl font-bold space-x-4 mb-0'>
             <span className='font-luckiestguy'>DISCIPLINE IS</span>
             <span className='ml-2 font-londrinashadow'>FREEDOM.</span>
           </h1>
-          <p className='font-itim text-xl max-w-xl mx-auto mt-0'>
-            Sadhana is where consistency paves the way to creative freedom. Join
+          <p className='font-itim px-4 md:px-0 text-xl md:max-w-xl mx-auto mt-0'>
+            Sadhana is where consistency paves the way out of depression. Join
             like-minded people in challenges that empower you to explore your
             boundaries.
           </p>
@@ -44,7 +44,7 @@ const LandingPage = () => {
                     class='bg-red-300 hover:bg-pink-400 cursor-pointer
     md:w-8 md:h-8 h-4 w-4 border-3 border-rose-500 rounded-lg checked:bg-rose-600'
                   />
-                  <label for={`checkbox-${i}`} class='ml-3'>
+                  <label for={`checkbox-${i}`} className='ml-3'>
                     {x}
                   </label>
                 </div>

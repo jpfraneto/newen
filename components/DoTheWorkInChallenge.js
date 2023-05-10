@@ -114,7 +114,7 @@ const DoTheWorkInChallenge = ({
       <div className='flex flex-row justify-center'>
         {' '}
         <div
-          className={`hover:text-black border px-4 py-2 text-center cursor-pointer`}
+          className={`hover:text-black  px-4 py-2 text-center cursor-pointer`}
         >
           {savingSessionLoading ? (
             <span className='flex justify-center w-8 items-center mx-auto'>
@@ -137,7 +137,7 @@ const DoTheWorkInChallenge = ({
             </>
           )}
         </div>
-        <div className='border px-4 py-2 text-black text-center w-48'>
+        <div className=' px-4 py-2 text-black text-center w-48'>
           {completedToday ? (
             <span className='text-green-700 flex justify-center  items-center mx-auto'>
               <GoVerified

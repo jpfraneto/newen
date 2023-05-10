@@ -13,6 +13,7 @@ import {
   BsLink45Deg,
 } from 'react-icons/bs';
 import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
+import Button from './Button';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
@@ -165,7 +166,7 @@ const NewSadhana = () => {
 
   if (step == 88)
     return (
-      <div className=' p-4 rounded-lg w-full max-w-md text-black'>
+      <div className='px-8 md:px-4 rounded-lg w-full max-w-md text-black'>
         <div>
           <p className='text-black text-xl mb-2'>
             You just commited to something. This is the starting point of your
@@ -213,7 +214,7 @@ const NewSadhana = () => {
 
   return (
     <div className='relative font-itim  z-10 text-white mx-auto max-w-3xl'>
-      <div className='flex md:pt-10 flex-col items-start text-theorange  '>
+      <div className='px-2 flex md:pt-10 flex-col items-start text-theorange  '>
         <p className='text-lg md:text-2xl font-bold mb-0'>
           An epic journey awaits.
         </p>
@@ -221,7 +222,7 @@ const NewSadhana = () => {
           I&apos;m Anky, and I will walk by your side.
         </p>
 
-        <form onSubmit={handleSubmit} className='rounded px-8 pt-48 pb-8 mb-4'>
+        <form onSubmit={handleSubmit} className='rounded px-8 pt-80 pb-8 mb-4'>
           <h2 className=' text-theorange  text-2xl  mb-6 '>
             {ankyMessages[step - 1]}
           </h2>
@@ -336,15 +337,7 @@ const NewSadhana = () => {
                 Previous
               </button>
             )}
-            {step < 7 && (
-              <button
-                type='button'
-                onClick={handleNext}
-                className='font-itim bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-              >
-                Next
-              </button>
-            )}
+            {step < 7 && <Button buttonAction={handleNext} buttonText='Next' />}
             {step === 7 && (
               <button
                 type='submit'

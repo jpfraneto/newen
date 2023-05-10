@@ -28,7 +28,7 @@ const ActiveSadhanasDisplay = ({
   const rows = sadhanas.map((sadhana, index) => (
     <tr
       key={index}
-      className={`bg-black ${
+      className={`bg-thegreener ${
         index % 2 === 0 ? ' bg-opacity-30	' : 'bg-opacity-60'
       }`}
     >
@@ -46,6 +46,7 @@ const ActiveSadhanasDisplay = ({
               <span className='text-green-700 flex justify-center w-8 items-center mx-auto'>
                 <GoVerified
                   size={50}
+                  className='text-green-700'
                   onClick={() => alert('You already did this one today.')}
                 />
               </span>
@@ -65,6 +66,7 @@ const ActiveSadhanasDisplay = ({
           <span className='text-green-700 flex justify-center w-8 items-center mx-auto'>
             <GoVerified
               size={50}
+              className='text-green-700'
               onClick={() => alert('You already did this one today.')}
             />
           </span>

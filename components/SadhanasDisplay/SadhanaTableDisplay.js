@@ -4,9 +4,9 @@ const SadhanaTableDisplay = ({ columns, rows }) => {
   return (
     <table className='table-auto w-full my-2 text-white shadow-md rounded-md'>
       <thead>
-        <tr className='bg-black text-white'>
+        <tr className='bg-thepurple text-white'>
           {columns.map((column, index) => (
-            <th key={index} className='px-4 py-2 text-white'>
+            <th key={index} className='px-4 py-2 text-white text-center'>
               {column}
             </th>
           ))}

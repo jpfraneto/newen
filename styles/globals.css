@@ -30,7 +30,6 @@ body {
 
 html,
 body {
-  color: white;
   background-color: linear-gradient(
     to right,
     rgb(15, 23, 42),
@@ -60,7 +59,7 @@ button:active {
   box-sizing: border-box;
 }
 
-.navbar {
+nav {
   z-index: 1000;
 }
 
@@ -68,7 +67,7 @@ button:active {
   font-family: 'Braah One', sans-serif;
   color: #e6007e;
   -webkit-text-stroke-width: 0.5px;
-  -webkit-text-stroke-color: #009fe3;
+  -webkit-text-stroke-color: #eb251e;
 }
 
 .landingtext {

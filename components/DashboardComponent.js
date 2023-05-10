@@ -18,10 +18,13 @@ import {
   checkSessionsPercentage,
 } from '@component/lib/functions';
 import Spinner from './Spinner';
+import Button from './Button';
+import { useRouter } from 'next/router';
 
 const fetcher = url => fetch(url).then(res => res.json());
 
 const DashboardComponent = ({ session }) => {
+  const router = useRouter();
   const [userSadhanas, setUserSadhanas] = useState(null);
   const [completed, setCompleted] = useState([]);
   const [selectedSadhanaIndex, setSelectedSadhanaIndex] = useState(null);
@@ -229,8 +232,7 @@ const DashboardComponent = ({ session }) => {
   };
 
   const closeTimerModal = () => {
-    if (confirm('Are you sure that you want to finish the session like this?'))
-      setTimerModalOpen(false);
+    setTimerModalOpen(false);
   };
 
   const getCurrentDay = startDate => {
@@ -267,36 +269,33 @@ const DashboardComponent = ({ session }) => {
     <div className='max-w md:container mx-auto md:px-4'>
       <div className='flex justify-center space-x-1 md:space-x-4 my-4'>
         <button
-          className={`bg-black text-white px-4 py-2 hover:opacity-70 rounded-md ${
+          className={`${
             sadhanaFilter === 'pending' ? 'opacity-100' : 'opacity-50'
-          }`}
+          } font-itim bg-thegreener border border-white text-xl hover:opacity-60 hover:bg-blue-700 text-black py-1 px-2 rounded focus:outline-none focus:shadow-outline`}
           onClick={() => setSadhanaFilter('pending')}
         >
           Pending
         </button>
         <button
-          className={`bg-black text-white px-4 py-2 hover:opacity-70 rounded-md ${
+          className={`${
             sadhanaFilter === 'active' ? 'opacity-100' : 'opacity-50'
-          }`}
+          } font-itim bg-thegreener border border-white hover:opacity-60 text-xl hover:bg-blue-700 text-black py-1 px-2 rounded focus:outline-none focus:shadow-outline`}
           onClick={() => setSadhanaFilter('active')}
         >
           Active
         </button>
         <button
-          className={`bg-black text-white px-4 py-2 rounded-md hover:opacity-70 ${
+          className={`${
             sadhanaFilter === 'completed' ? 'opacity-100' : 'opacity-50'
-          }`}
+          } font-itim bg-thegreener border border-white text-xl hover:opacity-60 text-black py-1 px-2 rounded focus:outline-none focus:shadow-outline`}
           onClick={() => setSadhanaFilter('completed')}
         >
           Completed
         </button>
-        <Link passHref href='/s/new'>
-          <button
-            className={`bg-gray-500 border-black border-2 opacity-70 hover:bg-gray-900 text-white px-4 py-2 rounded-md border-2 bg-gradient-to-r from-purple-500 via-pink-500 hover:opacity-80 to-red-500 hover:opacity-70`}
-          >
-            Add New
-          </button>
-        </Link>
+        <Button
+          buttonAction={() => router.push('/s/new')}
+          buttonText='Add New'
+        />
       </div>
 
       {userSadhanas?.length > 0 ? (
@@ -327,12 +326,11 @@ const DashboardComponent = ({ session }) => {
       ) : (
         <>
           <p>You don&apos;t have any challenges associated yet.</p>
-          <Link
-            href='/s/new'
-            className='border-black border-2 inline-block bg-gradient-to-r from-green-500 via-brown-500 to-green-500 text-black font-bold text-2xl px-6 py-3  mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-          >
-            Add new challenge
-          </Link>
+
+          <Button
+            buttonAction={() => router.push('/s/new')}
+            buttonText='Add new challenge'
+          />
         </>
       )}
       <TimerModal isOpen={timerModalOpen} onClose={closeTimerModal}>
@@ -346,13 +344,11 @@ const DashboardComponent = ({ session }) => {
           />
         )}
       </TimerModal>
-      <div className='flex flex-col items-center'>
-        <Link
-          className='border-black border-2 mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-          href='/'
-        >
-          Back to Landing
-        </Link>
+      <div className='flex flex-col mt-10 items-center'>
+        <Button
+          buttonAction={() => router.push('/w')}
+          buttonText='Back to landing'
+        />
       </div>
     </div>
   );

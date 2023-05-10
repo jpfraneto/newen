@@ -1,34 +1,33 @@
-// Navbar.js
+// NewNav.js
 import React from 'react';
 import Link from 'next/link';
 import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import Button from './Button';
 
 const NewNav = () => {
   const { data: session, loading } = useSession();
+  const router = useRouter();
   return (
-    <nav className='font-itim md:text-xl bg-thegreen h-16 flex items-center justify-between px-2 md:px-8'>
+    <nav className='z-50 hover:cursor-pointer font-itim md:text-xl bg-thegreen h-16 flex items-center justify-between px-2 md:px-8'>
       <div className='text-2xl text-black pl-4 font-russo'>sadhana</div>
-      <div className='flex items-center space-x-2 md:space-x-8'>
-        <Link href='/s' className='text-black'>
-          All Challenges
+      <div className='flex items-center space-x-2 md:space-x-8 md:pr-6'>
+        <Link className='text-black hover:opacity-60' href='/s'>
+          All Challenges {/* change here */}
         </Link>
-        <Link href='/about' className='text-black'>
+        <Link
+          className='hidden hover:opacity-60 md:block text-black'
+          href='/about'
+        >
           About
         </Link>
         {session ? (
-          <Link
-            href='/dashboard'
-            className='bg-theorange text-black border border-black md:w-[126px] px-2 py-1 md:px-4 md:py-2 rounded-xl'
-          >
-            Dashboard
-          </Link>
+          <Button
+            buttonText='Dashboard'
+            buttonAction={() => router.push('/dashboard')}
+          />
         ) : (
-          <button
-            onClick={signIn}
-            className='bg-theorange text-black border border-black md:w-[126px] px-2 py-1 md:px-4 md:py-2 rounded-xl'
-          >
-            Sign In
-          </button>
+          <Button buttonAction={signIn} buttonText='Sign In' />
         )}
       </div>
     </nav>

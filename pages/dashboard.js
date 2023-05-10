@@ -9,6 +9,7 @@ import Layout from '@component/components/Layout';
 import Link from 'next/link';
 import BiggerLayout from '@component/components/BiggerLayout';
 import DashboardComponent from '@component/components/DashboardComponent';
+import Button from '@component/components/Button';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
@@ -59,7 +60,7 @@ const Dashboard = () => {
         <div className='md:px-2 max-w-full md:w-8/12 m-auto py-3 md:py-4'>
           <div className='text-white flex flex-col justify-items-center items-center py-4'>
             <h4
-              className={`${righteous.className} text-4xl text-center md:text-5xl w-full font-bold`}
+              className={`${righteous.className} text-4xl text-center text-thegreen md:text-5xl w-full font-bold`}
             >
               {formatDate(new Date().getTime())} |{' '}
               {session.user.username
@@ -73,7 +74,10 @@ const Dashboard = () => {
               className='rounded-full mt-2 border-2 border-black'
               alt='Profile picture'
             />
-            <Link href='/settings' className='hover:text-yellow-200'>
+            <Link
+              href='/settings'
+              className='text-theorange hover:text-yellow-200'
+            >
               Edit Profile
             </Link>
           </div>
@@ -83,12 +87,7 @@ const Dashboard = () => {
         <>
           {' '}
           <p>You are not logged in 😞</p>
-          <button
-            className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mt-2'
-            onClick={signIn}
-          >
-            Login
-          </button>
+          <Button buttonAction={signIn} buttonText={Login} />
         </>
       )}
     </BiggerLayout>

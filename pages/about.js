@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function About() {
   return (
     <Layout>
-      <div className='text-left'>
+      <div className='text-left w-full max-w-2xl mx-auto mt-8'>
         <h1 className='text-center'>About Sadhana</h1>
         <p>
           Welcome to the story of Sadhana, a tale of transformation. This
