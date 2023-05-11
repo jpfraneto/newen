@@ -16,12 +16,16 @@ const LandingPage = () => {
     'Other',
   ];
   return (
-    <div className='min-h-[calc(vh-67px)]'>
+    <div className='min-h-fit flex flex-col'>
       <div
-        className='text-thewhite h-[calc(vh-10px)] bg-theblack bg-opacity-50 bg-cover bg-center flex flex-col items-center'
-        style={{ backgroundImage: 'url(/images/ankybg.png)' }}
+        className='text-thewhite flex-grow bg-theblack bg-opacity-50 bg-cover bg-center flex flex-col items-center '
+        style={{
+          backgroundImage: 'url(/images/ankybg.png)',
+          boxSizing: 'border-box',
+          height: 'calc(100vh - 55px)',
+        }}
       >
-        <div className='text-center pt-16 mb-32'>
+        <div className='text-center pt-16 mb-24'>
           <h1 className='text-6xl md:text-7xl font-bold space-x-4 mb-0'>
             <span className={`${luckiestguy.className}`}>DISCIPLINE IS</span>
             <span className={`${londrinashadow.className} ml-2`}>FREEDOM.</span>
@@ -32,10 +36,10 @@ const LandingPage = () => {
             boundaries.
           </p>
         </div>
-        <div className='mt-24 text-center '>
-          <p className=' text-xl mb-0'>Which will be your next challenge?</p>
+        <div className='mt-32 text-center '>
+          <p className=' text-xl'>Which will be your next challenge?</p>
 
-          <form className='flex flex-wrap text-sm md:text-xl mb-8 max-w-4xl justify-center space-x-8'>
+          <form className='flex flex-wrap text-sm md:text-xl mb-4 max-w-4xl justify-center space-x-8'>
             {challenges.map((x, i) => {
               return (
                 <div key={i} className='flex items-center mt-2'>

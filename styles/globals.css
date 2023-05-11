@@ -56,6 +56,7 @@ p {
 
 nav {
   z-index: 1000;
+  height: 55px;
 }
 
 h1 {

@@ -324,11 +324,6 @@ const DashboardComponent = ({ session }) => {
       ) : (
         <>
           <p>You don&apos;t have any challenges associated yet.</p>
-
-          <Button
-            buttonAction={() => router.push('/s/new')}
-            buttonText='Add new challenge'
-          />
         </>
       )}
       <TimerModal isOpen={timerModalOpen} onClose={closeTimerModal}>
