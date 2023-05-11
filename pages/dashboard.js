@@ -52,7 +52,7 @@ const Dashboard = () => {
               {formatDate(new Date().getTime())} |{' '}
               {session.user.username
                 ? `@${session.user.username}`
-                : session.user.name || session.user.email}
+                : session.user.name || session.user.email}{' '}
             </h4>
             <Image
               width={111}
@@ -61,9 +61,17 @@ const Dashboard = () => {
               className='rounded-full mt-2 border-2 border-black'
               alt='Profile picture'
             />
-            <Link href='/settings' className='text-theorange hover:opacity-80'>
-              Edit Profile
-            </Link>
+            <div className='flex space-x-2 mt-2'>
+              <Button
+                buttonAction={() => router.push('/settings')}
+                buttonText='Edit Profile'
+              />
+              <Button
+                buttonAction={signOut}
+                buttonText='Logout'
+                buttonColor='bg-thered'
+              />
+            </div>
           </div>
           <DashboardComponent session={session} />
         </div>

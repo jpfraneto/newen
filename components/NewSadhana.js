@@ -18,6 +18,7 @@ import Button from './Button';
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
 const NewSadhana = () => {
+  const router = useRouter();
   const { data: session, status } = useSession();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -146,21 +147,17 @@ const NewSadhana = () => {
   if (!session)
     return (
       <div className='text-black text-center'>
-        <h1 className='text-4xl mb-4'>
+        <h1 className='text-4xl mb-4 mt-80 text-thewhite'>
           You need to log in to create a challenge
         </h1>
-        <button
-          className='inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-          onClick={signIn}
-        >
-          Log In
-        </button>
-        <Link
-          className='inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-2xl px-6 py-3 mt-8 ml-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-          href='/'
-        >
-          Go back
-        </Link>
+        <div className='flex space-x-2 justify-center'>
+          <Button
+            buttonAction={signIn}
+            buttonText='Log In'
+            buttonColor='bg-thepurple'
+          />
+          <Button buttonText='Go back' buttonAction={() => router.push('/')} />
+        </div>
       </div>
     );
 

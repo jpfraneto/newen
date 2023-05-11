@@ -4,11 +4,14 @@ import Link from 'next/link';
 import { Londrina_Shadow, Luckiest_Guy } from 'next/font/google';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@component/pages/api/auth/[...nextauth].js';
+import Button from '@component/components/Button';
+import { useRouter } from 'next/router';
 
 const luckiestguy = Luckiest_Guy({ weight: '400', subsets: ['latin'] });
 const londrinashadow = Londrina_Shadow({ weight: '400', subsets: ['latin'] });
 
 const LandingPage = () => {
+  const router = useRouter();
   const challenges = [
     '21 days of going vegan',
     '100 days of programming',
@@ -24,7 +27,7 @@ const LandingPage = () => {
         style={{
           backgroundImage: 'url(/images/ankybg.png)',
           boxSizing: 'border-box',
-          height: 'calc(100vh - 55px)',
+          height: 'calc(100vh - 55px - 30px)',
         }}
       >
         <div className='text-center pt-16 mb-24'>
@@ -41,7 +44,7 @@ const LandingPage = () => {
         <div className='mt-32 text-center '>
           <p className=' text-xl'>Which will be your next challenge?</p>
 
-          <form className='flex flex-wrap text-sm md:text-xl mb-4 max-w-4xl justify-center space-x-8'>
+          {/* <form className='flex flex-wrap text-sm md:text-xl mb-4 max-w-4xl justify-center space-x-8'>
             {challenges.map((x, i) => {
               return (
                 <div key={i} className='flex items-center mt-2'>
@@ -58,15 +61,14 @@ const LandingPage = () => {
                 </div>
               );
             })}
-          </form>
+          </form> */}
           <div className=''>
             {' '}
-            <Link
-              href='/s/new'
-              className=' text-2xl text-black bg-theorange px-4 py-2 rounded hover:opacity-90'
-            >
-              Get Started
-            </Link>
+            <Button
+              buttonAction={() => router.push('/s/new')}
+              buttonText='Get Started'
+              buttonColor='bg-thepurple'
+            />
           </div>
         </div>
       </div>

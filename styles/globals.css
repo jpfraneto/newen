@@ -54,6 +54,10 @@ p {
   box-sizing: border-box;
 }
 
+.coolfooter {
+  height: 30px;
+}
+
 nav {
   z-index: 1000;
   height: 55px;
