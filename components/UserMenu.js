@@ -23,13 +23,13 @@ const UserMenu = () => {
   if (status === 'loading')
     return (
       <div
-        className={`${russo.className} block text-gray-700 text-sm font-bold text-white fixed top-0 left-0 w-full bg-gradient-to-r from-black via-black to-black h-16 py-2 px-4 shadow-md hover:shadow-lg transition-all duration-200 ease-in-out border-white z-50`}
+        className={`${russo.className} block text-gray-700 text-sm font-bold text-white fixed top-0 left-0 w-full bg-gradient-to-r from-black via-black to-black h-16 py-2 px-4 shadow-md hover:shadow-lg transition-all duration-200 ease-in-out border-white z-40`}
       ></div>
     );
 
   return (
     <div
-      className={`${russo.className} block text-gray-700 text-sm font-bold text-white fixed top-0 left-0 w-full bg-gradient-to-r from-black via-black to-black h-16 py-2 px-4 shadow-md hover:shadow-lg transition-all duration-200 ease-in-out border-white z-50`}
+      className={`${russo.className} block text-gray-700 text-sm font-bold text-white fixed top-0 left-0 w-full bg-gradient-to-r from-black via-black to-black h-16 py-2 px-4 shadow-md hover:shadow-lg transition-all duration-200 ease-in-out border-white 50`}
     >
       <div className='container mx-auto'>
         {!session ? (

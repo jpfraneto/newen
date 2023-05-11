@@ -327,22 +327,26 @@ const NewSadhana = () => {
                 : 'Anyone can join.'}
             </div>
           )}
-          <div className='flex justify-center space-x-2'>
+          <div className='flex justify-center space-x-2 mt-2'>
             {step > 1 && !success && (
-              <button
-                type='button'
-                onClick={handlePrev}
-                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-              >
-                Previous
-              </button>
+              <Button
+                buttonAction={handlePrev}
+                buttonColor='black'
+                buttonText='Previous'
+              />
             )}
-            {step < 7 && <Button buttonAction={handleNext} buttonText='Next' />}
+            {step < 7 && (
+              <Button
+                buttonColor='black'
+                buttonAction={handleNext}
+                buttonText='Next'
+              />
+            )}
             {step === 7 && (
               <button
                 type='submit'
                 onClick={handleSubmit}
-                className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                className='bg-green-500 border-thegreen border-2 text-xl hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:opacity-70'
               >
                 {loading ? 'Adding...' : 'Submit'}
               </button>

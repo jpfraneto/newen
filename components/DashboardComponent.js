@@ -9,8 +9,6 @@ import { AiOutlinePlus, AiOutlineLoading3Quarters } from 'react-icons/ai';
 import PendingSadhanasDisplay from './SadhanasDisplay/PendingSadhanasDisplay';
 import ActiveSadhanasDisplay from './SadhanasDisplay/ActiveSadhanasDisplay';
 import CompletedSadhanasDisplay from './SadhanasDisplay/CompletedSadhanasDisplay';
-import { RiTimerFill } from 'react-icons/ri';
-import { GoVerified } from 'react-icons/go';
 import {
   didUserCompleteWork,
   calculateDayIndex,

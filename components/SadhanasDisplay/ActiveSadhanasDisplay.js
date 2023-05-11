@@ -3,7 +3,6 @@ import { formatDistanceToNow } from 'date-fns';
 import SadhanaTableDisplay from './SadhanaTableDisplay';
 import Spinner from '../Spinner';
 import Link from 'next/link';
-import { AiOutlinePlus, AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { RiTimerFill } from 'react-icons/ri';
 import { GoVerified } from 'react-icons/go';
 
