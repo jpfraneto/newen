@@ -16,9 +16,9 @@ const LandingPage = () => {
     'Other',
   ];
   return (
-    <div className='min-h-fit'>
+    <div className='min-h-[calc(vh-67px)]'>
       <div
-        className='text-white h-fit bg-black bg-opacity-20 bg-cover bg-center flex flex-col items-center'
+        className='text-thewhite h-[calc(vh-10px)] bg-theblack bg-opacity-50 bg-cover bg-center flex flex-col items-center'
         style={{ backgroundImage: 'url(/images/ankybg.png)' }}
       >
         <div className='text-center pt-16 mb-32'>
@@ -32,7 +32,7 @@ const LandingPage = () => {
             boundaries.
           </p>
         </div>
-        <div className='mt-32 text-center '>
+        <div className='mt-24 text-center '>
           <p className=' text-xl mb-0'>Which will be your next challenge?</p>
 
           <form className='flex flex-wrap text-sm md:text-xl mb-8 max-w-4xl justify-center space-x-8'>
@@ -53,7 +53,7 @@ const LandingPage = () => {
               );
             })}
           </form>
-          <div className='mt-4'>
+          <div className=''>
             {' '}
             <Link
               href='/s/new'

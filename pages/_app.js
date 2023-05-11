@@ -15,7 +15,7 @@ export default function App({ Component, pageProps }) {
       <SessionProvider session={pageProps.session}>
         <NewNav />
         <div className='flex flex-col'>
-          <div className='flex-grow'>
+          <div className=''>
             <Component {...pageProps} />
           </div>
         </div>

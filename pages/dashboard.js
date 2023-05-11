@@ -25,20 +25,7 @@ const Dashboard = () => {
           <p className={`${righteous.className} text-white`}>
             Sorry, but are not allowed to be here.
           </p>
-          <button
-            className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mt-2'
-            onClick={signIn}
-          >
-            Login
-          </button>
-          {/* <button
-            className='mx-3 inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold  py-2 px-4 rounded rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-            onClick={() => {
-              router.push('/guest-demo');
-            }}
-          >
-            Guest Demo
-          </button> */}
+          <Button buttonAction={signIn} buttonText='Login' />
         </div>
       </Layout>
     );
