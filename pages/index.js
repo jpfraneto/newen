@@ -41,7 +41,7 @@ const LandingPage = () => {
             boundaries.
           </p>
         </div>
-        <div className='mt-32 text-center '>
+        <div className='mt-28 text-center '>
           <p className=' text-xl'>Which will be your next challenge?</p>
 
           {/* <form className='flex flex-wrap text-sm md:text-xl mb-4 max-w-4xl justify-center space-x-8'>

@@ -30,19 +30,20 @@ function PlayContent() {
             "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/images/ankywallpaper.png')",
         }}
       >
-        <div className='h-full flex-col flex items-center pt-16'>
+        <div className='h-full max-w-full  overflow-hidden flex-col flex items-center pt-16 px-4'>
           <h1 className='text-6xl md:text-7xl font-bold text-thewhite space-x-4 mb-0'>
             <span className={`${luckiestguy.className}`}>SADHANA</span>
             <span className={`${londrinashadow.className} ml-2`}>TV</span>
           </h1>
-          <div className='player-wrapper bg-theblack my-4 rounded-xl overflow-hidden'>
+          <div className='mt-8 wrapper bg-theblack rounded-xl'>
             <ReactPlayer
-              className='react-player aspect-video'
+              className='player'
               url={`https://www.youtube.com/watch?v=${videoIds[currentVideo]}`}
-              fill
-              controls={true}
-              playing={true}
+              controls
+              playing
               onEnded={handleVideoEnd}
+              width='100%'
+              height='100%'
             />
           </div>
         </div>
