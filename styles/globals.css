@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -46,7 +47,7 @@ button:active {
 }
 
 p {
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 
 * {
@@ -55,6 +56,10 @@ p {
 
 nav {
   z-index: 1000;
+}
+
+h1 {
+  font-family: 'Russo One', sans-serif;
 }
 
 .heroanky {
@@ -180,7 +185,7 @@ footer {
 }
 
 .layoutstyle h1 {
-  font-family: 'Braah One', sans-serif;
+  font-family: 'Russo One', sans-serif;
 }
 
 .spacing-animation {

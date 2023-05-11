@@ -60,7 +60,7 @@ const Dashboard = () => {
         <div className='md:px-2 max-w-full md:w-8/12 m-auto py-3 md:py-4'>
           <div className='text-black flex flex-col justify-items-center items-center py-4'>
             <h4
-              className={`${righteous.className} text-4xl text-center text-thegreen md:text-5xl w-full font-bold`}
+              className={`${righteous.className} text-4xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)] text-center text-thegreen md:text-5xl w-full font-bold`}
             >
               {formatDate(new Date().getTime())} |{' '}
               {session.user.username
@@ -74,10 +74,7 @@ const Dashboard = () => {
               className='rounded-full mt-2 border-2 border-black'
               alt='Profile picture'
             />
-            <Link
-              href='/settings'
-              className='text-theorange hover:text-yellow-200'
-            >
+            <Link href='/settings' className='text-theorange hover:opacity-80'>
               Edit Profile
             </Link>
           </div>

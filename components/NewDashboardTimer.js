@@ -146,12 +146,14 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
             <div className=''>
               <label
                 htmlFor='title'
-                className={`${russo.className} blocktext-gray-700 mb-4 text-3xl text-black`}
+                className={`${russo.className} blocktext-gray-700 mb-4 text-3xl `}
               >
                 {sadhana.title}
               </label>
             </div>
-            <h4 className={`${russo.className} text-6xl font-bold mb-2`}>
+            <h4
+              className={`${russo.className} text-thegreen  drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)] text-6xl font-bold mb-2`}
+            >
               {formatTime(timeRemaining)}
             </h4>
           </>
@@ -161,7 +163,7 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
           {isRunning && !paused && !finished && (
             <button
               onClick={pauseTimer}
-              className='bg-red-500 hover:bg-red-600 text-black font-semibold border-black rounded-full my-auto mx-2'
+              className='bg-thedarkred hover:opacity-80 text-black font-semibold border-black rounded-full my-auto mx-2'
             >
               <BsPauseCircle size={50} />
             </button>
@@ -171,14 +173,14 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
               <button
                 onClick={startTimer}
                 type='button'
-                className='bg-green-500 hover:bg-green-600 text-black font-semibold border-black rounded-full my-auto mx-2'
+                className='bg-thedarkgreen hover:opacity-80 text-black font-semibold border-black rounded-full my-auto mx-2'
               >
                 <BsPlayCircle size={50} />
               </button>
               {started && (
                 <button
                   onClick={resetTimer}
-                  className='bg-yellow-500 hover:bg-yellow-600 text-black font-semibold border-black rounded-full my-auto mx-2'
+                  className='bg-theorange hover:opacity-80 text-black font-semibold border-black rounded-full my-auto mx-2'
                 >
                   <BsFillSkipBackwardCircleFill size={50} />
                 </button>

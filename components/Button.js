@@ -1,10 +1,15 @@
 import React from 'react';
 
-const Button = ({ buttonAction, buttonText, buttonColor = 'bg-theorange' }) => {
+const Button = ({
+  buttonAction,
+  buttonText,
+  buttonColor = 'bg-theorange',
+  buttonType = 'button',
+}) => {
   return (
     <button
       className={` ${buttonColor} border border-white text-xl hover:opacity-80 text-black font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline`}
-      type='button'
+      type={buttonType}
       onClick={buttonAction}
     >
       {buttonText}

@@ -5,12 +5,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import { getServerSession } from 'next-auth/next';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
+import Button from '@component/components/Button';
 import Image from 'next/image';
 import Link from 'next/link';
 import { authOptions } from '@component/pages/api/auth/[...nextauth].js';
 import Spinner from '@component/components/Spinner';
+import BiggerLayout from '@component/components/BiggerLayout';
+import { useRouter } from 'next/router';
 
 export default function Settings({ user }) {
+  const router = useRouter();
   const [updatingLoading, setUpdatingLoading] = useState(false);
   const [value, setValue] = useState(user.whatsapp);
   const [updatedMessage, setUpdatedMessage] = useState('Save Changes');
@@ -63,9 +67,9 @@ export default function Settings({ user }) {
   //   const handleDeleteAccount = () => {};
 
   return (
-    <div className='min-h-screen bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900  py-6 flex flex-col justify-center sm:py-12'>
-      <div className='relative py-3 sm:max-w-3xl sm:mx-auto'>
-        <div className='relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10'>
+    <BiggerLayout>
+      <div className='relative py-3 sm:max-w-xl sm:mx-auto'>
+        <div className='relative px-4 py-10 bg-white mx-8 md:mx-0 rounded-3xl sm:p-10'>
           <div className='max-w-3xl mx-auto'>
             <div className='text-center'>
               <h1 className='text-2xl font-semibold text-gray-900'>Settings</h1>
@@ -148,32 +152,30 @@ export default function Settings({ user }) {
                   Anky will send you daily reminders to this number.
                 </p>
               </div>
-
-              <button
-                type='submit'
-                className='w-full mt-4 flex justify-center rounded-xl  bg-indigo-500 text-gray-100 p-4  hover:bg-indigo-400 transition-all duration-300 ease-in-out flex items-center focus:outline-none'
-              >
-                {updatingLoading ? <Spinner /> : updatedMessage}
-              </button>
-              {updatedMessage === 'Updated Successfully!' && (
-                <Link
-                  href='/dashboard'
-                  className='w-full flex justify-center rounded-xl  bg-green-500 text-gray-100 p-4  hover:bg-green-400 transition-all duration-300 ease-in-out flex items-center focus:outline-none'
-                >
-                  Back to Dashboard
-                </Link>
-              )}
+              <div className='text-center flex space-x-2 justify-center'>
+                {updatedMessage === 'Updated Successfully!' ? (
+                  <Button
+                    buttonAction={() => {
+                      router.push('/dashboard');
+                    }}
+                    buttonType='button'
+                    buttonColor='bg-thegreener'
+                    buttonText='Back to Dashboard'
+                  />
+                ) : (
+                  <Button
+                    buttonAction={() => {}}
+                    buttonType='submit'
+                    buttonColor='bg-theorange'
+                    buttonText={updatingLoading ? <Spinner /> : updatedMessage}
+                  />
+                )}
+              </div>
             </form>
-            {/* <button
-              onClick={handleDeleteAccount}
-              className='w-full mt-4 flex justify-center bg-red-500 text-gray-100 p-4  hover:bg-red-400 transition-all duration-300 ease-in-out flex items-center focus:outline-none'
-            >
-              Delete Account
-            </button> */}
           </div>
         </div>
       </div>
-    </div>
+    </BiggerLayout>
   );
 }
 

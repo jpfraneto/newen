@@ -31,18 +31,18 @@ const ActiveSadhanasDisplay = ({
         index % 2 === 0 ? ' bg-opacity-30	' : 'bg-opacity-60'
       }`}
     >
-      <td className=' px-4 py-2 text-blue-400 text-center'>
+      <td className='px-4 py-2 text-blue-400 text-center'>
         <Link href={`/s/${sadhana.id}`}>{sadhana.title} </Link>
       </td>
       <td className={`hover:text-black  px-4 py-2 text-center cursor-pointer`}>
         {savingSessionLoading && submittingId === index ? (
-          <span className='flex justify-center w-8  items-center mx-auto'>
+          <span className='flex justify-center w-8 items-center mx-auto'>
             <Spinner />
           </span>
         ) : (
           <>
             {sadhana.didTheWork ? (
-              <span className='text-green-700 flex justify-center w-8 items-center mx-auto'>
+              <span className='text-thedarkgreen flex justify-center w-8 items-center mx-auto'>
                 <GoVerified
                   size={50}
                   onClick={() => alert('You already did this one today.')}
@@ -51,7 +51,7 @@ const ActiveSadhanasDisplay = ({
             ) : (
               <span
                 onClick={() => toggleCompletion(index, sadhana)}
-                className='text-red-600 flex justify-center w-8 items-center mx-auto'
+                className='text-thedarkred hover:opacity-70 flex justify-center w-8 items-center mx-auto'
               >
                 <GoVerified size={50} />
               </span>
@@ -61,10 +61,9 @@ const ActiveSadhanasDisplay = ({
       </td>
       <td className=' px-4 py-2 text-black text-center w-48'>
         {sadhana.didTheWork ? (
-          <span className='text-green-700 flex justify-center w-8 items-center mx-auto'>
+          <span className='text-thedarkgreen flex justify-center w-8 items-center mx-auto'>
             <GoVerified
               size={50}
-              className='text-green-700'
               onClick={() => alert('You already did this one today.')}
             />
           </span>
@@ -74,7 +73,7 @@ const ActiveSadhanasDisplay = ({
               <div>
                 <span
                   onClick={() => handleChooseThisSadhanaTimer(index, sadhana)}
-                  className='text-red-600 flex justify-center w-8 items-center mx-auto hover:cursor-pointer'
+                  className='text-thedarkred hover:opacity-70 flex justify-center w-8 items-center mx-auto hover:cursor-pointer'
                 >
                   <RiTimerFill size={50} />
                 </span>

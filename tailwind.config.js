@@ -1,9 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./pages/**/*.{html,js}', './components/**/*.{html,js}'],
-  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './pages/**/*.{html,js}',
+    './components/**/*.{html,js}',
+    './public/**/*.html',
+    './src/**/*.{js,jsx,ts,tsx,vue}',
+  ],
   plugins: [
     require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
     // ...
   ],
   theme: {
@@ -11,13 +16,12 @@ module.exports = {
       thegreen: '#00F0B5',
       thegreener: '#558B6E',
       thered: '#EB251E',
+      thedarkgreen: '#036F01',
+      thedarkred: '#D20000',
       theorange: '#FAA300',
       thepurple: '#966B9D',
-    },
-    textColor: {
-      primary: '#FFF',
-      white: '#FFF',
-      black: '#000',
+      theblack: '#000',
+      thewhite: '#FFF',
     },
     extend: {
       backgroundImage: {
