@@ -1,10 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    './pages/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}',
-    './app/**/*.{js,ts,jsx,tsx}',
-  ],
+  content: ['./pages/**/*.{html,js}', './components/**/*.{html,js}'],
   purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   plugins: [
     require('@tailwindcss/typography'),
@@ -17,6 +13,11 @@ module.exports = {
       thered: '#EB251E',
       theorange: '#FAA300',
       thepurple: '#966B9D',
+    },
+    textColor: {
+      primary: '#FFF',
+      white: '#FFF',
+      black: '#000',
     },
     extend: {
       backgroundImage: {

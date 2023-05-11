@@ -45,7 +45,6 @@ const ActiveSadhanasDisplay = ({
               <span className='text-green-700 flex justify-center w-8 items-center mx-auto'>
                 <GoVerified
                   size={50}
-                  className='text-green-700'
                   onClick={() => alert('You already did this one today.')}
                 />
               </span>

@@ -16,12 +16,12 @@ const LandingPage = () => {
     'Other',
   ];
   return (
-    <div className='min-h-[calc(100vh)]'>
+    <div className='min-h-fit'>
       <div
-        className='text-white h-screen bg-black bg-opacity-20 bg-cover bg-center flex flex-col items-center  space-y-8'
+        className='text-white h-fit bg-black bg-opacity-20 bg-cover bg-center flex flex-col items-center'
         style={{ backgroundImage: 'url(/images/ankybg.png)' }}
       >
-        <div className='text-center pt-16 mb-48'>
+        <div className='text-center pt-16 mb-32'>
           <h1 className='text-6xl md:text-7xl font-bold space-x-4 mb-0'>
             <span className={`${luckiestguy.className}`}>DISCIPLINE IS</span>
             <span className={`${londrinashadow.className} ml-2`}>FREEDOM.</span>
@@ -32,7 +32,7 @@ const LandingPage = () => {
             boundaries.
           </p>
         </div>
-        <div className='space-y-2 mt-40 text-center '>
+        <div className='mt-32 text-center '>
           <p className=' text-xl mb-0'>Which will be your next challenge?</p>
 
           <form className='flex flex-wrap text-sm md:text-xl mb-8 max-w-4xl justify-center space-x-8'>
@@ -53,7 +53,7 @@ const LandingPage = () => {
               );
             })}
           </form>
-          <div className=''>
+          <div className='mt-4'>
             {' '}
             <Link
               href='/s/new'

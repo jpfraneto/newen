@@ -26,7 +26,6 @@ body {
     rgb(88, 28, 135),
     rgb(15, 23, 42)
   );
-  color: white;
   min-height: 100vh;
   font-family: 'Itim', cursive;
   position: relative;
@@ -44,6 +43,10 @@ button:active {
 
 .linkButton:active {
   transform: translateY(2px);
+}
+
+p {
+  margin-bottom: 10px;
 }
 
 * {

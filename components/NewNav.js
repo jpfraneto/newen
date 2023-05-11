@@ -14,7 +14,7 @@ const NewNav = () => {
   return (
     <nav className='z-50 hover:cursor-pointer font-itim md:text-xl bg-thegreen h-16 flex items-center justify-between px-2 md:px-8'>
       <div className='text-2xl text-black pl-4 font-russo'>
-        <Link className={`${russo.className}`} href='/'>
+        <Link className={`${russo.className} text-black`} href='/'>
           sadhana
         </Link>
       </div>

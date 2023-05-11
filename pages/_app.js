@@ -14,7 +14,7 @@ export default function App({ Component, pageProps }) {
       </Head>
       <SessionProvider session={pageProps.session}>
         <NewNav />
-        <div className='flex flex-col min-h-screen'>
+        <div className='flex flex-col'>
           <div className='flex-grow'>
             <Component {...pageProps} />
           </div>

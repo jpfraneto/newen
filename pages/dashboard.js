@@ -58,7 +58,7 @@ const Dashboard = () => {
     <BiggerLayout>
       {session ? (
         <div className='md:px-2 max-w-full md:w-8/12 m-auto py-3 md:py-4'>
-          <div className='text-white flex flex-col justify-items-center items-center py-4'>
+          <div className='text-black flex flex-col justify-items-center items-center py-4'>
             <h4
               className={`${righteous.className} text-4xl text-center text-thegreen md:text-5xl w-full font-bold`}
             >
