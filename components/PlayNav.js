@@ -8,7 +8,7 @@ import Button from './Button';
 
 const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
-const PlayNav = () => {
+const PlayNav = ({ setNftdisplay }) => {
   const { data: session, loading } = useSession();
   const router = useRouter();
   return (
@@ -20,8 +20,8 @@ const PlayNav = () => {
       </div>
       <div className='flex items-center space-x-2 md:space-x-8 md:pr-6'>
         <Button
-          buttonAction={() => alert('I will explain you soon')}
-          buttonText='wtf is this?'
+          buttonAction={() => setNftdisplay(prev => !prev)}
+          buttonText='Wtf is this?'
         />
       </div>
     </nav>
