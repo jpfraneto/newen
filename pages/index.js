@@ -2,6 +2,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { Londrina_Shadow, Luckiest_Guy } from 'next/font/google';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@component/pages/api/auth/[...nextauth].js';
 
 const luckiestguy = Luckiest_Guy({ weight: '400', subsets: ['latin'] });
 const londrinashadow = Londrina_Shadow({ weight: '400', subsets: ['latin'] });
@@ -73,3 +75,29 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+
+export async function getServerSideProps(context) {
+  try {
+    const session = await getServerSession(
+      context.req,
+      context.res,
+      authOptions
+    );
+
+    if (session) {
+      return {
+        redirect: {
+          destination: '/dashboard',
+          permanent: false,
+        },
+      };
+    }
+    return {
+      props: {
+        session,
+      },
+    };
+  } catch (error) {
+    console.error('Error in getServerSideProps:', error);
+  }
+}

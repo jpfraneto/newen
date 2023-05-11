@@ -14,7 +14,7 @@ const Image = props => {
 
 const SadhanaCard = ({ sadhana }) => {
   return (
-    <div className='w-fit grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 bg-blue-200 border-black border-2 text-black bg-opacity-60 rounded-lg p-2 justify-between'>
+    <div className='w-fit grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 bg-blue-200 border-black border-2 text-black bg-opacity-60 rounded-lg px-2 py-1 justify-between'>
       <div className='space-y-2 items-center justify-center md:justify-start'>
         <Link href={`/u/${sadhana.author.id}`} passHref>
           <Image

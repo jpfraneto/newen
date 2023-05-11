@@ -314,30 +314,26 @@ export default function SadhanaDetail({
                       {session ? (
                         <>
                           {buttonText === 'Joined!' ? (
-                            <button
-                              className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                            <Button
+                              buttonText={buttonText}
+                              buttonColor='bg-thedarkgreen'
+                              buttonAction={handleParticipate}
                               disabled
-                            >
-                              {buttonText}
-                            </button>
+                            />
                           ) : (
-                            <button
-                              className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                              onClick={handleParticipate}
-                            >
-                              {buttonText}
-                            </button>
+                            <Button
+                              buttonText={buttonText}
+                              buttonColor='bg-thepurple'
+                              buttonAction={handleParticipate}
+                            />
                           )}
                         </>
                       ) : (
                         <>
-                          {' '}
-                          <button
-                            className='mt-4 bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                            onClick={signIn}
-                          >
-                            If you log in, you can join.
-                          </button>
+                          <Button
+                            buttonText='If you log in, you can join.'
+                            buttonAction={signIn}
+                          />
                         </>
                       )}
                     </>
