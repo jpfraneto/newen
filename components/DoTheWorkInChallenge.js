@@ -123,13 +123,13 @@ const DoTheWorkInChallenge = ({
           ) : (
             <>
               {completedToday ? (
-                <span className='text-green-700 flex justify-center  items-center mx-auto'>
+                <span className='text-thedarkgreen flex justify-center  items-center mx-auto'>
                   <GoVerified size={100} />
                 </span>
               ) : (
                 <span
                   onClick={() => toggleCompletion(sadhanaForDisplay)}
-                  className='text-red-600 hover:text-red-700 flex justify-center items-center mx-auto'
+                  className='text-thedarkred hover:opacity-80 flex justify-center items-center mx-auto'
                 >
                   <GoVerified size={100} />
                 </span>
@@ -139,7 +139,7 @@ const DoTheWorkInChallenge = ({
         </div>
         <div className=' px-4 py-2 text-black text-center w-48'>
           {completedToday ? (
-            <span className='text-green-700 flex justify-center  items-center mx-auto'>
+            <span className='text-thedarkgreen flex justify-center  items-center mx-auto'>
               <GoVerified
                 size={100}
                 onClick={() => alert('You already did this one today.')}
@@ -152,7 +152,7 @@ const DoTheWorkInChallenge = ({
                   onClick={() =>
                     handleChooseThisSadhanaTimer(0, sadhanaForDisplay)
                   }
-                  className='text-red-600 flex justify-center items-center mx-auto hover:cursor-pointer'
+                  className='text-thedarkred flex justify-center items-center mx-auto hover:cursor-pointer'
                 >
                   <RiTimerFill size={100} />
                 </span>

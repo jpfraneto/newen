@@ -3,6 +3,7 @@ import { signIn, useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { Righteous, Russo_One } from 'next/font/google';
+import Button from '@component/components/Button';
 import DoTheWorkInChallenge from '@component/components/DoTheWorkInChallenge';
 import SadhanaUpdate from '@component/components/SadhanaUpdate';
 import FinishedSadhanaComponent from '@component/components/FinishedSadhanaComponent';
@@ -169,35 +170,26 @@ export default function SadhanaDetail({
     }
   }
 
-  const getDayFormatting = (index, todayIndex) => {
-    const str = '';
-    if (chosenDayIndex === index)
-      return 'bg-blue-500 text-white border-2 border-black shadow-lg';
-    if (todayIndex < index) {
-      return (
-        str + 'bg-transparent border-black border  hover:cursor-not-allowed'
-      );
-    } else if (todayIndex === index) {
-      return str + 'bg-green-600 border-black border-2 shadow-md';
-    } else {
-      return str + 'bg-green-300 hover:bg-green-500';
-    }
-  };
-
   const newGetDayFormatting = thisSession => {
-    const str = '';
-    if (!thisSession) return 'bg-red-600';
-    if (dayIndex < thisSession.sessionIndex)
-      return 'bg-transparent border-black border  hover:cursor-not-allowed';
-    else if (dayIndex === thisSession.sessionIndex) {
-      if (thisSession.id)
-        return 'bg-green-600 text-white border-2 border-black shadow-lg';
-      return 'bg-blue-500 text-white border-2 border-black shadow-lg';
+    let str = '';
+    console.log('the chosenDayINdex', chosenDayIndex, thisSession);
+    if (chosenDayIndex === thisSession.sessionIndex) {
+      str += 'opacity-70 border-2 border-theorange text-xl';
+    }
+    if (!thisSession) return str + ' bg-thedarkred';
+    if (dayIndex < thisSession.sessionIndex) {
+      return (
+        str + ' bg-transparent border-black border  hover:cursor-not-allowed'
+      );
+    } else if (dayIndex === thisSession.sessionIndex) {
+      if (thisSession.id) {
+        return str + ' bg-thegreen text-white border-2 border-black shadow-lg';
+      }
     } else if (dayIndex > thisSession.sessionIndex) {
       if (thisSession.id) {
-        return 'bg-green-600 ';
+        return str + ' bg-thedarkgreen';
       } else {
-        return 'bg-red-600';
+        return str + ' bg-thedarkred';
       }
     }
   };
@@ -250,7 +242,7 @@ export default function SadhanaDetail({
         <div className='container text-center'>
           {' '}
           <div
-            className={`${russo.className} md:bg-white shadow-md md:rounded px-2 md:px-8 pt-6 blocktext-gray-700 text-sm font-bold  text-black`}
+            className={`${russo.className} md:bg-white md:rounded px-2 md:px-8 pt-6 blocktext-gray-700 text-sm font-bold  text-black`}
           >
             <FinishedSadhanaComponent
               session={session}
@@ -272,20 +264,16 @@ export default function SadhanaDetail({
               )}
             </div>
 
-            <div className='flex flex-row items-center justify-center'>
+            <div className='flex flex-row mt-4 items-center  justify-center'>
               {' '}
-              <Link
-                href='/s'
-                className='m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-              >
-                Go to challenges
-              </Link>
-              <Link
-                href='/dashboard'
-                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline '
-              >
-                Back
-              </Link>
+              <Button
+                buttonAction={() => router.push('/s')}
+                buttonText='Go to Challenges'
+              />
+              <Button
+                buttonAction={() => router.push('/dashboard')}
+                buttonText='Back'
+              />
             </div>
           </div>
         </div>
@@ -297,7 +285,7 @@ export default function SadhanaDetail({
       <div className='container text-center'>
         {' '}
         <div
-          className={`${russo.className} md:bg-white shadow-md md:rounded px-2 md:px-8 pt-6 blocktext-gray-700 text-sm font-bold  text-black`}
+          className={`${russo.className} md:bg-white md:rounded px-2 md:px-8 pt-6 blocktext-gray-700 text-sm font-bold  text-black`}
         >
           <HeaderComponent
             session={session}
@@ -371,7 +359,7 @@ export default function SadhanaDetail({
                                   key={i}
                                   className={` w-8 h-8 m-1 flex items-center justify-center text-black ${newGetDayFormatting(
                                     thisSession
-                                  )}  rounded-full font-bold text cursor-pointer `}
+                                  )}  rounded-full font-bold text cursor-pointer hover:opacity-80 `}
                                   onClick={() => {
                                     if (i < dayIndex)
                                       return fetchSadhanaDayInfo(sadhana.id, i);
@@ -477,20 +465,15 @@ export default function SadhanaDetail({
             </div>
           )}
 
-          <div className='flex flex-row items-center justify-center'>
-            {' '}
-            <Link
-              href='/s'
-              className='m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-            >
-              Go to challenges
-            </Link>
-            <Link
-              href='/dashboard'
-              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline '
-            >
-              Back
-            </Link>
+          <div className='flex flex-row mt-4 space-x-2 items-center justify-center'>
+            <Button
+              buttonAction={() => router.push('/')}
+              buttonText='Go to Challenges'
+            />
+            <Button
+              buttonAction={() => router.push('/dashboard')}
+              buttonText='Back'
+            />
           </div>
         </div>
       </div>
@@ -727,12 +710,11 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
         )}
       </div>
       {session && session.user.id === sadhana.authorId && (
-        <button
-          className='bg-red-500 text-white font-bold py-2 px-4 rounded'
-          onClick={() => deleteSadhana(sadhana.id)}
-        >
-          Delete Challenge
-        </button>
+        <Button
+          buttonAction={() => deleteSadhana(sadhana.id)}
+          buttonText='Delete Challenge'
+          buttonColor='bg-thedarkred'
+        />
       )}
       <p className='italic my-2 text-white md:text-black'>{sadhana.content}</p>
     </>
