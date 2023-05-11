@@ -54,10 +54,14 @@ p {
   box-sizing: border-box;
 }
 
+.playcontainer {
+  height: calc(100vh - 55px - 30px);
+}
+
 .wrapper {
   position: relative;
-  height: 175px;
-  width: 350px;
+  height: 300px;
+  width: 600px;
   margin: 0 auto;
 }
 
@@ -226,5 +230,10 @@ footer {
   }
   .mainContainer h4 {
     font-size: 2rem;
+  }
+
+  .wrapper {
+    height: 175px;
+    width: 350px;
   }
 }

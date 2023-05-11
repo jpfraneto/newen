@@ -24,7 +24,7 @@ function PlayContent() {
     <>
       <PlayNav />{' '}
       <div
-        className='h-screen bg-cover bg-center bg-no-repeat'
+        className='playcontainer bg-cover bg-center bg-no-repeat'
         style={{
           backgroundImage:
             "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/images/ankywallpaper.png')",

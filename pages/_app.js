@@ -51,7 +51,7 @@ function DeepWorkContent({ Component, pageProps }) {
   return (
     <>
       <NewNav />
-      <div className='flex flex-col pb-10'>
+      <div className='flex flex-col'>
         <div className=''>
           <Component {...pageProps} />
         </div>
