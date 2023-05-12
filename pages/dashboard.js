@@ -69,7 +69,7 @@ const Dashboard = () => {
               <Button
                 buttonAction={signOut}
                 buttonText='Logout'
-                buttonColor='bg-thered'
+                buttonColor='bg-thepurple'
               />
             </div>
           </div>

@@ -21,12 +21,6 @@
 
 html,
 body {
-  background-color: linear-gradient(
-    to right,
-    rgb(15, 23, 42),
-    rgb(88, 28, 135),
-    rgb(15, 23, 42)
-  );
   min-height: 100vh;
   font-family: 'Itim', cursive;
   position: relative;

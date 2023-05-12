@@ -62,12 +62,17 @@ const LandingPage = () => {
               );
             })}
           </form> */}
-          <div className=''>
+          <div className='flex space-x-2'>
             {' '}
             <Button
               buttonAction={() => router.push('/s/new')}
-              buttonText='Get Started'
+              buttonText='Add new'
               buttonColor='bg-thepurple'
+            />
+            <Button
+              buttonAction={() => router.push('/s')}
+              buttonText='Explore Challenges'
+              buttonColor='bg-thegreen'
             />
           </div>
         </div>

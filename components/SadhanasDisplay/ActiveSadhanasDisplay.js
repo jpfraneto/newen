@@ -42,7 +42,7 @@ const ActiveSadhanasDisplay = ({
         ) : (
           <>
             {sadhana.didTheWork ? (
-              <span className='text-thedarkgreen flex justify-center w-8 items-center mx-auto'>
+              <span className='text-thegreenbtn flex justify-center w-8 items-center mx-auto'>
                 <GoVerified
                   size={50}
                   onClick={() => alert('You already did this one today.')}
@@ -51,7 +51,7 @@ const ActiveSadhanasDisplay = ({
             ) : (
               <span
                 onClick={() => toggleCompletion(index, sadhana)}
-                className='text-thedarkred hover:opacity-70 flex justify-center w-8 items-center mx-auto'
+                className='text-theredbtn hover:opacity-70 flex justify-center w-8 items-center mx-auto'
               >
                 <GoVerified size={50} />
               </span>
@@ -61,7 +61,7 @@ const ActiveSadhanasDisplay = ({
       </td>
       <td className=' px-4 py-2 text-black text-center w-48'>
         {sadhana.didTheWork ? (
-          <span className='text-thedarkgreen flex justify-center w-8 items-center mx-auto'>
+          <span className='text-thegreenbtn flex justify-center w-8 items-center mx-auto'>
             <GoVerified
               size={50}
               onClick={() => alert('You already did this one today.')}
@@ -73,7 +73,7 @@ const ActiveSadhanasDisplay = ({
               <div>
                 <span
                   onClick={() => handleChooseThisSadhanaTimer(index, sadhana)}
-                  className='text-thedarkred hover:opacity-70 flex justify-center w-8 items-center mx-auto hover:cursor-pointer'
+                  className='text-theredbtn hover:opacity-70 flex justify-center w-8 items-center mx-auto hover:cursor-pointer'
                 >
                   <RiTimerFill size={50} />
                 </span>

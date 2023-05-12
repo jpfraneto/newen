@@ -13,15 +13,17 @@ module.exports = {
   ],
   theme: {
     colors: {
-      thegreen: '#00F0B5',
-      thegreener: '#558B6E',
-      thered: '#EB251E',
-      thedarkgreen: '#036F01',
-      thedarkred: '#D20000',
-      theorange: '#FAA300',
-      thepurple: '#966B9D',
+      thegreen: '#329397',
+      thegreener: '#3A6777',
+      thered: '#673446',
+      thedarkred: '#2E1330',
+      thedarkgreen: '#3A6777',
+      theorange: '#E3933D',
+      thepurple: '#774D92',
       theblack: '#000',
       thewhite: '#FFF',
+      theredbtn: '#EB251E',
+      thegreenbtn: '138B00',
     },
     extend: {
       backgroundImage: {

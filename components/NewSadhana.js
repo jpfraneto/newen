@@ -163,7 +163,7 @@ const NewSadhana = () => {
 
   if (step == 88)
     return (
-      <div className='px-8 md:px-4 rounded-lg w-full max-w-md text-black'>
+      <div className='px-8 md:px-4 rounded-lg w-full min-h-fit max-w-md text-black'>
         <div>
           <p className='text-black text-xl mb-2'>
             You just commited to something. This is the starting point of your
@@ -210,8 +210,8 @@ const NewSadhana = () => {
     );
 
   return (
-    <div className='relative font-itim  z-10 text-white mx-auto max-w-3xl'>
-      <div className='px-2 flex md:pt-10 flex-col items-start text-theorange  '>
+    <div className='relative font-itim text-white mx-auto w-full md:max-w-3xl'>
+      <div className='px-2 w- flex md:pt-10 flex-col items-start text-thewhite  '>
         <p className='text-lg md:text-2xl font-bold mb-0'>
           An epic journey awaits.
         </p>
@@ -232,7 +232,7 @@ const NewSadhana = () => {
                 placeholder='ex: 30 days of Walking'
                 value={formData.title}
                 onChange={handleChange}
-                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-theblack leading-tight focus:outline-none focus:shadow-outline'
               />
             </div>
           )}
@@ -244,7 +244,7 @@ const NewSadhana = () => {
                 placeholder='Explain your challenge to motivate others to be part of it.'
                 value={formData.content}
                 onChange={handleChange}
-                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-theblack leading-tight focus:outline-none focus:shadow-outline'
                 rows='4'
               ></textarea>
             </div>
@@ -258,7 +258,7 @@ const NewSadhana = () => {
                 placeholder='8'
                 value={formData.targetSessions}
                 onChange={handleChange}
-                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-theblack leading-tight focus:outline-none focus:shadow-outline'
               />
             </div>
           )}
@@ -271,7 +271,7 @@ const NewSadhana = () => {
                 placeholder='10'
                 value={formData.targetSessionDuration}
                 onChange={handleChange}
-                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-theblack leading-tight focus:outline-none focus:shadow-outline'
               />
             </div>
           )}
@@ -282,7 +282,7 @@ const NewSadhana = () => {
                 id='periodicity'
                 value={formData.periodicity}
                 onChange={handleChange}
-                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-theblack leading-tight focus:outline-none focus:shadow-outline'
               >
                 <option value='daily'>Daily</option>
                 <option value='weekly' disabled>
@@ -302,7 +302,7 @@ const NewSadhana = () => {
                 id='startingTimestamp'
                 value={formData.startingTimestamp}
                 onChange={handleChange}
-                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-theblack leading-tight focus:outline-none focus:shadow-outline'
               />
             </div>
           )}
@@ -311,7 +311,7 @@ const NewSadhana = () => {
               {' '}
               <select
                 id='isPrivate'
-                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-theblack leading-tight focus:outline-none focus:shadow-outline'
                 name='isPrivate'
                 value={formData.isPrivate}
                 onChange={handleChange}
@@ -328,25 +328,23 @@ const NewSadhana = () => {
             {step > 1 && !success && (
               <Button
                 buttonAction={handlePrev}
-                buttonColor='black'
+                buttonColor='bg-thered'
                 buttonText='Previous'
               />
             )}
             {step < 7 && (
               <Button
-                buttonColor='black'
+                buttonColor='bg-thegreen'
                 buttonAction={handleNext}
                 buttonText='Next'
               />
             )}
             {step === 7 && (
-              <button
-                type='submit'
-                onClick={handleSubmit}
-                className='bg-green-500 border-thegreen border-2 text-xl hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:opacity-70'
-              >
-                {loading ? 'Adding...' : 'Submit'}
-              </button>
+              <Button
+                buttonText={loading ? 'Adding...' : 'Submit'}
+                buttonAction={handleSubmit}
+                buttonColor='bg-thegreen'
+              />
             )}
           </div>
         </form>

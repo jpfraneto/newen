@@ -12,6 +12,7 @@ import {
   setInterval,
   setTimeout,
 } from 'worker-timers';
+import Button from './Button';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
@@ -217,12 +218,10 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
               Congratulations, you just finished a {initialDuration / 60} minute
               session of your challenge {sadhana.title}
             </h3>
-            <button
-              onClick={handleSubmitSessionHandler}
-              className='bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded mt-4 mx-2'
-            >
-              {submitSessionBtn}
-            </button>
+            <Button
+              buttonAction={handleSubmitSessionHandler}
+              buttonText={submitSessionBtn}
+            />
           </div>
         )}
         <audio ref={audioRef} hidden>

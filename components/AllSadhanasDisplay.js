@@ -22,7 +22,7 @@ const AllSadhanasDisplay = ({ sadhanas }) => {
       <div className='flex flex-row space-x-2'>
         <input
           type='text'
-          className='border-2 border-black rounded-md focus:border-thegreen px-2 py-1 font-md w-1/3'
+          className='border-2 border-black rounded-md focus:border-thegreen px-2 py-1 font-md w-9/12 md:w-1/3'
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
           placeholder='Search for sadhanas...'
