@@ -44,8 +44,10 @@ export const authOptions = {
     async signIn({ user, account, profile, email, credentials }) {
       return true;
     },
-    
+
     async session({ session, token, user }) {
+      console.log('the session is: ', session);
+      console.log('the user is: ', user);
       session.user.id = user.id;
       session.user.oauthProvider = user.oauthProvider;
       session.user.whatsapp = user.whatsapp;
