@@ -19,6 +19,9 @@ const NewNav = () => {
         </Link>
       </div>
       <div className='flex items-center space-x-2 md:space-x-8 md:pr-6'>
+        <Link className='text-black hover:opacity-60' href='/timer'>
+          Timer
+        </Link>
         <Link className='text-black hover:opacity-60' href='/s'>
           All Challenges
         </Link>

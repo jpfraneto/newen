@@ -23,7 +23,7 @@ module.exports = {
       theblack: '#000',
       thewhite: '#FFF',
       theredbtn: '#EB251E',
-      thegreenbtn: '138B00',
+      thegreenbtn: '#138B00',
     },
     extend: {
       backgroundImage: {

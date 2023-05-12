@@ -219,7 +219,7 @@ const NewSadhana = () => {
           I&apos;m Anky, and I will walk by your side.
         </p>
 
-        <form onSubmit={handleSubmit} className='rounded px-8 pt-80 pb-8 mb-4'>
+        <form onSubmit={handleSubmit} className='rounded px-8 pt-32 pb-8 mb-4'>
           <h2 className=' text-theorange  text-2xl  mb-6 '>
             {ankyMessages[step - 1]}
           </h2>
@@ -324,7 +324,7 @@ const NewSadhana = () => {
                 : 'Anyone can join.'}
             </div>
           )}
-          <div className='flex justify-center space-x-2 mt-2'>
+          <div className='flex justify-center items-center space-x-2 mt-2'>
             {step > 1 && !success && (
               <Button
                 buttonAction={handlePrev}
@@ -332,12 +332,16 @@ const NewSadhana = () => {
                 buttonText='Previous'
               />
             )}
+            <span className='text-xl'>{step} / 7</span>
             {step < 7 && (
-              <Button
-                buttonColor='bg-thegreen'
-                buttonAction={handleNext}
-                buttonText='Next'
-              />
+              <>
+                {' '}
+                <Button
+                  buttonColor='bg-thegreen'
+                  buttonAction={handleNext}
+                  buttonText='Next'
+                />
+              </>
             )}
             {step === 7 && (
               <Button
