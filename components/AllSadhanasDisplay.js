@@ -64,8 +64,8 @@ const AllSadhanasDisplay = ({ sadhanas }) => {
           return (
             <span
               key={i}
-              onClick={() => chooseTag(tag)}
-              className={`px-4 py-4 m-2 border text-theblack text-center hover:bg-theblack hover:text-thewhite border-theblack w-40 rounded-xl hover:cursor-pointer `}
+              onClick={() => alert('This will be available soon.')}
+              className={`px-2 py-1 md:px-4 md:py-4 m-2 border text-theblack text-center hover:bg-theblack hover:text-thewhite border-theblack w-40 rounded-xl hover:cursor-pointer `}
             >
               {tag}
             </span>
