@@ -55,6 +55,7 @@ const SadhanaCard = ({ sadhana }) => {
           Tags:{' '}
           {sadhana.tags.map((tag, i) => (
             <span
+              key={i}
               className={`py-1 px-2 mx-1 border text-thewhite rounded-xl  bg-thepurple border-theblack}`}
             >
               {tag}
