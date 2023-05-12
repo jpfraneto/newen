@@ -7,6 +7,21 @@ import SadhanaCard from './SadhanaCard';
 const AllSadhanasDisplay = ({ sadhanas }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredSadhanas, setFilteredSadhanas] = useState(sadhanas);
+  const [selectedTags, setSelectedTags] = useState([]);
+
+  const tags = [
+    'Creativity',
+    'Health',
+    'Entertainment',
+    'WellBeing',
+    'Productivity',
+    'Money',
+    'Education',
+    'Hobbies',
+    'Tasks',
+    'Relationships',
+    'Business',
+  ];
 
   useEffect(() => {
     setFilteredSadhanas(
@@ -16,9 +31,37 @@ const AllSadhanasDisplay = ({ sadhanas }) => {
     );
   }, [searchTerm, sadhanas]);
 
+  const toggleTag = tag => {
+    if (selectedTags.includes(tag)) {
+      // If the tag is already selected, remove it from the state
+      setSelectedTags(selectedTags.filter(t => t !== tag));
+    } else {
+      // Otherwise, add it to the state
+      setSelectedTags([...selectedTags, tag]);
+    }
+  };
+
   return (
-    <BiggerLayout>
+    <div>
       <h1 className='text-3xl mb-2'>Sadhanas</h1>
+      <div className='flex flex-row flex-wrap mb-2'>
+        {tags.map((tag, i) => {
+          const isSelected = selectedTags.includes(tag);
+          return (
+            <span
+              key={i}
+              onClick={() => toggleTag(tag)}
+              className={`p-1 mx-2 border text-thewhite rounded-xl hover:cursor-pointer opacity-${
+                !isSelected ? '70' : '100'
+              } bg-thered ${
+                isSelected ? ' text-thewhite' : ' border-theblack'
+              }`}
+            >
+              {tag}
+            </span>
+          );
+        })}
+      </div>
       <div className='flex flex-row space-x-2'>
         <input
           type='text'
@@ -38,7 +81,7 @@ const AllSadhanasDisplay = ({ sadhanas }) => {
           <SadhanaCard key={sadhana.id} sadhana={sadhana} />
         ))}
       </div>
-    </BiggerLayout>
+    </div>
   );
 };
 

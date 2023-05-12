@@ -14,25 +14,6 @@ export default function SadhanaList({ sadhanas }) {
   return (
     <BiggerLayout>
       <AllSadhanasDisplay sadhanas={sadhanas} />
-      {/* <div className='mb-2'>
-        <h4
-          className={`${righteous.className} text-blue-400 text-2xl md:text-5xl mb-2 w-full font-bold`}
-        >
-        </h4>
-        <div className='my-3'>
-          <Link
-            href={`/s/new`}
-            className='border-black border-2 opacity-70 hover:bg-gray-900 text-white px-4 py-2 rounded-md bg-gradient-to-r from-purple-500 via-pink-500 hover:opacity-80 to-red-500'
-          >
-            Add Challenge
-          </Link>
-        </div>
-      </div>
-      <div className='flex flex-wrap  mt-8 justify-around space-x-2'>
-        {sadhanas.map(sadhana => (
-          <SadhanaCard key={sadhana.id} sadhana={sadhana} />
-        ))}
-      </div> */}
     </BiggerLayout>
   );
 }

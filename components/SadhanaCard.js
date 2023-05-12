@@ -13,8 +13,9 @@ const Image = props => {
 };
 
 const SadhanaCard = ({ sadhana }) => {
+  sadhana.tags = ['Health', 'Productivity'];
   return (
-    <div className='w-fit grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 bg-blue-200 border-black border-2 text-black bg-opacity-60 rounded-lg px-2 py-1 justify-between'>
+    <div className='w-fit grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 bg-blue-200 border-black border-2 text-black bg-opacity-60 rounded-lg px-2 py-2 justify-between'>
       <div className='space-y-2 items-center justify-center md:justify-start'>
         <Link href={`/u/${sadhana.author.id}`} passHref>
           <Image
@@ -43,10 +44,23 @@ const SadhanaCard = ({ sadhana }) => {
           {sadhana.title}
         </Link>
         <p className='text-black'>Target Sessions: {sadhana.targetSessions}</p>
-        <p className='text-black'>
+        <p className='text-black my-1'>
           Starting Date:{' '}
           {new Date(sadhana.startingTimestamp).toLocaleDateString('en-US')}
         </p>
+        <div
+          className='flex flex-row items-center
+        '
+        >
+          Tags:{' '}
+          {sadhana.tags.map((tag, i) => (
+            <span
+              className={`py-1 px-2 mx-1 border text-thewhite rounded-xl  bg-thepurple border-theblack}`}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -67,9 +67,13 @@ const Dashboard = () => {
                 buttonText='Edit Profile'
               />
               <Button
-                buttonAction={signOut}
+                buttonAction={() => {
+                  signOut({
+                    callbackUrl: `${window.location.origin}`,
+                  });
+                }}
                 buttonText='Logout'
-                buttonColor='bg-thepurple'
+                buttonColor='bg-theredbtn'
               />
             </div>
           </div>

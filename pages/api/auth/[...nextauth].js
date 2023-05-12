@@ -44,6 +44,7 @@ export const authOptions = {
     async signIn({ user, account, profile, email, credentials }) {
       return true;
     },
+    
     async session({ session, token, user }) {
       session.user.id = user.id;
       session.user.oauthProvider = user.oauthProvider;
