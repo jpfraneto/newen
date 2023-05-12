@@ -269,7 +269,7 @@ const DashboardComponent = ({ session }) => {
         <button
           className={`${
             sadhanaFilter === 'pending' ? 'opacity-100' : 'opacity-50'
-          } font-itim bg-thegreener border border-white text-xl hover:opacity-60 hover:bg-blue-700 text-black py-1 px-2 rounded focus:outline-none focus:shadow-outline`}
+          } font-itim bg-thegreenbtn border border-white text-xl hover:opacity-60 hover:bg-blue-700 text-black py-1 px-2 rounded focus:outline-none focus:shadow-outline`}
           onClick={() => setSadhanaFilter('pending')}
         >
           Pending
@@ -277,7 +277,7 @@ const DashboardComponent = ({ session }) => {
         <button
           className={`${
             sadhanaFilter === 'active' ? 'opacity-100' : 'opacity-50'
-          } font-itim bg-thegreener border border-white hover:opacity-60 text-xl hover:bg-blue-700 text-black py-1 px-2 rounded focus:outline-none focus:shadow-outline`}
+          } font-itim bg-thegreenbtn border border-white hover:opacity-60 text-xl hover:bg-blue-700 text-black py-1 px-2 rounded focus:outline-none focus:shadow-outline`}
           onClick={() => setSadhanaFilter('active')}
         >
           Active
@@ -285,7 +285,7 @@ const DashboardComponent = ({ session }) => {
         <button
           className={`${
             sadhanaFilter === 'completed' ? 'opacity-100' : 'opacity-50'
-          } font-itim bg-thegreener border border-white text-xl hover:opacity-60 text-black py-1 px-2 rounded focus:outline-none focus:shadow-outline`}
+          } font-itim bg-thegreenbtn border border-white text-xl hover:opacity-60 text-black py-1 px-2 rounded focus:outline-none focus:shadow-outline`}
           onClick={() => setSadhanaFilter('completed')}
         >
           Completed

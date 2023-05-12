@@ -12,7 +12,12 @@ import {
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
-const Timer = ({ sessionTargetDuration, onCompletion, sadhana, timerSize }) => {
+const Timer = ({
+  sessionTargetDuration = 60,
+  onCompletion,
+  sadhana,
+  timerSize,
+}) => {
   const audioRef = useRef();
   const [duration, setDuration] = useState(sessionTargetDuration * 60);
   const [timeRemaining, setTimeRemaining] = useState(

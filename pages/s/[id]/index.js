@@ -174,22 +174,24 @@ export default function SadhanaDetail({
     let str = '';
     console.log('the chosenDayINdex', chosenDayIndex, thisSession);
     if (chosenDayIndex === thisSession.sessionIndex) {
-      str += 'opacity-70 border-2 border-theorange text-xl';
+      str += 'opacity-70 border-2 border-theorange text-lg';
     }
-    if (!thisSession) return str + ' bg-thedarkred';
+    if (!thisSession) return str + ' bg-theredbtn';
     if (dayIndex < thisSession.sessionIndex) {
       return (
         str + ' bg-transparent border-black border  hover:cursor-not-allowed'
       );
     } else if (dayIndex === thisSession.sessionIndex) {
       if (thisSession.id) {
-        return str + ' bg-thegreen text-white border-2 border-black shadow-lg';
+        return (
+          str + ' bg-thegreenbtn text-white border-2 border-black shadow-lg'
+        );
       }
     } else if (dayIndex > thisSession.sessionIndex) {
       if (thisSession.id) {
-        return str + ' bg-thedarkgreen';
+        return str + ' bg-thegreenbtn';
       } else {
-        return str + ' bg-thedarkred';
+        return str + ' bg-theredbtn';
       }
     }
   };
@@ -709,7 +711,7 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
         <Button
           buttonAction={() => deleteSadhana(sadhana.id)}
           buttonText='Delete Challenge'
-          buttonColor='bg-thedarkred'
+          buttonColor='bg-theredbtn'
         />
       )}
       <p className='italic my-2 text-white md:text-black'>{sadhana.content}</p>

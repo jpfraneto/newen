@@ -3,10 +3,11 @@ import React from 'react';
 import Link from 'next/link';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { Russo_One } from 'next/font/google';
+import { Russo_One, Titillium_Web } from 'next/font/google';
 import Button from './Button';
 
 const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
+const titilium = Titillium_Web({ weight: '400', subsets: ['latin'] });
 
 const NewNav = () => {
   const { data: session, loading } = useSession();
@@ -14,14 +15,11 @@ const NewNav = () => {
   return (
     <nav className='z-50 hover:cursor-pointer font-itim md:text-xl bg-thegreen flex items-center justify-between px-2 md:px-8'>
       <div className='text-2xl text-black pl-4 font-russo'>
-        <Link className={`${russo.className} text-black`} href='/'>
+        <Link className={`${titilium.className} `} href='/'>
           sadhana
         </Link>
       </div>
       <div className='flex items-center space-x-2 md:space-x-8 md:pr-6'>
-        <Link className='text-black hover:opacity-60' href='/timer'>
-          Timer
-        </Link>
         <Link className='text-black hover:opacity-60' href='/s'>
           All Challenges
         </Link>

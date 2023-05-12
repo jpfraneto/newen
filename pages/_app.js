@@ -26,6 +26,15 @@ export default function App({ Component, pageProps }) {
     <>
       <Head>
         <title>sadhana · the power of consistency</title>
+        <meta
+          name='description'
+          content='Train your capacity for being consistent with gamified challenges.'
+          key='desc'
+        />
+        <meta
+          property='og:description'
+          content='Train your consistency with sadhana.'
+        />
       </Head>
       <SessionProvider session={pageProps.session}>
         <ModeProvider>

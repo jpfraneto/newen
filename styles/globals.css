@@ -74,6 +74,7 @@ p {
 nav {
   z-index: 1000;
   height: 55px;
+  box-shadow: rgba(0, 0, 0, 0.8) 0px 3px 20px -2px;
 }
 
 h1 {

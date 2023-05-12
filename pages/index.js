@@ -36,13 +36,15 @@ const LandingPage = () => {
             <span className={`${londrinashadow.className} ml-2`}>FREEDOM.</span>
           </h1>
           <p className='px-4 md:px-0 text-xl md:max-w-xl mx-auto mt-0'>
-            Sadhana is where consistency paves the way out of depression. Join
+            {/* Sadhana is where consistency paves the way out of depression. Join
             like-minded people in challenges that empower you to explore your
-            boundaries.
+            boundaries. */}{' '}
+            Train your capacity for being consistent in community with gamified
+            challenges.
           </p>
         </div>
-        <div className='mt-28 text-center '>
-          <p className=' text-xl'>Which will be your next challenge?</p>
+        <div className='mt-32 text-center '>
+          <p className=' text-xl'>What is your next challenge?</p>
 
           {/* <form className='flex flex-wrap text-sm md:text-xl mb-4 max-w-4xl justify-center space-x-8'>
             {challenges.map((x, i) => {
@@ -71,7 +73,7 @@ const LandingPage = () => {
             />
             <Button
               buttonAction={() => router.push('/s')}
-              buttonText='Explore Challenges'
+              buttonText='Explore'
               buttonColor='bg-thegreen'
             />
           </div>

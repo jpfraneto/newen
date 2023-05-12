@@ -2,7 +2,11 @@ import { useState, useEffect } from 'react';
 import BiggerLayout from './BiggerLayout';
 import Button from './Button';
 import { BiSearchAlt } from 'react-icons/bi';
+import Link from 'next/link';
 import SadhanaCard from './SadhanaCard';
+import { Titillium_Web } from 'next/font/google';
+
+const titilium = Titillium_Web({ weight: '400', subsets: ['latin'] });
 
 const AllSadhanasDisplay = ({ sadhanas }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -11,6 +15,7 @@ const AllSadhanasDisplay = ({ sadhanas }) => {
 
   const tags = [
     'Creativity',
+    'Diet',
     'Health',
     'Entertainment',
     'WellBeing',
@@ -41,31 +46,36 @@ const AllSadhanasDisplay = ({ sadhanas }) => {
     }
   };
 
+  const chooseTag = () => {};
+
   return (
     <div>
-      <h1 className='text-3xl mb-2'>Sadhanas</h1>
-      <div className='flex flex-row flex-wrap mb-2'>
+      <h2
+        className={`${titilium.className} text-5xl mt-8 mb-2 text-center `}
+        href='/'
+      >
+        welcome to sadhana
+      </h2>
+      <p className='text-center mb-1'>
+        What do you want to challenge yourself with?
+      </p>
+      <div className='flex flex-row flex-wrap mt-0 justify-center mb-2'>
         {tags.map((tag, i) => {
-          const isSelected = selectedTags.includes(tag);
           return (
             <span
               key={i}
-              onClick={() => toggleTag(tag)}
-              className={`p-1 mx-2 border text-thewhite rounded-xl hover:cursor-pointer opacity-${
-                !isSelected ? '70' : '100'
-              } bg-thered ${
-                isSelected ? ' text-thewhite' : ' border-theblack'
-              }`}
+              onClick={() => chooseTag(tag)}
+              className={`px-4 py-4 m-2 border text-theblack text-center hover:bg-theblack hover:text-thewhite border-theblack w-40 rounded-xl hover:cursor-pointer `}
             >
               {tag}
             </span>
           );
         })}
       </div>
-      <div className='flex flex-row space-x-2'>
+      <div className='flex justify-center items-center flex-row space-x-2'>
         <input
           type='text'
-          className='border-2 border-black rounded-md focus:border-thegreen px-2 py-1 font-md w-9/12 md:w-1/3'
+          className='border border-black rounded-md focus:border-thegreen px-4 py-2 font-xl w-10/12 md:w-6/12'
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
           placeholder='Search for sadhanas...'
@@ -76,7 +86,7 @@ const AllSadhanasDisplay = ({ sadhanas }) => {
           buttonAction={() => alert(`Hello there 👀`)}
         />
       </div>
-      <div className='mt-4 flex flex-wrap justify-between'>
+      <div className='sm:px-16 mt-4 flex flex-wrap justify-between'>
         {filteredSadhanas.map(sadhana => (
           <SadhanaCard key={sadhana.id} sadhana={sadhana} />
         ))}
