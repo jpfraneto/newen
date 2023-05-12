@@ -96,8 +96,6 @@ export default function About() {
         </p>
 
         <p>We are going to build this together.</p>
-
-        <p>Anky.</p>
       </div>
     </Layout>
   );
