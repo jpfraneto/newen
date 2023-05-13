@@ -30,7 +30,10 @@ model User {
   participatedSadhanas Sadhana[]   @relation("SadhanaParticipants") // Sadhanas the user is participating in
   socials        Social[]
   sadhanaSessions SadhanaSession[]
-   whatsapp       String?           // WhatsApp number
+  whatsapp       String?           // WhatsApp number
+  points    Int     @default(0)
+  level     Int     @default(1)
+  badges    String[]
 }
 
 model VerificationToken {

@@ -90,6 +90,21 @@ async function createSadhanaSession(
     },
   });
 
+  // Updating the user points and level. It is important to note that it should become harder to update the user.
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  const newPoints = user.points + 10;
+  let newLevel = user.level;
+  if (newPoints >= user.level * 100) {
+    // Assume they need 100 points per level
+    newLevel += 1;
+  }
+  const updatedUser = await prisma.user.update({
+    where: { id: userId },
+    data: { points: newPoints, level: newLevel },
+  });
+  console.log('the user earned 10 points for completing this challenge');
+
+  ///
   sadhanaSession.author = {
     image: session.user.image,
     username: session.user.username || session.user.name || '',
@@ -112,7 +127,6 @@ async function createSadhanaSession(
       where: { id: sadhanaId },
       data: { status: 'completed' },
     });
-    console.log('this is the last session of this sadhana!!');
 
     await sendSadhanaCompletionEmail(session.user, sadhana);
   }

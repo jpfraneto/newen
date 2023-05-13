@@ -12,14 +12,7 @@ const londrinashadow = Londrina_Shadow({ weight: '400', subsets: ['latin'] });
 
 const LandingPage = () => {
   const router = useRouter();
-  const challenges = [
-    '21 days of going vegan',
-    '100 days of programming',
-    '5 days of calling your dad',
-    '33 days of AI',
-    '10 days of meditation',
-    'Other',
-  ];
+
   return (
     <div className='min-h-fit flex flex-col'>
       <div
@@ -77,6 +70,26 @@ const LandingPage = () => {
               buttonColor='bg-thegreen'
             />
           </div>
+        </div>
+      </div>
+      <div className='w-full bg-gray-100 py-12 px-4 md:px-8 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16'>
+        <div className='flex flex-col items-center md:items-start text-center md:text-left'>
+          <h2 className='text-3xl font-bold mb-4'>
+            Meet Anky, your companion in this journey.
+          </h2>
+          <p className='text-xl'>
+            A reincarnation of Hanuman, it brings ancient wisdom to your modern
+            journey of personal evolution.
+          </p>
+        </div>
+        <div className='w-64 h-64 relative'>
+          <Image
+            src='/images/anky.png'
+            alt='Anky'
+            layout='fill'
+            objectFit='cover'
+            className='rounded-full'
+          />
         </div>
       </div>
     </div>
