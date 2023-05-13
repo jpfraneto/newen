@@ -49,6 +49,8 @@ export const authOptions = {
       session.user.id = user.id;
       session.user.oauthProvider = user.oauthProvider;
       session.user.whatsapp = user.whatsapp;
+      session.user.points = user.points;
+      session.user.level = user.level;
       if (user.username) {
         session.user.username = user.username;
       }
