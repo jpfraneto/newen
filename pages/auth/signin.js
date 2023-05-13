@@ -11,7 +11,7 @@ export default function SignIn({ providers, csrfToken }) {
   console.log('the csrf token is: ', csrfToken);
   return (
     <div className='bacckground text-black min-h-screen bg-cover bg-center flex flex-col items-center pt-16 text-center'>
-      <div className='w-6/12 '>
+      <div className='px-4 w-full md:w-6/12 '>
         {' '}
         <h1 className={`${russo.className} text-4xl font-bold mb-4`}>
           Welcome to sadhana.
