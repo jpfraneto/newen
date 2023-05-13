@@ -7,6 +7,8 @@ import Button from '@component/components/Button';
 const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
 export default function SignIn({ providers, csrfToken }) {
+  console.log('the providers are: ', providers);
+  console.log('the csrf token is: ', csrfToken);
   return (
     <div className='bacckground text-black min-h-screen bg-cover bg-center flex flex-col items-center pt-16 text-center'>
       <div className='w-6/12 '>
@@ -26,7 +28,6 @@ export default function SignIn({ providers, csrfToken }) {
         </p> */}
         <div className='flex flex-col w-80 mx-auto mb-4 space-y-1 flex-grow '>
           {Object.values(providers).map(provider => {
-            console.log('the provider is: ', provider);
             if (provider.name === 'Email') return;
             return (
               <div className='w-full' key={provider.name}>
