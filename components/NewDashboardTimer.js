@@ -164,7 +164,7 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
           {isRunning && !paused && !finished && (
             <button
               onClick={pauseTimer}
-              className='bg-thedarkred hover:opacity-80 text-black font-semibold border-black rounded-full my-auto mx-2'
+              className='bg-theredbtn hover:opacity-80 text-black font-semibold border-black rounded-full my-auto mx-2'
             >
               <BsPauseCircle size={50} />
             </button>
@@ -174,7 +174,7 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
               <button
                 onClick={startTimer}
                 type='button'
-                className='bg-thedarkgreen hover:opacity-80 text-black font-semibold border-black rounded-full my-auto mx-2'
+                className='bg-thegreenbtn hover:opacity-80 text-black font-semibold border-black rounded-full my-auto mx-2'
               >
                 <BsPlayCircle size={50} />
               </button>

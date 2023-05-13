@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Button = ({
-  buttonAction,
+  buttonAction = () => {},
   buttonText,
   buttonColor = 'bg-theorange',
   buttonType = 'button',

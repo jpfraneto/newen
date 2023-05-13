@@ -28,17 +28,17 @@ export const authOptions = {
       from: process.env.EMAIL_FROM,
     }),
   ],
-  // pages: {
-  //   signIn: '/auth/signin',
-  // },
+  pages: {
+    signIn: '/auth/signin',
+  },
 
   database: process.env.DATABASE_URL,
   secret: process.env.SECRET,
 
-  session: {
-    jwt: true,
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-  },
+  // session: {
+  //   jwt: true,
+  //   maxAge: 30 * 24 * 60 * 60, // 30 days
+  // },
 
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
@@ -46,8 +46,6 @@ export const authOptions = {
     },
 
     async session({ session, token, user }) {
-      console.log('the session is: ', session);
-      console.log('the user is: ', user);
       session.user.id = user.id;
       session.user.oauthProvider = user.oauthProvider;
       session.user.whatsapp = user.whatsapp;

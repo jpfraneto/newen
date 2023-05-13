@@ -81,7 +81,7 @@ const AllSadhanasDisplay = ({ sadhanas }) => {
           placeholder='Search for sadhanas...'
         />
         <Button
-          buttonColor='bg-thegreen'
+          buttonColor='bg-thewhite hover:bg-thegreener'
           buttonText={<BiSearchAlt />}
           buttonAction={() => alert(`Hello there 👀`)}
         />

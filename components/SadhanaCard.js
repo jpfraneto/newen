@@ -47,7 +47,7 @@ const SadhanaCard = ({ sadhana, key }) => {
           </div>
         </div>
         <div className='px-4 w-full md:w-11/12 flex flex-row md:justify-between items-left'>
-          <div className='flex flex-col md:flex-row'>
+          <div className='flex flex-col md:flex-row md:justify-between w-full'>
             <div className='flex flex-col text-left  mr-auto '>
               <p
                 href={`/s/${sadhana.id}`}
@@ -59,8 +59,8 @@ const SadhanaCard = ({ sadhana, key }) => {
                 {sadhana.content.slice(0, 100)}...
               </p>
             </div>
-            <div className='flex ml-auto mt-1 items-center'>
-              <div className='flex  flex-col items-center'>
+            <div className='flex mr-auto md:mr-0 md:ml-auto mt-1 justify-start items-center md:pr-2'>
+              <div className='flex flex-col items-center'>
                 <AiFillClockCircle size={30} />
                 {sadhana.targetSessionDuration}
               </div>
@@ -87,7 +87,7 @@ const SadhanaCard = ({ sadhana, key }) => {
             </div>
           </div>
 
-          <div className='flex-col items-center md:flex'>
+          <div className='hidden flex-col items-center md:flex'>
             <span className='px-1'>Tags:</span>
             <div className='flex flex-col'>
               {sadhana.tags.map((tag, i) => (
