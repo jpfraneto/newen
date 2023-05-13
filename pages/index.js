@@ -1,5 +1,6 @@
 // LandingPage.js
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Londrina_Shadow, Luckiest_Guy } from 'next/font/google';
 import { getServerSession } from 'next-auth/next';
@@ -86,8 +87,8 @@ const LandingPage = () => {
           <Image
             src='/images/anky.png'
             alt='Anky'
-            layout='fill'
-            objectFit='cover'
+            fill
+            cover
             className='rounded-full'
           />
         </div>
