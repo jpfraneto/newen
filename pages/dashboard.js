@@ -62,7 +62,7 @@ const Dashboard = () => {
               alt='Profile picture'
             />
             <p>Points: {session.user.points}</p>
-            <p>Level: {sesssion.user.level}</p>
+            <p>Level: {session.user.level}</p>
 
             <div className='flex space-x-2 mt-2'>
               <Button
