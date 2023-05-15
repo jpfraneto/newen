@@ -57,13 +57,11 @@ function Content({ Component, pageProps }) {
 }
 
 function DeepWorkContent({ Component, pageProps }) {
+  const getLayout = Component.getLayout || (page => page);
   return (
     <>
-      <NewNav />
-      <div className='flex flex-col'>
-        <div className=''>
-          <Component {...pageProps} />
-        </div>
+      <div className='h-screen w-screen flex flex-col overflow-y-scroll'>
+        {getLayout(<Component {...pageProps} />)}
         <ToastContainer />
       </div>
     </>

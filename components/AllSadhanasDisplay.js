@@ -49,7 +49,7 @@ const AllSadhanasDisplay = ({ sadhanas }) => {
   const chooseTag = () => {};
 
   return (
-    <div className='px-2'>
+    <div className='px-2 overflow-scroll h-[calc(100vh-30px)]'>
       <h2
         className={`${titilium.className} text-5xl mt-8 mb-2 text-center `}
         href='/'
