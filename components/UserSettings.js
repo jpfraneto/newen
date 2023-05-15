@@ -6,7 +6,6 @@ import { useSession } from 'next-auth/react';
 import { signIn } from 'next-auth/react';
 import Spinner from '@component/components/Spinner';
 import Button from './Button';
-import { useRouter } from 'next/router';
 
 const NewSadhana = () => {
   const router = useRouter();
