@@ -147,14 +147,14 @@ const NewSadhana = () => {
   if (!session)
     return (
       <div className='text-black text-center'>
-        <h1 className='text-4xl mb-4 mt-80 text-thewhite'>
+        <h1 className='text-4xl mb-4 mt-48 text-theblack'>
           You need to log in to create a challenge
         </h1>
         <div className='flex space-x-2 justify-center'>
           <Button
             buttonAction={signIn}
             buttonText='Log In'
-            buttonColor='bg-thepurple'
+            buttonColor='bg-thegreen'
           />
           <Button buttonText='Go back' buttonAction={() => router.push('/')} />
         </div>
@@ -163,9 +163,9 @@ const NewSadhana = () => {
 
   if (step == 88)
     return (
-      <div className='px-8 md:px-4 rounded-lg w-full min-h-fit max-w-md text-black'>
+      <div className='px-8 md:px-4 rounded-lg w-full min-h-fit max-w-md text-theblack'>
         <div>
-          <p className='text-black text-xl mb-2'>
+          <p className='text-theblack text-xl mb-2'>
             You just commited to something. This is the starting point of your
             own growth. Do you want to challenge someone to do this with you?
             Share it with the buttons below.
@@ -211,7 +211,7 @@ const NewSadhana = () => {
 
   return (
     <div className='relative font-itim text-white mx-auto w-full md:max-w-3xl'>
-      <div className='px-2 w- flex md:pt-10 flex-col items-start text-thewhite  '>
+      <div className='px-2 w- flex md:pt-10 flex-col items-start text-theblack  '>
         <p className='text-lg md:text-2xl font-bold mb-0'>
           An epic journey awaits.
         </p>

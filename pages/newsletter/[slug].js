@@ -10,7 +10,6 @@ import { html } from 'remark-html';
 
 export default function PostPage({ post }) {
   const router = useRouter();
-  console.log('the post is: ', post);
 
   if (router.isFallback) {
     return <div>Loading...</div>;

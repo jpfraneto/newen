@@ -24,18 +24,10 @@ const FinishedSadhanaComponent = ({
   const date = new Date();
   const timeZoneOffset = date.getTimezoneOffset() * 60000; // Offset in milliseconds
   const localDate = new Date(date.getTime() + timeZoneOffset);
-  console.log('th sadhana', sadhana);
   return (
     <>
       {' '}
-      <h4
-        className={`${righteous.className} text-5xl text-blue-400 font-bold `}
-      >
-        {sadhana.title}
-      </h4>
-      <h4 className={`${righteous.className} text-3xl font-bold mb-2`}>
-        This Challenge Is Over!
-      </h4>
+      <h4 className={`text-4xl text-blue-400 font-bold `}>{sadhana.title}</h4>
       <div className='flex flex-wrap wrap gap-x-3 justify-center'>
         <p className='flex gap-x-1 my-1 items-center text-white md:text-black'>
           <FaUserAstronaut size={20} />
@@ -66,22 +58,6 @@ const FinishedSadhanaComponent = ({
           <FiTarget size={20} />
           {sadhana.targetSessions}
         </p>
-        <div className='flex flex-row space-x-1 p-1 my-1  bg-purple-200 border-2 border-black rounded'>
-          <span>Share with your friends:</span>
-          <span className='hover:text-blue-500 hover:cursor-pointer'>
-            <BsTwitter
-              size={20}
-              className=''
-              onClick={() => handleShare('twitter')}
-            />
-          </span>
-          <span className='hover:text-green-600 hover:cursor-pointer'>
-            <BsWhatsapp size={20} onClick={() => handleShare('whatsapp')} />
-          </span>
-          <span className='hover:text-green-600 hover:cursor-pointer'>
-            <BsLink45Deg size={20} onClick={() => handleShare('link')} />
-          </span>
-        </div>
       </div>
       {session && session.user.id === sadhana.authorId && (
         <button
@@ -98,9 +74,9 @@ const FinishedSadhanaComponent = ({
             <div
               key={i}
               className={` w-8 h-8 m-1 bg-green-600 border-black border-2 shadow-md flex items-center justify-center text-black  rounded-full font-bold text cursor-pointer `}
-              onClick={() => {
-                fetchSadhanaDayInfo(sadhana.id, i);
-              }}
+              // onClick={() => {
+              //   fetchSadhanaDayInfo(sadhana.id, i);
+              // }}
             >
               {i + 1}
             </div>

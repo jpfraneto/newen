@@ -154,14 +154,7 @@ export default function Settings({ user }) {
               </div>
               <div className='text-center flex space-x-2 justify-center'>
                 {updatedMessage === 'Updated Successfully!' ? (
-                  <Button
-                    buttonAction={() => {
-                      router.push('/dashboard');
-                    }}
-                    buttonType='button'
-                    buttonColor='bg-thegreener'
-                    buttonText='Back to Dashboard'
-                  />
+                  <></>
                 ) : (
                   <Button
                     buttonAction={() => {}}
@@ -170,6 +163,14 @@ export default function Settings({ user }) {
                     buttonText={updatingLoading ? <Spinner /> : updatedMessage}
                   />
                 )}
+                <Button
+                  buttonAction={() => {
+                    router.push('/dashboard');
+                  }}
+                  buttonType='button'
+                  buttonColor='bg-thegreen'
+                  buttonText='Back to Dashboard'
+                />
               </div>
             </form>
           </div>

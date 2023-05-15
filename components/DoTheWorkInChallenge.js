@@ -112,7 +112,6 @@ const DoTheWorkInChallenge = ({
         It&apos;s time to do todays work !
       </h4>
       <div className='flex flex-row justify-center'>
-        {' '}
         <div
           className={`hover:text-black  px-4 py-2 text-center cursor-pointer`}
         >

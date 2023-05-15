@@ -61,8 +61,9 @@ const Dashboard = () => {
               className='rounded-full mt-2 border-2 border-black'
               alt='Profile picture'
             />
-            <p>Points: {session.user.points}</p>
-            <p>Level: {session.user.level}</p>
+            <p>
+              Points: {session.user.points} | Level: {session.user.level}
+            </p>
 
             <div className='flex space-x-2 mt-2'>
               <Button

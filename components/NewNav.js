@@ -25,9 +25,9 @@ const NewNav = () => {
         </Link>
         <Link
           className='hidden hover:opacity-60 md:block text-black'
-          href='/about'
+          href='/s/new'
         >
-          About
+          Add New
         </Link>
         {session ? (
           <Button

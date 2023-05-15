@@ -172,7 +172,6 @@ export default function SadhanaDetail({
 
   const newGetDayFormatting = thisSession => {
     let str = '';
-    console.log('the chosenDayINdex', chosenDayIndex, thisSession);
     if (chosenDayIndex === thisSession.sessionIndex) {
       str += 'opacity-70 border-2 border-theorange text-lg';
     }
@@ -184,8 +183,10 @@ export default function SadhanaDetail({
     } else if (dayIndex === thisSession.sessionIndex) {
       if (thisSession.id) {
         return (
-          str + ' bg-thegreenbtn text-white border-2 border-black shadow-lg'
+          str + ' bg-thegreenbtn text-white border-2 border-theblack shadow-lg'
         );
+      } else {
+        return str + ' bg-theorange text-white border-2 border-theblack shadow';
       }
     } else if (dayIndex > thisSession.sessionIndex) {
       if (thisSession.id) {
@@ -266,8 +267,7 @@ export default function SadhanaDetail({
               )}
             </div>
 
-            <div className='flex flex-row mt-4 items-center  justify-center'>
-              {' '}
+            <div className='flex flex-row mt-4 items-center space-x-2 justify-center'>
               <Button
                 buttonAction={() => router.push('/s')}
                 buttonText='Go to Challenges'
@@ -285,7 +285,6 @@ export default function SadhanaDetail({
   return (
     <BiggerLayout>
       <div className='container text-center'>
-        {' '}
         <div
           className={`${russo.className} md:bg-white md:rounded px-2 md:px-8 pt-6 blocktext-gray-700 text-sm font-bold  text-black`}
         >
@@ -295,9 +294,7 @@ export default function SadhanaDetail({
             participants={participants}
             dayIndex={dayIndex}
           />
-
-          <Participants participants={participants} />
-
+          {/* <Participants participants={participants} /> */}
           {dayIndex < 0 ? (
             <p
               className={`${russo.className} blocktext-gray-700 text-sm font-bold `}
@@ -305,7 +302,7 @@ export default function SadhanaDetail({
               This sadhana starts in {dayIndex * -1} days.
             </p>
           ) : (
-            <div className='border-2 border-gray-800 bg-gray-200  px-1 py-1 rounded-xl '>
+            <div className=' border-gray-800 bg-gray-200  px-1 py-1 rounded-xl '>
               {!isUserParticipating ? (
                 <>
                   {' '}
@@ -348,14 +345,14 @@ export default function SadhanaDetail({
                   ) : (
                     <div className=' flex flex-wrap justify-center mb-3 pt-3'>
                       <>
-                        {completedToday ? (
+                        {true ? (
                           <>
                             {' '}
                             {userSessions.map((thisSession, i) => {
                               return (
                                 <div
                                   key={i}
-                                  className={` w-8 h-8 m-1 flex items-center justify-center text-black ${newGetDayFormatting(
+                                  className={` w-10 h-10 text-xl m-1 flex items-center justify-center text-black ${newGetDayFormatting(
                                     thisSession
                                   )}  rounded-full font-bold text cursor-pointer hover:opacity-80 `}
                                   onClick={() => {
@@ -462,8 +459,7 @@ export default function SadhanaDetail({
               )}
             </div>
           )}
-
-          <div className='flex flex-row mt-4 space-x-2 items-center justify-center'>
+          <div className='flex flex-row mt-4 space-x-2 justify-center'>
             <Button
               buttonAction={() => router.push('/')}
               buttonText='Go to Challenges'
@@ -657,11 +653,6 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
       >
         {sadhana.title}
       </h4>
-      <h4 className={`${righteous.className} text-3xl font-bold mb-2`}>
-        {dayIndex < 0
-          ? `This challenge starts in ${dayIndex * -1} day(s)`
-          : `Day ${dayIndex}`}
-      </h4>
       <div className='flex flex-wrap wrap gap-x-3 justify-center'>
         <p className='flex gap-x-1 my-1 items-center text-white md:text-black'>
           <FaUserAstronaut size={20} />
@@ -688,32 +679,32 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
             day: 'numeric',
           })}
         </p>
-        {!sadhana.isPrivate && (
-          <div className='flex flex-row space-x-1 p-1 my-1  bg-purple-200 border-2 border-black rounded'>
-            <span>Invite your friends:</span>
+        {sadhana.startingTimestamp > date && (
+          <div className='flex text-xl flex-row space-x-1 p-1 my-1  bg-purple-200 border-2 border-black rounded'>
+            <span>Share :</span>
             <span className='hover:text-blue-500 hover:cursor-pointer'>
               <BsTwitter
-                size={20}
+                size={26}
                 className=''
                 onClick={() => handleShare('twitter')}
               />
             </span>
             <span className='hover:text-green-600 hover:cursor-pointer'>
-              <BsWhatsapp size={20} onClick={() => handleShare('whatsapp')} />
+              <BsWhatsapp size={26} onClick={() => handleShare('whatsapp')} />
             </span>
             <span className='hover:text-green-600 hover:cursor-pointer'>
-              <BsLink45Deg size={20} onClick={() => handleShare('link')} />
+              <BsLink45Deg size={26} onClick={() => handleShare('link')} />
             </span>
           </div>
         )}
       </div>
-      {session && session.user.id === sadhana.authorId && (
+      {/* {session && session.user.id === sadhana.authorId && (
         <Button
           buttonAction={() => deleteSadhana(sadhana.id)}
           buttonText='Delete Challenge'
           buttonColor='bg-theredbtn'
         />
-      )}
+      )} */}
       <p className='italic my-2 text-white md:text-black'>{sadhana.content}</p>
     </>
   );
