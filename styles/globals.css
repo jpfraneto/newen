@@ -183,6 +183,16 @@ footer {
   }
 }
 
+@media (max-width: 768px) {
+  .w-screen {
+    flex-direction: column;
+  }
+  .w-160 {
+    width: 100%;
+    height: auto;
+  }
+}
+
 .layoutstylefull {
   padding-top: 40px;
   width: 96%;

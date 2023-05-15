@@ -213,15 +213,17 @@ const NewDashboardTimer = ({ session, onCompletion, sadhana }) => {
         </div>
 
         {started && showSummary && (
-          <div>
+          <div className='text-center'>
             <h3 className='text-4xl mb-4'>
               Congratulations, you just finished a {initialDuration / 60} minute
               session of your challenge {sadhana.title}
             </h3>
-            <Button
-              buttonAction={handleSubmitSessionHandler}
-              buttonText={submitSessionBtn}
-            />
+            <div className='flex justify-center'>
+              <Button
+                buttonAction={handleSubmitSessionHandler}
+                buttonText={submitSessionBtn}
+              />
+            </div>
           </div>
         )}
         <audio ref={audioRef} hidden>
