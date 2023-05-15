@@ -8,7 +8,7 @@ const Button = ({
 }) => {
   return (
     <button
-      className={`${buttonColor} border border-white text-xl hover:opacity-80 text-black font-bold py-1 px-4 rounded-full focus:outline-none focus:shadow-outline`}
+      className={`${buttonColor} whitespace-nowrap align-self-start relative flex flex-row gap-2 font-medium justify-center items-center false cursor-pointer hover:scale-[1.02] min-w-[112px] text-sm rounded-xl px-6 h-11 ease-in transition-transform bg-black text-white`}
       type={buttonType}
       onClick={buttonAction}
     >

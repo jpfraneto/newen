@@ -13,18 +13,18 @@ const NewNav = () => {
   const { data: session, loading } = useSession();
   const router = useRouter();
   return (
-    <nav className='z-50 hover:cursor-pointer font-itim md:text-xl bg-thegreen flex items-center justify-between px-2 md:px-8'>
+    <nav className='z-50 hover:cursor-pointer font-itim md:text-xl flex items-center justify-between px-2 md:px-8'>
       <div className='text-2xl text-black pl-4 font-russo'>
         <Link className={`${titilium.className} `} href='/'>
           sadhana
         </Link>
       </div>
       <div className='flex items-center space-x-2 md:space-x-8 md:pr-6'>
-        <Link className='text-black hover:opacity-60' href='/s'>
+        <Link className='text-black text-sm hover:opacity-60' href='/s'>
           All Challenges
         </Link>
         <Link
-          className='hidden hover:opacity-60 md:block text-black'
+          className='hidden text-sm   hover:opacity-60 md:block text-black'
           href='/s/new'
         >
           Add New

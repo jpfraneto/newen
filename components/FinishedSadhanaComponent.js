@@ -73,7 +73,7 @@ const FinishedSadhanaComponent = ({
           return (
             <div
               key={i}
-              className={` w-8 h-8 m-1 bg-green-600 border-black border-2 shadow-md flex items-center justify-center text-black  rounded-full font-bold text cursor-pointer `}
+              className={` w-10 h-10 m-1 bg-green-600 border-black border-2 shadow-md flex items-center justify-center text-black  rounded-full font-bold text-xl cursor-pointer`}
               // onClick={() => {
               //   fetchSadhanaDayInfo(sadhana.id, i);
               // }}

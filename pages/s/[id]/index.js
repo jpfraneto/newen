@@ -242,8 +242,11 @@ export default function SadhanaDetail({
   if (dayIndex > sadhana.targetSessions)
     return (
       <BiggerLayout>
+        <div className='w-screen px-2 -translate-x-2 bg-theredbtn'>
+          This challenge ended.
+        </div>
+
         <div className='container text-center'>
-          {' '}
           <div
             className={`${russo.className} md:bg-white md:rounded px-2 md:px-8 pt-6 blocktext-gray-700 text-sm font-bold  text-black`}
           >
@@ -303,14 +306,14 @@ export default function SadhanaDetail({
             </p>
           ) : (
             <div className=' border-gray-800 bg-gray-200  px-1 py-1 rounded-xl '>
-              {!isUserParticipating ? (
+              {false ? (
                 <>
                   {' '}
                   {status === 'loading' ? (
                     <Spinner />
                   ) : (
                     <>
-                      {session ? (
+                      {/* {session ? (
                         <>
                           {buttonText === 'Joined!' ? (
                             <Button
@@ -334,7 +337,7 @@ export default function SadhanaDetail({
                             buttonAction={signIn}
                           />
                         </>
-                      )}
+                      )} */}
                     </>
                   )}
                 </>
@@ -356,6 +359,7 @@ export default function SadhanaDetail({
                                     thisSession
                                   )}  rounded-full font-bold text cursor-pointer hover:opacity-80 `}
                                   onClick={() => {
+                                    if (!isUserParticipating) return;
                                     if (i < dayIndex)
                                       return fetchSadhanaDayInfo(sadhana.id, i);
                                     else if (i === dayIndex)
@@ -660,10 +664,7 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
             className='text-blue-400 hover:underline'
             href={`/u/${sadhana.author.id}`}
           >
-            @
-            {sadhana.author?.username ||
-              sadhana.author?.name ||
-              sadhana.author?.email}
+            @{sadhana.author?.username || sadhana.author?.name}
           </Link>
         </p>
         <p className='flex gap-x-1 my-1 text-white md:text-black items-center'>

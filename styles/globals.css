@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -22,7 +23,7 @@
 html,
 body {
   min-height: 100vh;
-  font-family: 'Itim', cursive;
+  font-family: 'Inter', cursive;
   position: relative;
   padding: 0;
   margin: 0;
@@ -78,7 +79,7 @@ nav {
 }
 
 h1 {
-  font-family: 'Russo One', sans-serif;
+  font-weight: 600;
 }
 
 .heroanky {

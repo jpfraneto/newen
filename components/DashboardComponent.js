@@ -290,10 +290,7 @@ const DashboardComponent = ({ session }) => {
         >
           Completed
         </button>
-        <Button
-          buttonAction={() => router.push('/s/new')}
-          buttonText='Add New'
-        />
+        <Button buttonAction={() => router.push('/s/new')} buttonText='New' />
       </div>
 
       {userSadhanas?.length > 0 ? (

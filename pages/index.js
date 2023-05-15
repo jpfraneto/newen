@@ -17,20 +17,14 @@ const LandingPage = () => {
   return (
     <div className='min-h-full flex flex-col'>
       <div className='text-theblack flex-grow bg-thewhite bg-opacity-50 bg-cover bg-center flex flex-col items-center '>
-        <div className='text-center pt-16 mb-24'>
-          <h1 className='text-6xl md:text-7xl font-bold space-x-4 mb-0'>
-            <span className={`${luckiestguy.className}`}></span>
-            <span className={`${londrinashadow.className} ml-2`}>
-              the end of depression
-            </span>
-          </h1>
+        <div className='text-center pt-32 mb-8'>
+          <h5 className='text-7xl font-bold mb-5'>The end of depression</h5>
           <p className='px-4 md:px-0 text-xl md:max-w-xl mx-auto mt-0'>
             Train your capacity for being consistent in community with gamified
             challenges.
           </p>
         </div>
-        <div className='mt-32 text-center '>
-          <p className=' text-xl'>What will be your next challenge?</p>
+        <div className='mt-8 text-center '>
           <div className='flex justify-center text-thewhite space-x-2'>
             {' '}
             <Button

@@ -49,7 +49,7 @@ const AllSadhanasDisplay = ({ sadhanas }) => {
   const chooseTag = () => {};
 
   return (
-    <div>
+    <div className='px-2'>
       <h2
         className={`${titilium.className} text-5xl mt-8 mb-2 text-center `}
         href='/'
