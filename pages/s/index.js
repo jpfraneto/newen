@@ -29,11 +29,6 @@ export async function getServerSideProps({}) {
     },
   });
 
-  sadhanas = sadhanas
-    .map(value => ({ value, sort: Math.random() }))
-    .sort((a, b) => a.sort - b.sort)
-    .map(({ value }) => value);
-
   return {
     props: {
       sadhanas: JSON.parse(JSON.stringify(sadhanas)),

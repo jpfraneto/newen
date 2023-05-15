@@ -17,6 +17,9 @@ const Image = props => {
 };
 
 const SadhanaCard = ({ sadhana, key }) => {
+  const date = new Date(sadhana.startingTimestamp);
+  const timeZoneOffset = date.getTimezoneOffset() * 60000; // Offset in milliseconds
+  const localDate = new Date(date.getTime() + timeZoneOffset);
   sadhana.tags = ['Health', 'Productivity'];
   return (
     <Link
@@ -76,12 +79,12 @@ const SadhanaCard = ({ sadhana, key }) => {
                 <BsFillCalendarCheckFill size={30} />
                 <span>daily</span>
               </div>
-              <div className='flex ml-2 flex-col items-center text-center'>
-                <span>Date</span>
+              <div className='flex ml-4 flex-col items-center text-center'>
                 <span>
-                  {new Date(sadhana.startingTimestamp)
-                    .toLocaleDateString('en-US')
-                    .slice(0, -5)}
+                  {localDate.toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                  })}
                 </span>
               </div>
             </div>
