@@ -21,7 +21,7 @@ const LeftNavbar = ({ user }) => {
   if (!user) return;
   return (
     <div
-      className={`w-full sm:w-160 md:h-[calc(100vh-30px)] text-sm bg-thegreen px-2 relative sm:static ${
+      className={` sm:w-64 md:h-[calc(100vh-30px)] text-sm bg-thegreen px-2 relative sm:static ${
         isOpen ? 'absolute h-fit pb-2' : ''
       } transition-all duration-200`}
     >
