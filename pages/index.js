@@ -7,6 +7,7 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@component/pages/api/auth/[...nextauth].js';
 import Button from '@component/components/Button';
 import { useRouter } from 'next/router';
+import NewNav from '@component/components/NewNav';
 
 const luckiestguy = Luckiest_Guy({ weight: '400', subsets: ['latin'] });
 const londrinashadow = Londrina_Shadow({ weight: '400', subsets: ['latin'] });
