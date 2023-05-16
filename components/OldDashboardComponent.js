@@ -8,8 +8,6 @@ import { formatDistanceToNow } from 'date-fns';
 import { AiOutlinePlus, AiOutlineLoading3Quarters } from 'react-icons/ai';
 import PendingSadhanasDisplay from './SadhanasDisplay/PendingSadhanasDisplay';
 import ActiveSadhanasDisplay from './SadhanasDisplay/ActiveSadhanasDisplay';
-import SadhanaCardInDashboard from './SadhanaCardInDashboard';
-import DashboardTable from './DashboardTable';
 import CompletedSadhanasDisplay from './SadhanasDisplay/CompletedSadhanasDisplay';
 import {
   didUserCompleteWork,
@@ -53,11 +51,10 @@ const DashboardComponent = ({ session }) => {
         if (!isValidTimeZone(session.user.timeZone)) {
           timezoneNow = Intl.DateTimeFormat().resolvedOptions().timeZone;
         }
-
         // I'm querying the data for this user inside the sadhana. Wouldnt it be better to get it from inside the user?
         // Why not check inside the sadhana sessions for this user??? instead of mapping through the data.sadhanas
         const aloja = await checkSessionsPercentage(data.sadhanas, data.user);
-        setUserSessions(data.user.sadhanaSessions);
+        setUserSessions(aloja);
         const responnn = data.sadhanas.map(x => {
           return didUserCompleteWork(
             data.user,
@@ -245,6 +242,7 @@ const DashboardComponent = ({ session }) => {
 
   const handleSubmit = () => {
     if (completed.every(item => item)) {
+      console.log('here!');
       setSubmitted(true);
     }
   };
@@ -267,7 +265,7 @@ const DashboardComponent = ({ session }) => {
 
   return (
     <div className='w-full md:container overflow-y-scroll max-h-screen mx-auto md:px-4'>
-      {/* <div className='flex justify-center space-x-1 md:space-x-4 my-4'>
+      <div className='flex justify-center space-x-1 md:space-x-4 my-4'>
         <button
           className={`${
             sadhanaFilter === 'pending' ? 'opacity-100' : 'opacity-50'
@@ -293,25 +291,9 @@ const DashboardComponent = ({ session }) => {
           Completed
         </button>
         <Button buttonAction={() => router.push('/s/new')} buttonText='New' />
-      </div> */}
-      <DashboardTable
-        toggleCompletion={toggleCompletion}
-        setUserSadhanas={setUserSadhanas}
-        handleChooseThisSadhanaTimer={handleChooseThisSadhanaTimer}
-        savingSessionLoading={savingSessionLoading}
-        sadhanas={userSadhanas}
-        userSessions={userSessions}
-        submittingId={submittingId}
-      />
+      </div>
 
-      {/* {userSadhanas.length > 0 && (
-        <div className='overflow-x-scroll'>
-          {userSadhanas.map((x, i) => {
-            return <SadhanaCardInDashboard sadhana={x} key={i} />;
-          })}
-        </div>
-      )} */}
-      {/* {userSadhanas?.length > 0 ? (
+      {userSadhanas?.length > 0 ? (
         <div className=' overflow-x-scroll'>
           {sadhanaFilter === 'pending' && (
             <PendingSadhanasDisplay sadhanas={filteredSadhanas} />
@@ -340,7 +322,7 @@ const DashboardComponent = ({ session }) => {
         <>
           <p>You don&apos;t have any challenges associated yet.</p>
         </>
-      )} */}
+      )}
       <TimerModal isOpen={timerModalOpen} onClose={closeTimerModal}>
         {timerModalOpen && (
           <NewDashboardTimer

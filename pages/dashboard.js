@@ -12,7 +12,7 @@ const Dashboard = () => {
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(false);
 
-  if (size.width < 500) return router.push('/m/dashboard');
+  // if (size.width < 500) return router.push('/m/dashboard');
 
   const now = new Date().getTime();
   if (!session)

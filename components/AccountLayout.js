@@ -18,7 +18,7 @@ const AccountLayout = ({ children }) => {
 
   if (!session) return;
   return (
-    <div className='w-screen flex flex-row'>
+    <div className='w-screen flex flex-row h-screen overflow-y-scroll'>
       <LeftNavbar user={session?.user} />
       {addPropsToChildren(children, { session })}
     </div>

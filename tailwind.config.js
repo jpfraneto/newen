@@ -24,6 +24,7 @@ module.exports = {
       thewhite: '#FFF',
       theredbtn: '#EB251E',
       thegreenbtn: '#138B00',
+      thelight: '#A8BA96',
     },
     extend: {
       backgroundImage: {
