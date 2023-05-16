@@ -699,13 +699,13 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
           </div>
         )}
       </div>
-      {/* {session && session.user.id === sadhana.authorId && (
+      {session && session.user.id === sadhana.authorId && (
         <Button
           buttonAction={() => deleteSadhana(sadhana.id)}
           buttonText='Delete Challenge'
           buttonColor='bg-theredbtn'
         />
-      )} */}
+      )}
       <p className='italic my-2 text-white md:text-black'>{sadhana.content}</p>
     </>
   );

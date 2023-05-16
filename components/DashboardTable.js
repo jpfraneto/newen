@@ -15,7 +15,6 @@ const DashboardTable = ({
 }) => {
   const [dates, setDates] = useState([]);
 
-  // Generate the past 3 dates
   useEffect(() => {
     let tempDates = [];
     for (let i = 8; i >= 0; i--) {
@@ -23,7 +22,6 @@ const DashboardTable = ({
       date.setDate(date.getDate() - i);
       tempDates.push(date.getTime());
     }
-    console.log('the tempdates is: ', tempDates);
     setDates(tempDates);
   }, []);
   const formatDate = timestamp => {
