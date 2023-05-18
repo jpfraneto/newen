@@ -5,20 +5,22 @@ import prisma from '@component/lib/prismaClient';
 const luckiestguy = Luckiest_Guy({ weight: '400', subsets: ['latin'] });
 const londrinashadow = Londrina_Shadow({ weight: '400', subsets: ['latin'] });
 
-const ContestComponent = ({ challengeCount }) => {
+const ContestComponent = props => {
   const [challenge, setChallenge] = useState('');
   const [platform, setPlatform] = useState('');
   const [username, setUsername] = useState('');
   const [preview, setPreview] = useState(false);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [challengeCounter, setChallengeCounter] = useState(challengeCount);
+  const [challengeCounter, setChallengeCounter] = useState(
+    Number(props.pageProps.counter)
+  );
   const [challengeNumber, setChallengeNumber] = useState(null);
 
   const previewFunction = () => {
-    if (!challenge) alert('Agrega tu desafío.');
-    if (!platform) alert('Agrega la red social donde te contacto');
-    if (!username) alert('Agrega tu nombre de usuario.');
+    if (!challenge) return alert('Agrega tu desafío.');
+    if (!platform) return alert('Agrega la red social donde te contacto');
+    if (!username) return alert('Agrega tu nombre de usuario.');
     setPreview(x => !x);
   };
 
@@ -48,12 +50,14 @@ const ContestComponent = ({ challengeCount }) => {
 
     if (response.ok) {
       const data = await response.json();
+      console.log('the data is: ', data);
       setChallengeNumber(data.id);
-      setChallengeCounter(x => x + 1);
+      setChallengeCounter(x => +x + 1);
       setLoading(false);
       setSuccess(true);
     } else {
       // Handle error
+      console.log('there was an error: ', response.json());
     }
     setPreview(true);
   };
@@ -63,9 +67,25 @@ const ContestComponent = ({ challengeCount }) => {
     return pattern.test(username);
   };
 
+  // const deleteAllChallenges = async () => {
+  //   try {
+  //     const res = await fetch('/api/concurso', { method: 'DELETE' });
+  //     if (res.ok) {
+  //       alert('All challenges deleted!');
+  //     } else {
+  //       alert('Failed to delete challenges');
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert('Failed to delete challenges');
+  //   }
+  // };
+
   return (
     <div className='text-center bg-theorange h-screen w-screen overflow-scroll'>
       <div className='p-5'>
+        {/* <button onClick={deleteAllChallenges}>Delete All Challenges</button> */}
+
         <div>
           {' '}
           <h6
@@ -94,11 +114,13 @@ const ContestComponent = ({ challengeCount }) => {
             este juego: @kithkui
           </small>
           <div className='flex space-x-2 justify-center'>
-            {challengeCount && (
-              <h4 className='px-4 py-2 bg-thegreenbtn font-bold border-theblack border-2 rounded-full w-fit hover:opacity-40 mt-2'>
-                Desafíos agregados: {challengeCounter}/150.000
-              </h4>
-            )}
+            <div>
+              {challengeCounter && (
+                <h4 className='px-4 py-2 bg-thegreenbtn font-bold border-theblack border-2 rounded-full w-fit hover:opacity-40 mt-2'>
+                  Desafíos agregados: {challengeCounter}/150.000
+                </h4>
+              )}
+            </div>
             <button
               type='button'
               className='px-4 py-2 bg-thepurple font-bold border-theblack border-2 rounded-full hover:opacity-40 w-fit  mt-2'
@@ -108,19 +130,20 @@ const ContestComponent = ({ challengeCount }) => {
             </button>
           </div>
         </div>
-        <div className='mt-6 font-bold max-w-3xl mx-auto'>
+        <div className='mt-6 font-bold max-w-3xl mx-auto border px-2 py-3 rounded-xl'>
           {success ? (
             <div>
               <p>
                 Listo {username}, tu desafío fue agregado. Ayúdame a llegar a la
-                meta compartiendo todo lo que puedas, para así tener los 100.000
-                dólares para sortear.{' '}
+                meta compartiendo todo lo que puedas, para así tener los
+                $100.000 dólares para sortear.{' '}
               </p>
               <p>Tu número es el {challengeNumber}.</p>
               <p>
                 Comparte una foto/video de ti haciendo tu desafío en {platform},
-                con el hashtag #sadhanalat, para llegar a más gente.
+                con el hashtag #sadhanalat, para ayudarnos a llegar a la meta.
               </p>
+              <p>#sadhanalat</p>
             </div>
           ) : (
             <div>
@@ -130,13 +153,24 @@ const ContestComponent = ({ challengeCount }) => {
               ) : (
                 <div>
                   {preview ? (
-                    <div className='p-5'>
+                    <div className='p-5 '>
                       <h1 className='font-bold text-2xl mb-4'>
-                        Revisión de la Información
+                        Revisa que esté correcta tu info:
                       </h1>
-                      <p className='mb-2'>Desafío: {challenge}</p>
-                      <p className='mb-2'>Plataforma: {platform}</p>
-                      <p className='mb-2'>Usuario: {username}</p>
+                      <p className='mb-2'>
+                        <span className='font-bold text-thered'>Desafío:</span>{' '}
+                        {challenge}
+                      </p>
+                      <p className='mb-2  '>
+                        <span className='font-bold text-thered'>
+                          Plataforma:
+                        </span>{' '}
+                        {platform}
+                      </p>
+                      <p className='mb-2 '>
+                        <span className='font-bold text-thered'>Usuario:</span>{' '}
+                        {username}
+                      </p>
                       <button
                         type='button'
                         className='bg-thepurple hover:opacity-80 text-thewhite font-bold py-2 px-4 rounded m-2'
@@ -160,7 +194,7 @@ const ContestComponent = ({ challengeCount }) => {
                         className='space-y-4 max-w-xl mx-auto'
                       >
                         <label className='block'>
-                          Qué vas a hacer?
+                          Cuál va a ser tu desafío?
                           <input
                             className='px-4 py-2 mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
                             type='text'
@@ -204,7 +238,7 @@ const ContestComponent = ({ challengeCount }) => {
                         <button
                           type='button'
                           onClick={previewFunction}
-                          className='bg-thegreen hover:opacity-80 text-white font-bold py-2 px-4 rounded'
+                          className='bg-thegreen hover:opacity-80 mt-0 text-white font-bold py-2 px-4 rounded'
                         >
                           Vista previa
                         </button>
@@ -227,7 +261,9 @@ export async function getServerSideProps() {
   // Fetch data from your database
   let challengeCount;
   try {
+    console.log('in here');
     challengeCount = await prisma.concursoChallenge.count();
+    console.log('the challenge count is: ', challengeCount);
   } catch (error) {
     console.log('Error fetching challenges: ', error);
     challengeCount = null;
@@ -235,7 +271,7 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      challengeCount,
+      counter: JSON.parse(JSON.stringify(challengeCount)),
     }, // will be passed to the page component as props
   };
 }

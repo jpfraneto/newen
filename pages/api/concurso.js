@@ -25,6 +25,7 @@ export default async function handler(req, res) {
       const newChallenge = await prisma.concursoChallenge.create({
         data: { challenge, platform, username },
       });
+      console.log('In here, the new challenge is:', newChallenge);
 
       res.status(201).json(newChallenge);
     } catch (error) {

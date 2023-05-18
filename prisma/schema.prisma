@@ -15,7 +15,7 @@ model ConcursoChallenge {
   id        Int      @id @default(autoincrement())
   challenge String
   platform  String
-  username  String @unique
+  username  String   @unique
   createdAt DateTime @default(now())
 }
 
