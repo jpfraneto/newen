@@ -12,6 +12,7 @@ const ContestComponent = props => {
   const [preview, setPreview] = useState(false);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [challengeCounter, setChallengeCounter] = useState(
     Number(props.pageProps.counter)
   );
@@ -47,19 +48,21 @@ const ContestComponent = props => {
         username,
       }),
     });
-
+    const data = await response.json();
+    console.log('the data is: ', data);
     if (response.ok) {
-      const data = await response.json();
       console.log('the data is: ', data);
       setChallengeNumber(data.id);
       setChallengeCounter(x => +x + 1);
       setLoading(false);
       setSuccess(true);
     } else {
+      console.log('inside the error.', data.message);
       // Handle error
-      console.log('there was an error: ', response.json());
+      setErrorMessage(data.message);
+      setLoading(false);
+      setPreview(false);
     }
-    setPreview(true);
   };
 
   const isValidUsername = username => {
@@ -67,25 +70,9 @@ const ContestComponent = props => {
     return pattern.test(username);
   };
 
-  // const deleteAllChallenges = async () => {
-  //   try {
-  //     const res = await fetch('/api/concurso', { method: 'DELETE' });
-  //     if (res.ok) {
-  //       alert('All challenges deleted!');
-  //     } else {
-  //       alert('Failed to delete challenges');
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     alert('Failed to delete challenges');
-  //   }
-  // };
-
   return (
     <div className='text-center bg-theorange h-screen w-screen overflow-scroll'>
       <div className='p-5'>
-        {/* <button onClick={deleteAllChallenges}>Delete All Challenges</button> */}
-
         <div>
           {' '}
           <h6
@@ -143,7 +130,7 @@ const ContestComponent = props => {
                 Comparte una foto/video de ti haciendo tu desafío en {platform},
                 con el hashtag #sadhanalat, para ayudarnos a llegar a la meta.
               </p>
-              <p>#sadhanalat</p>
+              <p>Los resultados van a estar el domingo a las 8pm de Chile.</p>
             </div>
           ) : (
             <div>
@@ -189,6 +176,11 @@ const ContestComponent = props => {
                   ) : (
                     <div>
                       {' '}
+                      {errorMessage && (
+                        <p className='text-theredbtn text-3xl font-bold'>
+                          {errorMessage}
+                        </p>
+                      )}
                       <form
                         onSubmit={handleFormSubmit}
                         className='space-y-4 max-w-xl mx-auto'
@@ -199,7 +191,10 @@ const ContestComponent = props => {
                             className='px-4 py-2 mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
                             type='text'
                             value={challenge}
-                            onChange={e => setChallenge(e.target.value)}
+                            onChange={e => {
+                              setErrorMessage('');
+                              setChallenge(e.target.value);
+                            }}
                             placeholder='Hacer el baile viral de tiktok'
                             required
                           />
@@ -209,7 +204,10 @@ const ContestComponent = props => {
                           <select
                             className='px-4 py-2 mt-1 mt-1 block w-1/2 mx-auto text-bold rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
                             value={platform}
-                            onChange={e => setPlatform(e.target.value)}
+                            onChange={e => {
+                              setErrorMessage('');
+                              setPlatform(e.target.value);
+                            }}
                             required
                           >
                             <option value=''>--Seleccionar--</option>
@@ -224,7 +222,10 @@ const ContestComponent = props => {
                             className='px-4 py-2 mt-1 block w-1/2 mx-auto rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
                             type='text'
                             value={username}
-                            onChange={e => setUsername(e.target.value)}
+                            onChange={e => {
+                              setErrorMessage('');
+                              setUsername(e.target.value);
+                            }}
                             placeholder='@diosteayuda'
                             required
                           />

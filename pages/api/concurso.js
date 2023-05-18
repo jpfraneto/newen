@@ -1,6 +1,7 @@
 // Next.js API route at /pages/api/concurso.js
 
 import prisma from '@component/lib/prismaClient';
+import { Prisma } from '@prisma/client';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
@@ -28,8 +29,15 @@ export default async function handler(req, res) {
       console.log('In here, the new challenge is:', newChallenge);
 
       res.status(201).json(newChallenge);
-    } catch (error) {
-      res.status(500).send(error);
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2002') {
+          res
+            .status(500)
+            .json({ message: 'Ese nombre de usuario ya está participando.' });
+        }
+      }
+      res.status(500).json({ message: error });
     }
   } else if (req.method === 'DELETE') {
     try {
