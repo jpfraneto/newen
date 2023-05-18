@@ -39,7 +39,7 @@ export default function App({ Component, pageProps }) {
       <SessionProvider session={pageProps.session}>
         <ModeProvider>
           <Content Component={Component} pageProps={pageProps} />
-          <CoolFooter />
+          {/* <CoolFooter /> */}
         </ModeProvider>
       </SessionProvider>
     </>
@@ -48,12 +48,12 @@ export default function App({ Component, pageProps }) {
 
 function Content({ Component, pageProps }) {
   const { mode } = useMode();
-
-  return mode === 'deep work' ? (
-    <DeepWorkContent Component={Component} pageProps={pageProps} />
-  ) : (
-    <PlayContent />
-  );
+  return <DeepWorkContent Component={Component} pageProps={pageProps} />;
+  // return mode === 'deep work' ? (
+  //   <DeepWorkContent Component={Component} pageProps={pageProps} />
+  // ) : (
+  //   <PlayContent />
+  // );
 }
 
 function DeepWorkContent({ Component, pageProps }) {
