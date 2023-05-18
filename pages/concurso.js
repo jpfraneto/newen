@@ -63,25 +63,9 @@ const ContestComponent = ({ challengeCount }) => {
     return pattern.test(username);
   };
 
-  const deleteAllChallenges = async () => {
-    try {
-      const res = await fetch('/api/concurso', { method: 'DELETE' });
-      if (res.ok) {
-        alert('All challenges deleted!');
-      } else {
-        alert('Failed to delete challenges');
-      }
-    } catch (error) {
-      console.error(error);
-      alert('Failed to delete challenges');
-    }
-  };
-
   return (
     <div className='text-center bg-theorange h-screen w-screen overflow-scroll'>
       <div className='p-5'>
-        <button onClick={deleteAllChallenges}>Delete All Challenges</button>
-
         <div>
           {' '}
           <h6
@@ -106,7 +90,8 @@ const ContestComponent = ({ challengeCount }) => {
           <br />
           <small className='mb-8'>
             Para eso, más de 150.000 personas tienen que agregar un desafío.
-            Ayuda!
+            Necesitamos tu ayuda! Sígueme en IG o TikTok para sabe cómo avanza
+            este juego: @kithkui
           </small>
           <div className='flex space-x-2 justify-center'>
             {challengeCount && (
