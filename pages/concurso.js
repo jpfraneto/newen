@@ -15,7 +15,12 @@ const ContestComponent = ({ challengeCount }) => {
   const [challengeCounter, setChallengeCounter] = useState(challengeCount);
   const [challengeNumber, setChallengeNumber] = useState(null);
 
-  const previewFunction = () => setPreview(x => !x);
+  const previewFunction = () => {
+    if (!challenge) alert('Agrega tu desafío.');
+    if (!platform) alert('Agrega la red social donde te contacto');
+    if (!username) alert('Agrega tu nombre de usuario.');
+    setPreview(x => !x);
+  };
 
   const shareOnLink = async () => {
     const text = `https://www.sadhana.lat/concurso`;
@@ -58,23 +63,39 @@ const ContestComponent = ({ challengeCount }) => {
     return pattern.test(username);
   };
 
+  const deleteAllChallenges = async () => {
+    try {
+      const res = await fetch('/api/concurso', { method: 'DELETE' });
+      if (res.ok) {
+        alert('All challenges deleted!');
+      } else {
+        alert('Failed to delete challenges');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Failed to delete challenges');
+    }
+  };
+
   return (
     <div className='text-center bg-theorange h-screen w-screen overflow-scroll'>
       <div className='p-5'>
+        <button onClick={deleteAllChallenges}>Delete All Challenges</button>
+
         <div>
           {' '}
           <h6
-            className={`${luckiestguy.className} font-bold mb-4 max-w-4xl mx-auto text-5xl`}
+            className={`${luckiestguy.className} font-bold mb-4 max-w-4xl mx-auto text-3xl md:text-5xl`}
           >
             Participa en el concurso.
           </h6>
           <h6
-            className={`${luckiestguy.className} font-bold mb-1 max-w-4xl mx-auto text-8xl`}
+            className={`${luckiestguy.className} font-bold mb-1 max-w-4xl mx-auto text-5xl md:text-8xl`}
           >
             GANA $100.000 dólares!
           </h6>
           <h6
-            className={`${luckiestguy.className} font-bold -mb-2 max-w-4xl mx-auto text-5xl`}
+            className={`${luckiestguy.className} font-bold -mb-2 max-w-4xl mx-auto text-3xl md:text-5xl`}
           >
             Simplemente haciendo un desafío.*
           </h6>
@@ -133,7 +154,7 @@ const ContestComponent = ({ challengeCount }) => {
                       <p className='mb-2'>Usuario: {username}</p>
                       <button
                         type='button'
-                        className='bg-theblack hover:opacity-80 text-thewhite font-bold py-2 px-4 rounded m-2'
+                        className='bg-thepurple hover:opacity-80 text-thewhite font-bold py-2 px-4 rounded m-2'
                         onClick={previewFunction}
                       >
                         Editar

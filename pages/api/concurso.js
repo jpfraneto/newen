@@ -30,6 +30,14 @@ export default async function handler(req, res) {
     } catch (error) {
       res.status(500).send(error);
     }
+  } else if (req.method === 'DELETE') {
+    try {
+      const deleteAll = await prisma.concursoChallenge.deleteMany();
+      res.json({ success: true });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Unable to delete challenges' });
+    }
   } else {
     // Handle any other HTTP method
     res.setHeader('Allow', ['POST']);
