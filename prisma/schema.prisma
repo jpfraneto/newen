@@ -11,15 +11,6 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-model ConcursoChallenge {
-  id        Int      @id @default(autoincrement())
-  challenge String
-  platform  String
-  username  String   @unique
-  createdAt DateTime @default(now())
-}
-
-
 model User {
   id             String            @id @default(cuid())
   name           String?
