@@ -81,8 +81,9 @@ const MintPage = () => {
     setAnkyImageUrl('/images/8.png');
     setImageLoaded(true);
   };
-  const pasteText = async text => {
-    await navigator.clipboard.writeText(text);
+  const pasteText = async () => {
+    await navigator.clipboard.writeText(finishedText);
+    alert('The text was copied on your clipboard.');
   };
 
   useEffect(() => {
@@ -132,19 +133,26 @@ const MintPage = () => {
               alt='Anky The Ape'
             />
           </div>
-          {imageLoaded ? (
+          <div className='flex flex-row space-x-2'>
             <Button
-              buttonText='Mint'
-              buttonAction={handleMint}
-              buttonColor='bg-thegreenbtn mt-4'
+              buttonText='Retrieve what was written'
+              buttonAction={pasteText}
+              buttonColor='bg-thepurple text-thewhite mt-4'
             />
-          ) : (
-            <Button
-              buttonColor='bg-theorange mt-4'
-              buttonText='Load Avatar'
-              buttonAction={handleLoadImage}
-            />
-          )}
+            {imageLoaded ? (
+              <Button
+                buttonText='Mint'
+                buttonAction={handleMint}
+                buttonColor='bg-thegreenbtn mt-4'
+              />
+            ) : (
+              <Button
+                buttonColor='bg-theorange mt-4'
+                buttonText='Load Avatar'
+                buttonAction={handleLoadImage}
+              />
+            )}
+          </div>
         </div>
       ) : (
         <div className='w-3/4 md:w-1/2 lg:w-1/3'>
@@ -176,7 +184,7 @@ const MintPage = () => {
               <textarea
                 ref={textareaRef}
                 className='w-full h-64 p-4 text-theblack border border-gray-300 rounded-md mb-4'
-                value={finishedText || text}
+                value={text}
                 onChange={handleTextChange}
               ></textarea>
               <div className='flex justify-center items-center mb-4'>
