@@ -9,8 +9,10 @@ const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 const MintPage = () => {
   const [text, setText] = useState('');
   const [time, setTime] = useState(180);
+  const [showText, setShowText] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [isDone, setIsDone] = useState(false);
+  const [finishedText, setFinishedText] = useState(null);
   const [lastKeystroke, setLastKeystroke] = useState(Date.now());
   const [failed, setFailed] = useState(false);
   const [ankyImageUrl, setAnkyImageUrl] = useState('/images/anky.png');
@@ -79,9 +81,13 @@ const MintPage = () => {
     setAnkyImageUrl('/images/8.png');
     setImageLoaded(true);
   };
+  const pasteText = async text => {
+    await navigator.clipboard.writeText(text);
+  };
 
   useEffect(() => {
     if (time === 0) {
+      setFinishedText(text);
       setIsDone(true);
     }
   }, [time]);
@@ -108,10 +114,12 @@ const MintPage = () => {
           ) : (
             <>
               <p className='my-0'>Congratulations, you made it.</p>
+
               <p className='mt-0'>
                 Anky is processing your text, and creating a customized image
                 for you.
               </p>
+              <p>If you want to read it, it is copied on your clipboard.</p>
             </>
           )}
 
@@ -168,7 +176,7 @@ const MintPage = () => {
               <textarea
                 ref={textareaRef}
                 className='w-full h-64 p-4 text-theblack border border-gray-300 rounded-md mb-4'
-                value={text}
+                value={finishedText || text}
                 onChange={handleTextChange}
               ></textarea>
               <div className='flex justify-center items-center mb-4'>
