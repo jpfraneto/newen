@@ -1,10 +1,13 @@
 import Button from '@component/components/Button';
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
+
+const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
 const MintPage = () => {
   const [text, setText] = useState('');
-  const [time, setTime] = useState(2);
+  const [time, setTime] = useState(8);
   const [isActive, setIsActive] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const [lastKeystroke, setLastKeystroke] = useState(Date.now());
@@ -44,7 +47,7 @@ const MintPage = () => {
     setIsActive(false);
     setFailed(true);
     setText('');
-    setTime(180);
+    setTime(8);
     setFailureMessage(
       `You failed! Next time, just write for ${time} more seconds.`
     );
@@ -94,14 +97,23 @@ const MintPage = () => {
     >
       {isDone ? (
         <div className='flex flex-col items-center '>
-          <p className='mb-0'>
-            Wow. You just did something that requires mental mastery.
-          </p>
-          <p className='mt-0'>Congratulations.</p>
-          <p className='mt-0'>
-            Anky is processing your text, and creating a customized image for
-            you.
-          </p>
+          {imageLoaded ? (
+            <>
+              <p className='my-0'>
+                This is my interpretation of you, dear friend.
+              </p>
+              <p>Welcome to my world.</p>
+            </>
+          ) : (
+            <>
+              <p className='my-0'>Congratulations, you made it.</p>
+              <p className='mt-0'>
+                Anky is processing your text, and creating a customized image
+                for you.
+              </p>
+            </>
+          )}
+
           <div>
             <Image
               src={ankyImageUrl}
@@ -127,7 +139,6 @@ const MintPage = () => {
         </div>
       ) : (
         <div className='w-3/4 md:w-1/2 lg:w-1/3'>
-          {' '}
           {failed ? (
             <>
               <p>You failed! This isn&apos;t as easy as it sounds.</p>
@@ -138,14 +149,20 @@ const MintPage = () => {
             </>
           ) : (
             <>
-              <p className='text-2xl font-bold mb-4 text-center'>
-                Write a stream of consciousness for 3 minutes
+              <p
+                className={`${righteous.className} text-5xl font-bold mb-4 text-center`}
+              >
+                tell me who you are.
               </p>
-              <p className='text-base text-gray-600 mb-4'>
-                Begin typing in the text area below. The timer will start as
-                soon as you start typing. If you stop, you'll need to start
-                over. Your 'Mint' button will become available once you've
-                written for the full 3 minutes.
+              <p className='text-base text-gray-600 my-1'>
+                My world will only open to those who prove themselves.
+              </p>
+              <p>
+                If you stop writing for 1 second, you will fail. You have 3
+                minutes to respond to the inquiry.
+              </p>
+              <p className={`${righteous.className} font-bold`}>
+                See you on the otherside.
               </p>
               <textarea
                 ref={textareaRef}
