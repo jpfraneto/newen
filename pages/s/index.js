@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import BiggerLayout from '@component/components/BiggerLayout';
 import SadhanaCard from '@component/components/SadhanaCard';
+import NewNav from '@component/components/NewNav';
 import AllSadhanasDisplay from '@component/components/AllSadhanasDisplay';
 import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 
@@ -12,9 +13,12 @@ const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });
 
 export default function SadhanaList({ sadhanas }) {
   return (
-    <BiggerLayout>
-      <AllSadhanasDisplay sadhanas={sadhanas} />
-    </BiggerLayout>
+    <>
+      <NewNav />
+      <BiggerLayout>
+        <AllSadhanasDisplay sadhanas={sadhanas} />
+      </BiggerLayout>
+    </>
   );
 }
 

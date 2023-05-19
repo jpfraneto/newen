@@ -15,6 +15,7 @@ import { useMode } from '@component/context/ModeContext';
 import NewNav from '@component/components/NewNav';
 import CoolFooter from '@component/components/CoolFooter';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
 const russo = Russo_One({ weight: '400', subsets: ['cyrillic'] });

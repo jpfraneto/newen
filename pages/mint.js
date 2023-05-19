@@ -1,0 +1,145 @@
+import Button from '@component/components/Button';
+import React, { useState, useRef, useEffect } from 'react';
+
+const MintPage = () => {
+  const [text, setText] = useState('');
+  const [time, setTime] = useState(2);
+  const [isActive, setIsActive] = useState(false);
+  const [isDone, setIsDone] = useState(false);
+  const [lastKeystroke, setLastKeystroke] = useState(Date.now());
+  const [failed, setFailed] = useState(false);
+  const [failureMessage, setFailureMessage] = useState('');
+  const textareaRef = useRef(null);
+  const intervalRef = useRef(null);
+  const keystrokeIntervalRef = useRef(null);
+
+  useEffect(() => {
+    if (isActive && time && !isDone > 0) {
+      intervalRef.current = setInterval(() => {
+        setTime(time => time - 1);
+      }, 1000);
+    } else if (!isActive && !isDone) {
+      clearInterval(intervalRef.current);
+    }
+    return () => clearInterval(intervalRef.current);
+  }, [isActive, time, isDone]);
+
+  useEffect(() => {
+    if (isActive) {
+      keystrokeIntervalRef.current = setInterval(() => {
+        if (Date.now() - lastKeystroke > 1000 && !isDone) {
+          resetTimer();
+        }
+      }, 500);
+    } else {
+      clearInterval(keystrokeIntervalRef.current);
+    }
+    return () => clearInterval(keystrokeIntervalRef.current);
+  }, [isActive, lastKeystroke]);
+
+  const resetTimer = () => {
+    setIsActive(false);
+    setFailed(true);
+    setText('');
+    setTime(180);
+    setFailureMessage(
+      `You failed! Next time, just write for ${time} more seconds.`
+    );
+    clearInterval(intervalRef.current);
+    clearInterval(keystrokeIntervalRef.current);
+  };
+
+  const handleTextChange = event => {
+    setText(event.target.value);
+    if (!isActive && event.target.value.length > 0) {
+      setIsActive(true);
+      setFailureMessage('');
+    }
+    setLastKeystroke(Date.now());
+  };
+
+  const handleMint = () => {
+    alert('time to mint!');
+  };
+
+  const updateSadhanas = async () => {
+    const response = await fetch('/api/update-sadhanas');
+    const data = await response.json();
+    console.log('the data is: ', data);
+  };
+
+  useEffect(() => {
+    if (time === 0) {
+      setIsDone(true);
+    }
+  }, [time]);
+
+  return (
+    <div
+      className='text-thewhite relative h-screen flex items-center justify-center w-full bg-cover bg-center'
+      style={{
+        boxSizing: 'border-box',
+        height: 'calc(100vh  - 30px)',
+        backgroundImage:
+          "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
+      }}
+    >
+      {isDone ? (
+        <div className='flex flex-col items-center '>
+          <p className='mb-0'>
+            Wow. You just did something that requires mental mastery.
+          </p>
+          <p className='mt-0'>Congratulations.</p>
+          <button
+            className='px-4 py-2 bg-thegreen border rounded-full text-white rounded-md hover:bg-theorange'
+            onClick={handleMint}
+          >
+            Mint
+          </button>
+        </div>
+      ) : (
+        <div className='w-3/4 md:w-1/2 lg:w-1/3'>
+          {' '}
+          {failed ? (
+            <>
+              <p>You failed! This isn&apos;t as easy as it sounds.</p>
+              <Button
+                buttonText='Try again.'
+                buttonAction={() => setFailed(false)}
+              />
+            </>
+          ) : (
+            <>
+              <p className='text-2xl font-bold mb-4 text-center'>
+                Write a stream of consciousness for 3 minutes
+              </p>
+              <p className='text-base text-gray-600 mb-4'>
+                Begin typing in the text area below. The timer will start as
+                soon as you start typing. If you stop, you'll need to start
+                over. Your 'Mint' button will become available once you've
+                written for the full 3 minutes.
+              </p>
+              <textarea
+                ref={textareaRef}
+                className='w-full h-64 p-4 text-theblack border border-gray-300 rounded-md mb-4'
+                value={text}
+                onChange={handleTextChange}
+              ></textarea>
+              <div className='flex justify-between items-center mb-4'>
+                <div className='text-base'>Time left: {time} seconds</div>
+              </div>
+              {!isActive && text.length > 0 && (
+                <div className='text-red-500'>
+                  You stopped writing. That means you are thinking. You have to
+                  start again.
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default MintPage;

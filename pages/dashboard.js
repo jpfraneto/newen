@@ -2,36 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import DashboardComponent from '@component/components/DashboardComponent';
 import Link from 'next/link';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@component/pages/api/auth/[...nextauth].js';
 import { getLayout } from '@component/components/AccountLayout';
 import Spinner from '@component/components/Spinner';
 import { useRouter } from 'next/router';
 
-const Dashboard = () => {
+const Dashboard = ({ session }) => {
   const size = useWindowSize();
   const router = useRouter();
-  const { data: session, status } = useSession();
   const [loading, setLoading] = useState(false);
 
   // if (size.width < 500) return router.push('/m/dashboard');
 
   const now = new Date().getTime();
-  if (!session)
-    return (
-      <div>
-        <button>go back</button>
-      </div>
-    );
-  if (status === 'loading') {
-    return <p>Hang on there...</p>;
-  }
-  if (status === 'authenticated') {
-    return (
-      <div className=''>
-        {loading ? <Spinner /> : <DashboardComponent session={session} />}
-      </div>
-    );
-  }
-  return <div>You need to login first to access this thing.</div>;
+  return (
+    <div className=''>
+      {loading ? <Spinner /> : <DashboardComponent session={session} />}
+    </div>
+  );
 };
 
 Dashboard.getLayout = getLayout;
@@ -67,4 +56,30 @@ function useWindowSize() {
     return () => window.removeEventListener('resize', handleResize);
   }, []); // Empty array ensures that effect is only run on mount
   return windowSize;
+}
+
+export async function getServerSideProps(context) {
+  try {
+    const session = await getServerSession(
+      context.req,
+      context.res,
+      authOptions
+    );
+
+    if (!session) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      };
+    }
+    return {
+      props: {
+        session,
+      },
+    };
+  } catch (error) {
+    console.error('Error in getServerSideProps:', error);
+  }
 }

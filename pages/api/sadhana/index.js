@@ -26,7 +26,6 @@ const createSadhana = async (req, res, session) => {
   try {
     const {
       title,
-      content,
       targetSessions,
       targetSessionDuration,
       periodicity,
@@ -40,7 +39,6 @@ const createSadhana = async (req, res, session) => {
     }
     const sadhanaData = {
       title: title,
-      content: content,
       targetSessions: parseInt(targetSessions),
       targetSessionDuration: parseInt(targetSessionDuration),
       periodicity: periodicity,

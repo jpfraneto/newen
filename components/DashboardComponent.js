@@ -267,33 +267,6 @@ const DashboardComponent = ({ session }) => {
 
   return (
     <div className='w-full md:container overflow-y-scroll max-h-screen mx-auto md:px-4'>
-      {/* <div className='flex justify-center space-x-1 md:space-x-4 my-4'>
-        <button
-          className={`${
-            sadhanaFilter === 'pending' ? 'opacity-100' : 'opacity-50'
-          } font-itim bg-thegreenbtn border border-white text-xl hover:opacity-60 hover:bg-blue-700 text-black py-1 px-2 rounded focus:outline-none focus:shadow-outline`}
-          onClick={() => setSadhanaFilter('pending')}
-        >
-          Pending
-        </button>
-        <button
-          className={`${
-            sadhanaFilter === 'active' ? 'opacity-100' : 'opacity-50'
-          } font-itim bg-thegreenbtn border border-white hover:opacity-60 text-xl hover:bg-blue-700 text-black py-1 px-2 rounded focus:outline-none focus:shadow-outline`}
-          onClick={() => setSadhanaFilter('active')}
-        >
-          Active
-        </button>
-        <button
-          className={`${
-            sadhanaFilter === 'completed' ? 'opacity-100' : 'opacity-50'
-          } font-itim bg-thegreenbtn border border-white text-xl hover:opacity-60 text-black py-1 px-2 rounded focus:outline-none focus:shadow-outline`}
-          onClick={() => setSadhanaFilter('completed')}
-        >
-          Completed
-        </button>
-        <Button buttonAction={() => router.push('/s/new')} buttonText='New' />
-      </div> */}
       <DashboardTable
         toggleCompletion={toggleCompletion}
         setUserSadhanas={setUserSadhanas}
@@ -304,43 +277,6 @@ const DashboardComponent = ({ session }) => {
         submittingId={submittingId}
       />
 
-      {/* {userSadhanas.length > 0 && (
-        <div className='overflow-x-scroll'>
-          {userSadhanas.map((x, i) => {
-            return <SadhanaCardInDashboard sadhana={x} key={i} />;
-          })}
-        </div>
-      )} */}
-      {/* {userSadhanas?.length > 0 ? (
-        <div className=' overflow-x-scroll'>
-          {sadhanaFilter === 'pending' && (
-            <PendingSadhanasDisplay sadhanas={filteredSadhanas} />
-          )}
-          {sadhanaFilter === 'active' && (
-            <ActiveSadhanasDisplay
-              sadhanas={filteredSadhanas}
-              savingSessionLoading={savingSessionLoading}
-              submittingId={submittingId}
-              toggleCompletion={toggleCompletion}
-              evaluateSadhanaTime={evaluateSadhanaTime}
-              handleChooseThisSadhanaTimer={handleChooseThisSadhanaTimer}
-              calculateDayIndex={calculateDayIndex}
-              session={session}
-            />
-          )}
-          {sadhanaFilter === 'completed' && (
-            <CompletedSadhanasDisplay
-              sadhanas={filteredSadhanas}
-              calculateCompletedSessions={calculateCompletedSessions}
-              userSessions={userSessions}
-            />
-          )}
-        </div>
-      ) : (
-        <>
-          <p>You don&apos;t have any challenges associated yet.</p>
-        </>
-      )} */}
       <TimerModal isOpen={timerModalOpen} onClose={closeTimerModal}>
         {timerModalOpen && (
           <NewDashboardTimer
