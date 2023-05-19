@@ -1,6 +1,7 @@
 import Button from '@component/components/Button';
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
