@@ -1,5 +1,6 @@
 import Button from '@component/components/Button';
 import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 
 const MintPage = () => {
   const [text, setText] = useState('');
@@ -8,7 +9,9 @@ const MintPage = () => {
   const [isDone, setIsDone] = useState(false);
   const [lastKeystroke, setLastKeystroke] = useState(Date.now());
   const [failed, setFailed] = useState(false);
+  const [ankyImageUrl, setAnkyImageUrl] = useState('/images/anky.png');
   const [failureMessage, setFailureMessage] = useState('');
+  const [imageLoaded, setImageLoaded] = useState(false);
   const textareaRef = useRef(null);
   const intervalRef = useRef(null);
   const keystrokeIntervalRef = useRef(null);
@@ -59,13 +62,18 @@ const MintPage = () => {
   };
 
   const handleMint = () => {
-    alert('time to mint!');
+    alert('Time to mint this as an NFT!');
   };
 
   const updateSadhanas = async () => {
     const response = await fetch('/api/update-sadhanas');
     const data = await response.json();
     console.log('the data is: ', data);
+  };
+
+  const handleLoadImage = () => {
+    setAnkyImageUrl('/images/8.png');
+    setImageLoaded(true);
   };
 
   useEffect(() => {
@@ -90,12 +98,32 @@ const MintPage = () => {
             Wow. You just did something that requires mental mastery.
           </p>
           <p className='mt-0'>Congratulations.</p>
-          <button
-            className='px-4 py-2 bg-thegreen border rounded-full text-white rounded-md hover:bg-theorange'
-            onClick={handleMint}
-          >
-            Mint
-          </button>
+          <p className='mt-0'>
+            Anky is processing your text, and creating a customized image for
+            you.
+          </p>
+          <div>
+            <Image
+              src={ankyImageUrl}
+              className='rounded-3xl overflow-hidden border border-thewhite'
+              width={333}
+              height={333}
+              alt='Anky The Ape'
+            />
+          </div>
+          {imageLoaded ? (
+            <Button
+              buttonText='Mint'
+              buttonAction={handleMint}
+              buttonColor='bg-thegreenbtn mt-4'
+            />
+          ) : (
+            <Button
+              buttonColor='bg-theorange mt-4'
+              buttonText='Load Avatar'
+              buttonAction={handleLoadImage}
+            />
+          )}
         </div>
       ) : (
         <div className='w-3/4 md:w-1/2 lg:w-1/3'>
