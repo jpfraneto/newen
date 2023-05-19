@@ -8,7 +8,7 @@ const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
 const MintPage = () => {
   const [text, setText] = useState('');
-  const [time, setTime] = useState(8);
+  const [time, setTime] = useState(180);
   const [isActive, setIsActive] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const [lastKeystroke, setLastKeystroke] = useState(Date.now());
@@ -48,7 +48,7 @@ const MintPage = () => {
     setIsActive(false);
     setFailed(true);
     setText('');
-    setTime(8);
+    setTime(180);
     setFailureMessage(
       `You failed! Next time, just write for ${time} more seconds.`
     );
@@ -171,8 +171,8 @@ const MintPage = () => {
                 value={text}
                 onChange={handleTextChange}
               ></textarea>
-              <div className='flex justify-between items-center mb-4'>
-                <div className='text-base'>Time left: {time} seconds</div>
+              <div className='flex justify-center items-center mb-4'>
+                <div className='text-4xl'>{time} </div>
               </div>
               {!isActive && text.length > 0 && (
                 <div className='text-red-500'>
