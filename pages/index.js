@@ -175,6 +175,17 @@ export async function getServerSideProps(context) {
       context.res,
       authOptions
     );
+    const { req } = context;
+    const { host } = req.headers;
+
+    if (host.includes('anky')) {
+      return {
+        redirect: {
+          destination: '/mint',
+          permanent: false,
+        },
+      };
+    }
 
     if (session) {
       return {
