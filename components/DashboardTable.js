@@ -86,7 +86,7 @@ const DashboardTable = ({
               >
                 <div className='flex flex-col items-center text-bold'>
                   {thisOne.split(' ').map((x, i) => {
-                    return <span>{x}</span>;
+                    return <span key={i}>{x}</span>;
                   })}
                 </div>
               </td>
