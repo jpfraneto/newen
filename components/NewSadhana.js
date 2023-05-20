@@ -62,17 +62,21 @@ const NewSadhana = () => {
       title,
       targetSessions,
       targetSessionDuration,
-      periodicity,
       isPrivate,
-      startingTimestap,
+      startingTimestamp,
     } = formData;
+    console.log(
+      title,
+      targetSessions,
+      targetSessionDuration,
+      isPrivate,
+      startingTimestamp
+    );
     if (
       !title ||
       !targetSessions ||
-      targetSessionDuration ||
-      periodicity ||
-      isPrivate ||
-      startingTimestap
+      !targetSessionDuration ||
+      !startingTimestamp
     )
       return alert('Please fill out all the form elements!');
 

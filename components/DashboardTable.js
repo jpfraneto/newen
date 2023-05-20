@@ -20,7 +20,6 @@ const DashboardTable = ({
   savingSessionLoading,
   daysDisplayed,
 }) => {
-  console.log('the sadhanas are: ', sadhanas);
   const [dates, setDates] = useState([]);
   const [loadingDeletion, setLoadingDeletion] = useState(false);
 
@@ -213,17 +212,19 @@ const DashboardTable = ({
                     }`}
                     key={index}
                   >
-                    <div className='pt-4'>
-                      {session ? (
-                        <span className='text-thegreenbtn flex justify-center w-8 items-center my-1 mx-auto'>
-                          <GoVerified size={30} />
-                        </span>
-                      ) : (
-                        <span className='text-theredbtn flex justify-center w-8 items-center my-1 mx-auto'>
-                          <GoVerified size={40} />
-                        </span>
-                      )}
-                    </div>
+                    {
+                      <div className='pt-4'>
+                        {session ? (
+                          <span className='text-thegreenbtn flex justify-center w-8 items-center my-1 mx-auto'>
+                            <GoVerified size={30} />
+                          </span>
+                        ) : (
+                          <span className='text-theredbtn flex justify-center w-8 items-center my-1 mx-auto'>
+                            <GoVerified size={40} />
+                          </span>
+                        )}
+                      </div>
+                    }
                   </td>
                 );
               })}

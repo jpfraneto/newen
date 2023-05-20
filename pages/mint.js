@@ -178,6 +178,17 @@ const MintPage = () => {
                 If you stop writing for 1 second, you will fail. You have 3
                 minutes to respond to the inquiry.
               </p>
+              <p>For how long will you write?</p>
+              <input
+                type='range'
+                min='1'
+                max='161'
+                className='bg-thegreen'
+                onChange={e => {
+                  setTime(e.target.value);
+                }}
+              />
+
               <p className={`${righteous.className} font-bold`}>
                 See you on the otherside.
               </p>
