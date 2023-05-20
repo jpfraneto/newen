@@ -174,10 +174,7 @@ const MintPage = () => {
               <p className='text-base text-gray-600 my-1'>
                 My world will only open to those who prove themselves.
               </p>
-              <p>
-                If you stop writing for 1 second, you will fail. You have 3
-                minutes to respond to the inquiry.
-              </p>
+              <p>If you stop writing for 1 second, you will fail.</p>
               <p>For how long will you write?</p>
               <input
                 type='range'
