@@ -78,7 +78,7 @@ const MintPage = () => {
   };
 
   const handleLoadImage = () => {
-    setAnkyImageUrl('/images/8.png');
+    setAnkyImageUrl('/images/apigo.png');
     setImageLoaded(true);
   };
   const pasteText = async () => {
