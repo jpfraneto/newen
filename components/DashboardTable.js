@@ -85,7 +85,7 @@ const DashboardTable = ({
                         {sadhana.title}
                       </p>
                     </div>
-                    <div className='flex ml-10 mt-1 justify-start items-center md:pr-2'>
+                    <div className='flex mt-1 justify-start items-center md:pr-2'>
                       <div className='flex flex-col items-center'>
                         <AiFillClockCircle size={30} />
                         {sadhana.targetSessionDuration}
@@ -98,12 +98,9 @@ const DashboardTable = ({
                         <IoIosPeople size={30} />
                         {sadhana.participants.length}
                       </div>
-                      <div className='flex ml-2 flex-col items-center'>
-                        <BsFillCalendarCheckFill size={30} />
-                        <span>daily</span>
-                      </div>
+
                       <div className='flex ml-4 flex-col items-center text-center'>
-                        <span className='px-4 py-2 border-theblack border rounded-xl'>
+                        <span className='px-4 py-2 w-24 border-theblack border rounded-xl'>
                           {calculateDayIndex(sadhana.startingTimestamp)}/
                           {sadhana.targetSessions}
                         </span>

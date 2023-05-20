@@ -41,7 +41,8 @@ export default function SignIn({ providers, csrfToken }) {
               <div className='flex flex-col text-theblack w-80 mx-auto mb-4 space-y-1 flex-grow '>
                 {Object.values(providers).map(provider => {
                   if (provider.name === 'Email') return;
-
+                  if (provider.name.includes('(Legacy)'))
+                    provider.name = provider.name.replace('(Legacy)', '');
                   return (
                     <div className='w-full' key={provider.name}>
                       <button
