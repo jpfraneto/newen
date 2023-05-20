@@ -15,13 +15,14 @@ import { Russo_One, Titillium_Web } from 'next/font/google';
 const titilium = Titillium_Web({ weight: '400', subsets: ['latin'] });
 
 const LeftNavbar = ({ user }) => {
+  console.log('the user is:', user);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   if (!user) return;
   return (
     <div
-      className={` sm:w-64 md:h-[calc(100vh-30px)] text-sm bg-thegreen px-2 relative sm:static ${
+      className={` sm:min-w-[261px] md:h-[calc(100vh-30px)] text-sm bg-thegreen px-2 relative sm:static ${
         isOpen ? 'absolute h-fit pb-2' : ''
       } transition-all duration-200`}
     >
@@ -40,7 +41,10 @@ const LeftNavbar = ({ user }) => {
       </div>
       <div className={`sm:block ${isOpen ? 'block' : 'hidden'}`}>
         <div className='w-11/12 mx-auto bg-white rounded-lg font-bold'>
-          @kithkui
+          {user.username ? `@${user.username}` : user.name}
+        </div>
+        <div className='w-11/12 mx-auto bg-white rounded-lg font-bold'>
+          Level: {user.level} | Points: {user.points}
         </div>
         <div className='w-11/12 mx-auto mt-10 space-y-2 font-bold'>
           <div

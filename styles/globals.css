@@ -183,6 +183,30 @@ footer {
   transition: opacity 300ms, transform 300ms;
 }
 
+.wrapper {
+  overflow-x: auto;
+}
+
+.scrollableTable {
+  min-width: 1200px; /* adjust as needed */
+  width: 100%;
+}
+
+.stickyColumn {
+  position: sticky;
+  background-color: white;
+}
+
+.stickyColumn:first-child {
+  left: 0;
+  z-index: 1;
+}
+
+.stickyColumn:last-child {
+  right: 0;
+  z-index: 1;
+}
+
 @keyframes textSpacing {
   0% {
     letter-spacing: 1px;

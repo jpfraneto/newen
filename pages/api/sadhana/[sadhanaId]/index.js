@@ -4,11 +4,53 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@component/pages/api/auth/[...nextauth]';
 
 export default async function handler(req, res) {
-  const sadhanaId = req.query.sadhanaId;
+  const sadhanaId = parseInt(req.query.sadhanaId);
   const session = await getServerSession(req, res, authOptions);
 
   try {
-    if (req.method === 'GET') {
+    if (req.method === 'DELETE') {
+      try {
+        const userId = session.user.id;
+        // Delete associated SadhanaSessions
+        await prisma.sadhanaSession.deleteMany({
+          where: {
+            AND: [{ sadhanaId: sadhanaId }, { authorId: userId }],
+          },
+        });
+
+        // Disconnect the User from the Sadhana
+        await prisma.user.update({
+          where: { id: userId },
+          data: {
+            participatedSadhanas: {
+              disconnect: { id: sadhanaId },
+            },
+            sadhanas: {
+              disconnect: { id: sadhanaId },
+            },
+          },
+        });
+
+        // Disconnect the Sadhana from the User
+        await prisma.sadhana.update({
+          where: { id: sadhanaId },
+          data: {
+            participants: {
+              disconnect: { id: userId },
+            },
+          },
+        });
+
+        res.status(200).json({
+          message: 'The sadhana was successfully deleted from the user',
+        });
+      } catch (error) {
+        console.log('the error is: ', error);
+        res
+          .status(500)
+          .send({ error: 'An error occurred while deleting the sadhana.' });
+      }
+    } else if (req.method === 'GET') {
       const sadhana = await prisma.sadhana.findUnique({
         where: { id: parseInt(sadhanaId) },
         include: {
@@ -23,55 +65,9 @@ export default async function handler(req, res) {
       }
 
       res.status(200).json({ sadhana });
-    } else if (req.method === 'DELETE') {
-      if (!session) {
-        return res.status(401).json({ message: 'Unauthorized' });
-      }
-      // First, delete the related sadhana sessions
-      await prisma.sadhanaSession.deleteMany({
-        where: {
-          sadhanaId: parseInt(sadhanaId),
-        },
-      });
-
-      // Find sadhana days to delete related comments
-      const sadhanaDays = await prisma.sadhanaDay.findMany({
-        where: {
-          sadhanaId: parseInt(sadhanaId),
-        },
-        select: {
-          id: true,
-        },
-      });
-
-      // Delete comments related to the sadhana days
-      for (const sadhanaDay of sadhanaDays) {
-        await prisma.comment.deleteMany({
-          where: {
-            sadhanaDayId: sadhanaDay.id,
-          },
-        });
-      }
-
-      // Delete the related sadhana days
-      await prisma.sadhanaDay.deleteMany({
-        where: {
-          sadhanaId: parseInt(sadhanaId),
-        },
-      });
-
-      // Then, delete the sadhana
-      await prisma.sadhana.delete({
-        where: {
-          id: parseInt(sadhanaId),
-        },
-      });
-      res.status(200).json({});
-    } else {
-      res.status(405).json({ message: 'Method not allowed' });
     }
   } catch (error) {
-    console.error('This is the error eliminating the sadhana.', error);
-    res.status(500).json({ message: 'Something went wrong' });
+    console.log('There was an error', error);
+    res.status(500);
   }
 }

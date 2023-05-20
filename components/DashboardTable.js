@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { GoVerified } from 'react-icons/go';
 import { RiTimerFill } from 'react-icons/ri';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 import Spinner from './Spinner';
 import { IoIosPeople } from 'react-icons/io';
 import { GiStairsGoal } from 'react-icons/gi';
 import { BsFillCalendarCheckFill } from 'react-icons/bs';
-import { AiFillClockCircle } from 'react-icons/ai';
+import { AiFillClockCircle, AiTwotoneDelete } from 'react-icons/ai';
 import { calculateDayIndex } from '@component/lib/functions';
 
 const DashboardTable = ({
@@ -17,29 +18,63 @@ const DashboardTable = ({
   handleChooseThisSadhanaTimer,
   submittingId,
   savingSessionLoading,
+  daysDisplayed,
 }) => {
+  console.log('the sadhanas are: ', sadhanas);
   const [dates, setDates] = useState([]);
+  const [loadingDeletion, setLoadingDeletion] = useState(false);
 
   useEffect(() => {
     let tempDates = [];
-    for (let i = 4; i >= 0; i--) {
+    for (let i = daysDisplayed; i >= 0; i--) {
       const date = new Date();
       date.setDate(date.getDate() - i);
       tempDates.push(date.getTime());
     }
     setDates(tempDates);
-  }, []);
+  }, [daysDisplayed]);
   const formatDate = timestamp => {
     const date = new Date(timestamp);
     return `${date.toLocaleString('default', {
       month: 'short',
     })} ${date.getDate()}`;
   };
+
+  const deleteThisSadhanaFroUser = async sadhanaId => {
+    try {
+      setLoadingDeletion(true);
+      toast.warning('The sadhana is going to be deleted');
+      const response = await fetch(`/api/sadhana/${sadhanaId}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        toast.success('The sadhana was deleted!');
+        setUserSadhanas(prev => {
+          const newUserSadhanas = prev.filter(
+            sadhana => sadhana.id !== sadhanaId
+          );
+          return newUserSadhanas;
+        });
+        setLoadingDeletion(false);
+      } else {
+        const data = await response.json();
+        console.log('the response was: ', data);
+        toast.error('The response is not ok.');
+      }
+    } catch (error) {
+      console.log('the error is: ', error);
+      toast.error('There was an error');
+    }
+  };
+
+  if (!sadhanas) return;
+
   return (
-    <table className='max-w-screen overflow-x-scroll'>
+    <table className='px-1 md:w-fit w-screen overflow-x-scroll'>
       <thead>
         <tr>
-          <td>Name</td>
+          <td className='hidden md:block'></td>
+          <td></td>
           {dates.map((date, i, arr) => {
             const thisOne = formatDate(date);
             return (
@@ -49,7 +84,11 @@ const DashboardTable = ({
                   i === arr.length - 1 ? 'bg-thelight' : ''
                 }`}
               >
-                <span>{thisOne}</span>
+                <div className='flex flex-col items-center text-bold'>
+                  {thisOne.split(' ').map((x, i) => {
+                    return <span>{x}</span>;
+                  })}
+                </div>
               </td>
             );
           })}
@@ -70,17 +109,29 @@ const DashboardTable = ({
               key={sadhana.id}
               className='border-b hover:bg-thelight border-theblack'
             >
+              <td className='text-theredbtn hidden md:block mt-auto hover:text-thered items-center justify-center px-3 '>
+                <span className=' flex justify-center  items-center hover:cursor-pointer '>
+                  {loadingDeletion ? (
+                    <Spinner />
+                  ) : (
+                    <AiTwotoneDelete
+                      size={30}
+                      onClick={() => deleteThisSadhanaFroUser(sadhana.id)}
+                    />
+                  )}
+                </span>
+              </td>
               <td className=''>
                 <Link
                   className='text-bold hover:text-orange'
                   href={`/s/${sadhana.id}`}
                   passHref
                 >
-                  <div className='flex flex-col md:justify-between w-full'>
-                    <div className='text-thegreenbtn text-left '>
+                  <div className='relative flex flex-col md:justify-between w-full'>
+                    <div className='mb-8 text-thegreenbtn text-left overflow-x-'>
                       <p
                         href={`/s/${sadhana.id}`}
-                        className='font-bold text-xl text-black mb-0'
+                        className='absolute whitespace-nowrap overflow-visible z-2 font-bold text-xl text-black mb-0'
                       >
                         {sadhana.title}
                       </p>
@@ -92,6 +143,7 @@ const DashboardTable = ({
                       </div>
                       <div className='flex ml-2 flex-col items-center'>
                         <GiStairsGoal size={30} />
+                        {calculateDayIndex(sadhana.startingTimestamp)}/
                         {sadhana.targetSessions}
                       </div>
                       <div className='flex ml-2 flex-col items-center'>
@@ -99,12 +151,12 @@ const DashboardTable = ({
                         {sadhana.participants.length}
                       </div>
 
-                      <div className='flex ml-4 flex-col items-center text-center'>
+                      {/* <div className='flex ml-4 flex-col items-center text-center'>
                         <span className='px-4 py-2 w-24 border-theblack border rounded-xl'>
                           {calculateDayIndex(sadhana.startingTimestamp)}/
                           {sadhana.targetSessions}
                         </span>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </Link>
@@ -125,8 +177,9 @@ const DashboardTable = ({
                       }`}
                       key={index}
                     >
-                      {session ? (
-                        <div>
+                      {' '}
+                      <div className='px-2 pt-4'>
+                        {session ? (
                           <span className='text-thegreenbtn flex justify-center w-8 items-center my-1 mx-auto'>
                             <GoVerified
                               size={30}
@@ -135,9 +188,7 @@ const DashboardTable = ({
                               }
                             />
                           </span>
-                        </div>
-                      ) : (
-                        <div className='px-2'>
+                        ) : (
                           <span className='text-theredbtn flex justify-center items-center my-1 mx-auto'>
                             <NewSessionButtons
                               toggleCompletion={toggleCompletion}
@@ -150,8 +201,8 @@ const DashboardTable = ({
                               savingSessionLoading={savingSessionLoading}
                             />
                           </span>
-                        </div>
-                      )}
+                        )}{' '}
+                      </div>
                     </td>
                   );
                 }
@@ -162,21 +213,17 @@ const DashboardTable = ({
                     }`}
                     key={index}
                   >
-                    {session ? (
-                      <div>
-                        {' '}
+                    <div className='pt-4'>
+                      {session ? (
                         <span className='text-thegreenbtn flex justify-center w-8 items-center my-1 mx-auto'>
                           <GoVerified size={30} />
                         </span>
-                      </div>
-                    ) : (
-                      <div>
-                        {' '}
+                      ) : (
                         <span className='text-theredbtn flex justify-center w-8 items-center my-1 mx-auto'>
                           <GoVerified size={40} />
                         </span>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </td>
                 );
               })}

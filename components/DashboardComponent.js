@@ -38,6 +38,7 @@ const DashboardComponent = ({ session }) => {
   const [sadhanaFilter, setSadhanaFilter] = useState('active');
   const [userSessions, setUserSessions] = useState(null);
   const [filteredSadhanas, setFilteredSadhanas] = useState(null);
+  const [daysDisplayed, setDaysDisplayed] = useState(4);
 
   useEffect(() => {
     if (!session) return;
@@ -88,7 +89,8 @@ const DashboardComponent = ({ session }) => {
 
         data.sadhanas = sortByStartingTimestampDescending(data.sadhanas);
         setUserSadhanas(data.sadhanas);
-        setFilteredSadhanas(data.sadhanas, 'active');
+        const filtereddd = filterSadhanasByStatus(data.sadhanas, 'active');
+        setFilteredSadhanas(filtereddd);
         setLoadingSadhanas(false);
         return;
       } catch (error) {
@@ -269,12 +271,13 @@ const DashboardComponent = ({ session }) => {
     <div className='w-full md:container overflow-y-scroll max-h-screen mx-auto md:px-4'>
       <DashboardTable
         toggleCompletion={toggleCompletion}
-        setUserSadhanas={setUserSadhanas}
+        setUserSadhanas={setFilteredSadhanas}
         handleChooseThisSadhanaTimer={handleChooseThisSadhanaTimer}
         savingSessionLoading={savingSessionLoading}
-        sadhanas={userSadhanas}
+        sadhanas={filteredSadhanas}
         userSessions={userSessions}
         submittingId={submittingId}
+        daysDisplayed={daysDisplayed}
       />
 
       <TimerModal isOpen={timerModalOpen} onClose={closeTimerModal}>
@@ -293,6 +296,20 @@ const DashboardComponent = ({ session }) => {
           buttonAction={() => router.push('/')}
           buttonText='Back to landing'
         />
+        <div className='mt-2 hidden md:flex space-x-1 justify-center items-center'>
+          <label>
+            Choose the amount of days to display
+            <br />
+            <input
+              type='range'
+              className='mx-auto'
+              min='1'
+              value={daysDisplayed}
+              max='20'
+              onChange={e => setDaysDisplayed(e.target.value)}
+            />
+          </label>
+        </div>
       </div>
     </div>
   );

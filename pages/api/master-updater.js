@@ -12,7 +12,7 @@ export default async function handler(req, res) {
         await updatePendingSadhanas();
 
         // Function to send WhatsApp messages to users
-        await sendWhatsappMessages();
+        // await sendWhatsappMessages();
 
         res.status(200).json({ message: 'Successfully updated!' });
       } catch (error) {

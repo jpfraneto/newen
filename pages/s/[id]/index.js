@@ -297,7 +297,6 @@ export default function SadhanaDetail({
             participants={participants}
             dayIndex={dayIndex}
           />
-          {/* <Participants participants={participants} /> */}
           {dayIndex < 0 ? (
             <p
               className={`${russo.className} blocktext-gray-700 text-sm font-bold `}
@@ -650,10 +649,9 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
   const timeZoneOffset = date.getTimezoneOffset() * 60000; // Offset in milliseconds
   const localDate = new Date(date.getTime() + timeZoneOffset);
   return (
-    <>
-      {' '}
+    <div className='flex'>
       <h4
-        className={`${righteous.className} text-5xl text-blue-400 font-bold `}
+        className={`${righteous.className} text-5xl ml-2 text-blue-400 font-bold `}
       >
         {sadhana.title}
       </h4>
@@ -706,7 +704,6 @@ function HeaderComponent({ sadhana, session, dayIndex }) {
           buttonColor='bg-theredbtn'
         />
       )}
-      <p className='italic my-2 text-white md:text-black'>{sadhana.content}</p>
-    </>
+    </div>
   );
 }

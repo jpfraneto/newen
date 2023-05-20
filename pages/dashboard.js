@@ -17,7 +17,7 @@ const Dashboard = ({ session }) => {
 
   const now = new Date().getTime();
   return (
-    <div className=''>
+    <div className='max-w-screen'>
       {loading ? <Spinner /> : <DashboardComponent session={session} />}
     </div>
   );
