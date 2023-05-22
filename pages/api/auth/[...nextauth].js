@@ -42,6 +42,38 @@ export const authOptions = {
 
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
+      switch (account.provider) {
+        case 'twitter':
+          if (user.id) {
+            try {
+              if (user.username && user.oauthProvider) return true;
+              const users = await prisma.user.findMany();
+
+              if (user.id === profile.id_str) {
+                return true;
+              }
+
+              await prisma.user.update({
+                where: {
+                  id: user.id,
+                },
+                data: {
+                  username: profile.screen_name,
+                  providerAccountId: profile.id.toString(),
+                  oauthProvider: account.provider,
+                },
+              });
+
+              return true;
+            } catch (error) {
+              console.log('THERE WAS AN ERROR IN THE SIGN IN FUNCTION:', error);
+            }
+          } else {
+            // If the user does not exist, return false to stop the sign-in process
+            return true;
+          }
+          break;
+      }
       return true;
     },
 

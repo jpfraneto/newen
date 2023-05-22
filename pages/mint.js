@@ -1,31 +1,44 @@
 import Button from '@component/components/Button';
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { useSession } from 'next-auth/react';
+import RunModal from '@component/components/RunModal';
 import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 
 const righteous = Righteous({ weight: '400', subsets: ['latin'] });
 
-const MintPage = () => {
+const GamePage = () => {
+  const { data: session, status } = useSession();
   const [text, setText] = useState('');
-  const [time, setTime] = useState(180);
+  const [time, setTime] = useState(0);
   const [showText, setShowText] = useState(false);
   const [isActive, setIsActive] = useState(false);
+  const [savingRound, setSavingRound] = useState(false);
   const [isDone, setIsDone] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedRun, setSelectedRun] = useState(null);
+  const [savedToDb, setSavedToDb] = useState(false);
   const [finishedText, setFinishedText] = useState(null);
+  const [loadingLeaderboard, setLoadingLeaderboard] = useState(false);
   const [lastKeystroke, setLastKeystroke] = useState(Date.now());
-  const [failed, setFailed] = useState(false);
+  const [finished, setFinished] = useState(false);
   const [ankyImageUrl, setAnkyImageUrl] = useState('/images/anky.png');
   const [failureMessage, setFailureMessage] = useState('');
+  const [copyText, setCopyText] = useState('Copy what I wrote');
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [twitterUsername, setTwitterUsername] = useState('');
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+
+  const [leaderboard, setLeaderboard] = useState([]);
   const textareaRef = useRef(null);
   const intervalRef = useRef(null);
   const keystrokeIntervalRef = useRef(null);
 
   useEffect(() => {
-    if (isActive && time && !isDone > 0) {
+    if (isActive && !isDone) {
       intervalRef.current = setInterval(() => {
-        setTime(time => time - 1);
+        setTime(time => time + 1);
       }, 1000);
     } else if (!isActive && !isDone) {
       clearInterval(intervalRef.current);
@@ -37,7 +50,7 @@ const MintPage = () => {
     if (isActive) {
       keystrokeIntervalRef.current = setInterval(() => {
         if (Date.now() - lastKeystroke > 1000 && !isDone) {
-          resetTimer();
+          finishRun();
         }
       }, 500);
     } else {
@@ -46,16 +59,30 @@ const MintPage = () => {
     return () => clearInterval(keystrokeIntervalRef.current);
   }, [isActive, lastKeystroke]);
 
-  const resetTimer = () => {
+  const finishRun = async () => {
+    setLoadingLeaderboard(true);
+    fetch('/api/runs')
+      .then(res => res.json())
+      .then(data => {
+        setLeaderboard(data);
+        setLoadingLeaderboard(false);
+      })
+      .catch(err => console.error(err));
+    setEndTime(Date.now());
     setIsActive(false);
-    setFailed(true);
-    setText('');
-    setTime(180);
-    setFailureMessage(
-      `You failed! Next time, just write for ${time} more seconds.`
-    );
+    setIsDone(true);
+    setFinished(true);
+    setFailureMessage(`You're done! This run lasted ${time}.}`);
     clearInterval(intervalRef.current);
     clearInterval(keystrokeIntervalRef.current);
+  };
+
+  const startNewRun = () => {
+    setTime(0);
+    setText('');
+    setSavedToDb(false);
+    setIsDone(false);
+    setFinished(false);
   };
 
   const handleTextChange = event => {
@@ -63,12 +90,64 @@ const MintPage = () => {
     if (!isActive && event.target.value.length > 0) {
       setIsActive(true);
       setFailureMessage('');
+      setStartTime(Date.now());
     }
     setLastKeystroke(Date.now());
   };
 
-  const handleMint = () => {
-    alert('Time to mint this as an NFT!');
+  const saveRunToDb = async () => {
+    let usernameToAdd;
+    if (!twitterUsername) {
+      if (session.user.username && session.user.oauthProvider === 'twitter') {
+        usernameToAdd = session.user.username;
+      } else {
+        return alert('Please add a Twitter username to link this run.');
+      }
+    }
+    if (!usernameToAdd) usernameToAdd = twitterUsername;
+
+    setSavingRound(true);
+    const timeSpent = Math.round((endTime - startTime) / 1000);
+
+    try {
+      const response = await fetch('/api/runs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          twitterUser: usernameToAdd,
+          timeSpent,
+          wordCount: text.split(' ').length,
+          content: text,
+        }),
+      });
+      const data = await response.json();
+      if (data) {
+        // Assume leaderboard is sorted by timeSpent in descending order.
+        // Find the correct position to insert the new run.
+        let insertIndex = leaderboard.findIndex(
+          run => run.timeSpent < timeSpent
+        );
+        if (insertIndex === -1) {
+          // If the new run has the lowest timeSpent, append it at the end.
+          insertIndex = leaderboard.length;
+        }
+        // Insert the new run into leaderboard at the correct position.
+        leaderboard.splice(insertIndex, 0, {
+          twitterUser: twitterUsername,
+          timeSpent,
+          wordCount: text.split(' ').length,
+          content: text,
+        });
+        setLeaderboard(leaderboard);
+        setSavingRound('Save to DB');
+        setSavedToDb(true);
+        console.log('the data from the server is: ', data);
+      }
+    } catch (error) {
+      console.log('the error is:', error);
+    }
   };
 
   const updateSadhanas = async () => {
@@ -77,25 +156,36 @@ const MintPage = () => {
     console.log('the data is: ', data);
   };
 
+  const deleteAllRuns = async () => {
+    try {
+      const response = await fetch('/api/runs', {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        console.log('All runs deleted successfully');
+        // clear leaderboard
+        setLeaderboard([]);
+      } else {
+        console.error('Failed to delete runs');
+      }
+    } catch (error) {
+      console.error('An error occurred while deleting runs', error);
+    }
+  };
+
   const handleLoadImage = () => {
     setAnkyImageUrl('/images/apigo.png');
     setImageLoaded(true);
   };
   const pasteText = async () => {
-    await navigator.clipboard.writeText(finishedText);
-    alert('The text was copied on your clipboard.');
+    await navigator.clipboard.writeText(text);
+    setCopyText('Your text is in your clipboard');
   };
-
-  useEffect(() => {
-    if (time === 0) {
-      setFinishedText(text);
-      setIsDone(true);
-    }
-  }, [time]);
 
   return (
     <div
-      className='text-thewhite relative h-screen flex items-center justify-center w-full bg-cover bg-center'
+      className='text-thewhite relative min-h-screen flex items-center overflow-y-scroll py-16 justify-center w-full bg-cover bg-center'
       style={{
         boxSizing: 'border-box',
         height: 'calc(100vh  - 30px)',
@@ -103,113 +193,159 @@ const MintPage = () => {
           "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/mintbg.jpg')",
       }}
     >
-      {isDone ? (
-        <div className='flex flex-col items-center '>
-          {imageLoaded ? (
-            <>
-              <p className='my-0'>
-                This is my interpretation of you, dear friend.
-              </p>
-              <p>Welcome to my world.</p>
-            </>
-          ) : (
-            <>
-              <p className='my-0'>Congratulations, you made it.</p>
-
-              <p className='mt-0'>
-                Anky is processing your text, and creating a customized image
-                for you.
-              </p>
-              <p>If you want to read it, it is copied on your clipboard.</p>
-            </>
-          )}
-
-          <div>
-            <Image
-              src={ankyImageUrl}
-              className='rounded-3xl overflow-hidden border border-thewhite'
-              width={333}
-              height={333}
-              alt='Anky The Ape'
-            />
-          </div>
-          <div className='flex flex-row space-x-2'>
-            <Button
-              buttonText='Retrieve what was written'
-              buttonAction={pasteText}
-              buttonColor='bg-thepurple text-thewhite mt-4'
-            />
-            {imageLoaded ? (
-              <Button
-                buttonText='Mint'
-                buttonAction={handleMint}
-                buttonColor='bg-thegreenbtn mt-4'
-              />
+      <div className='w-3/4 md:w-1/2 lg:w-1/3'>
+        {finished ? (
+          <>
+            {loadingLeaderboard ? (
+              <p>Loading...</p>
             ) : (
-              <Button
-                buttonColor='bg-theorange mt-4'
-                buttonText='Load Avatar'
-                buttonAction={handleLoadImage}
-              />
-            )}
-          </div>
-        </div>
-      ) : (
-        <div className='w-3/4 md:w-1/2 lg:w-1/3'>
-          {failed ? (
-            <>
-              <p>You failed! This isn&apos;t as easy as it sounds.</p>
-              <Button
-                buttonText='Try again.'
-                buttonAction={() => setFailed(false)}
-              />
-            </>
-          ) : (
-            <>
-              <p
-                className={`${righteous.className} text-5xl font-bold mb-4 text-center`}
-              >
-                tell me who you are.
-              </p>
-              <p className='text-base text-gray-600 my-1'>
-                My world will only open to those who prove themselves.
-              </p>
-              <p>If you stop writing for 1 second, you will fail.</p>
-              <p>For how long will you write?</p>
-              <input
-                type='range'
-                min='1'
-                max='161'
-                className='bg-thegreen'
-                onChange={e => {
-                  setTime(e.target.value);
-                }}
-              />
+              <>
+                <div>
+                  <p>You are done. Your score is {time}</p>
 
-              <p className={`${righteous.className} font-bold`}>
-                See you on the otherside.
-              </p>
-              <textarea
-                ref={textareaRef}
-                className='w-full h-64 p-4 text-theblack border border-gray-300 rounded-md mb-4'
-                value={text}
-                onChange={handleTextChange}
-              ></textarea>
-              <div className='flex justify-center items-center mb-4'>
-                <div className='text-4xl'>{time} </div>
-              </div>
-              {!isActive && text.length > 0 && (
-                <div className='text-red-500'>
-                  You stopped writing. That means you are thinking. You have to
-                  start again.
+                  <div>
+                    {leaderboard && (
+                      <div>
+                        <h2
+                          className={`${righteous.className} text-3xl font-bold mb-2 text-left`}
+                        >
+                          Leaderboard
+                        </h2>
+                        <table className='table-auto w-full'>
+                          <thead className='bg-thegreen border-thewhite text-theblack'>
+                            <tr>
+                              <th className='border px-4 py-1'>Username</th>
+                              <th className='border px-4 py-1'>Time spent</th>
+                              <th className='border px-4 py-1'>Word count</th>
+                              <th className='border px-4 py-1'>Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {leaderboard.map((run, index) => (
+                              <tr
+                                key={index}
+                                className={
+                                  index % 2 === 0
+                                    ? 'bg-thered bg-opacity-70'
+                                    : 'bg-theredbtn bg-opacity-70'
+                                }
+                              >
+                                <td className='border px-4 py-1'>
+                                  @{run.twitterUser}
+                                </td>
+                                <td className='border px-4 py-1'>
+                                  {run.timeSpent}
+                                </td>
+                                <td className='border px-4 py-1'>
+                                  {run.wordCount}
+                                </td>
+                                <td className='border px-4 py-1'>
+                                  <button
+                                    onClick={() => {
+                                      setSelectedRun(run.content);
+                                      setModalOpen(true);
+                                    }}
+                                    className='text-thegreen hover:text-black transition-colors duration-300'
+                                  >
+                                    Read
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
+                  <p>
+                    You can also add your score to the system if you want, it
+                    will be associated with your twitter username.
+                  </p>
+                  <label>
+                    Twitter username:
+                    {session.user.username &&
+                    session.user.oauthProvider === 'twitter' ? (
+                      ` @${session.user.username}`
+                    ) : (
+                      <input
+                        type='text'
+                        className='px-2 py-1 mx-2 rounded text-theblack'
+                        required
+                        placeholder='elonmusk'
+                        value={twitterUsername}
+                        onChange={e => setTwitterUsername(e.target.value)}
+                      />
+                    )}
+                  </label>
+                  <div className='mt-3 flex space-x-2'>
+                    <Button
+                      buttonText={copyText}
+                      buttonAction={pasteText}
+                      buttonColor='bg-thegreen'
+                    />
+                    {!savedToDb && (
+                      <Button
+                        buttonText={savingRound ? 'Adding Run...' : 'Save Run'}
+                        buttonColor='bg-thegreenbtn'
+                        buttonAction={saveRunToDb}
+                      />
+                    )}
+                  </div>
+                  <div className='mt-4'>
+                    <Button
+                      buttonText='Try again.'
+                      buttonAction={startNewRun}
+                    />
+                  </div>
                 </div>
-              )}
-            </>
-          )}
-        </div>
-      )}
+              </>
+            )}
+          </>
+        ) : (
+          <>
+            <p
+              className={`${righteous.className} text-5xl font-bold mb-4 text-center`}
+            >
+              tell me who you are.
+            </p>
+            <p className='text-base text-gray-600 my-1'>
+              My world will only open to those who prove themselves.
+            </p>
+            {/* <Button
+              buttonText='Delete All Runs'
+              buttonAction={deleteAllRuns}
+              buttonColor='bg-red-500'
+            /> */}
+
+            <p>If you stop writing for 1 second, you will fail.</p>
+            <p>For how long will you write?</p>
+
+            <p className={`${righteous.className} font-bold`}>
+              See you on the otherside.
+            </p>
+            <textarea
+              ref={textareaRef}
+              className='w-full h-64 p-4 text-theblack border border-gray-300 rounded-md mb-4'
+              value={text}
+              onChange={handleTextChange}
+            ></textarea>
+            <div className='flex justify-center items-center mb-4'>
+              <div className='text-4xl'>{time} </div>
+            </div>
+            {!isActive && text.length > 0 && (
+              <div className='text-red-500'>
+                You stopped writing. That means you are thinking. You have to
+                start again.
+              </div>
+            )}
+          </>
+        )}
+      </div>
+      <RunModal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+        {modalOpen && <p>{selectedRun}</p>}
+      </RunModal>
     </div>
   );
 };
 
-export default MintPage;
+export default GamePage;

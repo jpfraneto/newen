@@ -181,7 +181,7 @@ export async function getServerSideProps(context) {
     if (host.includes('anky')) {
       return {
         redirect: {
-          destination: '/mint',
+          destination: '/game',
           permanent: false,
         },
       };

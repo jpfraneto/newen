@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 import { useState } from 'react';
+import Button from '@component/components/Button';
 import Layout from '@component/components/Layout';
 import { Inter, Righteous, Rajdhani, Russo_One } from 'next/font/google';
 import Link from 'next/link';
@@ -60,10 +61,12 @@ const SadhanaInvitation = ({ sadhana }) => {
 
   return (
     <div
-      className='h-screen flex items-center justify-center bg-cover bg-center'
-      style={{ backgroundImage: "url('/images/ankyinvitation.png')" }}
+      className='h-screen flex text-thewhite items-center justify-center bg-cover bg-center'
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),url('/images/ankyinvitation.png')",
+      }}
     >
-      <div className='w-full h-full bg-black opacity-50' />
       <div>
         <div className='absolute top-0 left-0 w-full h-full bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 opacity-50' />
         <div className='absolute min-h-screen top-0 left-0 w-full h-full flex  justify-center text-center p-2'>
@@ -86,19 +89,16 @@ const SadhanaInvitation = ({ sadhana }) => {
                 <p className='text-base md:text-lg mb-4'>
                   You are already part of this sadhana.
                 </p>
-                <div className='py-3'>
-                  <Link
-                    className=' inline-block bg-gradient-to-r from-purple-500 hover:opacity-80 via-pink-500 to-red-500 text-white font-bold  py-2 px-4 rounded shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-                    href={`/s/${sadhana.id}`}
-                  >
-                    Visit
-                  </Link>
-                  <Link
-                    className='mx-2 inline-block bg-gradient-to-r from-purple-500 hover:opacity-80 via-pink-500 to-red-500 text-white font-bold  py-2 px-4 rounded shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-                    href='/dashboard'
-                  >
-                    Go to your Dashboard
-                  </Link>
+                <div className='py-3 flex space-x-4 justify-center'>
+                  <Button
+                    buttonAction={() => router.push(`/s/${sadhana.id}`)}
+                    buttonText='Visit'
+                  />
+                  <Button
+                    buttonAction={() => router.push(`/dashboard`)}
+                    buttonText='Go to your Dashboard'
+                    buttonColor='bg-thegreen'
+                  />
                 </div>
               </>
             ) : (
@@ -114,33 +114,27 @@ const SadhanaInvitation = ({ sadhana }) => {
                   <div className='flex space-x-3  flex-wrap justify-center'>
                     {signedUpToSadhana ? (
                       <>
-                        <button
-                          onClick={handleParticipate}
-                          className=' inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold py-2 px-4 rounded shadow-md hover:shadow-lg hover:opacity-80 transition-all duration-200 ease-in-out'
-                        >
-                          {buttonText}
-                        </button>{' '}
-                        <button
-                          onClick={handleInviteFriends}
-                          className=' inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold py-2 px-4 rounded shadow-md hover:shadow-lg hover:opacity-80 transition-all duration-200 ease-in-out'
-                        >
-                          Invite your friends
-                        </button>{' '}
+                        <Button
+                          buttonText={buttonText}
+                          buttonAction={handleParticipate}
+                        />
+                        <Button
+                          buttonText='Invite your friends'
+                          buttonAction={handleInviteFriends}
+                        />
                       </>
                     ) : (
                       <>
-                        <Link
-                          href={`/s/${router.query.sadhanaId}`}
-                          className=' inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold py-2 px-4 rounded shadow-md hover:shadow-lg hover:opacity-80 transition-all duration-200 ease-in-out'
-                        >
-                          {buttonText}
-                        </Link>{' '}
-                        <button
-                          onClick={handleInviteFriends}
-                          className=' inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold py-2 px-4 rounded shadow-md hover:shadow-lg hover:opacity-80 transition-all duration-200 ease-in-out'
-                        >
-                          Invite your friends
-                        </button>
+                        <Button
+                          buttonAction={() =>
+                            router.push(`/s/${router.query.sadhanaId}`)
+                          }
+                          buttonText={buttonText}
+                        />
+                        <Button
+                          buttonAction={handleInviteFriends}
+                          buttonText='Invite your friends'
+                        />
                       </>
                     )}
                   </div>
@@ -149,12 +143,7 @@ const SadhanaInvitation = ({ sadhana }) => {
                     <p className='text-black'>
                       You need to login to participate.
                     </p>
-                    <button
-                      className=' inline-block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold  py-2 px-4 rounded shadow-md hover:shadow-lg transition-all duration-200 ease-in-out'
-                      onClick={signIn}
-                    >
-                      Login
-                    </button>
+                    <Button buttonAction={signIn} buttonText='Login' />
                   </div>
                 )}
               </>
