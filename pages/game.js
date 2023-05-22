@@ -126,9 +126,7 @@ const GamePage = () => {
       if (data) {
         // Assume leaderboard is sorted by timeSpent in descending order.
         // Find the correct position to insert the new run.
-        let insertIndex = leaderboard.findIndex(
-          run => run.timeSpent < timeSpent
-        );
+        let insertIndex = leaderboard.findIndex(run => run.timeSpent < time);
         if (insertIndex === -1) {
           // If the new run has the lowest timeSpent, append it at the end.
           insertIndex = leaderboard.length;
@@ -136,7 +134,7 @@ const GamePage = () => {
         // Insert the new run into leaderboard at the correct position.
         leaderboard.splice(insertIndex, 0, {
           twitterUser: twitterUsername,
-          timeSpent,
+          timeSpent: time,
           wordCount: text.split(' ').length,
           content: text,
         });
