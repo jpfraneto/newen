@@ -80,6 +80,7 @@ const GamePage = () => {
   const startNewRun = () => {
     setTime(0);
     setText('');
+    setSavingRound(false);
     setSavedToDb(false);
     setIsDone(false);
     setFinished(false);
@@ -263,7 +264,8 @@ const GamePage = () => {
                   </p>
                   <label>
                     Twitter username:
-                    {session?.user.username &&
+                    {session &&
+                    session?.user.username &&
                     session?.user.oauthProvider === 'twitter' ? (
                       ` @${session?.user.username}`
                     ) : (
