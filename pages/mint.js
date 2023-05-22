@@ -98,8 +98,8 @@ const GamePage = () => {
   const saveRunToDb = async () => {
     let usernameToAdd;
     if (!twitterUsername) {
-      if (session.user.username && session.user.oauthProvider === 'twitter') {
-        usernameToAdd = session.user.username;
+      if (session?.user.username && session?.user.oauthProvider === 'twitter') {
+        usernameToAdd = session?.user.username;
       } else {
         return alert('Please add a Twitter username to link this run.');
       }
@@ -263,9 +263,9 @@ const GamePage = () => {
                   </p>
                   <label>
                     Twitter username:
-                    {session.user.username &&
-                    session.user.oauthProvider === 'twitter' ? (
-                      ` @${session.user.username}`
+                    {session?.user.username &&
+                    session?.user.oauthProvider === 'twitter' ? (
+                      ` @${session?.user.username}`
                     ) : (
                       <input
                         type='text'
