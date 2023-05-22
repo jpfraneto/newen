@@ -228,7 +228,7 @@ const GamePage = () => {
                                 className={
                                   index % 2 === 0
                                     ? 'bg-thered bg-opacity-70'
-                                    : 'bg-theredbtn bg-opacity-70'
+                                    : 'bg-thered bg-opacity-40'
                                 }
                               >
                                 <td className='border px-4 py-1'>
@@ -258,27 +258,33 @@ const GamePage = () => {
                       </div>
                     )}
                   </div>
-                  <p>
-                    You can also add your score to the system if you want, it
-                    will be associated with your twitter username.
-                  </p>
-                  <label>
-                    Twitter username:
-                    {session &&
-                    session?.user.username &&
-                    session?.user.oauthProvider === 'twitter' ? (
-                      ` @${session?.user.username}`
-                    ) : (
-                      <input
-                        type='text'
-                        className='px-2 py-1 mx-2 rounded text-theblack'
-                        required
-                        placeholder='elonmusk'
-                        value={twitterUsername}
-                        onChange={e => setTwitterUsername(e.target.value)}
-                      />
-                    )}
-                  </label>
+                  {!savedToDb && (
+                    <>
+                      <p>
+                        You can add your score to the system if you want, it
+                        will be associated with the twitter username you
+                        provide. If you lie, it&apos;s up to you.
+                      </p>
+                      <label>
+                        Twitter username:
+                        {session &&
+                        session?.user.username &&
+                        session?.user.oauthProvider === 'twitter' ? (
+                          ` @${session?.user.username}`
+                        ) : (
+                          <input
+                            type='text'
+                            className='px-2 py-1 mx-2 rounded text-theblack'
+                            required
+                            placeholder='elonmusk'
+                            value={twitterUsername}
+                            onChange={e => setTwitterUsername(e.target.value)}
+                          />
+                        )}
+                      </label>
+                    </>
+                  )}
+
                   <div className='mt-3 flex space-x-2'>
                     <Button
                       buttonText={copyText}
