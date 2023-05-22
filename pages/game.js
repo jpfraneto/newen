@@ -108,7 +108,6 @@ const GamePage = () => {
     if (!usernameToAdd) usernameToAdd = twitterUsername;
 
     setSavingRound(true);
-    const timeSpent = Math.round((endTime - startTime) / 1000);
 
     try {
       const response = await fetch('/api/runs', {
@@ -118,7 +117,7 @@ const GamePage = () => {
         },
         body: JSON.stringify({
           twitterUser: usernameToAdd,
-          timeSpent,
+          timeSpent: time,
           wordCount: text.split(' ').length,
           content: text,
         }),
@@ -215,13 +214,21 @@ const GamePage = () => {
                         <table className='table-auto w-full'>
                           <thead className='bg-thegreen border-thewhite text-theblack'>
                             <tr>
-                              <th className='border px-4 py-1'>Username</th>
-                              <th className='border px-4 py-1'>Time spent</th>
-                              <th className='border px-4 py-1'>Word count</th>
-                              <th className='border px-4 py-1'>Actions</th>
+                              <th className='border border-thewhite px-4 py-1'>
+                                Username
+                              </th>
+                              <th className='border border-thewhite px-4 py-1'>
+                                Time spent
+                              </th>
+                              <th className='border border-thewhite px-4 py-1'>
+                                Word count
+                              </th>
+                              <th className='border border-thewhite px-4 py-1'>
+                                Actions
+                              </th>
                             </tr>
                           </thead>
-                          <tbody>
+                          <tbody className='border-thewhite'>
                             {leaderboard.map((run, index) => (
                               <tr
                                 key={index}
