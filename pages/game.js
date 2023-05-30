@@ -176,6 +176,7 @@ const GamePage = () => {
     setAnkyImageUrl('/images/apigo.png');
     setImageLoaded(true);
   };
+
   const pasteText = async () => {
     await navigator.clipboard.writeText(text);
     setCopyText('Your text is in your clipboard');

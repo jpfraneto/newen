@@ -6,6 +6,7 @@ import Button from './Button';
 import { BiHomeAlt, BiHelpCircle, BiSearch } from 'react-icons/bi';
 import { CiViewTimeline } from 'react-icons/ci';
 import { IoMdNotifications } from 'react-icons/io';
+import { RxLapTimer } from 'react-icons/rx';
 import { FiSettings } from 'react-icons/fi';
 import { useState } from 'react';
 import { CgProfile } from 'react-icons/cg';
@@ -78,6 +79,14 @@ const LeftNavbar = ({ user }) => {
           >
             <BiSearch className='transform -translate-y-0.5' />
             <Link href='/u/all-sadhanas'>Browse Zadhanas</Link>
+          </div>
+          <div
+            className={`flex items-center space-x-2 p-2 rounded-full hover:bg-theorange hover:opacity-90  cursor-pointer ${
+              router.route === 'u/all-sadhanas' && 'bg-theorange text-black'
+            }`}
+          >
+            <RxLapTimer className='transform -translate-y-0.5' />
+            <Link href='/u/timer'>Timer</Link>
           </div>
           {/* <div
           className={`flex items-center space-x-2 p-2 rounded-full cursor-pointer ${
