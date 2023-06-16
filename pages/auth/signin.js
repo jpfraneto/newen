@@ -53,7 +53,7 @@ export default function SignIn({ providers, csrfToken }) {
                   );
                 })}
               </div>
-              <form
+              {/* <form
                 className='mb-4'
                 method='post'
                 action='/api/auth/signin/email'
@@ -86,7 +86,7 @@ export default function SignIn({ providers, csrfToken }) {
                     />
                   )}
                 </div>
-              </form>
+              </form> */}
               <p className='text-sm w-full px-2 md:max-w-xl mx-auto '>
                 It&apos;s an honor to have you here.
               </p>

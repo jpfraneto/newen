@@ -116,6 +116,7 @@ const SadhanaInvitation = ({ sadhana }) => {
                       <>
                         <Button
                           buttonText={buttonText}
+                          buttonColor='bg-thegreenbtn'
                           buttonAction={handleParticipate}
                         />
                         <Button
