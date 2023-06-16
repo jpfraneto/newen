@@ -264,12 +264,12 @@ const NewSessionButtons = ({
           ) : (
             <div className='flex flex-row space-x-1'>
               {' '}
-              <span
+              {/* <span
                 onClick={() => toggleCompletion(index, sadhana)}
                 className='text-theredbtn hover:cursor-pointer hover:opacity-70 flex justify-center w-8 items-center mx-auto'
               >
                 <GoVerified size={50} />
-              </span>
+              </span> */}
               <span
                 onClick={() => handleChooseThisSadhanaTimer(index, sadhana)}
                 className='text-theredbtn hover:opacity-70 flex justify-center w-8 items-center mx-auto hover:cursor-pointer'

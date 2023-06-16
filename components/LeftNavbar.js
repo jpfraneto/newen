@@ -72,21 +72,21 @@ const LeftNavbar = ({ user }) => {
           <CiViewTimeline className='transform -translate-y-0.5' />
           <Link href='/my-zadhanas'>My Zadhanas</Link>
         </div> */}
-          <div
+          {/* <div
             className={`flex items-center space-x-2 p-2 rounded-full hover:bg-theorange hover:opacity-90  cursor-pointer ${
               router.route === 'u/all-sadhanas' && 'bg-theorange text-black'
             }`}
           >
             <BiSearch className='transform -translate-y-0.5' />
             <Link href='/u/all-sadhanas'>Browse Zadhanas</Link>
-          </div>
+          </div> */}
           <div
             className={`flex items-center space-x-2 p-2 rounded-full hover:bg-theorange hover:opacity-90  cursor-pointer ${
-              router.route === 'u/all-sadhanas' && 'bg-theorange text-black'
+              router.route === 'u/all-sadhanas' && 'bg-purple text-black'
             }`}
           >
             <RxLapTimer className='transform -translate-y-0.5' />
-            <Link href='/u/timer'>Timer</Link>
+            <Link href='/i/6'>Build the Ankyverse</Link>
           </div>
           {/* <div
           className={`flex items-center space-x-2 p-2 rounded-full cursor-pointer ${

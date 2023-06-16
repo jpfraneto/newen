@@ -112,7 +112,7 @@ const SadhanaInvitation = ({ sadhana }) => {
                 </p>
                 {session ? (
                   <div className='flex space-x-3  flex-wrap justify-center'>
-                    {signedUpToSadhana ? (
+                    {!signedUpToSadhana ? (
                       <>
                         <Button
                           buttonText={buttonText}
@@ -127,9 +127,8 @@ const SadhanaInvitation = ({ sadhana }) => {
                     ) : (
                       <>
                         <Button
-                          buttonAction={() =>
-                            router.push(`/s/${router.query.sadhanaId}`)
-                          }
+                          buttonAction={() => router.push(`/dashboard`)}
+                          buttonColor='bg-thegreenbtn'
                           buttonText={buttonText}
                         />
                         <Button
