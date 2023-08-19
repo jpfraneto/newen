@@ -47,7 +47,7 @@ function PlayContent() {
         ) : (
           <div className='h-full max-w-full  overflow-hidden flex-col flex items-center pt-16 px-4'>
             <h1 className='text-6xl md:text-7xl font-bold text-thewhite space-x-4 mb-0'>
-              <span className={`${luckiestguy.className}`}>SADHANA</span>
+              <span className={`${luckiestguy.className}`}>ANKY</span>
               <span className={`${londrinashadow.className} ml-2`}>TV</span>
             </h1>
             <div className='mt-8 wrapper bg-theblack rounded-xl'>

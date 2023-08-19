@@ -144,21 +144,22 @@ const LandingPage = () => {
             <p className='text-xl'>
               In the vast game universe of Sadhana, your journey starts with
               creating and owning your unique character. For a one-time fee of
-              8$APE (approximately 32 USD), you can bring your own personalized
-              avatar to life.
+              0.01618 eth you can bring your own personalized avatar to life.
             </p>
             <p className='text-xl'>
               Just as the Sorting Hat in Harry Potter assigned you to a Hogwarts
-              house, Anky helps you craft your avatar. Based on your
-              self-description, Anky will generate an avatar that mirrors you,
+              house, Anky will assign an avatar to you. One that mirrors you,
               serving as your representative in this thrilling world that will
               continue to expand in the years to come.
             </p>
-            <Button
-              buttonAction={() => router.push('/mint')}
-              buttonText='Get mine'
-              buttonColor='bg-thepurple'
-            />
+            <a
+              className='px-4 py-2 bg-thepurple'
+              target='_blank'
+              href='https://mint.anky.lat'
+              rel='noopener noreferrer'
+            >
+              Mint mine
+            </a>
           </div>
         </div>
       </div>{' '}
