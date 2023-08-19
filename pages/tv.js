@@ -62,7 +62,7 @@ const TV = ({}) => {
     <div className='landing-page'>
       <div className='bg-black text-white min-h-screen flex flex-col items-center justify-center'>
         <Script src='https://www.youtube.com/iframe_api' />
-        <h1 className='heroanky text-4xl md:text-6xl font-bold'>Sadhana TV</h1>
+        <h1 className='heroanky text-4xl md:text-6xl font-bold'>Anky TV</h1>
         <p>24/7 cartoons from the world of Anky</p>
         <div id='player'></div>
       </div>
